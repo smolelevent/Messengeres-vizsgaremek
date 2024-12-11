@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: LandingPage()
   ));
 }
@@ -30,11 +31,11 @@ class _LandingPageState extends State<LandingPage> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: const Column(
+      body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ClipRRect(
+            const ClipRRect(
               child: CircleAvatar(
                 radius: 100,
                 backgroundImage: AssetImage("assets/logo_titkos.png"),
@@ -43,13 +44,22 @@ class _LandingPageState extends State<LandingPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  "e-mail cím",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                  ),
-                ),
+                  ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.indigo,
+                        foregroundColor: Colors.white,
+                        // minimumSize: const Size(20, 20),
+                        // maximumSize: const Size(100, 100),
+                        elevation: 5,
+                      ),
+                    child: const AutoSizeText(
+                      style: TextStyle(
+                        fontSize: MediaQuery.of(context).textScaler
+                      ),
+                      "login"
+                      ),
+                    ),
               ],
             ),
           ],
@@ -57,5 +67,3 @@ class _LandingPageState extends State<LandingPage> {
       );
   }
 }
-
-
