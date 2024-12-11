@@ -17,6 +17,10 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
+    TextStyle buttonsTextStyle = TextStyle(
+      fontSize: 18 * MediaQuery.of(context).textScaler.scale(1.0),
+    );
+
     return Scaffold(
       backgroundColor: Colors.grey[850],
       appBar: AppBar(
@@ -35,6 +39,12 @@ class _LandingPageState extends State<LandingPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            const TextField(
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                  hintText: "E-mail cím"
+              ),
+            ),
             const ClipRRect(
               child: CircleAvatar(
                 radius: 100,
@@ -44,22 +54,20 @@ class _LandingPageState extends State<LandingPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+
+
                   ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.indigo,
                         foregroundColor: Colors.white,
-                        // minimumSize: const Size(20, 20),
-                        // maximumSize: const Size(100, 100),
                         elevation: 5,
                       ),
-                    child: const AutoSizeText(
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).textScaler
-                      ),
-                      "login"
-                      ),
+                    child: AutoSizeText(
+                      "Bejelentkezés",
+                      style: buttonsTextStyle,
                     ),
+                  ),
               ],
             ),
           ],
