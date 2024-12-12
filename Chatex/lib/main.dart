@@ -39,10 +39,23 @@ class _LandingPageState extends State<LandingPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const TextField(
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                  hintText: "E-mail cím"
+            Container(
+              margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
+              child: TextField(
+                keyboardType: TextInputType.emailAddress,
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+                  hintText: "E-mail cím",
+                  hintStyle: TextStyle(
+                    color: Colors.grey[600],
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0
+                  ),
+                ),
               ),
             ),
             const ClipRRect(
