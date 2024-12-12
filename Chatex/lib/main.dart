@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 void main() {
-  runApp(const MaterialApp(
-    home: LandingPage()
-  ));
+  runApp(const MaterialApp(home: LandingPage()));
 }
 
 class LandingPage extends StatefulWidget {
@@ -26,65 +24,117 @@ class _LandingPageState extends State<LandingPage> {
       appBar: AppBar(
         backgroundColor: Colors.grey[850],
         title: const Text(
-            "Chatex",
+          "Chatex",
           style: TextStyle(
             color: Colors.white,
             fontSize: 50,
+            letterSpacing: 5.0,
           ),
         ),
         centerTitle: true,
         elevation: 0,
       ),
       body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
-              child: TextField(
-                keyboardType: TextInputType.emailAddress,
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-                  hintText: "E-mail cím",
-                  hintStyle: TextStyle(
-                    color: Colors.grey[600],
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(
+            height: 50.0,
+          ),
+          const ClipRRect(
+            child: CircleAvatar(
+              radius: 100,
+              backgroundImage: AssetImage("assets/logo_titkos.png"),
+            ),
+          ),
+          //TODO: mögötte lévő kód megírása, label használata, validálni hogy megfelelő syntaxisu bevitel
+          Container(
+            margin: const EdgeInsets.fromLTRB(10.0, 50.0, 10.0, 10.0),
+            child: TextField(
+              keyboardType: TextInputType.emailAddress,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+              ),
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.only(left: 10.0),
+                hintText: "E-mail cím",
+                focusedBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.deepPurpleAccent,
+                    width: 2.5,
                   ),
+                ),
+                enabledBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.white,
+                    width: 2.5,
+                  ),
+                ),
+                hintStyle: TextStyle(
+                  color: Colors.grey[600],
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
                 ),
               ),
             ),
-            const ClipRRect(
-              child: CircleAvatar(
-                radius: 100,
-                backgroundImage: AssetImage("assets/logo_titkos.png"),
+          ),
+          Container(
+            margin: const EdgeInsets.all(10.0),
+            child: TextField(
+              keyboardType: TextInputType.emailAddress,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+              ),
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.only(left: 10.0, bottom: 0),
+                hintText: "Jelszó",
+                focusedBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.deepPurpleAccent,
+                    width: 2.5,
+                  ),
+                ),
+                enabledBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.white,
+                    width: 2.5,
+                  ),
+                ),
+                hintStyle: TextStyle(
+                  color: Colors.grey[600],
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-
-
-                  ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.indigo,
-                        foregroundColor: Colors.white,
-                        elevation: 5,
-                      ),
-                    child: AutoSizeText(
-                      "Bejelentkezés",
-                      style: buttonsTextStyle,
-                    ),
-                  ),
-              ],
-            ),
-          ],
-        ),
-      );
+          ),
+          const SizedBox(
+            height: 10.0,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                //TODO: gomb mögötti kód megírása,
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurpleAccent,
+                  foregroundColor: Colors.white,
+                  elevation: 5,
+                ),
+                child: AutoSizeText(
+                  "Bejelentkezés",
+                  style: buttonsTextStyle,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
