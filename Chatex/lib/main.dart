@@ -12,6 +12,8 @@ class LandingPage extends StatefulWidget {
   State<LandingPage> createState() => _LandingPageState();
 }
 
+
+
 class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,7 @@ class _LandingPageState extends State<LandingPage> {
               backgroundImage: AssetImage("assets/logo_titkos.png"),
             ),
           ),
-          //TODO: mögötte lévő kód megírása, label használata, validálni hogy megfelelő syntaxisu bevitel
+          //TODO: mögötte lévő kód megírása, label használata, validálni hogy megfelelő szintaxisu bevitel
           Container(
             margin: const EdgeInsets.fromLTRB(10.0, 50.0, 10.0, 10.0),
             child: TextField(
@@ -80,38 +82,7 @@ class _LandingPageState extends State<LandingPage> {
               ),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.all(10.0),
-            child: TextField(
-              keyboardType: TextInputType.emailAddress,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-              ),
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.only(left: 10.0, bottom: 0),
-                hintText: "Jelszó",
-                focusedBorder: const UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.deepPurpleAccent,
-                    width: 2.5,
-                  ),
-                ),
-                enabledBorder: const UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                    width: 2.5,
-                  ),
-                ),
-                hintStyle: TextStyle(
-                  color: Colors.grey[600],
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.0,
-                ),
-              ),
-            ),
-          ),
+          //Ide kell a password
           const SizedBox(
             height: 10.0,
           ),
