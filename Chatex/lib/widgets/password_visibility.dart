@@ -8,30 +8,31 @@ class PasswordVisibility extends StatefulWidget {
 }
 
 class _PasswordVisibilityState extends State<PasswordVisibility> {
+  bool passwordVisibile = true;
+
   @override
   Widget build(BuildContext context) {
-    bool jelszoLathato = true;
     return Container(
       margin: const EdgeInsets.all(10.0),
       child: TextField(
-        obscureText: jelszoLathato,
+        obscureText: passwordVisibile,
         style: const TextStyle(
           color: Colors.white,
           fontSize: 20.0,
         ),
         decoration: InputDecoration(
           suffixIcon: IconButton(
+            icon: Icon(
+              passwordVisibile ? Icons.visibility : Icons.visibility_off,
+            ),
             onPressed: () {
               setState(() {
-                jelszoLathato = !jelszoLathato;
+                passwordVisibile = !passwordVisibile;
               });
             },
-            icon: Icon(
-              jelszoLathato ? Icons.visibility : Icons.visibility_off,
-            ),
           ),
-
-          contentPadding: const EdgeInsets.only(left: 10.0, bottom: 0),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           hintText: "Jelszó",
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(

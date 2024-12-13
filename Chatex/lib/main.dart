@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'widgets/password_visibility.dart';
 
 void main() {
   runApp(const MaterialApp(home: LandingPage()));
@@ -12,13 +13,12 @@ class LandingPage extends StatefulWidget {
   State<LandingPage> createState() => _LandingPageState();
 }
 
-
-
 class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     TextStyle buttonsTextStyle = TextStyle(
-      fontSize: 18 * MediaQuery.of(context).textScaler.scale(1.0),
+      fontSize: 20 * MediaQuery.of(context).textScaler.scale(1.0),
+      height: 3.0,
     );
 
     return Scaffold(
@@ -45,13 +45,13 @@ class _LandingPageState extends State<LandingPage> {
           ),
           const ClipRRect(
             child: CircleAvatar(
-              radius: 100,
+              radius: 65,
               backgroundImage: AssetImage("assets/logo_titkos.png"),
             ),
           ),
           //TODO: mögötte lévő kód megírása, label használata, validálni hogy megfelelő szintaxisu bevitel
           Container(
-            margin: const EdgeInsets.fromLTRB(10.0, 50.0, 10.0, 10.0),
+            margin: const EdgeInsets.fromLTRB(10.0, 35.0, 10.0, 10.0),
             child: TextField(
               keyboardType: TextInputType.emailAddress,
               style: const TextStyle(
@@ -59,7 +59,8 @@ class _LandingPageState extends State<LandingPage> {
                 fontSize: 20.0,
               ),
               decoration: InputDecoration(
-                contentPadding: const EdgeInsets.only(left: 10.0),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 hintText: "E-mail cím",
                 focusedBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(
@@ -82,24 +83,29 @@ class _LandingPageState extends State<LandingPage> {
               ),
             ),
           ),
-          //Ide kell a password
+          const PasswordVisibility(),
           const SizedBox(
-            height: 10.0,
+            height: 20.0,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                //TODO: gomb mögötti kód megírása,
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurpleAccent,
-                  foregroundColor: Colors.white,
-                  elevation: 5,
-                ),
-                child: AutoSizeText(
-                  "Bejelentkezés",
-                  style: buttonsTextStyle,
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: ElevatedButton(
+                    //TODO: gomb mögötti kód megírása,
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepPurpleAccent,
+                      foregroundColor: Colors.white,
+                      elevation: 5,
+                    ),
+                    child: AutoSizeText(
+                      "Bejelentkezés",
+                      style: buttonsTextStyle,
+                    ),
+                  ),
                 ),
               ),
             ],
