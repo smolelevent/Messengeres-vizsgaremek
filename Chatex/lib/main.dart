@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:auto_size_text/auto_size_text.dart';
+// import 'package:auto_size_text/auto_size_text.dart';
 import 'widgets/password_visibility.dart';
 
 void main() {
@@ -19,6 +19,8 @@ class _LandingPageState extends State<LandingPage> {
     TextStyle buttonsTextStyle = TextStyle(
       fontSize: 20 * MediaQuery.of(context).textScaler.scale(1.0),
       height: 3.0,
+      fontWeight: FontWeight.bold,
+      letterSpacing: 1,
     );
 
     return Scaffold(
@@ -37,7 +39,6 @@ class _LandingPageState extends State<LandingPage> {
         elevation: 0,
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(
@@ -88,7 +89,6 @@ class _LandingPageState extends State<LandingPage> {
             height: 20.0,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
                 child: Padding(
@@ -101,9 +101,35 @@ class _LandingPageState extends State<LandingPage> {
                       foregroundColor: Colors.white,
                       elevation: 5,
                     ),
-                    child: AutoSizeText(
+                    child: Text(
                       "Bejelentkezés",
                       style: buttonsTextStyle,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 50), //faszom kivan
+          Row(
+            children: [
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: ElevatedButton(
+                      //TODO: gomb mögötti kód megírása,
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.deepPurpleAccent,
+                        foregroundColor: Colors.white,
+                        elevation: 5,
+                      ),
+                      child: Text(
+                        "Bejelentkezés",
+                        style: buttonsTextStyle,
+                      ),
                     ),
                   ),
                 ),
