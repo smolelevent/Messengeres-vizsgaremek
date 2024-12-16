@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'widgets/password_visibility.dart';
 
 void main() {
-  runApp(const MaterialApp(home: LandingPage()));
+  runApp(const MaterialApp(home: LoginUI()));
 }
 
-class LandingPage extends StatefulWidget {
-  const LandingPage({super.key});
+class LoginUI extends StatefulWidget {
+  const LoginUI({super.key});
 
   @override
-  State<LandingPage> createState() => _LandingPageState();
+  State<LoginUI> createState() => _LoginUIState();
 }
 
-class _LandingPageState extends State<LandingPage> {
+class _LoginUIState extends State<LoginUI> {
   @override
   Widget build(BuildContext context) {
     TextStyle buttonsTextStyle = TextStyle(
@@ -25,34 +25,18 @@ class _LandingPageState extends State<LandingPage> {
 
     return Scaffold(
       backgroundColor: Colors.grey[850],
-      appBar: AppBar(
-        backgroundColor: Colors.grey[850],
-        title: const Text(
-          "Chatex",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 50,
-            letterSpacing: 5.0,
-          ),
-        ),
-        centerTitle: true,
-        elevation: 0,
-      ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(
-            height: 50.0,
+            height: 60.0,
           ),
-          const ClipRRect(
-            child: CircleAvatar(
-              radius: 65,
-              backgroundImage: AssetImage("assets/logo_titkos.png"),
-            ),
+          const CircleAvatar(
+            radius: 60,
+            backgroundImage: AssetImage("assets/logo_titkos.png"),
           ),
           //TODO: mögötte lévő kód megírása, label használata, validálni hogy megfelelő szintaxisu bevitel
           Container(
-            margin: const EdgeInsets.fromLTRB(10.0, 35.0, 10.0, 10.0),
+            margin: const EdgeInsets.fromLTRB(10.0, 40.0, 10.0, 10.0),
             child: TextField(
               keyboardType: TextInputType.emailAddress,
               style: const TextStyle(
@@ -110,31 +94,36 @@ class _LandingPageState extends State<LandingPage> {
               ),
             ],
           ),
-          SizedBox(height: 50), //faszom kivan
-          Row(
-            children: [
-              Expanded(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: ElevatedButton(
-                      //TODO: gomb mögötti kód megírása,
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepPurpleAccent,
-                        foregroundColor: Colors.white,
-                        elevation: 5,
+          Expanded(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 10.0,
+                        right: 10.0,
+                        bottom: 20.0,
                       ),
-                      child: Text(
-                        "Bejelentkezés",
-                        style: buttonsTextStyle,
+                      child: ElevatedButton(
+                        //TODO: gomb mögötti kód megírása,
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.deepPurpleAccent,
+                          foregroundColor: Colors.white,
+                          elevation: 5,
+                        ),
+                        child: Text(
+                          "Új fiók létrehozása",
+                          style: buttonsTextStyle,
+                        ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         ],
       ),
