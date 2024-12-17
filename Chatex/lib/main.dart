@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:auto_size_text/auto_size_text.dart';
+
 import 'widgets/password_visibility.dart';
 
 void main() {
@@ -14,15 +14,16 @@ class LoginUI extends StatefulWidget {
 }
 
 class _LoginUIState extends State<LoginUI> {
+  ButtonStyle forgotPasswordTextButtonStyle = TextButton.styleFrom(
+      foregroundColor: Colors.white,
+      textStyle: const TextStyle(
+        fontSize: 15.0,
+        fontWeight: FontWeight.w500,
+        letterSpacing: 1,
+      ));
+
   @override
   Widget build(BuildContext context) {
-    TextStyle buttonsTextStyle = TextStyle(
-      fontSize: 20 * MediaQuery.of(context).textScaler.scale(1.0),
-      height: 3.0,
-      fontWeight: FontWeight.bold,
-      letterSpacing: 1,
-    );
-
     return Scaffold(
       backgroundColor: Colors.grey[850],
       body: Column(
@@ -34,7 +35,6 @@ class _LoginUIState extends State<LoginUI> {
             radius: 60,
             backgroundImage: AssetImage("assets/logo_titkos.png"),
           ),
-          //TODO: mögötte lévő kód megírása, label használata, validálni hogy megfelelő szintaxisu bevitel
           Container(
             margin: const EdgeInsets.fromLTRB(10.0, 40.0, 10.0, 10.0),
             child: TextField(
@@ -70,7 +70,7 @@ class _LoginUIState extends State<LoginUI> {
           ),
           const PasswordVisibility(),
           const SizedBox(
-            height: 20.0,
+            height: 10.0,
           ),
           Row(
             children: [
@@ -78,7 +78,6 @@ class _LoginUIState extends State<LoginUI> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: ElevatedButton(
-                    //TODO: gomb mögötti kód megírása,
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.deepPurpleAccent,
@@ -87,12 +86,28 @@ class _LoginUIState extends State<LoginUI> {
                     ),
                     child: Text(
                       "Bejelentkezés",
-                      style: buttonsTextStyle,
+                      style: TextStyle(
+                        fontSize:
+                            20 * MediaQuery.of(context).textScaler.scale(1.0),
+                        height: 3.0,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1,
+                      ),
                     ),
                   ),
                 ),
               ),
             ],
+          ),
+          const SizedBox(
+            height: 10.0,
+          ),
+          TextButton(
+            onPressed: () {},
+            style: forgotPasswordTextButtonStyle,
+            child: const Text(
+              "Jelszó helyreállítása",
+            ),
           ),
           Expanded(
             child: Align(
@@ -107,7 +122,6 @@ class _LoginUIState extends State<LoginUI> {
                         bottom: 20.0,
                       ),
                       child: ElevatedButton(
-                        //TODO: gomb mögötti kód megírása,
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.deepPurpleAccent,
@@ -116,12 +130,36 @@ class _LoginUIState extends State<LoginUI> {
                         ),
                         child: Text(
                           "Új fiók létrehozása",
-                          style: buttonsTextStyle,
+                          style: TextStyle(
+                            fontSize: 20 *
+                                MediaQuery.of(context).textScaler.scale(1.0),
+                            height: 3.0,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ],
+              ),
+            ),
+          ),
+          ListTile(
+            leading: ClipRRect(
+              borderRadius: BorderRadius.circular(60.0),
+              child: Image.asset(
+                'assets/logo_titkos.png',
+                scale: 1,
+              ),
+            ),
+            title: const Text(
+              "Chatex",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 15.0,
+                letterSpacing: 1.0,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
