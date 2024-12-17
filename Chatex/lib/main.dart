@@ -106,15 +106,17 @@ class _LoginUIState extends State<LoginUI> {
             onPressed: () {},
             style: forgotPasswordTextButtonStyle,
             child: const Text(
-              "Jelszó helyreállítása",
+              "Elfelejtett jelszó",
             ),
           ),
           Expanded(
+            flex: 1,
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Row(
                 children: [
                   Expanded(
+                    flex: 1,
                     child: Padding(
                       padding: const EdgeInsets.only(
                         left: 10.0,
@@ -146,11 +148,11 @@ class _LoginUIState extends State<LoginUI> {
             ),
           ),
           ListTile(
+            contentPadding: const EdgeInsets.only(bottom: 10.0),
             leading: ClipRRect(
-              borderRadius: BorderRadius.circular(60.0),
+              borderRadius: BorderRadius.circular(30.0),
               child: Image.asset(
                 'assets/logo_titkos.png',
-                scale: 1,
               ),
             ),
             title: const Text(
