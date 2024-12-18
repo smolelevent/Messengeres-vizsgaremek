@@ -147,22 +147,31 @@ class _LoginUIState extends State<LoginUI> {
               ),
             ),
           ),
-          ListTile(
-            contentPadding: const EdgeInsets.only(bottom: 10.0),
-            leading: ClipRRect(
-              borderRadius: BorderRadius.circular(30.0),
-              child: Image.asset(
-                'assets/logo_titkos.png',
-              ),
+          const ListTile(
+            contentPadding: EdgeInsets.only(bottom: 10.0),
+            horizontalTitleGap: 5.0,
+            leading: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                  radius: 30.0,
+                  backgroundImage: AssetImage('assets/logo_titkos.png'),
+                ),
+              ],
             ),
-            title: const Text(
-              "Chatex",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 15.0,
-                letterSpacing: 1.0,
-                fontWeight: FontWeight.w500,
-              ),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Chatex",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    letterSpacing: 1.0,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
