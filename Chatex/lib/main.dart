@@ -22,14 +22,52 @@ class _LoginUIState extends State<LoginUI> {
         letterSpacing: 1,
       ));
 
+  MenuStyle languageDropdownMenuStyle = const MenuStyle(
+    backgroundColor: WidgetStatePropertyAll<Color>(Colors.white),
+    elevation: WidgetStatePropertyAll<double>(5),
+    padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(
+      EdgeInsets.only(bottom: 10),
+    ),
+  );
+
+  ButtonStyle languageDropdownMenuEntryStyle = TextButton.styleFrom(
+      foregroundColor: Colors.black,
+      textStyle: const TextStyle(
+        fontSize: 15.0,
+        fontWeight: FontWeight.w500,
+        letterSpacing: 1,
+      ));
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[850],
       body: Column(
         children: [
           const SizedBox(
             height: 60.0,
+          ),
+          DropdownMenu(
+            menuStyle: languageDropdownMenuStyle,
+            textStyle: const TextStyle(
+              color: Colors.white,
+              fontSize: 15.0,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 1,
+            ),
+            dropdownMenuEntries: [
+              DropdownMenuEntry(
+                style: languageDropdownMenuEntryStyle,
+                value: "magyar",
+                label: "Magyar",
+              ),
+              DropdownMenuEntry(
+                style: languageDropdownMenuEntryStyle,
+                value: "english",
+                label: "English",
+              )
+            ],
           ),
           const CircleAvatar(
             radius: 60,
@@ -147,28 +185,26 @@ class _LoginUIState extends State<LoginUI> {
               ),
             ),
           ),
-          const ListTile(
-            contentPadding: EdgeInsets.only(bottom: 10.0),
-            horizontalTitleGap: 5.0,
-            leading: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircleAvatar(
-                  radius: 30.0,
-                  backgroundImage: AssetImage('assets/logo_titkos.png'),
+                const Padding(
+                  padding: EdgeInsets.only(right: 10),
+                  child: CircleAvatar(
+                    backgroundImage: AssetImage("assets/logo_titkos.png"),
+                    radius: 30,
+                  ),
                 ),
-              ],
-            ),
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "Chatex",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                    letterSpacing: 1.0,
-                    fontWeight: FontWeight.w500,
+                RichText(
+                  text: const TextSpan(
+                    text: "Chatex",
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 1,
+                    ),
                   ),
                 ),
               ],
