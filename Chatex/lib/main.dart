@@ -13,20 +13,28 @@ class LoginUI extends StatefulWidget {
 }
 
 class _LoginUIState extends State<LoginUI> {
-  InputDecorationTheme languageMenuStyle = const InputDecorationTheme(
-    enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(
-        color: Colors.white,
-        width: 2.5,
-      ),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(
-        color: Colors.deepPurpleAccent,
-        width: 2.5,
-      ),
-    ),
-  );
+  bool dropdownMenuArrowClicked = false;
+
+  // InputDecorationTheme languageMenuStyle = InputDecorationTheme(
+  //   labelStyle: TextStyle(
+  //     color: Colors.grey[600],
+  //     fontStyle: FontStyle.italic,
+  //     fontWeight: FontWeight.bold,
+  //     fontSize: 20.0,
+  //   ),
+  //   enabledBorder: dropdownMenuArrowClicked
+  //       ? const OutlineInputBorder(
+  //           borderSide: BorderSide(color: Colors.deepPurpleAccent, width: 2.5),
+  //         )
+  //       : const OutlineInputBorder(
+  //           borderSide: BorderSide(color: Colors.white, width: 2.5)),
+  //   // focusedBorder: const OutlineInputBorder(
+  //   //   borderSide: BorderSide(
+  //   //     color: Colors.deepPurpleAccent,
+  //   //     width: 2.5,
+  //   //   ),
+  //   // ),
+  // );
 
   MenuStyle languageMenuOptionsStyle = const MenuStyle(
     backgroundColor: WidgetStatePropertyAll(Colors.deepPurpleAccent),
@@ -62,8 +70,56 @@ class _LoginUIState extends State<LoginUI> {
           Padding(
             padding: const EdgeInsets.only(bottom: 20),
             child: DropdownMenu(
+              //TODO hogy tudom a keresést kikapcsolni (nem szükséges mert 2 nyelv lesz a vizsgáig, a nyíl és a keret egyszerre váltson, nyíl nyitáskor működjön)
+              requestFocusOnTap: true,
+              trailingIcon: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    dropdownMenuArrowClicked = !dropdownMenuArrowClicked;
+                  });
+                },
+                child: const Icon(
+                  Icons.arrow_drop_down,
+                  color: Colors.white,
+                ),
+              ),
+              selectedTrailingIcon: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    dropdownMenuArrowClicked = !dropdownMenuArrowClicked;
+                  });
+                },
+                child: const Icon(
+                  Icons.arrow_drop_up,
+                  color: Colors.deepPurpleAccent,
+                ),
+              ),
+              label: const Text("Nyelvek"),
               initialSelection: "magyar",
-              inputDecorationTheme: languageMenuStyle,
+              inputDecorationTheme: InputDecorationTheme(
+                labelStyle: TextStyle(
+                  color: Colors.grey[600],
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                ),
+                enabledBorder: dropdownMenuArrowClicked
+                    ? const OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Colors.deepPurpleAccent, width: 2.5),
+                      )
+                    : const OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.white, width: 2.5)),
+                focusedBorder: dropdownMenuArrowClicked
+                    ? const OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Colors.deepPurpleAccent, width: 2.5),
+                      )
+                    : const OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.white, width: 2.5)),
+              ),
               menuStyle: languageMenuOptionsStyle,
               textStyle: const TextStyle(
                 color: Colors.white,
@@ -81,7 +137,7 @@ class _LoginUIState extends State<LoginUI> {
                   style: languageMenuEntryStyle,
                   value: "english",
                   label: "English",
-                )
+                ),
               ],
             ),
           ),
