@@ -13,28 +13,17 @@ class LoginUI extends StatefulWidget {
 }
 
 class _LoginUIState extends State<LoginUI> {
-  bool dropdownMenuArrowClicked = false;
-
-  // InputDecorationTheme languageMenuStyle = InputDecorationTheme(
-  //   labelStyle: TextStyle(
-  //     color: Colors.grey[600],
-  //     fontStyle: FontStyle.italic,
-  //     fontWeight: FontWeight.bold,
-  //     fontSize: 20.0,
-  //   ),
-  //   enabledBorder: dropdownMenuArrowClicked
-  //       ? const OutlineInputBorder(
-  //           borderSide: BorderSide(color: Colors.deepPurpleAccent, width: 2.5),
-  //         )
-  //       : const OutlineInputBorder(
-  //           borderSide: BorderSide(color: Colors.white, width: 2.5)),
-  //   // focusedBorder: const OutlineInputBorder(
-  //   //   borderSide: BorderSide(
-  //   //     color: Colors.deepPurpleAccent,
-  //   //     width: 2.5,
-  //   //   ),
-  //   // ),
-  // );
+  InputDecorationTheme languageMenuStyle = InputDecorationTheme(
+    labelStyle: TextStyle(
+      color: Colors.grey[600],
+      fontStyle: FontStyle.italic,
+      fontWeight: FontWeight.bold,
+      fontSize: 20.0,
+    ),
+    enabledBorder: const OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.deepPurpleAccent, width: 2.5),
+    ),
+  );
 
   MenuStyle languageMenuOptionsStyle = const MenuStyle(
     backgroundColor: WidgetStatePropertyAll(Colors.deepPurpleAccent),
@@ -70,56 +59,18 @@ class _LoginUIState extends State<LoginUI> {
           Padding(
             padding: const EdgeInsets.only(bottom: 20),
             child: DropdownMenu(
-              //TODO hogy tudom a keresést kikapcsolni (nem szükséges mert 2 nyelv lesz a vizsgáig, a nyíl és a keret egyszerre váltson, nyíl nyitáskor működjön)
-              requestFocusOnTap: true,
-              trailingIcon: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    dropdownMenuArrowClicked = !dropdownMenuArrowClicked;
-                  });
-                },
-                child: const Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.white,
-                ),
-              ),
-              selectedTrailingIcon: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    dropdownMenuArrowClicked = !dropdownMenuArrowClicked;
-                  });
-                },
-                child: const Icon(
-                  Icons.arrow_drop_up,
-                  color: Colors.deepPurpleAccent,
-                ),
-              ),
+              requestFocusOnTap: false,
               label: const Text("Nyelvek"),
               initialSelection: "magyar",
-              inputDecorationTheme: InputDecorationTheme(
-                labelStyle: TextStyle(
-                  color: Colors.grey[600],
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.0,
-                ),
-                enabledBorder: dropdownMenuArrowClicked
-                    ? const OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors.deepPurpleAccent, width: 2.5),
-                      )
-                    : const OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.white, width: 2.5)),
-                focusedBorder: dropdownMenuArrowClicked
-                    ? const OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors.deepPurpleAccent, width: 2.5),
-                      )
-                    : const OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.white, width: 2.5)),
+              trailingIcon: const Icon(
+                Icons.arrow_drop_down,
+                color: Colors.white,
               ),
+              selectedTrailingIcon: const Icon(
+                Icons.arrow_drop_up,
+                color: Colors.deepPurpleAccent,
+              ),
+              inputDecorationTheme: languageMenuStyle,
               menuStyle: languageMenuOptionsStyle,
               textStyle: const TextStyle(
                 color: Colors.white,
@@ -178,7 +129,7 @@ class _LoginUIState extends State<LoginUI> {
               ),
             ),
           ),
-          const PasswordVisibility(),
+          const PasswordVisibility(), //password_visibility.dart
           const SizedBox(
             height: 10.0,
           ),
@@ -245,6 +196,7 @@ class _LoginUIState extends State<LoginUI> {
                           style: TextStyle(
                             fontSize: 20 *
                                 MediaQuery.of(context).textScaler.scale(1.0),
+                            //minden eszközön elvileg ugyanakkora lesz (px helyett dp)
                             height: 3.0,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1,
