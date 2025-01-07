@@ -3,18 +3,21 @@ import 'widgets/password_visibility.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:chatex/Auth.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MaterialApp(home: LoginUI()));
+  runApp(MaterialApp(home: LoginUI()));
   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
 }
 
 class LoginUI extends StatefulWidget {
   const LoginUI({super.key});
+
+
 
   @override
   State<LoginUI> createState() => _LoginUIState();
@@ -53,6 +56,34 @@ class _LoginUIState extends State<LoginUI> {
         fontWeight: FontWeight.w500,
         letterSpacing: 1,
       ));
+
+  String? errorMessage = '';
+  bool isLogin = true;
+
+  final TextEditingController _controllerEmail = TextEditingController();
+  final TextEditingController _controllerPassword = TextEditingController();
+
+  Future<void> signInWithEmailAndPassword() async {
+    try {
+      await Auth().signInWithEmailAndPassword(email: _controllerEmail.text,
+          password: _controllerPassword.text);
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorMessage = e.message;
+      });
+    }
+  }
+
+  Future<void> createUserWithEmailAndPassword() async {
+    try {
+      await Auth().createUserWithEmailAndPassword(email: _controllerEmail.text,
+          password: _controllerPassword.text);
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorMessage = e.message;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
