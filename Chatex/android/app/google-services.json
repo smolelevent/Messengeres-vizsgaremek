@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "482740150360",
+    "project_id": "chatex-1781c",
+    "storage_bucket": "chatex-1781c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:482740150360:android:712a8bb6782b16f7da2a2d",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtPH7alsBQpxbcUbsqrk0On1B7tWJxQ7U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:482740150360:android:6eeb87c6793d8c69da2a2d",
+        "android_client_info": {
+          "package_name": "com.example.chatex"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtPH7alsBQpxbcUbsqrk0On1B7tWJxQ7U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
