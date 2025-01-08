@@ -1,44 +1,65 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:chatex/Auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
-  final User? user = Auth().currentUser;
-  Future<void> signOut() async {
-    await Auth().signOut();
-  }
-  Widget _userUid() {
-    return Text((user?.email ?? 'Felhasználó email'));
-  }
-  Widget _title() {
-    return const Text('Chatex');
-  }
-
-  Widget _signOutButton() {
-    return ElevatedButton(onPressed: signOut, child: const Text('Kijelentkezés'));
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: _title(),
-      ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _userUid(),
-            _signOutButton(),
-          ],
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Hello👋',
+                style: GoogleFonts.raleway(
+                    textStyle: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20
+                    )
+                ),
+              ),
+              const SizedBox(height: 10,),
+              Text(
+                FirebaseAuth.instance.currentUser!.email!.toString(),
+                style: GoogleFonts.raleway(
+                    textStyle: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20
+                    )
+                ),
+              ),
+              const SizedBox(height: 30,),
+              _logout(context)
+            ],
+          ),
         ),
       ),
     );
   }
 
+  Widget _logout(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: const Color(0xff0D6EFD),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14),
+        ),
+        minimumSize: const Size(double.infinity, 60),
+        elevation: 0,
+      ),
+      onPressed: () async {
+        await AuthService().signout(context: context);
+      },
+      child: const Text("Sign Out"),
+    );
+  }
 }

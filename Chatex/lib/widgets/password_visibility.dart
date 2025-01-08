@@ -6,7 +6,7 @@ class PasswordVisibility extends StatefulWidget {
   @override
   State<PasswordVisibility> createState() => _PasswordVisibilityState();
 }
-
+final TextEditingController _controllerPassword = TextEditingController();
 class _PasswordVisibilityState extends State<PasswordVisibility> {
   bool passwordVisibile = true;
 
@@ -15,6 +15,7 @@ class _PasswordVisibilityState extends State<PasswordVisibility> {
     return Container(
       margin: const EdgeInsets.all(10.0),
       child: TextField(
+        controller: _controllerPassword,
         obscureText: passwordVisibile,
         style: const TextStyle(
           color: Colors.white,
