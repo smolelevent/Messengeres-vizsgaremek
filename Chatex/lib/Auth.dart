@@ -70,9 +70,9 @@ class AuthService {
 
     } on FirebaseAuthException catch(e) {
       String message = '';
-      if (e.code == 'invalid-email') {
+      if (e.code == 'user-not-found') {
         message = 'No user found for that email.';
-      } else if (e.code == 'invalid-credential') {
+      } else if (e.code == 'wrong-password') {
         message = 'Wrong password provided for that user.';
       }
       Fluttertoast.showToast(
