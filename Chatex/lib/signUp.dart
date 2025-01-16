@@ -100,9 +100,9 @@ class Signup extends StatelessWidget {
                         textStyle: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 32
+                            fontSize: 32,
                         )
-                    ),
+                    ), 
                   ),
                 ),
                 const SizedBox(height: 80,),

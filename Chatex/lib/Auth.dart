@@ -1,50 +1,52 @@
-import 'package:chatex/main.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:chatex/Homepage.dart';
-
+import 'package:chatex/main.dart'; // Ensure you have the correct import for HomePage
 
 class AuthService {
-
   Future<void> signup({
     required String email,
     required String password,
     required BuildContext context
   }) async {
-
     try {
-
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: email,
-          password: password
+        email: email,
+        password: password,
       );
 
       await Future.delayed(const Duration(seconds: 1));
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (BuildContext context) => HomePage()
-          )
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => HomePage(),
+        ),
       );
+    } on FirebaseAuthException catch (e) {
 
-    } on FirebaseAuthException catch(e) {
-      String message = '';
-      if (e.code == 'weak-password') {
-        message = 'The password provided is too weak.';
-      } else if (e.code == 'email-already-in-use') {
-        message = 'An account already exists with that email.';
-      }
-      Fluttertoast.showToast(
-        msg: message,
+        if (e.code == 'weak-password') {
+        Fluttertoast.showToast(
+        msg: "The password provided is too weak.",
         toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.SNACKBAR,
+        gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.black54,
         textColor: Colors.white,
         fontSize: 14.0,
       );
+      } else if (e.code == 'email-already-in-use') {
+        Fluttertoast.showToast(
+        msg: "an account already exists for that email.",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.black54,
+        textColor: Colors.white,
+        fontSize: 14.0,
+      );
+      }
     }
-
   }
 
   Future<void> signin({
@@ -52,41 +54,51 @@ class AuthService {
     required String password,
     required BuildContext context
   }) async {
-
     try {
-
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email,
-          password: password
+        email: email,
+        password: password,
       );
-
-      await Future.delayed(const Duration(seconds: 1));
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (BuildContext context) => HomePage()
-          )
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (BuildContext context) => HomePage(),
+        ),
       );
-
-    } on FirebaseAuthException catch(e) {
+      // Navigate to home page or perform other actions on successful sign-in
+    } on FirebaseAuthException catch (e) {
       String message = '';
-      if (e.code == 'user-not-found') {
-        message = 'No user found for that email.';
-      } else if (e.code == 'wrong-password') {
-        message = 'Wrong password provided for that user.';
-      }
-      Fluttertoast.showToast(
-        msg: message,
+      if (e.code == 'invalid-email') {
+        Fluttertoast.showToast(
+        msg: "no user found for that email.",
         toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.SNACKBAR,
+        gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.black54,
         textColor: Colors.white,
         fontSize: 14.0,
       );
-    }
-
+      } else if (e.code == 'invalid-credential') {
+        Fluttertoast.showToast(
+        msg: "Wrong password provided for that email.",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.black54,
+        textColor: Colors.white,
+        fontSize: 14.0,
+      );
+      } 
+       
+      Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.black54,
+        textColor: Colors.white,
+        fontSize: 14.0,
+      );
+    } catch (e) {
+        print(e);
+      }
   }
-
   Future<void> signout({
     required BuildContext context
   }) async {
@@ -101,3 +113,5 @@ class AuthService {
     );
   }
 }
+
+  
