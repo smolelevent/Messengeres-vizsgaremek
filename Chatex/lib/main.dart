@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:chatex/Auth.dart';
 import 'package:chatex/signUp.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:chatex/forgot_password.dart';
 
 
 Future<void> main() async {
@@ -204,7 +205,10 @@ class _LoginUIState extends State<LoginUI> {
             ),
             TextButton(
               onPressed: () {
-                _showForgotPasswordDialog(context);
+                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                  builder: (context) => ForgotPasswordPage()));
               },
               style: forgotPasswordStyle,
               child: const Text(
@@ -280,69 +284,6 @@ class _LoginUIState extends State<LoginUI> {
           ],
         ),
       ),
-    );
-  }
-  void _showForgotPasswordDialog(BuildContext context) {
-    final TextEditingController _forgotPasswordController = TextEditingController();
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text("Reset Password"),
-          content: TextField(
-            controller: _forgotPasswordController,
-            decoration: InputDecoration(labelText: 'Enter your email'),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () async {
-                String email = _forgotPasswordController.text.trim();
-                if (email.isEmpty) {
-                  Fluttertoast.showToast(
-                    msg: "Email cannot be empty",
-                    toastLength: Toast.LENGTH_LONG,
-                    gravity: ToastGravity.BOTTOM,
-                    backgroundColor: Colors.black54,
-                    textColor: Colors.white,
-                    fontSize: 14.0,
-                  );
-                  return;
-                }
-
-                try {
-                  await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-                  Fluttertoast.showToast(
-                    msg: "Password reset email sent",
-                    toastLength: Toast.LENGTH_LONG,
-                    gravity: ToastGravity.BOTTOM,
-                    backgroundColor: Colors.black54,
-                    textColor: Colors.white,
-                    fontSize: 14.0,
-                  );
-                  Navigator.of(context).pop();
-                } on FirebaseAuthException catch (e) {
-                  Fluttertoast.showToast(
-                    msg: e.message ?? "An error occurred",
-                    toastLength: Toast.LENGTH_LONG,
-                    gravity: ToastGravity.BOTTOM,
-                    backgroundColor: Colors.black54,
-                    textColor: Colors.white,
-                    fontSize: 14.0,
-                  );
-                }
-              },
-              child: Text("Send"),
-            ),
-          ],
-        );
-      },
     );
   }
 }
