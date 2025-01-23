@@ -1,6 +1,6 @@
 import 'package:chatex/Auth.dart';
 import 'package:chatex/forgot_password.dart';
-import 'package:chatex/signUp.dart';
+import 'package:chatex/sign_up.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -236,7 +236,7 @@ class _LoginUIState extends State<LoginUI> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Signup()));
+                                    builder: (context) => SignUp()));
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.deepPurpleAccent,

@@ -4,9 +4,10 @@ import 'package:chatex/widgets/password_confirm_widget.dart';
 import 'package:chatex/widgets/password_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
-class Signup extends StatelessWidget {
-  Signup({super.key});
+class SignUp extends StatelessWidget {
+  SignUp({super.key});
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordWidgetController =
@@ -17,7 +18,6 @@ class Signup extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[850],
-      //bottomNavigationBar: _signInWidget(context),
       appBar: AppBar(
         backgroundColor: Colors.red,
         elevation: 5,
@@ -26,7 +26,7 @@ class Signup extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(
-            height: 50,
+            height: 25,
           ),
           Text(
             'Regisztráció',
@@ -37,7 +37,8 @@ class Signup extends StatelessWidget {
               fontSize: 35,
             ),
           ),
-          Text(
+          AutoSizeText(
+            textAlign: TextAlign.center,
             "info a regisztrációhoz",
             style: TextStyle(
               color: Colors.white,
@@ -47,9 +48,9 @@ class Signup extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            height: 50,
+            height: 85,
           ),
-          emailAddressWidget(),
+          _emailAddressWidget(),
           const SizedBox(
             height: 10,
           ),
@@ -62,16 +63,12 @@ class Signup extends StatelessWidget {
             height: 25,
           ),
           _signUpWidget(context),
-          const SizedBox(
-            height: 85,
-          ),
-          _signInWidget(context),
         ],
       ),
     );
   }
 
-  Widget emailAddressWidget() {
+  Widget _emailAddressWidget() {
     return Container(
       margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
       child: TextField(
@@ -144,33 +141,6 @@ class Signup extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _signInWidget(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        RichText(
-          text: TextSpan(
-            text: "Már van fiókom",
-            style: TextStyle(
-              color: Colors.deepPurple[300],
-              fontWeight: FontWeight.normal,
-              fontSize: 20,
-              letterSpacing: 1,
-            ),
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginUI()),
-                );
-              },
           ),
         ),
       ],

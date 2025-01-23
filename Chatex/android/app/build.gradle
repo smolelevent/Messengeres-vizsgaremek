@@ -10,7 +10,7 @@ plugins {
 }
 
 dependencies {
-    implementation platform('com.google.firebase:firebase-bom:33.7.0')
+    implementation platform('com.google.firebase:firebase-bom:33.8.0')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'androidx.multidex:multidex:2.0.1'
 }
@@ -19,7 +19,7 @@ android {
     namespace = "com.example.chatex"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "25.1.8937393"
-    
+
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

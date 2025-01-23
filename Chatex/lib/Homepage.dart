@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:chatex/Auth.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +12,7 @@ class HomePage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -24,22 +22,22 @@ class HomePage extends StatelessWidget {
                     textStyle: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
-                        fontSize: 20
-                    )
-                ),
+                        fontSize: 20)),
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Text(
                 FirebaseAuth.instance.currentUser!.email!.toString(),
                 style: GoogleFonts.raleway(
                     textStyle: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
-                        fontSize: 20
-                    )
-                ),
+                        fontSize: 20)),
               ),
-              const SizedBox(height: 30,),
+              const SizedBox(
+                height: 30,
+              ),
               _logout(context)
             ],
           ),
