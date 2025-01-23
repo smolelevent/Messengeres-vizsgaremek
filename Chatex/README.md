@@ -1,3 +1,0 @@
-# chatex
-
-prototípus

@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
-import 'widgets/password_visibility.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:chatex/Auth.dart';
-import 'package:chatex/signUp.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:chatex/forgot_password.dart';
+import 'package:chatex/signUp.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
+import 'firebase_options.dart';
+import 'widgets/password_widget.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,15 +21,16 @@ Future<void> main() async {
 class LoginUI extends StatefulWidget {
   const LoginUI({super.key});
 
-
-
   @override
   State<LoginUI> createState() => _LoginUIState();
 }
 
 class _LoginUIState extends State<LoginUI> {
-  final TextEditingController _emailController  = TextEditingController();
+  //változók
+  final TextEditingController _emailController = TextEditingController();
+
   final TextEditingController _passwordController = TextEditingController();
+
   InputDecorationTheme languageMenuStyle = InputDecorationTheme(
     labelStyle: TextStyle(
       color: Colors.grey[600],
@@ -63,12 +64,12 @@ class _LoginUIState extends State<LoginUI> {
         letterSpacing: 1,
       ));
 
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false, // íráskor nem jön fel az expanded widget
+        resizeToAvoidBottomInset: false,
+        // íráskor nem jön fel az expanded widget
         backgroundColor: Colors.grey[850],
         body: Column(
           children: [
@@ -115,7 +116,7 @@ class _LoginUIState extends State<LoginUI> {
               radius: 60,
               backgroundImage: AssetImage("assets/logo_titkos.png"),
             ),
-      
+
             Container(
               margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
               child: TextField(
@@ -150,7 +151,7 @@ class _LoginUIState extends State<LoginUI> {
                 ),
               ),
             ),
-            const PasswordVisibility(), //password_visibility.dart
+            const PasswordWidget(), //password_visibility.dart
             const SizedBox(
               height: 10.0,
             ),
@@ -161,22 +162,23 @@ class _LoginUIState extends State<LoginUI> {
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: ElevatedButton(
                       onPressed: () async {
-                if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-                  Fluttertoast.showToast(
-                    msg: "Email and password cannot be empty",
-                    toastLength: Toast.LENGTH_LONG,
-                    gravity: ToastGravity.BOTTOM,
-                    backgroundColor: Colors.black54,
-                    textColor: Colors.white,
-                    fontSize: 14.0,
-                  );
-                  return;
-                }
-                await AuthService().signin(
-                  email: _emailController.text,
-                  password: _passwordController.text,
-                  context: context,
-                );
+                        if (_emailController.text.isEmpty ||
+                            _passwordController.text.isEmpty) {
+                          Fluttertoast.showToast(
+                            msg: "Email and password cannot be empty",
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.BOTTOM,
+                            backgroundColor: Colors.black54,
+                            textColor: Colors.white,
+                            fontSize: 14.0,
+                          );
+                          return;
+                        }
+                        await AuthService().signin(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                          context: context,
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.deepPurpleAccent,
@@ -193,7 +195,6 @@ class _LoginUIState extends State<LoginUI> {
                           letterSpacing: 1,
                         ),
                       ),
-                      
                     ),
                   ),
                 ),
@@ -206,16 +207,16 @@ class _LoginUIState extends State<LoginUI> {
             TextButton(
               onPressed: () {
                 Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                  builder: (context) => ForgotPasswordPage()));
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ForgotPasswordPage()));
               },
               style: forgotPasswordStyle,
               child: const Text(
                 "Elfelejtett jelszó",
               ),
             ),
-            
+
             Expanded(
               flex: 1,
               child: Align(
@@ -232,12 +233,10 @@ class _LoginUIState extends State<LoginUI> {
                         ),
                         child: ElevatedButton(
                           onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                  builder: (context) => Signup()
-                              )
-                              );
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Signup()));
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.deepPurpleAccent,
@@ -254,7 +253,6 @@ class _LoginUIState extends State<LoginUI> {
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1,
                             ),
-      
                           ),
                         ),
                       ),

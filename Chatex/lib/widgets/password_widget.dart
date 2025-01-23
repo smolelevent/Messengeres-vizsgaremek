@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 
-class PasswordVisibility extends StatefulWidget {
-  const PasswordVisibility({super.key});
+class PasswordWidget extends StatefulWidget {
+  const PasswordWidget({super.key});
 
   @override
-  State<PasswordVisibility> createState() => _PasswordVisibilityState();
+  State<PasswordWidget> createState() => _PasswordWidgetState();
 }
-final TextEditingController _controllerPassword = TextEditingController();
-class _PasswordVisibilityState extends State<PasswordVisibility> {
+
+// final TextEditingController _controllerPassword = TextEditingController();
+
+class _PasswordWidgetState extends State<PasswordWidget> {
   bool passwordVisibile = true;
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(10.0),
       child: TextField(
-        controller: _controllerPassword,
+        controller: _passwordController,
         obscureText: passwordVisibile,
         style: const TextStyle(
           color: Colors.white,
