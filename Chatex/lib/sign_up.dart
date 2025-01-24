@@ -1,17 +1,13 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:chatex/Auth.dart';
-import 'package:chatex/main.dart';
 import 'package:chatex/widgets/password_confirm_widget.dart';
 import 'package:chatex/widgets/password_widget.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 
 class SignUp extends StatelessWidget {
   SignUp({super.key});
 
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordWidgetController =
-      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +15,7 @@ class SignUp extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[850],
       appBar: AppBar(
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.deepPurple[400],
         elevation: 5,
       ),
       body: Column(
@@ -128,7 +124,7 @@ class SignUp extends StatelessWidget {
               onPressed: () async {
                 await AuthService().signup(
                     email: _emailController.text,
-                    password: _passwordWidgetController.text,
+                    password: _passwordController.text,
                     context: context);
               },
               child: Text(

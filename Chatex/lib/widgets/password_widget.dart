@@ -7,11 +7,11 @@ class PasswordWidget extends StatefulWidget {
   State<PasswordWidget> createState() => _PasswordWidgetState();
 }
 
-// final TextEditingController _controllerPassword = TextEditingController();
-
 class _PasswordWidgetState extends State<PasswordWidget> {
   bool passwordVisibile = true;
   final TextEditingController _passwordController = TextEditingController();
+
+  TextEditingController get passwordController => _passwordController;
 
   @override
   Widget build(BuildContext context) {

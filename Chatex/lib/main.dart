@@ -14,8 +14,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MaterialApp(home: LoginUI()));
   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  runApp(MaterialApp(home: LoginUI()));
 }
 
 class LoginUI extends StatefulWidget {
