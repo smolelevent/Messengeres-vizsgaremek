@@ -50,11 +50,11 @@ class SignUp extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          _passwordWidget(),
+          PasswordWidget(),
           const SizedBox(
             height: 10,
           ),
-          _passwordConfirmWidget(),
+          PasswordConfirmWidget(),
           const SizedBox(
             height: 25,
           ),
@@ -101,14 +101,6 @@ class SignUp extends StatelessWidget {
     );
   }
 
-  Widget _passwordWidget() {
-    return PasswordWidget();
-  }
-
-  Widget _passwordConfirmWidget() {
-    return PasswordConfirmWidget();
-  }
-
   Widget _signUpWidget(BuildContext context) {
     return Row(
       children: [
@@ -122,10 +114,12 @@ class SignUp extends StatelessWidget {
                 elevation: 5,
               ),
               onPressed: () async {
-                await AuthService().signup(
-                    email: _emailController.text,
-                    password: _passwordController.text,
-                    context: context);
+                // await AuthService().signup(
+                //     email: _emailController.text,
+                //     password: _passwordController.text,
+                //     context: context);
+                await AuthService().register(_emailController,
+                    PasswordWidget().getPasswordController, context);
               },
               child: Text(
                 "Regisztrálás",
