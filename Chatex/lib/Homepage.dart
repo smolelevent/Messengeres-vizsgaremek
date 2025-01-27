@@ -1,5 +1,5 @@
+import 'package:chatex/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:chatex/Auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,6 +10,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      //TODO: chat része
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),

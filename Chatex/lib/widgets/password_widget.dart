@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 class PasswordWidget extends StatefulWidget {
   const PasswordWidget({super.key});
 
-  TextEditingController get getPasswordController =>
-      _PasswordWidgetState()._passwordController;
-
   @override
   State<PasswordWidget> createState() => _PasswordWidgetState();
 }

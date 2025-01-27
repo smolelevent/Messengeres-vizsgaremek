@@ -1,14 +1,14 @@
-import 'package:chatex/Auth.dart';
+import 'package:chatex/auth.dart';
 import 'package:chatex/forgot_password.dart';
 import 'package:chatex/sign_up.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'firebase_options.dart';
+
+import 'firebase/firebase_options.dart';
 import 'widgets/password_widget.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -25,9 +25,7 @@ class LoginUI extends StatefulWidget {
 }
 
 class _LoginUIState extends State<LoginUI> {
-  //változók
   final TextEditingController _emailController = TextEditingController();
-
   final TextEditingController _passwordController = TextEditingController();
 
   InputDecorationTheme languageMenuStyle = InputDecorationTheme(
@@ -115,6 +113,7 @@ class _LoginUIState extends State<LoginUI> {
               radius: 60,
               backgroundImage: AssetImage("assets/logo_titkos.png"),
             ),
+//TODO: jobb logó
 
             Container(
               margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
@@ -150,7 +149,8 @@ class _LoginUIState extends State<LoginUI> {
                 ),
               ),
             ),
-            const PasswordWidget(), //password_visibility.dart
+            const PasswordWidget(),
+            //TODO: eldönteni hogy most az a widget külön fájlba legyen (szerintem ne)
             const SizedBox(
               height: 10.0,
             ),
@@ -171,9 +171,9 @@ class _LoginUIState extends State<LoginUI> {
                             textColor: Colors.white,
                             fontSize: 14.0,
                           );
-                          return;
                         }
                         await AuthService().signin(
+                          //TODO: saját methodokat az auth-ba
                           email: _emailController.text,
                           password: _passwordController.text,
                           context: context,

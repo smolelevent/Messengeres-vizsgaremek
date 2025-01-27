@@ -1,49 +1,58 @@
 import 'package:chatex/Homepage.dart';
 import 'package:chatex/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Függvény a regisztrációhoz
-  Future<void> register(TextEditingController email,
-      TextEditingController password, BuildContext context) async {
+  Future<void> register(
+      //saját method
+      {required TextEditingController email,
+      required TextEditingController password,
+      required context}) async {
     try {
-      // Regisztráció a Firebase Authentication segítségével
       await _auth.createUserWithEmailAndPassword(
         email: email.text.trim(),
         password: password.text.trim(),
       );
 
-      print("KURVÁRA MŰKÖDIK ANYÁD");
-      // Sikeres regisztráció esetén
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (BuildContext context) => HomePage(),
-      //   ),
-      // );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => HomePage(),
+        ),
+      );
     } on FirebaseAuthException catch (e) {
-      // Hibakezelés (pl. érvénytelen email, gyenge jelszó, stb.)
       String message;
       if (e.code == 'email-already-in-use') {
-        message = 'Ez az email cím már használatban van.';
+        Fluttertoast.showToast(
+          msg: "an account already exists for that email.",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.black54,
+          textColor: Colors.white,
+          fontSize: 14.0,
+        );
       } else if (e.code == 'weak-password') {
-        message = 'A jelszó túl gyenge. Minimum 6 karakter legyen.';
+        Fluttertoast.showToast(
+          msg: "The password provided is too weak.",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.black54,
+          textColor: Colors.white,
+          fontSize: 14.0,
+        );
       } else {
-        message = 'Hiba történt: ${e.message}';
+        //TODO: megnézni az összes hiba lehetőséget és le kezelni
+        message = 'Hiba történt: $e';
         print(message);
       }
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message)),
-      );
     }
   }
 
+  //nem sajátok (copy paste)
   Future<void> signup(
       {required String email,
       required String password,
@@ -85,11 +94,14 @@ class AuthService {
         email: email,
         password: password,
       );
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (BuildContext context) => HomePage(),
-        ),
-      );
+      if (context.mounted) {
+        //TODO: Don't use 'BuildContext's across async gaps. <- emiatt kell ez a kód, és nincs warning
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (BuildContext context) => HomePage(),
+          ),
+        );
+      }
       // Navigate to home page or perform other actions on successful sign-in
     } on FirebaseAuthException catch (e) {
       String message = '';
@@ -127,7 +139,9 @@ class AuthService {
   Future<void> signout({required BuildContext context}) async {
     await FirebaseAuth.instance.signOut();
     await Future.delayed(const Duration(seconds: 1));
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (BuildContext context) => LoginUI()));
+    if (context.mounted) {
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (BuildContext context) => LoginUI()));
+    }
   }
 }
