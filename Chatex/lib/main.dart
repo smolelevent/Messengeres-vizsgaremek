@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'firebase/firebase_options.dart';
-import 'widgets/password_widget.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +26,7 @@ class LoginUI extends StatefulWidget {
 class _LoginUIState extends State<LoginUI> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool passwordVisibile = true;
 
   InputDecorationTheme languageMenuStyle = InputDecorationTheme(
     labelStyle: TextStyle(
@@ -113,8 +113,7 @@ class _LoginUIState extends State<LoginUI> {
               radius: 60,
               backgroundImage: AssetImage("assets/logo_titkos.png"),
             ),
-//TODO: jobb logó
-
+            //TODO: jobb logó
             Container(
               margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
               child: TextField(
@@ -149,8 +148,53 @@ class _LoginUIState extends State<LoginUI> {
                 ),
               ),
             ),
-            const PasswordWidget(),
-            //TODO: eldönteni hogy most az a widget külön fájlba legyen (szerintem ne)
+
+            Container(
+              margin: const EdgeInsets.all(10.0),
+              child: TextField(
+                controller: _passwordController,
+                obscureText: passwordVisibile,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      passwordVisibile
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        passwordVisibile = !passwordVisibile;
+                      });
+                    },
+                  ),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  hintText: "Jelszó",
+                  focusedBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.deepPurpleAccent,
+                      width: 2.5,
+                    ),
+                  ),
+                  enabledBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.white,
+                      width: 2.5,
+                    ),
+                  ),
+                  hintStyle: TextStyle(
+                    color: Colors.grey[600],
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                  ),
+                ),
+              ),
+            ),
             const SizedBox(
               height: 10.0,
             ),
@@ -215,7 +259,6 @@ class _LoginUIState extends State<LoginUI> {
                 "Elfelejtett jelszó",
               ),
             ),
-
             Expanded(
               flex: 1,
               child: Align(

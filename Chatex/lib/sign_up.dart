@@ -43,7 +43,6 @@ class _SignUpState extends State<SignUp> {
           AutoSizeText(
             textAlign: TextAlign.center,
             "info a regisztrációhoz (lorem)",
-            //TODO: lehetne itt checkboxok amik pl: az emailt és a jelszó feltételeit ellenőrzik és folyamatosan csinálják azt
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.normal,
@@ -67,6 +66,7 @@ class _SignUpState extends State<SignUp> {
             height: 25,
           ),
           _signUpWidget(context),
+          _chatexWidget(),
         ],
       ),
     );
@@ -216,7 +216,7 @@ class _SignUpState extends State<SignUp> {
                 elevation: 5,
               ),
               onPressed: () async {
-                //TODO: lehetne az hogy állandóan nézi (vagy amikor elkezdenek írni a jelszó mezőbe hogy) hogy megegyeznek e, ha pedig nem akkor letiltja a gombot, és addig nem lehet tovább menni VAGY csak az hogy szól pl: pirossal hogy nem egyeznek meg...
+                //TODO: csak az hogy szól pl: pirossal hogy nem egyeznek meg...
                 if (_passwordController.text ==
                     _passwordConfirmController.text) {
                   print("a jelszavak megegyeznek");
@@ -244,5 +244,38 @@ class _SignUpState extends State<SignUp> {
       ],
     );
   }
-//TODO: szerintem ameddig el nem ér a felhasználó a homescreenig addig mindenhova tegyünk "Chatex" jelzést
+
+  Widget _chatexWidget() {
+    return Expanded(
+      flex: 1,
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RichText(
+                      text: const TextSpan(
+                        text: "Chatex",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1.0,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
