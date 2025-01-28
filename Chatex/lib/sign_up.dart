@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:chatex/auth.dart';
 import 'package:flutter/material.dart';
 
@@ -12,9 +11,45 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordConfirmController =
-      TextEditingController();
-  bool passwordVisibile = true;
+  final TextEditingController _passwordConfirmController = TextEditingController();
+  final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
+  final FocusNode _passwordConfirmFocusNode = FocusNode();
+  bool _isEmailFocused = false;
+  bool _isPasswordFocused = false;
+  bool _isConfirmFocused = false;
+  bool _isPasswordVisible = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailFocusNode.addListener(() {
+      setState(() {
+        _isEmailFocused = _emailFocusNode.hasFocus;
+      });
+    });
+    _passwordFocusNode.addListener(() {
+      setState(() {
+        _isPasswordFocused = _passwordFocusNode.hasFocus;
+      });
+    });
+    _passwordConfirmFocusNode.addListener(() {
+      setState(() {
+        _isConfirmFocused = _passwordConfirmFocusNode.hasFocus;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _emailFocusNode.dispose();
+    _passwordController.dispose();
+    _passwordFocusNode.dispose();
+    _passwordConfirmController.dispose();
+    _passwordConfirmFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,16 +73,6 @@ class _SignUpState extends State<SignUp> {
               fontWeight: FontWeight.bold,
               letterSpacing: 1,
               fontSize: 35,
-            ),
-          ),
-          AutoSizeText(
-            textAlign: TextAlign.center,
-            "info a regisztrációhoz (lorem)",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.normal,
-              letterSpacing: 1,
-              fontSize: 20,
             ),
           ),
           const SizedBox(
@@ -76,6 +101,7 @@ class _SignUpState extends State<SignUp> {
     return Container(
       margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
       child: TextField(
+        focusNode: _emailFocusNode,
         controller: _emailController,
         keyboardType: TextInputType.emailAddress,
         style: const TextStyle(
@@ -85,7 +111,9 @@ class _SignUpState extends State<SignUp> {
         decoration: InputDecoration(
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          hintText: "E-mail cím",
+          hintText: _isEmailFocused ? null : "E-mail cím",
+          helperText: "Pl.: kugifej@gmail.com",
+          labelText: _isEmailFocused ? "E-mail cím" : null,
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
               color: Colors.deepPurpleAccent,
@@ -103,6 +131,16 @@ class _SignUpState extends State<SignUp> {
             fontStyle: FontStyle.italic,
             fontWeight: FontWeight.bold,
             fontSize: 20.0,
+          ),
+          helperStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 15.0,
+            letterSpacing: 1.0,
+          ),
+          labelStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+            letterSpacing: 1.0,
           ),
         ),
       ),
@@ -113,8 +151,9 @@ class _SignUpState extends State<SignUp> {
     return Container(
       margin: const EdgeInsets.all(10.0),
       child: TextField(
+        focusNode: _passwordFocusNode,
         controller: _passwordController,
-        obscureText: passwordVisibile,
+        obscureText: _isPasswordVisible,
         style: const TextStyle(
           color: Colors.white,
           fontSize: 20.0,
@@ -122,17 +161,19 @@ class _SignUpState extends State<SignUp> {
         decoration: InputDecoration(
           suffixIcon: IconButton(
             icon: Icon(
-              passwordVisibile ? Icons.visibility : Icons.visibility_off,
+              _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
             ),
             onPressed: () {
               setState(() {
-                passwordVisibile = !passwordVisibile;
+                _isPasswordVisible = !_isPasswordVisible;
               });
             },
           ),
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          hintText: "Jelszó",
+          hintText: _isPasswordFocused ? null : "Jelszó",
+          labelText: _isPasswordFocused ? "Jelszó" : null,
+          helperText: "Min. 8 karakter, egy kisbetű, egy nagybetű,\negy szám.",
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
               color: Colors.deepPurpleAccent,
@@ -150,6 +191,16 @@ class _SignUpState extends State<SignUp> {
             fontStyle: FontStyle.italic,
             fontWeight: FontWeight.bold,
             fontSize: 20.0,
+          ),
+          helperStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 15.0,
+            letterSpacing: 1.0,
+          ),
+          labelStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+            letterSpacing: 1.0,
           ),
         ),
       ),
@@ -160,8 +211,9 @@ class _SignUpState extends State<SignUp> {
     return Container(
       margin: const EdgeInsets.all(10.0),
       child: TextField(
+        focusNode: _passwordConfirmFocusNode,
         controller: _passwordConfirmController,
-        obscureText: passwordVisibile,
+        obscureText: _isPasswordVisible,
         style: const TextStyle(
           color: Colors.white,
           fontSize: 20.0,
@@ -169,17 +221,19 @@ class _SignUpState extends State<SignUp> {
         decoration: InputDecoration(
           suffixIcon: IconButton(
             icon: Icon(
-              passwordVisibile ? Icons.visibility : Icons.visibility_off,
+              _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
             ),
             onPressed: () {
               setState(() {
-                passwordVisibile = !passwordVisibile;
+                _isPasswordVisible = !_isPasswordVisible;
               });
             },
           ),
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          hintText: "Jelszó újra",
+          labelText: _isConfirmFocused ? "Jelszó újra" : null,
+          hintText: _isConfirmFocused ? null : "Jelszó újra",
+          
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
               color: Colors.deepPurpleAccent,
@@ -197,6 +251,11 @@ class _SignUpState extends State<SignUp> {
             fontStyle: FontStyle.italic,
             fontWeight: FontWeight.bold,
             fontSize: 20.0,
+          ),
+          labelStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+            letterSpacing: 1.0,
           ),
         ),
       ),
