@@ -2,7 +2,10 @@ import 'package:chatex/auth.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+  const SignUp({super.key, required this.onSubmit});
+
+  const SignUp.withoutSubmit({super.key}) : onSubmit = null;
+  final ValueChanged<String>? onSubmit;
 
   @override
   State<SignUp> createState() => _SignUpState();
@@ -12,13 +15,47 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _passwordConfirmController = TextEditingController();
+  
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
   final FocusNode _passwordConfirmFocusNode = FocusNode();
+
   bool _isEmailFocused = false;
   bool _isPasswordFocused = false;
-  bool _isConfirmFocused = false;
+  bool _isPasswordConfirmFocused = false;
+
   bool _isPasswordVisible = true;
+
+  final bool _passwordsMatch = true;
+  final passwordText = '';
+  
+  String? get _errorText {
+  final text = _passwordController.value.text;
+  if (text.isEmpty){
+    return null;
+  } else if (text.length < 8) {
+    return 'A jelszó túl rövid';
+  } else if (text.length > 20){
+    return 'A jelszó túl hosszú';
+  } else if (!RegExp(r'[A-Z]').hasMatch(text)){
+    return 'Legalább 1 nagybetűt tartalmazzon';
+  } else if (!RegExp(r'[a-z]').hasMatch(text)){
+    return 'Legalább 1 kisbetűt tartalmazzon';
+  } else if (!RegExp(r'[0-9]').hasMatch(text)){
+    return 'Legalább 1 számot tartalmazzon';
+  } else if (!_passwordsMatch) {
+    return 'A jelszavak nem egyeznek';
+  }
+  else {
+    return null;
+  }
+}
+
+  void _submit(){
+  if(_errorText == null && widget.onSubmit != null){
+    widget.onSubmit!(_passwordController.value.text);
+    }
+  }
 
   @override
   void initState() {
@@ -35,7 +72,7 @@ class _SignUpState extends State<SignUp> {
     });
     _passwordConfirmFocusNode.addListener(() {
       setState(() {
-        _isConfirmFocused = _passwordConfirmFocusNode.hasFocus;
+        _isPasswordConfirmFocused = _passwordConfirmFocusNode.hasFocus;
       });
     });
   }
@@ -43,10 +80,11 @@ class _SignUpState extends State<SignUp> {
   @override
   void dispose() {
     _emailController.dispose();
-    _emailFocusNode.dispose();
     _passwordController.dispose();
-    _passwordFocusNode.dispose();
     _passwordConfirmController.dispose();
+
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
     _passwordConfirmFocusNode.dispose();
     super.dispose();
   }
@@ -76,7 +114,7 @@ class _SignUpState extends State<SignUp> {
             ),
           ),
           const SizedBox(
-            height: 85,
+            height: 25,
           ),
           _emailAddressWidget(),
           const SizedBox(
@@ -96,7 +134,7 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
-
+    
   Widget _emailAddressWidget() {
     return Container(
       margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
@@ -149,63 +187,65 @@ class _SignUpState extends State<SignUp> {
 
   Widget _passwordWidget() {
     return Container(
-      margin: const EdgeInsets.all(10.0),
-      child: TextField(
-        focusNode: _passwordFocusNode,
-        controller: _passwordController,
-        obscureText: _isPasswordVisible,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 20.0,
-        ),
-        decoration: InputDecoration(
-          suffixIcon: IconButton(
-            icon: Icon(
-              _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-            ),
-            onPressed: () {
-              setState(() {
-                _isPasswordVisible = !_isPasswordVisible;
-              });
-            },
-          ),
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          hintText: _isPasswordFocused ? null : "Jelszó",
-          labelText: _isPasswordFocused ? "Jelszó" : null,
-          helperText: "Min. 8 karakter, egy kisbetű, egy nagybetű,\negy szám.",
-          focusedBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.deepPurpleAccent,
-              width: 2.5,
-            ),
-          ),
-          enabledBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(
+          margin: const EdgeInsets.all(10.0),
+          child: TextField(
+            onChanged: (passwordtext) => setState(() => passwordtext),
+            focusNode: _passwordFocusNode,
+            controller: _passwordController,
+            obscureText: _isPasswordVisible,
+            style: const TextStyle(
               color: Colors.white,
-              width: 2.5,
+              fontSize: 20.0,
+            ),
+            decoration: InputDecoration(
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _isPasswordVisible = !_isPasswordVisible;
+                  });
+                },
+              ),
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              hintText: _isPasswordFocused ? null : "Jelszó",
+              labelText: _isPasswordFocused ? "Jelszó" : null,
+              helperText: "Legalább 8 karakter, 1 kisbetű,\n1 nagybetű, és 1 szám.",
+              errorText: _errorText,
+              focusedBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.deepPurpleAccent,
+                  width: 2.5,
+                ),
+              ),
+              enabledBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.white,
+                  width: 2.5,
+                ),
+              ),
+              hintStyle: TextStyle(
+                color: Colors.grey[600],
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0,
+              ),
+              helperStyle: TextStyle(
+                color: Colors.white,
+                fontSize: 15.0,
+                letterSpacing: 1.0,
+              ),
+              labelStyle: TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                letterSpacing: 1.0,
+              ),
             ),
           ),
-          hintStyle: TextStyle(
-            color: Colors.grey[600],
-            fontStyle: FontStyle.italic,
-            fontWeight: FontWeight.bold,
-            fontSize: 20.0,
-          ),
-          helperStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 15.0,
-            letterSpacing: 1.0,
-          ),
-          labelStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 20.0,
-            letterSpacing: 1.0,
-          ),
-        ),
-      ),
-    );
-  }
+        );
+      }
 
   Widget _passwordConfirmWidget() {
     return Container(
@@ -231,8 +271,10 @@ class _SignUpState extends State<SignUp> {
           ),
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          labelText: _isConfirmFocused ? "Jelszó újra" : null,
-          hintText: _isConfirmFocused ? null : "Jelszó újra",
+          labelText: _isPasswordConfirmFocused ? "Jelszó újra" : null,
+          hintText: _isPasswordConfirmFocused ? null : "Jelszó újra",
+          errorText:  _passwordsMatch ? null : "A jelszavak nem egyeznek",
+          
           
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
@@ -262,6 +304,7 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
+
   Widget _signUpWidget(BuildContext context) {
     return Row(
       children: [
@@ -275,13 +318,7 @@ class _SignUpState extends State<SignUp> {
                 elevation: 5,
               ),
               onPressed: () async {
-                //TODO: csak az hogy szól pl: pirossal hogy nem egyeznek meg...
-                if (_passwordController.text ==
-                    _passwordConfirmController.text) {
-                  print("a jelszavak megegyeznek");
-                } else {
-                  print("a jelszavak nem egyeznek meg");
-                }
+                _passwordController.value.text.isNotEmpty ? _submit : null;
 
                 await AuthService().register(
                     email: _emailController,
