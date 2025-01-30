@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key, required this.onSubmit});
-
+  //saját konstruktor
   const SignUp.withoutSubmit({super.key}) : onSubmit = null;
   final ValueChanged<String>? onSubmit;
 
@@ -26,9 +26,11 @@ class _SignUpState extends State<SignUp> {
 
   bool _isPasswordVisible = true;
 
+  
+
   final bool _passwordsMatch = true;
   final passwordText = '';
-  
+
   String? get _errorText {
   final text = _passwordController.value.text;
   if (text.isEmpty){
@@ -37,25 +39,24 @@ class _SignUpState extends State<SignUp> {
     return 'A jelszó túl rövid';
   } else if (text.length > 20){
     return 'A jelszó túl hosszú';
-  } else if (!RegExp(r'[A-Z]').hasMatch(text)){
+  } else if (!RegExp(r'\p{Lu}', unicode: true).hasMatch(text)){
     return 'Legalább 1 nagybetűt tartalmazzon';
-  } else if (!RegExp(r'[a-z]').hasMatch(text)){
+  } else if (!RegExp(r'\p{Ll}', unicode: true).hasMatch(text)){
     return 'Legalább 1 kisbetűt tartalmazzon';
   } else if (!RegExp(r'[0-9]').hasMatch(text)){
     return 'Legalább 1 számot tartalmazzon';
   } else if (!_passwordsMatch) {
     return 'A jelszavak nem egyeznek';
-  }
-  else {
+  } else {
     return null;
   }
 }
 
   void _submit(){
-  if(_errorText == null && widget.onSubmit != null){
-    widget.onSubmit!(_passwordController.value.text);
+    if(_errorText == null && widget.onSubmit != null){
+        widget.onSubmit!(_passwordController.value.text);
+      }
     }
-  }
 
   @override
   void initState() {
@@ -141,6 +142,15 @@ class _SignUpState extends State<SignUp> {
       child: TextField(
         focusNode: _emailFocusNode,
         controller: _emailController,
+        validator: (value) {
+          if (value == null || value.isEmpty){
+        return 'Kérjük, adja meg az e-mail címét';
+          }
+          bool emailValid = RegExp(r"^[a-zA-z0-9.!#$°&'*+-/=?^_'{|}~]+@[a-zA-Z0-9]+\.[a-zA-z]+").hasMatch('value');
+          if (!emailValid){
+            return 'Kérjük, adjon meg egy érvényes e-mail címet';
+          }
+        },
         keyboardType: TextInputType.emailAddress,
         style: const TextStyle(
           color: Colors.white,
@@ -273,9 +283,7 @@ class _SignUpState extends State<SignUp> {
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           labelText: _isPasswordConfirmFocused ? "Jelszó újra" : null,
           hintText: _isPasswordConfirmFocused ? null : "Jelszó újra",
-          errorText:  _passwordsMatch ? null : "A jelszavak nem egyeznek",
-          
-          
+          errorText: _passwordsMatch ? null : "A jelszavak nem egyeznek",
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
               color: Colors.deepPurpleAccent,
@@ -304,7 +312,6 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-
   Widget _signUpWidget(BuildContext context) {
     return Row(
       children: [
@@ -319,7 +326,7 @@ class _SignUpState extends State<SignUp> {
               ),
               onPressed: () async {
                 _passwordController.value.text.isNotEmpty ? _submit : null;
-
+                
                 await AuthService().register(
                     email: _emailController,
                     password: _passwordController,
