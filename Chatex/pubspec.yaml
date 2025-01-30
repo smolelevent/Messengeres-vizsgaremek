@@ -42,6 +42,8 @@ dependencies:
   fluttertoast: ^8.2.10
   google_fonts: ^6.2.1
   auto_size_text: ^3.0.0
+  flutter_form_builder: ^9.7.0
+  form_builder_validators: ^11.1.1
 
 
 

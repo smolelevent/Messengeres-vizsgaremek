@@ -1,5 +1,7 @@
 import 'package:chatex/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key, required this.onSubmit});
@@ -23,37 +25,62 @@ class _SignUpState extends State<SignUp> {
   bool _isEmailFocused = false;
   bool _isPasswordFocused = false;
   bool _isPasswordConfirmFocused = false;
-
-  bool _isPasswordVisible = true;
-
   
+  bool _isPasswordVisible = true;
+  final bool _isPasswordMatching = true;
 
-  final bool _passwordsMatch = true;
-  final passwordText = '';
 
-  String? get _errorText {
+final _formKey = GlobalKey<FormBuilderState>();
+
+/*
+  final _formKey = GlobalKey<FormState>();
+
+  String? _passwordValidator(String? value) {
   final text = _passwordController.value.text;
   if (text.isEmpty){
     return null;
   } else if (text.length < 8) {
-    return 'A jelszó túl rövid';
+    return 'A jelszó túl rövid! (min 8 karakter)';
   } else if (text.length > 20){
-    return 'A jelszó túl hosszú';
+    return 'A jelszó túl hosszú! (max 20 karakter)';
   } else if (!RegExp(r'\p{Lu}', unicode: true).hasMatch(text)){
-    return 'Legalább 1 nagybetűt tartalmazzon';
+    return 'A jelszónak legalább 1 nagybetűt tartalmaznia kell!';
   } else if (!RegExp(r'\p{Ll}', unicode: true).hasMatch(text)){
-    return 'Legalább 1 kisbetűt tartalmazzon';
+    return 'A jelszónak legalább 1 kisbetűt tartalmaznia kell!';
   } else if (!RegExp(r'[0-9]').hasMatch(text)){
-    return 'Legalább 1 számot tartalmazzon';
-  } else if (!_passwordsMatch) {
-    return 'A jelszavak nem egyeznek';
+    return 'A jelszónak legalább 1 számot tartalmaznia kell!';
+  } 
+  /*else if (!_isPasswordMatching) {
+    return 'A jelszavak nem egyeznek meg!';
+  }*/ else {
+    return null;
+  }
+}
+
+String? _emailValidator(String? value){
+  final text = _emailController.value.text;
+if (text.isEmpty){
+  return 'Az email cím üres!';
+  } else if (!RegExp(r"^[a-zA-z0-9.!#$°&'*+-/=?^_'{|}~]+@[a-zA-Z0-9]+\.[a-zA-z]+").hasMatch('value')){
+    return 'Az email cím érvénytelen!';
   } else {
     return null;
   }
 }
 
+String? _passwordConfirmValidator(String? value){
+  final text = _passwordConfirmController.value.text;
+    if (text != _passwordController.value.text) {
+      return 'A jelszavak nem egyeznek meg!';
+    } else {
+      return null;
+    }
+  }
+  */
+
+
   void _submit(){
-    if(_errorText == null && widget.onSubmit != null){
+    if(_passwordValidator == null && widget.onSubmit != null){
         widget.onSubmit!(_passwordController.value.text);
       }
     }
@@ -139,18 +166,10 @@ class _SignUpState extends State<SignUp> {
   Widget _emailAddressWidget() {
     return Container(
       margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
-      child: TextField(
+      child: TextFormField(
+        validator: _emailValidator,
         focusNode: _emailFocusNode,
         controller: _emailController,
-        validator: (value) {
-          if (value == null || value.isEmpty){
-        return 'Kérjük, adja meg az e-mail címét';
-          }
-          bool emailValid = RegExp(r"^[a-zA-z0-9.!#$°&'*+-/=?^_'{|}~]+@[a-zA-Z0-9]+\.[a-zA-z]+").hasMatch('value');
-          if (!emailValid){
-            return 'Kérjük, adjon meg egy érvényes e-mail címet';
-          }
-        },
         keyboardType: TextInputType.emailAddress,
         style: const TextStyle(
           color: Colors.white,
@@ -199,7 +218,6 @@ class _SignUpState extends State<SignUp> {
     return Container(
           margin: const EdgeInsets.all(10.0),
           child: TextField(
-            onChanged: (passwordtext) => setState(() => passwordtext),
             focusNode: _passwordFocusNode,
             controller: _passwordController,
             obscureText: _isPasswordVisible,
@@ -223,7 +241,7 @@ class _SignUpState extends State<SignUp> {
               hintText: _isPasswordFocused ? null : "Jelszó",
               labelText: _isPasswordFocused ? "Jelszó" : null,
               helperText: "Legalább 8 karakter, 1 kisbetű,\n1 nagybetű, és 1 szám.",
-              errorText: _errorText,
+              //errorText: _passwordValidator,
               focusedBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(
                   color: Colors.deepPurpleAccent,
@@ -283,7 +301,7 @@ class _SignUpState extends State<SignUp> {
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           labelText: _isPasswordConfirmFocused ? "Jelszó újra" : null,
           hintText: _isPasswordConfirmFocused ? null : "Jelszó újra",
-          errorText: _passwordsMatch ? null : "A jelszavak nem egyeznek",
+          errorText: _isPasswordMatching ? null : "A jelszavak nem egyeznek",
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
               color: Colors.deepPurpleAccent,
@@ -325,14 +343,17 @@ class _SignUpState extends State<SignUp> {
                 elevation: 5,
               ),
               onPressed: () async {
-                _passwordController.value.text.isNotEmpty ? _submit : null;
-                
+                //_passwordController.value.text.isNotEmpty ? _submit : null;
+                /*if (_formKey.currentState!.validate()) {
+                  
+                }*/
+
                 await AuthService().register(
                     email: _emailController,
                     password: _passwordController,
                     context: context);
-              },
-              child: Text(
+                },
+              child: Text(                                                                                                                                                              //gg ez
                 "Regisztrálás",
                 style: TextStyle(
                   fontSize: 20 * MediaQuery.of(context).textScaler.scale(1.0),
