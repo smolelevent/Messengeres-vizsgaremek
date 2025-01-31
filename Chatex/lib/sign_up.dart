@@ -16,8 +16,9 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordConfirmController = TextEditingController();
-  
+  final TextEditingController _passwordConfirmController =
+      TextEditingController();
+
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
   final FocusNode _passwordConfirmFocusNode = FocusNode();
@@ -25,12 +26,21 @@ class _SignUpState extends State<SignUp> {
   bool _isEmailFocused = false;
   bool _isPasswordFocused = false;
   bool _isPasswordConfirmFocused = false;
-  
+
   bool _isPasswordVisible = true;
-  final bool _isPasswordMatching = true;
+  //final bool _isPasswordMatching = true;
 
+  final _formKey = GlobalKey<FormBuilderState>();
+  bool _isRegistrationDisabled = true;
 
-final _formKey = GlobalKey<FormBuilderState>();
+  void _checkRegistrationValidation() {
+    final isValid = _formKey.currentState?.isValid ?? false;
+    setState(() {
+      _isRegistrationDisabled = !isValid;
+    });
+  }
+
+  //void _registrationLogic() async {}
 
 /*
   final _formKey = GlobalKey<FormState>();
@@ -78,12 +88,11 @@ String? _passwordConfirmValidator(String? value){
   }
   */
 
-
-  void _submit(){
-    if(_passwordValidator == null && widget.onSubmit != null){
-        widget.onSubmit!(_passwordController.value.text);
-      }
-    }
+  // void _submit(){
+  //   if(_passwordValidator == null && widget.onSubmit != null){
+  //       widget.onSubmit!(_passwordController.value.text);
+  //     }
+  //   }
 
   @override
   void initState() {
@@ -126,48 +135,64 @@ String? _passwordConfirmValidator(String? value){
         backgroundColor: Colors.deepPurple[400],
         elevation: 5,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(
-            height: 25,
-          ),
-          Text(
-            'Regisztráció',
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1,
-              fontSize: 35,
+      body: FormBuilder(
+        key: _formKey,
+        onChanged: () {
+          _checkRegistrationValidation();
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 25,
             ),
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          _emailAddressWidget(),
-          const SizedBox(
-            height: 10,
-          ),
-          _passwordWidget(),
-          const SizedBox(
-            height: 10,
-          ),
-          _passwordConfirmWidget(),
-          const SizedBox(
-            height: 25,
-          ),
-          _signUpWidget(context),
-          _chatexWidget(),
-        ],
+            Text(
+              'Regisztráció',
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1,
+                fontSize: 35,
+              ),
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            _emailAddressWidget(),
+            const SizedBox(
+              height: 10,
+            ),
+            _passwordWidget(),
+            const SizedBox(
+              height: 10,
+            ),
+            _passwordConfirmWidget(),
+            const SizedBox(
+              height: 25,
+            ),
+            _signUpWidget(context),
+            _chatexWidget(),
+          ],
+        ),
       ),
     );
   }
-    
+
   Widget _emailAddressWidget() {
     return Container(
       margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
-      child: TextFormField(
-        validator: _emailValidator,
+      child: FormBuilderTextField(
+        name: "email",
+        validator: FormBuilderValidators.compose([
+          FormBuilderValidators.email(
+              regex: RegExp(
+                  r"^[a-zA-z0-9.!#$°&'*+-/=?^_'{|}~]+@[a-zA-Z0-9]+\.[a-zA-z]+",
+                  unicode: true),
+              errorText: "Az email cím érvénytelen!",
+              checkNullOrEmpty: false),
+          FormBuilderValidators.required(
+              errorText: "Az email cím nem lehet üres!"),
+        ]),
         focusNode: _emailFocusNode,
         controller: _emailController,
         keyboardType: TextInputType.emailAddress,
@@ -216,72 +241,108 @@ String? _passwordConfirmValidator(String? value){
 
   Widget _passwordWidget() {
     return Container(
-          margin: const EdgeInsets.all(10.0),
-          child: TextField(
-            focusNode: _passwordFocusNode,
-            controller: _passwordController,
-            obscureText: _isPasswordVisible,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 20.0,
+      margin: const EdgeInsets.all(10.0),
+      child: FormBuilderTextField(
+        name: "password",
+        focusNode: _passwordFocusNode,
+        controller: _passwordController,
+        obscureText: _isPasswordVisible,
+        validator: FormBuilderValidators.compose([
+          FormBuilderValidators.required(errorText: "A jelszó nem lehet üres!"),
+          FormBuilderValidators.minLength(8,
+              errorText: "A jelszó túl rövid! (min 8 karakter)",
+              checkNullOrEmpty: false),
+          FormBuilderValidators.maxLength(20,
+              errorText: "A jelszó túl hosszú! (max 20 karakter)",
+              checkNullOrEmpty: false),
+          FormBuilderValidators.hasUppercaseChars(
+              atLeast: 1,
+              regex: RegExp(r'\p{Lu}', unicode: true),
+              errorText: "A jelszónak legalább 1 nagybetűt tartalmaznia kell!",
+              checkNullOrEmpty: false),
+          FormBuilderValidators.hasLowercaseChars(
+              atLeast: 1,
+              regex: RegExp(r'\p{Ll}', unicode: true),
+              errorText: "A jelszónak legalább 1 kisbetűt tartalmaznia kell!",
+              checkNullOrEmpty: false),
+          FormBuilderValidators.hasNumericChars(
+              atLeast: 1,
+              regex: RegExp(r'[0-9]', unicode: true),
+              errorText: "A jelszónak legalább 1 számot tartalmaznia kell!",
+              checkNullOrEmpty: false),
+        ]),
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 20.0,
+        ),
+        decoration: InputDecoration(
+          suffixIcon: IconButton(
+            icon: Icon(
+              _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
             ),
-            decoration: InputDecoration(
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _isPasswordVisible = !_isPasswordVisible;
-                  });
-                },
-              ),
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              hintText: _isPasswordFocused ? null : "Jelszó",
-              labelText: _isPasswordFocused ? "Jelszó" : null,
-              helperText: "Legalább 8 karakter, 1 kisbetű,\n1 nagybetű, és 1 szám.",
-              //errorText: _passwordValidator,
-              focusedBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.deepPurpleAccent,
-                  width: 2.5,
-                ),
-              ),
-              enabledBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.white,
-                  width: 2.5,
-                ),
-              ),
-              hintStyle: TextStyle(
-                color: Colors.grey[600],
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0,
-              ),
-              helperStyle: TextStyle(
-                color: Colors.white,
-                fontSize: 15.0,
-                letterSpacing: 1.0,
-              ),
-              labelStyle: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                letterSpacing: 1.0,
-              ),
+            onPressed: () {
+              setState(() {
+                _isPasswordVisible = !_isPasswordVisible;
+              });
+            },
+          ),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          hintText: _isPasswordFocused ? null : "Jelszó",
+          labelText: _isPasswordFocused ? "Jelszó" : null,
+          helperText: "Legalább 8 karakter, 1 kisbetű,\n1 nagybetű, és 1 szám.",
+          focusedBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.deepPurpleAccent,
+              width: 2.5,
             ),
           ),
-        );
-      }
+          enabledBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white,
+              width: 2.5,
+            ),
+          ),
+          hintStyle: TextStyle(
+            color: Colors.grey[600],
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.bold,
+            fontSize: 20.0,
+          ),
+          helperStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 15.0,
+            letterSpacing: 1.0,
+          ),
+          labelStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+            letterSpacing: 1.0,
+          ),
+        ),
+      ),
+    );
+  }
 
   Widget _passwordConfirmWidget() {
     return Container(
       margin: const EdgeInsets.all(10.0),
-      child: TextField(
+      child: FormBuilderTextField(
+        name: "passwordConfirm",
         focusNode: _passwordConfirmFocusNode,
         controller: _passwordConfirmController,
         obscureText: _isPasswordVisible,
+        validator: FormBuilderValidators.compose([
+          FormBuilderValidators.required(
+              errorText: "A mezőnek meg kell egyeznie a jelszó mezővel!"),
+          //FormBuilderValidators.equal(_passwordController.text, errorText: "A jelszavak nem egyeznek meg!", checkNullOrEmpty: false),
+          // (value) {
+          //           if (value != _formKey.currentState?.fields['password']?.value) {
+          //             return 'A jelszavak nem egyeznek meg!';
+          //           }
+          //           return null;
+          // }
+        ]),
         style: const TextStyle(
           color: Colors.white,
           fontSize: 20.0,
@@ -301,7 +362,7 @@ String? _passwordConfirmValidator(String? value){
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           labelText: _isPasswordConfirmFocused ? "Jelszó újra" : null,
           hintText: _isPasswordConfirmFocused ? null : "Jelszó újra",
-          errorText: _isPasswordMatching ? null : "A jelszavak nem egyeznek",
+          //errorText: _isPasswordMatching ? null : "A jelszavak nem egyeznek",
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
               color: Colors.deepPurpleAccent,
@@ -343,17 +404,19 @@ String? _passwordConfirmValidator(String? value){
                 elevation: 5,
               ),
               onPressed: () async {
-                //_passwordController.value.text.isNotEmpty ? _submit : null;
-                /*if (_formKey.currentState!.validate()) {
-                  
-                }*/
+                //_isRegistrationDisabled ? null : _registrationLogic();
 
-                await AuthService().register(
-                    email: _emailController,
-                    password: _passwordController,
-                    context: context);
-                },
-              child: Text(                                                                                                                                                              //gg ez
+                if (!_isRegistrationDisabled) {
+                  //TODO: amint ezt beállítom akkor nem működik a validáció (de előtte se működik normálisan) deepseek
+                  if (_formKey.currentState!.saveAndValidate()) {
+                    await AuthService().register(
+                        email: _emailController,
+                        password: _passwordController,
+                        context: context);
+                  }
+                }
+              },
+              child: Text(
                 "Regisztrálás",
                 style: TextStyle(
                   fontSize: 20 * MediaQuery.of(context).textScaler.scale(1.0),
