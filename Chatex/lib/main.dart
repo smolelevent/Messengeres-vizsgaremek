@@ -278,7 +278,7 @@ class _LoginUIState extends State<LoginUI> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SignUp.withoutSubmit()));
+                                    builder: (context) => SignUp()));
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.deepPurpleAccent,

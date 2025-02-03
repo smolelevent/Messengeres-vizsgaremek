@@ -7,5 +7,7 @@
     "liveshare.launcherClient": "visualStudioCode",
     "liveshare.languages.allowGuestCommandControl": true,
     "liveshare.notebooks.allowGuestExecuteCells": true,
-    "liveshare.publishWorkspaceInfo": true
+    "liveshare.publishWorkspaceInfo": true,
+    "cmake.ignoreCMakeListsMissing": true,
+    "java.compile.nullAnalysis.mode": "automatic"
 }

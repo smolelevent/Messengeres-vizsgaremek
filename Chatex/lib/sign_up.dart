@@ -4,10 +4,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp({super.key, required this.onSubmit});
-  //saját konstruktor
-  const SignUp.withoutSubmit({super.key}) : onSubmit = null;
-  final ValueChanged<String>? onSubmit;
+  const SignUp({super.key});
 
   @override
   State<SignUp> createState() => _SignUpState();
@@ -27,72 +24,33 @@ class _SignUpState extends State<SignUp> {
   bool _isPasswordFocused = false;
   bool _isPasswordConfirmFocused = false;
 
-  bool _isPasswordVisible = true;
-  //final bool _isPasswordMatching = true;
+  bool _isPasswordNotVisible = true;
 
   final _formKey = GlobalKey<FormBuilderState>();
   bool _isRegistrationDisabled = true;
 
   void _checkRegistrationValidation() {
-    final isValid = _formKey.currentState?.isValid ?? false;
+    final isEmailValid =
+        _formKey.currentState?.fields['email']?.isValid ?? false;
+    final isPasswordValid =
+        _formKey.currentState?.fields['password']?.isValid ?? false;
+    final isPasswordConfirmValid =
+        _formKey.currentState?.fields['passwordConfirm']?.isValid ?? false;
     setState(() {
-      _isRegistrationDisabled = !isValid;
+      _isRegistrationDisabled =
+          !(isEmailValid && isPasswordValid && isPasswordConfirmValid);
     });
   }
 
-  //void _registrationLogic() async {}
-
-/*
-  final _formKey = GlobalKey<FormState>();
-
-  String? _passwordValidator(String? value) {
-  final text = _passwordController.value.text;
-  if (text.isEmpty){
-    return null;
-  } else if (text.length < 8) {
-    return 'A jelszó túl rövid! (min 8 karakter)';
-  } else if (text.length > 20){
-    return 'A jelszó túl hosszú! (max 20 karakter)';
-  } else if (!RegExp(r'\p{Lu}', unicode: true).hasMatch(text)){
-    return 'A jelszónak legalább 1 nagybetűt tartalmaznia kell!';
-  } else if (!RegExp(r'\p{Ll}', unicode: true).hasMatch(text)){
-    return 'A jelszónak legalább 1 kisbetűt tartalmaznia kell!';
-  } else if (!RegExp(r'[0-9]').hasMatch(text)){
-    return 'A jelszónak legalább 1 számot tartalmaznia kell!';
-  } 
-  /*else if (!_isPasswordMatching) {
-    return 'A jelszavak nem egyeznek meg!';
-  }*/ else {
-    return null;
-  }
-}
-
-String? _emailValidator(String? value){
-  final text = _emailController.value.text;
-if (text.isEmpty){
-  return 'Az email cím üres!';
-  } else if (!RegExp(r"^[a-zA-z0-9.!#$°&'*+-/=?^_'{|}~]+@[a-zA-Z0-9]+\.[a-zA-z]+").hasMatch('value')){
-    return 'Az email cím érvénytelen!';
-  } else {
-    return null;
-  }
-}
-
-String? _passwordConfirmValidator(String? value){
-  final text = _passwordConfirmController.value.text;
-    if (text != _passwordController.value.text) {
-      return 'A jelszavak nem egyeznek meg!';
-    } else {
-      return null;
+  void _validateActiveField() {
+    if (_emailFocusNode.hasFocus) {
+      _formKey.currentState?.fields['email']?.validate();
+    } else if (_passwordFocusNode.hasFocus) {
+      _formKey.currentState?.fields['password']?.validate();
+    } else if (_passwordConfirmFocusNode.hasFocus) {
+      _formKey.currentState?.fields['passwordConfirm']?.validate();
     }
   }
-  */
-
-  // void _submit(){
-  //   if(_passwordValidator == null && widget.onSubmit != null){
-  //       widget.onSubmit!(_passwordController.value.text);
-  //     }
-  //   }
 
   @override
   void initState() {
@@ -138,6 +96,7 @@ String? _passwordConfirmValidator(String? value){
       body: FormBuilder(
         key: _formKey,
         onChanged: () {
+          _validateActiveField();
           _checkRegistrationValidation();
         },
         child: Column(
@@ -183,6 +142,7 @@ String? _passwordConfirmValidator(String? value){
       margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
       child: FormBuilderTextField(
         name: "email",
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.email(
               regex: RegExp(
@@ -204,7 +164,7 @@ String? _passwordConfirmValidator(String? value){
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           hintText: _isEmailFocused ? null : "E-mail cím",
-          helperText: "Pl.: kugifej@gmail.com",
+          helperText: "pl: valaki@kiszolgalo.hu",
           labelText: _isEmailFocused ? "E-mail cím" : null,
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
@@ -244,9 +204,7 @@ String? _passwordConfirmValidator(String? value){
       margin: const EdgeInsets.all(10.0),
       child: FormBuilderTextField(
         name: "password",
-        focusNode: _passwordFocusNode,
-        controller: _passwordController,
-        obscureText: _isPasswordVisible,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.required(errorText: "A jelszó nem lehet üres!"),
           FormBuilderValidators.minLength(8,
@@ -271,6 +229,9 @@ String? _passwordConfirmValidator(String? value){
               errorText: "A jelszónak legalább 1 számot tartalmaznia kell!",
               checkNullOrEmpty: false),
         ]),
+        focusNode: _passwordFocusNode,
+        controller: _passwordController,
+        obscureText: _isPasswordNotVisible,
         style: const TextStyle(
           color: Colors.white,
           fontSize: 20.0,
@@ -278,11 +239,11 @@ String? _passwordConfirmValidator(String? value){
         decoration: InputDecoration(
           suffixIcon: IconButton(
             icon: Icon(
-              _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+              _isPasswordNotVisible ? Icons.visibility : Icons.visibility_off,
             ),
             onPressed: () {
               setState(() {
-                _isPasswordVisible = !_isPasswordVisible;
+                _isPasswordNotVisible = !_isPasswordNotVisible;
               });
             },
           ),
@@ -329,20 +290,17 @@ String? _passwordConfirmValidator(String? value){
       margin: const EdgeInsets.all(10.0),
       child: FormBuilderTextField(
         name: "passwordConfirm",
-        focusNode: _passwordConfirmFocusNode,
-        controller: _passwordConfirmController,
-        obscureText: _isPasswordVisible,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.required(
               errorText: "A mezőnek meg kell egyeznie a jelszó mezővel!"),
-          //FormBuilderValidators.equal(_passwordController.text, errorText: "A jelszavak nem egyeznek meg!", checkNullOrEmpty: false),
-          // (value) {
-          //           if (value != _formKey.currentState?.fields['password']?.value) {
-          //             return 'A jelszavak nem egyeznek meg!';
-          //           }
-          //           return null;
-          // }
+          FormBuilderValidators.equal(_passwordController.text,
+              errorText: "A jelszavak nem egyeznek meg!",
+              checkNullOrEmpty: false),
         ]),
+        focusNode: _passwordConfirmFocusNode,
+        controller: _passwordConfirmController,
+        obscureText: _isPasswordNotVisible,
         style: const TextStyle(
           color: Colors.white,
           fontSize: 20.0,
@@ -350,11 +308,11 @@ String? _passwordConfirmValidator(String? value){
         decoration: InputDecoration(
           suffixIcon: IconButton(
             icon: Icon(
-              _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+              _isPasswordNotVisible ? Icons.visibility : Icons.visibility_off,
             ),
             onPressed: () {
               setState(() {
-                _isPasswordVisible = !_isPasswordVisible;
+                _isPasswordNotVisible = !_isPasswordNotVisible;
               });
             },
           ),
@@ -362,7 +320,6 @@ String? _passwordConfirmValidator(String? value){
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           labelText: _isPasswordConfirmFocused ? "Jelszó újra" : null,
           hintText: _isPasswordConfirmFocused ? null : "Jelszó újra",
-          //errorText: _isPasswordMatching ? null : "A jelszavak nem egyeznek",
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
               color: Colors.deepPurpleAccent,
@@ -401,21 +358,21 @@ String? _passwordConfirmValidator(String? value){
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.deepPurpleAccent,
                 foregroundColor: Colors.white,
+                disabledBackgroundColor: Colors.grey[700],
+                disabledForegroundColor: Colors.white,
                 elevation: 5,
               ),
-              onPressed: () async {
-                //_isRegistrationDisabled ? null : _registrationLogic();
-
-                if (!_isRegistrationDisabled) {
-                  //TODO: amint ezt beállítom akkor nem működik a validáció (de előtte se működik normálisan) deepseek
-                  if (_formKey.currentState!.saveAndValidate()) {
-                    await AuthService().register(
-                        email: _emailController,
-                        password: _passwordController,
-                        context: context);
-                  }
-                }
-              },
+              onPressed: _isRegistrationDisabled
+                  ? null
+                  : () async {
+                      if (_formKey.currentState!.saveAndValidate()) {
+                        await AuthService().register(
+                          email: _emailController,
+                          password: _passwordController,
+                          context: context,
+                        );
+                      }
+                    },
               child: Text(
                 "Regisztrálás",
                 style: TextStyle(
@@ -466,3 +423,5 @@ String? _passwordConfirmValidator(String? value){
     );
   }
 }
+
+//TODO: tesztek írása, csökkenti a kód méretét
