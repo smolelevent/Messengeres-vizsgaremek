@@ -1,10 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:chatex/auth.dart';
 import 'package:chatex/forgot_password.dart';
 import 'package:chatex/sign_up.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fluttertoast/fluttertoast.dart'; //nem biztos hogy kell
 import 'firebase/firebase_options.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 
 GlobalKey<NavigatorState> flutterToastKey = GlobalKey<NavigatorState>();
 
@@ -27,11 +29,6 @@ class LoginUI extends StatefulWidget {
 }
 
 class _LoginUIState extends State<LoginUI> {
-  late FToast fToast;
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  bool passwordVisibile = true;
-
   InputDecorationTheme languageMenuStyle = InputDecorationTheme(
     labelStyle: TextStyle(
       color: Colors.grey[600],
@@ -67,72 +64,131 @@ class _LoginUIState extends State<LoginUI> {
     ),
   );
 
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
+
+  bool _isEmailFocused = false;
+  bool _isPasswordFocused = false;
+
+  bool _isPasswordNotVisible = true;
+
+  //late FToast fToastInstance; - majd ha nincs vagy van fiók akkor ezzel jelezzük
+
+//folyamatosan nézze hogy üres e a mező addig tiltsa a gombot, és amint jók az értékek gomb engedélyezve és kattintáskor nézze meg hogy van ilyen fiók
+  final _formKey = GlobalKey<FormBuilderState>();
+  bool _isLogInDisabled = true;
+
+  void _checkLogInFieldsValidation() {
+    final isEmailValid =
+        _formKey.currentState?.fields['email']?.isValid ?? false;
+    final isPasswordValid =
+        _formKey.currentState?.fields['password']?.isValid ?? false;
+    setState(() {
+      _isLogInDisabled = !(isEmailValid && isPasswordValid);
+    });
+  }
+
+  void _validateActiveField() {
+    if (_emailFocusNode.hasFocus) {
+      _formKey.currentState?.fields['email']?.validate();
+    } else if (_passwordFocusNode.hasFocus) {
+      _formKey.currentState?.fields['password']?.validate();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    fToast = FToast();
-    fToast.init(flutterToastKey.currentState!.context);
+    _emailFocusNode.addListener(() {
+      setState(() {
+        _isEmailFocused = _emailFocusNode.hasFocus;
+      });
+    });
+    _passwordFocusNode.addListener(() {
+      setState(() {
+        _isPasswordFocused = _passwordFocusNode.hasFocus;
+      });
+    });
+    // fToastInstance = FToast();
+    // fToastInstance.init(flutterToastKey.currentContext!);
   }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    super.dispose();
+  }
+
+  // fToastInstance.showToast(
+  //   child: Container(
+  //   padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+  //   decoration: BoxDecoration(
+  //     borderRadius: BorderRadius.circular(25.0),
+  //     color: Colors.greenAccent,
+  //   ),
+  //   child: Row(
+  //     mainAxisSize: MainAxisSize.min,
+  //     children: [
+  //       Icon(Icons.check),
+  //       SizedBox(
+  //         width: 12.0,
+  //       ),
+  //       Text("This is a Custom Toast"),
+  //     ],
+  //   ),
+  // ),
+  //   gravity: ToastGravity.BOTTOM,
+  //   toastDuration: Duration(seconds: 2),
+  // );
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        // íráskor nem jön fel az expanded widget
         backgroundColor: Colors.grey[850],
-        body: Column(
-          children: [
-            const SizedBox(
-              height: 30.0,
-            ),
-            _dropDownMenu(),
-            const CircleAvatar(
-              radius: 60,
-              backgroundImage: AssetImage("assets/logo_titkos.png"),
-            ),
-            //TODO: jobb logó
-            _emailAddressWidget(),
-            _passwordWidget(),
-            const SizedBox(
-              height: 10.0,
-            ),
-            _logInWidget(),
-            const SizedBox(
-              height: 5.0,
-            ),
-            _forgotPasswordWidget(),
-            _registrationWidget(),
-            _chatexWidget(),
-          ],
+        body: FormBuilder(
+          key: _formKey,
+          onChanged: () {
+            _validateActiveField();
+            _checkLogInFieldsValidation();
+          },
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 30.0,
+              ),
+              _dropDownMenu(),
+              const CircleAvatar(
+                radius: 60,
+                backgroundImage: AssetImage("assets/logo_titkos.png"),
+              ),
+              //TODO: jobb logó
+              _emailAddressWidget(),
+              _passwordWidget(),
+              const SizedBox(
+                height: 10.0,
+              ),
+              _logInWidget(),
+              const SizedBox(
+                height: 5.0,
+              ),
+              _forgotPasswordWidget(),
+              _registrationWidget(),
+              _chatexWidget(),
+            ],
+          ),
         ),
       ),
     );
   }
-
-  Widget _customToast() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25.0),
-        color: Colors.greenAccent,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.check),
-          SizedBox(
-            width: 12.0,
-          ),
-          Text("This is a Custom Toast"),
-        ],
-      ),
-    );
-  }
-
-  // Widget _showCustomToastMessage(){
-
-  // }
 
   Widget _dropDownMenu() {
     return Padding(
@@ -176,7 +232,20 @@ class _LoginUIState extends State<LoginUI> {
   Widget _emailAddressWidget() {
     return Container(
       margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
-      child: TextField(
+      child: FormBuilderTextField(
+        name: "email",
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: FormBuilderValidators.compose([
+          FormBuilderValidators.email(
+              regex: RegExp(
+                  r"^[a-zA-z0-9.!#$°&'*+-/=?^_'{|}~]+@[a-zA-Z0-9]+\.[a-zA-z]+",
+                  unicode: true),
+              errorText: "Az email cím érvénytelen!",
+              checkNullOrEmpty: false),
+          FormBuilderValidators.required(
+              errorText: "Az email cím nem lehet üres!"),
+        ]),
+        focusNode: _emailFocusNode,
         controller: _emailController,
         keyboardType: TextInputType.emailAddress,
         style: const TextStyle(
@@ -186,7 +255,8 @@ class _LoginUIState extends State<LoginUI> {
         decoration: InputDecoration(
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          hintText: "E-mail cím",
+          hintText: _isEmailFocused ? null : "E-mail cím",
+          labelText: _isEmailFocused ? "E-mail cím" : null,
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
               color: Colors.deepPurpleAccent,
@@ -204,6 +274,16 @@ class _LoginUIState extends State<LoginUI> {
             fontStyle: FontStyle.italic,
             fontWeight: FontWeight.bold,
             fontSize: 20.0,
+          ),
+          helperStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 15.0,
+            letterSpacing: 1.0,
+          ),
+          labelStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+            letterSpacing: 1.0,
           ),
         ),
       ),
@@ -213,9 +293,36 @@ class _LoginUIState extends State<LoginUI> {
   Widget _passwordWidget() {
     return Container(
       margin: const EdgeInsets.all(10.0),
-      child: TextField(
+      child: FormBuilderTextField(
+        name: "password",
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: FormBuilderValidators.compose([
+          FormBuilderValidators.required(errorText: "A jelszó nem lehet üres!"),
+          FormBuilderValidators.minLength(8,
+              errorText: "A jelszó túl rövid! (min 8 karakter)",
+              checkNullOrEmpty: false),
+          FormBuilderValidators.maxLength(20,
+              errorText: "A jelszó túl hosszú! (max 20 karakter)",
+              checkNullOrEmpty: false),
+          FormBuilderValidators.hasUppercaseChars(
+              atLeast: 1,
+              regex: RegExp(r'\p{Lu}', unicode: true),
+              errorText: "A jelszónak legalább 1 nagybetűt tartalmaznia kell!",
+              checkNullOrEmpty: false),
+          FormBuilderValidators.hasLowercaseChars(
+              atLeast: 1,
+              regex: RegExp(r'\p{Ll}', unicode: true),
+              errorText: "A jelszónak legalább 1 kisbetűt tartalmaznia kell!",
+              checkNullOrEmpty: false),
+          FormBuilderValidators.hasNumericChars(
+              atLeast: 1,
+              regex: RegExp(r'[0-9]', unicode: true),
+              errorText: "A jelszónak legalább 1 számot tartalmaznia kell!",
+              checkNullOrEmpty: false),
+        ]),
+        focusNode: _passwordFocusNode,
         controller: _passwordController,
-        obscureText: passwordVisibile,
+        obscureText: _isPasswordNotVisible,
         style: const TextStyle(
           color: Colors.white,
           fontSize: 20.0,
@@ -223,17 +330,18 @@ class _LoginUIState extends State<LoginUI> {
         decoration: InputDecoration(
           suffixIcon: IconButton(
             icon: Icon(
-              passwordVisibile ? Icons.visibility : Icons.visibility_off,
+              _isPasswordNotVisible ? Icons.visibility_off : Icons.visibility,
             ),
             onPressed: () {
               setState(() {
-                passwordVisibile = !passwordVisibile;
+                _isPasswordNotVisible = !_isPasswordNotVisible;
               });
             },
           ),
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          hintText: "Jelszó",
+          hintText: _isPasswordFocused ? null : "Jelszó",
+          labelText: _isPasswordFocused ? "Jelszó" : null,
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
               color: Colors.deepPurpleAccent,
@@ -251,6 +359,16 @@ class _LoginUIState extends State<LoginUI> {
             fontStyle: FontStyle.italic,
             fontWeight: FontWeight.bold,
             fontSize: 20.0,
+          ),
+          helperStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 15.0,
+            letterSpacing: 1.0,
+          ),
+          labelStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+            letterSpacing: 1.0,
           ),
         ),
       ),
@@ -264,30 +382,24 @@ class _LoginUIState extends State<LoginUI> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: ElevatedButton(
-              onPressed: () async {
-                if (_emailController.text.isEmpty ||
-                    _passwordController.text.isEmpty) {
-                  Fluttertoast.showToast(
-                    msg: "Email and password cannot be empty",
-                    toastLength: Toast.LENGTH_LONG,
-                    gravity: ToastGravity.BOTTOM,
-                    backgroundColor: Colors.black54,
-                    textColor: Colors.white,
-                    fontSize: 14.0,
-                  );
-                }
-                await AuthService().logIn(
-                  //TODO: saját methodokat az auth-ba
-                  email: _emailController,
-                  password: _passwordController,
-                  context: context,
-                );
-              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.deepPurpleAccent,
                 foregroundColor: Colors.white,
+                disabledBackgroundColor: Colors.grey[700],
+                disabledForegroundColor: Colors.white,
                 elevation: 5,
               ),
+              onPressed: _isLogInDisabled
+                  ? null
+                  : () async {
+                      if (_formKey.currentState!.saveAndValidate()) {
+                        await AuthService().logIn(
+                          email: _emailController,
+                          password: _passwordController,
+                          context: context,
+                        );
+                      }
+                    },
               child: Text(
                 "Bejelentkezés",
                 style: TextStyle(

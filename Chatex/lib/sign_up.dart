@@ -29,7 +29,7 @@ class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormBuilderState>();
   bool _isRegistrationDisabled = true;
 
-  void _checkRegistrationValidation() {
+  void _checkRegistrationFieldsValidation() {
     final isEmailValid =
         _formKey.currentState?.fields['email']?.isValid ?? false;
     final isPasswordValid =
@@ -84,54 +84,57 @@ class _SignUpState extends State<SignUp> {
     super.dispose();
   }
 
+//TODO: ha ki kattintunk a mezőből akkor jelenjenek meg az információk különben vizsgálja hogy az üres mezőt stb... - már deepseeken foglalkoztam vele
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.grey[850],
-      appBar: AppBar(
-        backgroundColor: Colors.deepPurple[400],
-        elevation: 5,
-      ),
-      body: FormBuilder(
-        key: _formKey,
-        onChanged: () {
-          _validateActiveField();
-          _checkRegistrationValidation();
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 25,
-            ),
-            Text(
-              'Regisztráció',
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1,
-                fontSize: 35,
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.grey[850],
+        appBar: AppBar(
+          backgroundColor: Colors.deepPurple[400],
+          elevation: 5,
+        ),
+        body: FormBuilder(
+          key: _formKey,
+          onChanged: () {
+            _validateActiveField();
+            _checkRegistrationFieldsValidation();
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(
+                height: 25,
               ),
-            ),
-            const SizedBox(
-              height: 25,
-            ),
-            _emailAddressWidget(),
-            const SizedBox(
-              height: 10,
-            ),
-            _passwordWidget(),
-            const SizedBox(
-              height: 10,
-            ),
-            _passwordConfirmWidget(),
-            const SizedBox(
-              height: 25,
-            ),
-            _signUpWidget(context),
-            _chatexWidget(),
-          ],
+              Text(
+                'Regisztráció',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
+                  fontSize: 35,
+                ),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              _emailAddressWidget(),
+              const SizedBox(
+                height: 10,
+              ),
+              _passwordWidget(),
+              const SizedBox(
+                height: 10,
+              ),
+              _passwordConfirmWidget(),
+              const SizedBox(
+                height: 25,
+              ),
+              _signUpWidget(context),
+              _chatexWidget(),
+            ],
+          ),
         ),
       ),
     );
@@ -239,7 +242,7 @@ class _SignUpState extends State<SignUp> {
         decoration: InputDecoration(
           suffixIcon: IconButton(
             icon: Icon(
-              _isPasswordNotVisible ? Icons.visibility : Icons.visibility_off,
+              _isPasswordNotVisible ? Icons.visibility_off : Icons.visibility,
             ),
             onPressed: () {
               setState(() {
@@ -308,7 +311,7 @@ class _SignUpState extends State<SignUp> {
         decoration: InputDecoration(
           suffixIcon: IconButton(
             icon: Icon(
-              _isPasswordNotVisible ? Icons.visibility : Icons.visibility_off,
+              _isPasswordNotVisible ? Icons.visibility_off : Icons.visibility,
             ),
             onPressed: () {
               setState(() {
@@ -424,4 +427,4 @@ class _SignUpState extends State<SignUp> {
   }
 }
 
-//TODO: tesztek írása, csökkenti a kód méretét
+//TODO: tesztek írása, csökkenteni a kód méretét

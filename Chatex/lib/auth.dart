@@ -8,6 +8,12 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late FToast fToast;
 
+// Future<bool> isEmailRegistered(String email) async {
+//   try {
+//     final SignInMethods = await _auth.fetchSignInMethodsForEmail(email);
+//   }
+// } //TODO: folyt köv
+
   Future<void> register(
       {required TextEditingController email,
       required TextEditingController password,
@@ -36,7 +42,7 @@ class AuthService {
           fontSize: 14.0,
         );
       } else {
-        //TODO: megnézni az összes hiba lehetőséget és le kezelni
+        //TODO: megnézni az összes hiba lehetőséget és le kezelni a doksin
         message = 'Hiba történt: $e';
         print(message);
       }
