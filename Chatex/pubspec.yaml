@@ -44,7 +44,7 @@ dependencies:
   auto_size_text: ^3.0.0
   flutter_form_builder: ^9.7.0
   form_builder_validators: ^11.1.1
-
+  pocketbase: ^0.21.0
 
 
 dev_dependencies:

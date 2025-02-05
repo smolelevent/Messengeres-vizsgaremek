@@ -6,13 +6,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  late FToast fToast;
+  late FToast fToast; //később
 
 // Future<bool> isEmailRegistered(String email) async {
 //   try {
 //     final SignInMethods = await _auth.fetchSignInMethodsForEmail(email);
 //   }
-// } //TODO: folyt köv
+// }
 
   Future<void> register(
       {required TextEditingController email,

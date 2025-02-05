@@ -202,6 +202,7 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
+//TODO: firebase docs, megnézni lehet e képeket stb.
   Widget _passwordWidget() {
     return Container(
       margin: const EdgeInsets.all(10.0),
