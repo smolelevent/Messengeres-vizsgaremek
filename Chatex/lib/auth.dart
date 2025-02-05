@@ -3,10 +3,12 @@ import 'package:chatex/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  late FToast fToast; //később
+  final FirebaseAuth _authInstance = FirebaseAuth.instance;
+  //final FirebaseFirestore _databaseInstance = FirebaseFirestore.instance;
+  late FToast fToastInstance;
 
 // Future<bool> isEmailRegistered(String email) async {
 //   try {
@@ -19,10 +21,28 @@ class AuthService {
       required TextEditingController password,
       required context}) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
+      // final QuerySnapshot result = await _databaseInstance
+      //     .collection('users')
+      //     .where('email', isEqualTo: email.text.trim())
+      //     .get();
+
+      // if (result.docs.isNotEmpty) {
+      //   print("van ilyen");
+      // }
+
+      await _authInstance.createUserWithEmailAndPassword(
         email: email.text.trim(),
         password: password.text.trim(),
       );
+
+      // await _databaseInstance
+      //     .collection('users')
+      //     .doc(_authInstance.currentUser?.uid)
+      //     .set({
+      //   'email': email.text.trim(),
+      //   'password': password.text.trim(),
+      //   'uid': _authInstance.currentUser!.uid,
+      // });
 
       Navigator.pushReplacement(
         context,
@@ -54,7 +74,7 @@ class AuthService {
       required TextEditingController password,
       required context}) async {
     try {
-      await _auth.signInWithEmailAndPassword(
+      await _authInstance.signInWithEmailAndPassword(
         email: email.text.trim(),
         password: password.text.trim(),
       );
@@ -89,7 +109,7 @@ class AuthService {
   }
 
   Future<void> logOut({required context}) async {
-    await _auth.signOut();
+    await _authInstance.signOut();
     await Future.delayed(const Duration(seconds: 1)); //kell loading
     if (context.mounted) {
       Navigator.pushReplacement(context,
