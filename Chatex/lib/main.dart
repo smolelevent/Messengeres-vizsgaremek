@@ -75,9 +75,7 @@ class _LoginUIState extends State<LoginUI> {
 
   bool _isPasswordNotVisible = true;
 
-  //late FToast fToastInstance; - majd ha nincs vagy van fiók akkor ezzel jelezzük
-
-//folyamatosan nézze hogy üres e a mező addig tiltsa a gombot, és amint jók az értékek gomb engedélyezve és kattintáskor nézze meg hogy van ilyen fiók
+//TODO: folyamatosan nézze hogy üres e a mező addig tiltsa a gombot, és amint jók az értékek gomb engedélyezve és kattintáskor nézze meg hogy van ilyen fiók
   final _formKey = GlobalKey<FormBuilderState>();
   bool _isLogInDisabled = true;
 
@@ -112,8 +110,6 @@ class _LoginUIState extends State<LoginUI> {
         _isPasswordFocused = _passwordFocusNode.hasFocus;
       });
     });
-    // fToastInstance = FToast();
-    // fToastInstance.init(flutterToastKey.currentContext!);
   }
 
   @override
@@ -125,28 +121,6 @@ class _LoginUIState extends State<LoginUI> {
     _passwordFocusNode.dispose();
     super.dispose();
   }
-
-  // fToastInstance.showToast(
-  //   child: Container(
-  //   padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-  //   decoration: BoxDecoration(
-  //     borderRadius: BorderRadius.circular(25.0),
-  //     color: Colors.greenAccent,
-  //   ),
-  //   child: Row(
-  //     mainAxisSize: MainAxisSize.min,
-  //     children: [
-  //       Icon(Icons.check),
-  //       SizedBox(
-  //         width: 12.0,
-  //       ),
-  //       Text("This is a Custom Toast"),
-  //     ],
-  //   ),
-  // ),
-  //   gravity: ToastGravity.BOTTOM,
-  //   toastDuration: Duration(seconds: 2),
-  // );
 
   @override
   Widget build(BuildContext context) {
