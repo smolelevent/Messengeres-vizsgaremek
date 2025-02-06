@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:chatex/auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_fonts/google_fonts.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:google_fonts/google_fonts.dart';
 
 class ChatUI extends StatelessWidget {
   const ChatUI({super.key});

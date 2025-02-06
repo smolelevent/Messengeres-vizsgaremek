@@ -3,8 +3,8 @@ import 'package:chatex/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'dart:developer';
-import 'package:pocketbase/pocketbase.dart';
+import 'dart:developer'; //log
+//import 'package:pocketbase/pocketbase.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -53,42 +53,39 @@ class ToastMessages {
 class AuthService {
   final FirebaseAuth _authInstance = FirebaseAuth.instance;
   final ToastMessages _toastMessagesInstance = ToastMessages();
-  final pb = PocketBase('http://127.0.0.1:8090');
+  //final pb = PocketBase('http://127.0.0.1:8090');
+  // final body = <String, dynamic>{
+  //   "email": email.text,
+  //   "password": password.text,
+  //   "passwordConfirm": password.text,
+  // };
 
-  Future<void> syncUserWithPocketBase() async {}
+  // User? firebaseUser = FirebaseAuth.instance.currentUser;
+  // if (firebaseUser == null) return;
+
+  // final url =
+  //     Uri.parse("http://127.0.0.1:8090/api/collections/felhasznalok/records");
+
+  // final response = await http.post(
+  //   url,
+  //   headers: {"Content-Type": "application/json"},
+  //   body: jsonEncode({
+  //     "firebase_uid": firebaseUser.uid,
+  //     "email": firebaseUser.email,
+  //     "name": firebaseUser.displayName ?? "Névtelen",
+  //   }),
+  // );
+
+  // if (response.statusCode == 200 || response.statusCode == 201) {
+  //   print("Felhasználó sikeresen mentve PocketBase-be!");
+  // } else {
+  //   print("Hiba történt: ${response.body}");
+  // }
 
   Future<void> register(
       {required TextEditingController email,
       required TextEditingController password,
       required context}) async {
-    final body = <String, dynamic>{
-      "email": email.text,
-      "password": password.text,
-      "passwordConfirm": password.text,
-    };
-
-    // User? firebaseUser = FirebaseAuth.instance.currentUser;
-    // if (firebaseUser == null) return;
-
-    // final url =
-    //     Uri.parse("http://127.0.0.1:8090/api/collections/felhasznalok/records");
-
-    // final response = await http.post(
-    //   url,
-    //   headers: {"Content-Type": "application/json"},
-    //   body: jsonEncode({
-    //     "firebase_uid": firebaseUser.uid,
-    //     "email": firebaseUser.email,
-    //     "name": firebaseUser.displayName ?? "Névtelen",
-    //   }),
-    // );
-
-    // if (response.statusCode == 200 || response.statusCode == 201) {
-    //   print("Felhasználó sikeresen mentve PocketBase-be!");
-    // } else {
-    //   print("Hiba történt: ${response.body}");
-    // }
-
     try {
       await _authInstance.createUserWithEmailAndPassword(
         email: email.text.trim(),
