@@ -11,20 +11,20 @@ class ChatUI extends StatelessWidget {
     return Placeholder();
   }
 
-  Widget _logout(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xff0D6EFD),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
-        ),
-        minimumSize: const Size(double.infinity, 60),
-        elevation: 0,
-      ),
-      onPressed: () async {
-        await AuthService().logOut(context: context);
-      },
-      child: const Text("Sign Out"),
-    );
-  }
+  // Widget _logout(BuildContext context) {
+  //   return ElevatedButton(
+  //     style: ElevatedButton.styleFrom(
+  //       backgroundColor: const Color(0xff0D6EFD),
+  //       shape: RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.circular(14),
+  //       ),
+  //       minimumSize: const Size(double.infinity, 60),
+  //       elevation: 0,
+  //     ),
+  //     onPressed: () async {
+  //       await AuthService().logOut(context: context);
+  //     },
+  //     child: const Text("Sign Out"),
+  //   );
+  // }
 }

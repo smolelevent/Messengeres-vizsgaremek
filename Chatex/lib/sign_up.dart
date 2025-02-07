@@ -11,15 +11,18 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _passwordConfirmController =
       TextEditingController();
 
+  final FocusNode _usernameFocusNode = FocusNode();
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
   final FocusNode _passwordConfirmFocusNode = FocusNode();
 
+  bool _isUsernameFocused = false;
   bool _isEmailFocused = false;
   bool _isPasswordFocused = false;
   bool _isPasswordConfirmFocused = false;
@@ -36,9 +39,13 @@ class _SignUpState extends State<SignUp> {
         _formKey.currentState?.fields['password']?.isValid ?? false;
     final isPasswordConfirmValid =
         _formKey.currentState?.fields['passwordConfirm']?.isValid ?? false;
+    final isUsernameValid =
+        _formKey.currentState?.fields['username']?.isValid ?? false;
     setState(() {
-      _isRegistrationDisabled =
-          !(isEmailValid && isPasswordValid && isPasswordConfirmValid);
+      _isRegistrationDisabled = !(isEmailValid &&
+          isPasswordValid &&
+          isPasswordConfirmValid &&
+          isUsernameValid);
     });
   }
 
@@ -49,12 +56,19 @@ class _SignUpState extends State<SignUp> {
       _formKey.currentState?.fields['password']?.validate();
     } else if (_passwordConfirmFocusNode.hasFocus) {
       _formKey.currentState?.fields['passwordConfirm']?.validate();
+    } else if (_usernameFocusNode.hasFocus) {
+      _formKey.currentState?.fields['username']?.validate();
     }
   }
 
   @override
   void initState() {
     super.initState();
+    _usernameFocusNode.addListener(() {
+      setState(() {
+        _isUsernameFocused = _usernameFocusNode.hasFocus;
+      });
+    });
     _emailFocusNode.addListener(() {
       setState(() {
         _isEmailFocused = _emailFocusNode.hasFocus;
@@ -74,10 +88,12 @@ class _SignUpState extends State<SignUp> {
 
   @override
   void dispose() {
+    _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _passwordConfirmController.dispose();
 
+    _usernameFocusNode.dispose();
     _emailFocusNode.dispose();
     _passwordFocusNode.dispose();
     _passwordConfirmFocusNode.dispose();
@@ -119,6 +135,10 @@ class _SignUpState extends State<SignUp> {
               const SizedBox(
                 height: 25,
               ),
+              _usernameWidget(),
+              const SizedBox(
+                height: 10,
+              ),
               _emailAddressWidget(),
               const SizedBox(
                 height: 10,
@@ -140,9 +160,75 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  Widget _emailAddressWidget() {
+  Widget _usernameWidget() {
     return Container(
       margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
+      child: FormBuilderTextField(
+        name: "username",
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: FormBuilderValidators.compose([
+          FormBuilderValidators.minLength(
+            3,
+            errorText: "A felhasználónév túl rövid! (min 3)",
+            checkNullOrEmpty: false,
+          ),
+          FormBuilderValidators.maxLength(
+            20,
+            errorText: "A felhasználónév túl hosszú! (max 20)",
+            checkNullOrEmpty: false,
+          ),
+          FormBuilderValidators.required(
+              errorText: "A felhasználónév nem lehet üres!"),
+        ]),
+        focusNode: _usernameFocusNode,
+        controller: _usernameController,
+        keyboardType: TextInputType.name,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 20.0,
+        ),
+        decoration: InputDecoration(
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          hintText: _isUsernameFocused ? null : "Felhasználónév",
+          //helperText: "pl: ",
+          labelText: _isUsernameFocused ? "Felhasználónév" : null,
+          focusedBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.deepPurpleAccent,
+              width: 2.5,
+            ),
+          ),
+          enabledBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white,
+              width: 2.5,
+            ),
+          ),
+          hintStyle: TextStyle(
+            color: Colors.grey[600],
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.bold,
+            fontSize: 20.0,
+          ),
+          helperStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 15.0,
+            letterSpacing: 1.0,
+          ),
+          labelStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+            letterSpacing: 1.0,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _emailAddressWidget() {
+    return Container(
+      margin: const EdgeInsets.all(10),
       child: FormBuilderTextField(
         name: "email",
         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -371,6 +457,7 @@ class _SignUpState extends State<SignUp> {
                   : () async {
                       if (_formKey.currentState!.saveAndValidate()) {
                         await AuthService().register(
+                          username: _usernameController,
                           email: _emailController,
                           password: _passwordController,
                           context: context,

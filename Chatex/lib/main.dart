@@ -367,11 +367,11 @@ class _LoginUIState extends State<LoginUI> {
                   ? null
                   : () async {
                       if (_formKey.currentState!.saveAndValidate()) {
-                        await AuthService().logIn(
-                          email: _emailController,
-                          password: _passwordController,
-                          context: context,
-                        );
+                        // await AuthService().logIn(
+                        //   email: _emailController,
+                        //   password: _passwordController,
+                        //   context: context,
+                        // );
                       }
                     },
               child: Text(

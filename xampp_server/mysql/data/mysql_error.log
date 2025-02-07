@@ -1,0 +1,54 @@
+2025-02-07  9:34:05 0 [Note] Starting MariaDB 10.4.32-MariaDB source revision c4143f909528e3fab0677a28631d10389354c491 as process 2580
+2025-02-07  9:34:05 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2025-02-07  9:34:05 0 [Note] InnoDB: Uses event mutexes
+2025-02-07  9:34:05 0 [Note] InnoDB: Compressed tables use zlib 1.3
+2025-02-07  9:34:05 0 [Note] InnoDB: Number of pools: 1
+2025-02-07  9:34:05 0 [Note] InnoDB: Using SSE2 crc32 instructions
+2025-02-07  9:34:05 0 [Note] InnoDB: Initializing buffer pool, total size = 16M, instances = 1, chunk size = 16M
+2025-02-07  9:34:05 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-02-07  9:34:05 0 [Note] InnoDB: Starting crash recovery from checkpoint LSN=300288
+2025-02-07  9:34:05 0 [Note] InnoDB: 128 out of 128 rollback segments are active.
+2025-02-07  9:34:05 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+2025-02-07  9:34:05 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-02-07  9:34:05 0 [Note] InnoDB: Setting file 'C:\Users\user\Desktop\vizsgahoz szukseges\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-02-07  9:34:05 0 [Note] InnoDB: File 'C:\Users\user\Desktop\vizsgahoz szukseges\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size is now 12 MB.
+2025-02-07  9:34:05 0 [Note] InnoDB: Waiting for purge to start
+2025-02-07  9:34:05 0 [Note] InnoDB: 10.4.32 started; log sequence number 300297; transaction id 170
+2025-02-07  9:34:05 0 [Note] InnoDB: Loading buffer pool(s) from C:\Users\user\Desktop\vizsgahoz szukseges\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-02-07  9:34:05 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-02-07  9:34:05 0 [Note] Server socket created on IP: '::'.
+22025-02-07 11:26:11 0 [Note] Starting MariaDB 10.4.32-MariaDB source revision c4143f909528e3fab0677a28631d10389354c491 as process 15016
+2025-02-07 11:26:11 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2025-02-07 11:26:11 0 [Note] InnoDB: Uses event mutexes
+2025-02-07 11:26:11 0 [Note] InnoDB: Compressed tables use zlib 1.3
+2025-02-07 11:26:11 0 [Note] InnoDB: Number of pools: 1
+2025-02-07 11:26:11 0 [Note] InnoDB: Using SSE2 crc32 instructions
+2025-02-07 11:26:11 0 [Note] InnoDB: Initializing buffer pool, total size = 16M, instances = 1, chunk size = 16M
+2025-02-07 11:26:11 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-02-07 11:26:11 0 [Note] InnoDB: Starting crash recovery from checkpoint LSN=692019
+2025-02-07 11:26:11 0 [Note] InnoDB: 128 out of 128 rollback segments are active.
+2025-02-07 11:26:11 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+2025-02-07 11:26:11 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-02-07 11:26:11 0 [Note] InnoDB: Setting file 'C:\Users\user\Desktop\vizsgahoz szukseges\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-02-07 11:26:11 0 [Note] InnoDB: File 'C:\Users\user\Desktop\vizsgahoz szukseges\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size is now 12 MB.
+2025-02-07 11:26:11 0 [Note] InnoDB: Waiting for purge to start
+2025-02-07 11:26:11 0 [Note] InnoDB: 10.4.32 started; log sequence number 692028; transaction id 477
+2025-02-07 11:26:11 0 [Note] InnoDB: Loading buffer pool(s) from C:\Users\user\Desktop\vizsgahoz szukseges\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-02-07 11:26:11 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-02-07 11:26:11 0 [Note] Server socket created on IP: '::'.
+2025-02-07 11:26:11 0 [Note] InnoDB: Buffer pool(s) load completed at 250207 11:26:11
+2025-02-07 11:26:11 0 [Note] Reading of all Master_info entries succeeded
+2025-02-07 11:26:11 0 [Note] Added new Master_info '' to hash table
+2025-02-07 11:26:11 0 [Note] C:\Users\user\Desktop\vizsgahoz szukseges\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: ready for connections.
+Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribution
+2025-02-07 11:53:34 0 [Note] C:\Users\user\Desktop\vizsgahoz szukseges\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe (initiated by: unknown): Normal shutdown
+2025-02-07 11:53:34 0 [Note] Event Scheduler: Purging the queue. 0 events
+2025-02-07 11:53:34 0 [Note] InnoDB: FTS optimize thread exiting.
+2025-02-07 11:53:34 0 [Note] InnoDB: Starting shutdown...
+2025-02-07 11:53:34 0 [Note] InnoDB: Dumping buffer pool(s) to C:\Users\user\Desktop\vizsgahoz szukseges\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-02-07 11:53:34 0 [Note] InnoDB: Instance 0, restricted to 250 pages due to innodb_buf_pool_dump_pct=25
+2025-02-07 11:53:34 0 [Note] InnoDB: Buffer pool(s) dump completed at 250207 11:53:34
+2025-02-07 11:53:35 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+2025-02-07 11:53:35 0 [Note] InnoDB: Shutdown completed; log sequence number 693116; transaction id 505
+2025-02-07 11:53:35 0 [Note] C:\Users\user\Desktop\vizsgahoz szukseges\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: Shutdown complete
+
