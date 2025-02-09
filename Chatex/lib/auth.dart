@@ -1,10 +1,9 @@
 import 'package:chatex/chat.dart';
 import 'package:chatex/main.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'dart:developer'; //log
-//import 'package:pocketbase/pocketbase.dart';
+import 'dart:developer'; //log miatt
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -54,38 +53,51 @@ class AuthService {
   //final FirebaseAuth _authInstance = FirebaseAuth.instance;
   final ToastMessages _toastMessagesInstance = ToastMessages();
 
-  final String serverUrl = "http://localhost/ChatexProject/chatex_phps";
+  // static const String serverUrl =
+  //     bool.fromEnvironment('dart.vm.product') // Éles build esetén
+  //         ? 'http://10.0.2.2' // Éles szerver
+  //         : 'http://10.0.2.2'; // Fejlesztési szerver (emulátor)
 
   Future<void> register(
       {required TextEditingController username,
       required TextEditingController email,
       required TextEditingController password,
       required context}) async {
+    final Uri registrationUrl =
+        Uri.parse('http://10.0.2.2/ChatexProject/chatex_phps/register.php');
     try {
-      var response = await http.post(
-        Uri.parse("$serverUrl/register.php"),
-        headers: {"Content-Type": "application/x-www-form-urlencoded"},
-        body: {
-          "username": username.text.trim(),
-          "email": email.text.trim(),
-          "password": password.text.trim(),
+      final response = await http.post(
+        registrationUrl,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
         },
+        body: jsonEncode(<String, String>{
+          'username': username.text.trim(),
+          'email': email.text.trim(),
+          'password': password.text.trim(),
+        }),
       );
 
-      var data = jsonDecode(response.body);
-      if (data["success"] == true) {
+      if (response.statusCode == 200) {
+        // Sikeres regisztráció
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (BuildContext context) => ChatUI()),
+          MaterialPageRoute(
+            builder: (BuildContext context) => ChatUI(),
+          ),
         );
       } else {
-        _toastMessagesInstance.showToastMessages(data["message"], 0.1);
+        // Hiba történt
+        _toastMessagesInstance.showToastMessages(
+            "Hiba kód: ${response.statusCode}", 0.1);
       }
     } catch (e) {
-      _toastMessagesInstance.showToastMessages("Hiba", 0.1);
+      // Kapcsolati hiba
+      _toastMessagesInstance.showToastMessages("Kapcsolati hiba!", 0.1);
       log(e.toString());
     }
   }
+}
 
   // Future<void> logIn(
   //     {required TextEditingController email,
@@ -142,7 +154,6 @@ class AuthService {
   //         MaterialPageRoute(builder: (BuildContext context) => LoginUI()));
   //   }
   // }
-}
 
 
 //TODO: KÓD MENTÉS

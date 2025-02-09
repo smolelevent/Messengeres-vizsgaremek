@@ -218,6 +218,6 @@ class __TwigTemplate_382693b8c775509eb26914352e3814cf extends Template
 
     public function getSourceContext()
     {
-        return new Source("", "header.twig", "C:\\xampp\\phpMyAdmin\\templates\\header.twig");
+        return new Source("", "header.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\header.twig");
     }
 }

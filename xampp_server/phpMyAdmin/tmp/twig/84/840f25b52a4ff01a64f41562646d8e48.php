@@ -126,6 +126,6 @@ yield _gettext("Bookmark this SQL query");
 
     public function getSourceContext()
     {
-        return new Source("", "sql/bookmark.twig", "C:\\xampp\\phpMyAdmin\\templates\\sql\\bookmark.twig");
+        return new Source("", "sql/bookmark.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\sql\\bookmark.twig");
     }
 }

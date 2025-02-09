@@ -1,0 +1,270 @@
+21:48:17  [main] 	Initializing Control Panel
+21:48:17  [main] 	Windows Version:  Enterprise  64-bit
+21:48:17  [main] 	XAMPP Version: 8.2.12
+21:48:17  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+21:48:17  [main] 	You are not running with administrator rights! This will work for
+21:48:17  [main] 	most application stuff but whenever you do something with services
+21:48:17  [main] 	there will be a security dialogue or things will break! So think 
+21:48:17  [main] 	about running this application with administrator rights!
+21:48:17  [main] 	XAMPP Installation Directory: "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+21:48:17  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+21:48:17  [main] 	Checking for prerequisites
+21:48:18  [main] 	All prerequisites found
+21:48:18  [main] 	Initializing Modules
+21:48:18  [Apache] 	Apache Service detected with wrong path
+21:48:18  [Apache] 	Change XAMPP Apache and Control Panel settings or
+21:48:18  [Apache] 	Uninstall/disable the other service manually first
+21:48:18  [Apache] 	Found Path: "C:\xampp\apache\bin\httpd.exe" -k runservice
+21:48:18  [Apache] 	Expected Path: "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\apache\bin\httpd.exe" -k runservice
+21:48:18  [mysql] 	MySQL Service detected with wrong path
+21:48:18  [mysql] 	Change XAMPP MySQL and Control Panel settings or
+21:48:18  [mysql] 	Uninstall/disable the other service manually first
+21:48:18  [mysql] 	Found Path: C:\xampp\mysql\bin\mysqld.exe --defaults-file=c:\xampp\mysql\bin\my.ini mysql
+21:48:18  [mysql] 	Expected Path: c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe --defaults-file=c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\my.ini mysql
+21:48:18  [main] 	The Mercury module is disabled
+21:48:18  [main] 	The Tomcat module is disabled
+21:48:18  [main] 	Enabling autostart for module "Apache"
+21:48:18  [main] 	Enabling autostart for module "MySQL"
+21:48:18  [main] 	Starting Check-Timer
+21:48:18  [main] 	Control Panel Ready
+21:48:18  [Apache] 	Autostart active: starting...
+21:48:18  [Apache] 	Attempting to start Apache service...
+21:48:19  [mysql] 	Autostart active: starting...
+21:48:19  [mysql] 	Attempting to start MySQL service...
+21:49:01  [Apache] 	Problem detected!
+21:49:01  [Apache] 	Port 80 in use by ""C:\xampp\apache\bin\httpd.exe" -k runservice" with PID 5504!
+21:49:01  [Apache] 	Apache WILL NOT start without the configured ports free!
+21:49:01  [Apache] 	You need to uninstall/disable/reconfigure the blocking application
+21:49:01  [Apache] 	or reconfigure Apache and the Control Panel to listen on a different port
+21:49:01  [Apache] 	Problem detected!
+21:49:01  [Apache] 	Port 443 in use by ""C:\xampp\apache\bin\httpd.exe" -k runservice" with PID 5504!
+21:49:01  [Apache] 	Apache WILL NOT start without the configured ports free!
+21:49:01  [Apache] 	You need to uninstall/disable/reconfigure the blocking application
+21:49:01  [Apache] 	or reconfigure Apache and the Control Panel to listen on a different port
+21:49:01  [Apache] 	Attempting to start Apache service...
+21:54:09  [Apache] 	Attempting to start Apache service...
+21:54:47  [Apache] 	Attempting to start Apache service...
+21:54:51  [mysql] 	Attempting to start MySQL service...
+21:55:02  [main] 	Deinitializing Modules
+21:55:02  [main] 	Deinitializing Control Panel
+
+22:12:19  [main] 	Initializing Control Panel
+22:12:19  [main] 	Windows Version:  Enterprise  64-bit
+22:12:19  [main] 	XAMPP Version: 8.2.12
+22:12:19  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+22:12:19  [main] 	Running with Administrator rights - good!
+22:12:19  [main] 	XAMPP Installation Directory: "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+22:12:19  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+22:12:19  [main] 	Checking for prerequisites
+22:12:19  [main] 	All prerequisites found
+22:12:19  [main] 	Initializing Modules
+22:12:19  [main] 	The Mercury module is disabled
+22:12:19  [main] 	The Tomcat module is disabled
+22:12:19  [main] 	Enabling autostart for module "Apache"
+22:12:19  [main] 	Enabling autostart for module "MySQL"
+22:12:19  [main] 	Starting Check-Timer
+22:12:19  [main] 	Control Panel Ready
+22:12:19  [Apache] 	Autostart active: starting...
+22:12:19  [Apache] 	Attempting to start Apache service...
+22:12:20  [mysql] 	Autostart active: starting...
+22:12:20  [mysql] 	Attempting to start MySQL service...
+22:12:20  [mysql] 	Status change detected: running
+22:12:25  [mysql] 	Status change detected: stopped
+22:12:25  [mysql] 	Error: MySQL shutdown unexpectedly.
+22:12:25  [mysql] 	This may be due to a blocked port, missing dependencies, 
+22:12:25  [mysql] 	improper privileges, a crash, or a shutdown by another method.
+22:12:25  [mysql] 	Press the Logs button to view error logs and check
+22:12:25  [mysql] 	the Windows Event Viewer for more clues
+22:12:25  [mysql] 	If you need more help, copy and post this
+22:12:25  [mysql] 	entire log window on the forums
+22:12:27  [Apache] 	Attempting to start Apache service...
+22:13:01  [main] 	Deinitializing Modules
+22:13:01  [main] 	Deinitializing Control Panel
+
+22:10:09  [main] 	Initializing Control Panel
+22:10:09  [main] 	Windows Version:  Enterprise  64-bit
+22:10:09  [main] 	XAMPP Version: 8.2.12
+22:10:09  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+22:10:09  [main] 	Running with Administrator rights - good!
+22:10:09  [main] 	XAMPP Installation Directory: "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+22:10:09  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+22:10:09  [main] 	Checking for prerequisites
+22:10:09  [main] 	All prerequisites found
+22:10:09  [main] 	Initializing Modules
+22:10:10  [main] 	The Mercury module is disabled
+22:10:10  [main] 	The Tomcat module is disabled
+22:10:10  [main] 	Enabling autostart for module "Apache"
+22:10:10  [main] 	Enabling autostart for module "MySQL"
+22:10:10  [main] 	Starting Check-Timer
+22:10:10  [main] 	Control Panel Ready
+22:10:10  [Apache] 	Autostart active: starting...
+22:10:10  [Apache] 	Attempting to start Apache service...
+22:10:11  [mysql] 	Autostart active: starting...
+22:10:11  [mysql] 	Attempting to start MySQL service...
+22:10:12  [mysql] 	Status change detected: running
+22:10:16  [mysql] 	Status change detected: stopped
+22:10:16  [mysql] 	Error: MySQL shutdown unexpectedly.
+22:10:16  [mysql] 	This may be due to a blocked port, missing dependencies, 
+22:10:16  [mysql] 	improper privileges, a crash, or a shutdown by another method.
+22:10:16  [mysql] 	Press the Logs button to view error logs and check
+22:10:16  [mysql] 	the Windows Event Viewer for more clues
+22:10:16  [mysql] 	If you need more help, copy and post this
+22:10:16  [mysql] 	entire log window on the forums
+22:10:18  [Apache] 	Attempting to start Apache service...
+22:10:40  [main] 	Executing "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+22:12:20  [mysql] 	Status change detected: running
+22:12:25  [mysql] 	Status change detected: stopped
+22:12:25  [mysql] 	Error: MySQL shutdown unexpectedly.
+22:12:25  [mysql] 	This may be due to a blocked port, missing dependencies, 
+22:12:25  [mysql] 	improper privileges, a crash, or a shutdown by another method.
+22:12:25  [mysql] 	Press the Logs button to view error logs and check
+22:12:25  [mysql] 	the Windows Event Viewer for more clues
+22:12:25  [mysql] 	If you need more help, copy and post this
+22:12:25  [mysql] 	entire log window on the forums
+22:14:50  [main] 	Deinitializing Modules
+22:14:50  [main] 	Deinitializing Control Panel
+
+22:52:22  [main] 	Initializing Control Panel
+22:52:22  [main] 	Windows Version:  Enterprise  64-bit
+22:52:22  [main] 	XAMPP Version: 8.2.12
+22:52:22  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+22:52:22  [main] 	Running with Administrator rights - good!
+22:52:22  [main] 	XAMPP Installation Directory: "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+22:52:22  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+22:52:22  [main] 	Checking for prerequisites
+22:52:22  [main] 	All prerequisites found
+22:52:22  [main] 	Initializing Modules
+22:52:22  [main] 	The Mercury module is disabled
+22:52:22  [main] 	The Tomcat module is disabled
+22:52:22  [main] 	Enabling autostart for module "Apache"
+22:52:22  [main] 	Enabling autostart for module "MySQL"
+22:52:22  [main] 	Starting Check-Timer
+22:52:22  [main] 	Control Panel Ready
+22:52:23  [Apache] 	Autostart active: starting...
+22:52:23  [Apache] 	Attempting to start Apache service...
+22:52:23  [Apache] 	Status change detected: running
+22:52:23  [mysql] 	Autostart active: starting...
+22:52:23  [mysql] 	Attempting to start MySQL service...
+22:52:24  [mysql] 	Status change detected: running
+23:24:00  [main] 	Deinitializing Modules
+23:24:00  [main] 	Deinitializing Control Panel
+
+22:19:10  [main] 	Initializing Control Panel
+22:19:10  [main] 	Windows Version:  Enterprise  64-bit
+22:19:10  [main] 	XAMPP Version: 8.2.12
+22:19:10  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+22:19:10  [main] 	Running with Administrator rights - good!
+22:19:10  [main] 	XAMPP Installation Directory: "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+22:19:10  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+22:19:10  [main] 	Checking for prerequisites
+22:19:11  [main] 	All prerequisites found
+22:19:11  [main] 	Initializing Modules
+22:19:11  [main] 	The Mercury module is disabled
+22:19:11  [main] 	The Tomcat module is disabled
+22:19:11  [main] 	Enabling autostart for module "Apache"
+22:19:11  [main] 	Enabling autostart for module "MySQL"
+22:19:11  [main] 	Starting Check-Timer
+22:19:11  [main] 	Control Panel Ready
+22:19:11  [Apache] 	Autostart active: starting...
+22:19:11  [Apache] 	Attempting to start Apache service...
+22:19:12  [mysql] 	Autostart active: starting...
+22:19:12  [mysql] 	Attempting to start MySQL service...
+22:19:13  [mysql] 	Status change detected: running
+22:19:17  [mysql] 	Status change detected: stopped
+22:19:17  [mysql] 	Error: MySQL shutdown unexpectedly.
+22:19:17  [mysql] 	This may be due to a blocked port, missing dependencies, 
+22:19:17  [mysql] 	improper privileges, a crash, or a shutdown by another method.
+22:19:17  [mysql] 	Press the Logs button to view error logs and check
+22:19:17  [mysql] 	the Windows Event Viewer for more clues
+22:19:17  [mysql] 	If you need more help, copy and post this
+22:19:17  [mysql] 	entire log window on the forums
+22:22:32  [Apache] 	Attempting to start Apache service...
+22:23:24  [Apache] 	Attempting to start Apache service...
+22:23:25  [Apache] 	Attempting to start Apache service...
+22:23:26  [Apache] 	Attempting to start Apache service...
+22:23:26  [Apache] 	Attempting to start Apache service...
+22:23:27  [Apache] 	Attempting to start Apache service...
+22:23:27  [Apache] 	Attempting to start Apache service...
+22:23:27  [Apache] 	Attempting to start Apache service...
+22:23:59  [mysql] 	Attempting to start MySQL service...
+22:24:00  [mysql] 	Status change detected: running
+22:24:04  [mysql] 	Status change detected: stopped
+22:24:04  [mysql] 	Error: MySQL shutdown unexpectedly.
+22:24:04  [mysql] 	This may be due to a blocked port, missing dependencies, 
+22:24:04  [mysql] 	improper privileges, a crash, or a shutdown by another method.
+22:24:04  [mysql] 	Press the Logs button to view error logs and check
+22:24:04  [mysql] 	the Windows Event Viewer for more clues
+22:24:04  [mysql] 	If you need more help, copy and post this
+22:24:04  [mysql] 	entire log window on the forums
+22:24:07  [Apache] 	Attempting to start Apache service...
+22:24:39  [Apache] 	Attempting to start Apache service...
+22:25:03  [main] 	Executing "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+22:26:23  [Apache] 	Attempting to start Apache service...
+22:38:43  [mysql] 	Status change detected: running
+22:38:48  [mysql] 	Status change detected: stopped
+22:38:48  [mysql] 	Error: MySQL shutdown unexpectedly.
+22:38:48  [mysql] 	This may be due to a blocked port, missing dependencies, 
+22:38:48  [mysql] 	improper privileges, a crash, or a shutdown by another method.
+22:38:48  [mysql] 	Press the Logs button to view error logs and check
+22:38:48  [mysql] 	the Windows Event Viewer for more clues
+22:38:48  [mysql] 	If you need more help, copy and post this
+22:38:48  [mysql] 	entire log window on the forums
+22:40:46  [mysql] 	Status change detected: running
+22:40:51  [mysql] 	Status change detected: stopped
+22:40:51  [mysql] 	Error: MySQL shutdown unexpectedly.
+22:40:51  [mysql] 	This may be due to a blocked port, missing dependencies, 
+22:40:51  [mysql] 	improper privileges, a crash, or a shutdown by another method.
+22:40:51  [mysql] 	Press the Logs button to view error logs and check
+22:40:51  [mysql] 	the Windows Event Viewer for more clues
+22:40:51  [mysql] 	If you need more help, copy and post this
+22:40:51  [mysql] 	entire log window on the forums
+22:43:54  [mysql] 	Status change detected: running
+22:43:59  [mysql] 	Status change detected: stopped
+22:43:59  [mysql] 	Error: MySQL shutdown unexpectedly.
+22:43:59  [mysql] 	This may be due to a blocked port, missing dependencies, 
+22:43:59  [mysql] 	improper privileges, a crash, or a shutdown by another method.
+22:43:59  [mysql] 	Press the Logs button to view error logs and check
+22:43:59  [mysql] 	the Windows Event Viewer for more clues
+22:43:59  [mysql] 	If you need more help, copy and post this
+22:43:59  [mysql] 	entire log window on the forums
+22:52:23  [Apache] 	Status change detected: running
+22:52:24  [mysql] 	Status change detected: running
+23:24:00  [main] 	Deinitializing Modules
+23:24:00  [main] 	Deinitializing Control Panel
+
+15:07:14  [main] 	Initializing Control Panel
+15:07:14  [main] 	Windows Version:  Enterprise  64-bit
+15:07:14  [main] 	XAMPP Version: 8.2.12
+15:07:14  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+15:07:14  [main] 	Running with Administrator rights - good!
+15:07:14  [main] 	XAMPP Installation Directory: "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+15:07:14  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+15:07:14  [main] 	Checking for prerequisites
+15:07:14  [main] 	All prerequisites found
+15:07:14  [main] 	Initializing Modules
+15:07:14  [Apache] 	XAMPP Apache Service is already running on port 80
+15:07:14  [Apache] 	XAMPP Apache Service is already running on port 443
+15:07:14  [mysql] 	XAMPP MySQL Service is already running on port 3306
+15:07:14  [main] 	The Mercury module is disabled
+15:07:14  [main] 	The Tomcat module is disabled
+15:07:14  [main] 	Enabling autostart for module "Apache"
+15:07:14  [main] 	Enabling autostart for module "MySQL"
+15:07:14  [main] 	Starting Check-Timer
+15:07:14  [main] 	Control Panel Ready
+15:07:15  [Apache] 	Autostart aborted: Apache is already running
+15:07:15  [mysql] 	Autostart aborted: MySQL is already running
+17:15:20  [Apache] 	Attempting to stop Apache service...
+17:15:24  [Apache] 	Status change detected: stopped
+17:15:25  [Apache] 	Attempting to start Apache service...
+17:15:26  [Apache] 	Status change detected: running
+17:15:26  [mysql] 	Attempting to stop MySQL service...
+17:15:28  [mysql] 	Status change detected: stopped
+17:15:29  [mysql] 	Attempting to start MySQL service...
+17:15:29  [mysql] 	Status change detected: running
+23:42:21  [Apache] 	Attempting to stop Apache service...
+23:42:24  [mysql] 	Attempting to stop MySQL service...
+23:42:25  [Apache] 	Status change detected: stopped
+23:42:26  [mysql] 	Status change detected: stopped
+23:43:37  [main] 	Deinitializing Modules
+23:43:37  [main] 	Deinitializing Control Panel
+

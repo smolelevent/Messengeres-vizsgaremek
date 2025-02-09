@@ -10,4 +10,3 @@ try {
 } catch (PDOException $e) {
     die("Adatbázis hiba: " . $e->getMessage());
 }
-?>
