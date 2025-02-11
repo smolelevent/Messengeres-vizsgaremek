@@ -1,12 +1,10 @@
 import 'package:chatex/chat.dart';
 import 'package:chatex/main.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:developer'; //log miatt
-
+import 'dart:convert'; //json kódolás miatt
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class ToastMessages {
   FToast fToastInstance = FToast();
@@ -50,7 +48,6 @@ class ToastMessages {
 }
 
 class AuthService {
-  //final FirebaseAuth _authInstance = FirebaseAuth.instance;
   final ToastMessages _toastMessagesInstance = ToastMessages();
 
   // static const String serverUrl =
@@ -63,14 +60,11 @@ class AuthService {
       required TextEditingController email,
       required TextEditingController password,
       required context}) async {
-    final Uri registrationUrl =
-        Uri.parse('http://10.0.2.2/ChatexProject/chatex_phps/register.php');
     try {
+      final Uri registrationUrl =
+          Uri.parse('http://10.0.2.2/ChatexProject/chatex_phps/register.php');
       final response = await http.post(
         registrationUrl,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
         body: jsonEncode(<String, String>{
           'username': username.text.trim(),
           'email': email.text.trim(),
@@ -78,12 +72,12 @@ class AuthService {
         }),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         // Sikeres regisztráció
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (BuildContext context) => ChatUI(),
+            builder: (BuildContext context) => LoginUI(),
           ),
         );
       } else {
@@ -92,7 +86,7 @@ class AuthService {
             "Hiba kód: ${response.statusCode}", 0.1);
       }
     } catch (e) {
-      // Kapcsolati hiba
+      //TODO: 73 és 50 másodperc volt a hibakód kiíratása amikor nem ment a szerver és úgy próbált meg valaki regisztrálni
       _toastMessagesInstance.showToastMessages("Kapcsolati hiba!", 0.1);
       log(e.toString());
     }
