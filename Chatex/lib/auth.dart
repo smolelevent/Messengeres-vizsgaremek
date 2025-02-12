@@ -50,7 +50,7 @@ class ToastMessages {
 class AuthService {
   final ToastMessages _toastMessagesInstance = ToastMessages();
 
-  // static const String serverUrl =
+  // static const String serverUrl = //TODO: megoldani hogy rendes telefonon fusson
   //     bool.fromEnvironment('dart.vm.product') // Éles build esetén
   //         ? 'http://10.0.2.2' // Éles szerver
   //         : 'http://10.0.2.2'; // Fejlesztési szerver (emulátor)
@@ -74,12 +74,19 @@ class AuthService {
 
       if (response.statusCode == 201) {
         // Sikeres regisztráció
+        _toastMessagesInstance.showToastMessages("Sikeres regisztráció!", 0.1);
+        await Future.delayed(const Duration(seconds: 1));
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (BuildContext context) => LoginUI(),
           ),
         );
+      } else if (response.statusCode == 409) {
+        // Felhasználó már létezik
+        _toastMessagesInstance.showToastMessages(
+            "Ezzel az emailel már létezik felhasználó!",
+            0.1); //TODO: nem megfelelő logika mert megkéne nézni hogy tényleg vagy csak egy másik adattal
       } else {
         // Hiba történt
         _toastMessagesInstance.showToastMessages(
@@ -107,18 +114,19 @@ class AuthService {
         }),
       );
 
-      final data = jsonDecode(response.body);
+      //final data = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        String token = data["token"];
+        //String token = data["token"];
+        _toastMessagesInstance.showToastMessages(
+            "Sikeres bejelentkezés!", 0.2); //TODO: külön féle toastok
+        await Future.delayed(const Duration(seconds: 1));
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (BuildContext context) => ChatUI(),
           ),
         );
-        _toastMessagesInstance.showToastMessages(
-            "Sikeres bejelentkezés! Token: $token",
-            0.1); //token emailbe vagy valahogy elküldeni a felhasználónak idk
+        //TODO: token emailbe vagy valahogy elküldeni a felhasználónak idk nem tudom mit csinál
       } else {
         _toastMessagesInstance.showToastMessages(
             "Hiba kód: ${response.statusCode}", 0.1);

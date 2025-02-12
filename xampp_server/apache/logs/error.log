@@ -420,3 +420,40 @@
 [Wed Feb 12 11:57:42.567162 2025] [mpm_winnt:notice] [pid 12248:tid 412] AH00422: Parent: Received shutdown signal -- Shutting down the server.
 [Wed Feb 12 11:57:44.595607 2025] [mpm_winnt:notice] [pid 5712:tid 424] AH00364: Child: All worker threads have exited.
 [Wed Feb 12 11:57:44.642518 2025] [mpm_winnt:notice] [pid 12248:tid 412] AH00430: Parent: Child process 5712 exited successfully.
+[Wed Feb 12 20:23:44.775975 2025] [ssl:warn] [pid 13676:tid 352] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Feb 12 20:23:46.697596 2025] [ssl:warn] [pid 13676:tid 352] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Feb 12 20:23:46.727784 2025] [mpm_winnt:notice] [pid 13676:tid 352] AH00455: Apache/2.4.58 (Win64) OpenSSL/3.1.3 PHP/8.2.12 configured -- resuming normal operations
+[Wed Feb 12 20:23:46.727784 2025] [mpm_winnt:notice] [pid 13676:tid 352] AH00456: Apache Lounge VS17 Server built: Oct 18 2023 13:03:18
+[Wed Feb 12 20:23:46.727784 2025] [core:notice] [pid 13676:tid 352] AH00094: Command line: 'C:\\Users\\Levi\\Desktop\\szakmai\\dualis\\13.d\\git repok\\messengeres-vizsgaremek\\xampp_server\\apache\\bin\\httpd.exe -d C:/Users/Levi/Desktop/Szakmai/dualis/13.d/Git repok/Messengeres-vizsgaremek/xampp_server/apache'
+[Wed Feb 12 20:23:46.729825 2025] [mpm_winnt:notice] [pid 13676:tid 352] AH00418: Parent: Created child process 15864
+[Wed Feb 12 20:23:47.098888 2025] [ssl:warn] [pid 15864:tid 368] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Feb 12 20:23:47.147781 2025] [ssl:warn] [pid 15864:tid 368] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Feb 12 20:23:47.182917 2025] [mpm_winnt:notice] [pid 15864:tid 368] AH00354: Child: Starting 150 worker threads.
+[Wed Feb 12 20:56:53.922224 2025] [mpm_winnt:notice] [pid 13676:tid 352] AH00422: Parent: Received shutdown signal -- Shutting down the server.
+[Wed Feb 12 20:56:55.937648 2025] [mpm_winnt:notice] [pid 15864:tid 368] AH00364: Child: All worker threads have exited.
+[Wed Feb 12 20:56:55.985692 2025] [mpm_winnt:notice] [pid 13676:tid 352] AH00430: Parent: Child process 15864 exited successfully.
+[Wed Feb 12 21:00:29.119552 2025] [ssl:warn] [pid 3648:tid 356] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Feb 12 21:00:29.166415 2025] [ssl:warn] [pid 3648:tid 356] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Feb 12 21:00:29.683869 2025] [mpm_winnt:notice] [pid 3648:tid 356] AH00455: Apache/2.4.58 (Win64) OpenSSL/3.1.3 PHP/8.2.12 configured -- resuming normal operations
+[Wed Feb 12 21:00:29.683869 2025] [mpm_winnt:notice] [pid 3648:tid 356] AH00456: Apache Lounge VS17 Server built: Oct 18 2023 13:03:18
+[Wed Feb 12 21:00:29.683869 2025] [core:notice] [pid 3648:tid 356] AH00094: Command line: 'C:\\Users\\Levi\\Desktop\\szakmai\\dualis\\13.d\\git repok\\messengeres-vizsgaremek\\xampp_server\\apache\\bin\\httpd.exe -d C:/Users/Levi/Desktop/Szakmai/dualis/13.d/Git repok/Messengeres-vizsgaremek/xampp_server/apache'
+[Wed Feb 12 21:00:29.683869 2025] [mpm_winnt:notice] [pid 3648:tid 356] AH00418: Parent: Created child process 7144
+[Wed Feb 12 21:00:30.075966 2025] [ssl:warn] [pid 7144:tid 368] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Feb 12 21:00:30.123222 2025] [ssl:warn] [pid 7144:tid 368] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Feb 12 21:00:30.154465 2025] [mpm_winnt:notice] [pid 7144:tid 368] AH00354: Child: Starting 150 worker threads.
+[Wed Feb 12 21:20:21.935596 2025] [php:warn] [pid 7144:tid 1952] [client 127.0.0.1:52019] PHP Warning:  Undefined array key "id" in C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\htdocs\\ChatexProject\\chatex_phps\\login.php on line 50
+[Wed Feb 12 21:20:21.935596 2025] [php:warn] [pid 7144:tid 1952] [client 127.0.0.1:52019] PHP Warning:  Undefined array key "username" in C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\htdocs\\ChatexProject\\chatex_phps\\login.php on line 51
+[Wed Feb 12 21:41:25.715448 2025] [php:warn] [pid 7144:tid 1952] [client 127.0.0.1:53858] PHP Warning:  Undefined array key "id" in C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\htdocs\\ChatexProject\\chatex_phps\\login.php on line 50
+[Wed Feb 12 21:41:25.715448 2025] [php:warn] [pid 7144:tid 1952] [client 127.0.0.1:53858] PHP Warning:  Undefined array key "username" in C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\htdocs\\ChatexProject\\chatex_phps\\login.php on line 51
+[Wed Feb 12 21:42:37.652296 2025] [php:warn] [pid 7144:tid 1960] [client 127.0.0.1:53967] PHP Warning:  Undefined array key "id" in C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\htdocs\\ChatexProject\\chatex_phps\\login.php on line 50
+[Wed Feb 12 21:42:37.652795 2025] [php:warn] [pid 7144:tid 1960] [client 127.0.0.1:53967] PHP Warning:  Undefined array key "username" in C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\htdocs\\ChatexProject\\chatex_phps\\login.php on line 51
+[Wed Feb 12 21:42:47.663192 2025] [php:warn] [pid 7144:tid 1960] [client 127.0.0.1:53983] PHP Warning:  Undefined array key "id" in C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\htdocs\\ChatexProject\\chatex_phps\\login.php on line 50
+[Wed Feb 12 21:42:47.663192 2025] [php:warn] [pid 7144:tid 1960] [client 127.0.0.1:53983] PHP Warning:  Undefined array key "username" in C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\htdocs\\ChatexProject\\chatex_phps\\login.php on line 51
+[Wed Feb 12 21:43:53.162182 2025] [php:warn] [pid 7144:tid 1960] [client 127.0.0.1:54085] PHP Warning:  Undefined array key "id" in C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\htdocs\\ChatexProject\\chatex_phps\\login.php on line 50
+[Wed Feb 12 21:43:53.186192 2025] [php:warn] [pid 7144:tid 1960] [client 127.0.0.1:54085] PHP Warning:  Undefined array key "username" in C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\htdocs\\ChatexProject\\chatex_phps\\login.php on line 51
+[Wed Feb 12 21:44:33.845614 2025] [php:warn] [pid 7144:tid 1960] [client 127.0.0.1:54150] PHP Warning:  Undefined array key "id" in C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\htdocs\\ChatexProject\\chatex_phps\\login.php on line 50
+[Wed Feb 12 21:44:33.845614 2025] [php:warn] [pid 7144:tid 1960] [client 127.0.0.1:54150] PHP Warning:  Undefined array key "username" in C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\htdocs\\ChatexProject\\chatex_phps\\login.php on line 51
+[Wed Feb 12 21:47:44.923789 2025] [php:warn] [pid 7144:tid 1960] [client 127.0.0.1:54421] PHP Warning:  Undefined array key "username" in C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\htdocs\\ChatexProject\\chatex_phps\\login.php on line 50
+[Wed Feb 12 22:56:30.066001 2025] [mpm_winnt:notice] [pid 3648:tid 356] AH00422: Parent: Received shutdown signal -- Shutting down the server.
+[Wed Feb 12 22:56:32.095895 2025] [mpm_winnt:notice] [pid 7144:tid 368] AH00364: Child: All worker threads have exited.
+[Wed Feb 12 22:56:32.144572 2025] [mpm_winnt:notice] [pid 3648:tid 356] AH00430: Parent: Child process 7144 exited successfully.

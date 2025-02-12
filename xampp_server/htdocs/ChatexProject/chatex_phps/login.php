@@ -8,11 +8,10 @@ require_once 'db.php';
 require_once __DIR__ . '/vendor/autoload.php';
 
 use Firebase\JWT\JWT;
-//use Firebase\JWT\Key;
 
 $userData = json_decode(file_get_contents("php://input"), true);
 
-// Ellenőrizzük, hogy minden szükséges mező megvan-e
+//Ellenőrizzük, hogy minden szükséges mező megvan-e
 if (!isset($userData['email'], $userData['password'])) {
     http_response_code(400); // Hibás kérés
     echo json_encode(["message" => "Hiányzó adatok! Küldd el a email és password mezőket."]);
@@ -47,8 +46,8 @@ $expiration_time = $issued_at + (60 * 60 * 24); // 24 óra
 $payload = [
     "iat" => $issued_at,       // Token kiadás időpontja
     "exp" => $expiration_time, // Token lejárati időpontja
-    "sub" => $userData["id"],      // Felhasználó ID-ja
-    "username" => $userData["username"],
+    // "sub" => $userData["id"],      // Felhasználó ID-ja
+    // "username" => $userData["username"], //TODO: ez még problémás lehet hogy nem adjuk át a titkosított adatba
     "email" => $userData["email"]
 ];
 
