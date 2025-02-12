@@ -4,7 +4,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-require "db.php";
+require_once "db.php";
 
 //TODO: formátum stb. ellenőrzés mert ha pl.: szimuláljuk az adatokat tudjuk hol a hiba
 

@@ -1,20 +1,20 @@
-import 'package:flutter/material.dart';
 import 'package:chatex/auth.dart';
+import 'package:flutter/material.dart';
 import 'package:chatex/forgot_password.dart';
 import 'package:chatex/sign_up.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:fluttertoast/fluttertoast.dart'; //nem biztos hogy kell
-import 'firebase/firebase_options.dart';
+// import 'package:firebase_core/firebase_core.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+//import 'firebase/firebase_options.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 GlobalKey<NavigatorState> flutterToastKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  //WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
   runApp(MaterialApp(
     home: LoginUI(key: flutterToastKey),
     builder: FToastBuilder(),
@@ -29,41 +29,6 @@ class LoginUI extends StatefulWidget {
 }
 
 class _LoginUIState extends State<LoginUI> {
-  InputDecorationTheme languageMenuStyle = InputDecorationTheme(
-    labelStyle: TextStyle(
-      color: Colors.grey[600],
-      fontStyle: FontStyle.italic,
-      fontWeight: FontWeight.bold,
-      fontSize: 20.0,
-    ),
-    enabledBorder: const OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.deepPurpleAccent, width: 2.5),
-    ),
-  );
-
-  MenuStyle languageMenuOptionsStyle = const MenuStyle(
-    backgroundColor: WidgetStatePropertyAll(Colors.deepPurpleAccent),
-    elevation: WidgetStatePropertyAll(5),
-  );
-
-  ButtonStyle languageMenuEntryStyle = TextButton.styleFrom(
-    foregroundColor: Colors.white,
-    textStyle: const TextStyle(
-      fontSize: 15.0,
-      fontWeight: FontWeight.w500,
-      letterSpacing: 1,
-    ),
-  );
-
-  ButtonStyle forgotPasswordStyle = TextButton.styleFrom(
-    foregroundColor: Colors.white,
-    textStyle: const TextStyle(
-      fontSize: 15.0,
-      fontWeight: FontWeight.w500,
-      letterSpacing: 1,
-    ),
-  );
-
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -137,7 +102,7 @@ class _LoginUIState extends State<LoginUI> {
           child: Column(
             children: [
               const SizedBox(
-                height: 30.0,
+                height: 25.0,
               ),
               _dropDownMenu(),
               const CircleAvatar(
@@ -179,22 +144,56 @@ class _LoginUIState extends State<LoginUI> {
           Icons.arrow_drop_up,
           color: Colors.deepPurpleAccent,
         ),
-        inputDecorationTheme: languageMenuStyle,
-        menuStyle: languageMenuOptionsStyle,
+        inputDecorationTheme: InputDecorationTheme(
+          //label text stílusa
+          labelStyle: TextStyle(
+            color: Colors.grey[600],
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.bold,
+            fontSize: 20.0,
+          ),
+          enabledBorder: const OutlineInputBorder(
+            //állandó border
+            //TODO: nem tudom megoldani hogy alapból fehér legyen és ha bele kattintunk lila legyen
+            borderSide: BorderSide(color: Colors.deepPurpleAccent, width: 2.5),
+          ),
+        ),
         textStyle: const TextStyle(
+          //kiválasztott nyelv stílusa
           color: Colors.white,
           fontSize: 15.0,
           fontWeight: FontWeight.w500,
           letterSpacing: 1,
         ),
+        menuStyle: MenuStyle(
+          //választó rész
+          backgroundColor: WidgetStatePropertyAll(Colors.deepPurpleAccent),
+          elevation: WidgetStatePropertyAll(5),
+        ),
         dropdownMenuEntries: [
           DropdownMenuEntry(
-            style: languageMenuEntryStyle,
+            style: TextButton.styleFrom(
+              //választó részben lévő nyelv stílusa
+              foregroundColor: Colors.white,
+              textStyle: const TextStyle(
+                fontSize: 15.0,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 1,
+              ),
+            ),
             value: "magyar",
             label: "Magyar",
           ),
           DropdownMenuEntry(
-            style: languageMenuEntryStyle,
+            style: TextButton.styleFrom(
+              //választó részben lévő nyelv stílusa
+              foregroundColor: Colors.white,
+              textStyle: const TextStyle(
+                fontSize: 15.0,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 1,
+              ),
+            ),
             value: "english",
             label: "English",
           ),
@@ -223,21 +222,25 @@ class _LoginUIState extends State<LoginUI> {
         controller: _emailController,
         keyboardType: TextInputType.emailAddress,
         style: const TextStyle(
+          //szöveg stílusa
           color: Colors.white,
           fontSize: 20.0,
         ),
         decoration: InputDecoration(
+          //padding hozzáadása a mezőhöz
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           hintText: _isEmailFocused ? null : "E-mail cím",
           labelText: _isEmailFocused ? "E-mail cím" : null,
           focusedBorder: const UnderlineInputBorder(
+            //fókuszra lila lesz a mező alsó csíkja
             borderSide: BorderSide(
               color: Colors.deepPurpleAccent,
               width: 2.5,
             ),
           ),
           enabledBorder: const UnderlineInputBorder(
+            //állandó szín a mező alsó csíkjának
             borderSide: BorderSide(
               color: Colors.white,
               width: 2.5,
@@ -298,11 +301,13 @@ class _LoginUIState extends State<LoginUI> {
         controller: _passwordController,
         obscureText: _isPasswordNotVisible,
         style: const TextStyle(
+          //szöveg stílusa
           color: Colors.white,
           fontSize: 20.0,
         ),
         decoration: InputDecoration(
           suffixIcon: IconButton(
+            //szem ikon változása
             icon: Icon(
               _isPasswordNotVisible ? Icons.visibility_off : Icons.visibility,
             ),
@@ -367,11 +372,11 @@ class _LoginUIState extends State<LoginUI> {
                   ? null
                   : () async {
                       if (_formKey.currentState!.saveAndValidate()) {
-                        // await AuthService().logIn(
-                        //   email: _emailController,
-                        //   password: _passwordController,
-                        //   context: context,
-                        // );
+                        await AuthService().logIn(
+                          email: _emailController,
+                          password: _passwordController,
+                          context: context,
+                        );
                       }
                     },
               child: Text(
@@ -396,7 +401,14 @@ class _LoginUIState extends State<LoginUI> {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => ForgotPasswordPage()));
       },
-      style: forgotPasswordStyle,
+      style: TextButton.styleFrom(
+        foregroundColor: Colors.white,
+        textStyle: const TextStyle(
+          fontSize: 15.0,
+          fontWeight: FontWeight.w500,
+          letterSpacing: 1,
+        ),
+      ),
       child: const Text(
         "Elfelejtett jelszó",
       ),

@@ -1,5 +1,5 @@
-import 'package:chatex/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:chatex/auth.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
@@ -288,7 +288,6 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-//TODO: firebase docs, megnézni lehet e képeket stb.
   Widget _passwordWidget() {
     return Container(
       margin: const EdgeInsets.all(10.0),
