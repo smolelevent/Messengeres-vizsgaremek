@@ -6,16 +6,34 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 require_once "db.php";
 
-//TODO: formátum stb. ellenőrzés mert ha pl.: szimuláljuk az adatokat tudjuk hol a hiba
+//formátum stb. ellenőrzés mert ha pl.: szimuláljuk az adatokat tudjuk hol a hiba, jelszó visszaállító email küldése!
+
+function normalizeEmail($email)
+{
+    // Gmail esetén: a pontokat és a + utáni részt eltávolítjuk
+    if (strpos($email, '@gmail.com') !== false) {
+        $emailParts = explode('@', $email);
+        $localPart = str_replace('.', '', $emailParts[0]); // Pontok eltávolítása
+        $localPart = explode('+', $localPart)[0]; // + utáni rész eltávolítása
+        return $localPart . '@gmail.com';
+    }
+    return $email; // Más e-mail szolgáltatóknál nincs változás
+}
+
+// JSON adatok fogadása
+$userData = json_decode(file_get_contents("php://input"), true);
+
+if ($userData === null) {  // Ha a JSON hibás
+    echo json_encode(["message" => "Hibás JSON formátum!"]);
+    http_response_code(400);
+    exit();
+}
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405); // Metódus nem engedélyezett
     echo json_encode(["message" => "Helytelen HTTP metódus, csak POST engedélyezett."]);
     exit();
 }
-
-// JSON adatok fogadása
-$userData = json_decode(file_get_contents("php://input"), true);
 
 // Ellenőrizzük, hogy minden szükséges mező megvan-e
 if (!isset($userData['username'], $userData['email'], $userData['password'])) {
@@ -24,9 +42,11 @@ if (!isset($userData['username'], $userData['email'], $userData['password'])) {
     exit();
 }
 
+
+
 // Adatok kinyerése
 $username = trim($userData['username']);
-$email = trim($userData['email']);
+$email = normalizeEmail(trim($userData['email']));
 $password = trim($userData['password']);
 $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
@@ -46,10 +66,8 @@ $checkStmt->store_result();
 if ($checkStmt->num_rows > 0) {
     http_response_code(409); // Konfliktus
     echo json_encode(["message" => "Ez az email cím már foglalt."]);
-    $checkStmt->close();
     exit();
 }
-$checkStmt->close();
 
 // Felhasználó beszúrása az adatbázisba stmt = STATEMENT (állítás)
 $stmt = $conn->prepare("INSERT INTO users (username, email, password_hash, created_at) VALUES (?, ?, ?, NOW())");

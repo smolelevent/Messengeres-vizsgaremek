@@ -9,21 +9,22 @@ import 'package:http/http.dart' as http;
 class ToastMessages {
   FToast fToastInstance = FToast();
 
-  void showToastMessages(String message, double percentage) {
+  void showToastMessages(String message, double whereToPercentage,
+      Color bgcolor, IconData icon, Color iconcolor, Duration duration) {
     fToastInstance.init(flutterToastKey.currentContext!);
     fToastInstance.showToast(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25.0),
-          color: Colors.redAccent,
+          color: bgcolor,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              Icons.error,
-              color: Colors.black,
+              icon,
+              color: iconcolor,
             ),
             SizedBox(
               width: 12.0,
@@ -32,12 +33,11 @@ class ToastMessages {
           ],
         ),
       ),
-      //gravity: ToastGravity.BOTTOM,
-      toastDuration: Duration(seconds: 3),
+      toastDuration: duration,
       positionedToastBuilder: (context, child, gravity) {
         final screenHeight = MediaQuery.of(context).size.height;
         return Positioned(
-          bottom: screenHeight * percentage,
+          bottom: screenHeight * whereToPercentage,
           left: 0,
           right: 0,
           child: Center(child: child),
@@ -72,10 +72,17 @@ class AuthService {
         }),
       );
 
+      log(response.statusCode.toString());
       if (response.statusCode == 201) {
         // Sikeres regisztráció
-        _toastMessagesInstance.showToastMessages("Sikeres regisztráció!", 0.1);
-        await Future.delayed(const Duration(seconds: 1));
+        _toastMessagesInstance.showToastMessages(
+            "Sikeres regisztráció!",
+            0.1,
+            Colors.green,
+            Icons.check,
+            Colors.black,
+            const Duration(seconds: 2));
+        await Future.delayed(const Duration(seconds: 2));
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -83,22 +90,46 @@ class AuthService {
           ),
         );
       } else if (response.statusCode == 409) {
-        // Felhasználó már létezik
+        // Felhasználó már létezik, Conflict = hiba kód
         _toastMessagesInstance.showToastMessages(
+            //TODO: nem megfelelő logika mert megkéne nézni hogy tényleg vagy csak egy másik adattal
             "Ezzel az emailel már létezik felhasználó!",
-            0.1); //TODO: nem megfelelő logika mert megkéne nézni hogy tényleg vagy csak egy másik adattal
-      } else {
-        // Hiba történt
+            0.1,
+            Colors.redAccent,
+            Icons.error,
+            Colors.black,
+            const Duration(seconds: 2));
+      } else if (response.statusCode == 400) {
         _toastMessagesInstance.showToastMessages(
-            "Hiba kód: ${response.statusCode}", 0.1);
+            "Nem megfelelő kérés!",
+            0.1,
+            Colors.redAccent,
+            Icons.error,
+            Colors.black,
+            const Duration(seconds: 2));
+      } else {
+        _toastMessagesInstance.showToastMessages(
+            "Hiba kód: ${response.statusCode}",
+            0.1,
+            Colors.redAccent,
+            Icons.error,
+            Colors.black,
+            const Duration(seconds: 2));
       }
     } catch (e) {
       //TODO: 73 és 50 másodperc volt a hibakód kiíratása amikor nem ment a szerver és úgy próbált meg valaki regisztrálni
-      _toastMessagesInstance.showToastMessages("Kapcsolati hiba!", 0.1);
+      _toastMessagesInstance.showToastMessages(
+          "Kapcsolati hiba!",
+          0.1,
+          Colors.redAccent,
+          Icons.error,
+          Colors.black,
+          const Duration(seconds: 2));
       log(e.toString());
     }
   }
 
+//Login logika --------------------------------------------------------------
   Future<void> logIn(
       {required TextEditingController email,
       required TextEditingController password,
@@ -118,8 +149,13 @@ class AuthService {
       if (response.statusCode == 200) {
         //String token = data["token"];
         _toastMessagesInstance.showToastMessages(
-            "Sikeres bejelentkezés!", 0.2); //TODO: külön féle toastok
-        await Future.delayed(const Duration(seconds: 1));
+            "Sikeres bejelentkezés!",
+            0.2,
+            Colors.green,
+            Icons.check,
+            Colors.black,
+            const Duration(seconds: 2));
+        await Future.delayed(const Duration(seconds: 2));
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -127,12 +163,32 @@ class AuthService {
           ),
         );
         //TODO: token emailbe vagy valahogy elküldeni a felhasználónak idk nem tudom mit csinál
+      } else if (response.statusCode == 401) {
+        // nem megfelelő adatok
+        _toastMessagesInstance.showToastMessages(
+            "Hibás email vagy jelszó!",
+            0.2,
+            Colors.redAccent,
+            Icons.error,
+            Colors.black,
+            const Duration(seconds: 2));
       } else {
         _toastMessagesInstance.showToastMessages(
-            "Hiba kód: ${response.statusCode}", 0.1);
+            "Hiba kód: ${response.statusCode}",
+            0.2,
+            Colors.redAccent,
+            Icons.error,
+            Colors.black,
+            const Duration(seconds: 2));
       }
     } catch (e) {
-      _toastMessagesInstance.showToastMessages("Kapcsolati hiba!", 0.2);
+      _toastMessagesInstance.showToastMessages(
+          "Kapcsolati hiba!",
+          0.2,
+          Colors.redAccent,
+          Icons.error,
+          Colors.black,
+          const Duration(seconds: 2));
       log(e.toString());
     }
   }

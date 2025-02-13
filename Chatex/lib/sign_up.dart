@@ -191,7 +191,6 @@ class _SignUpState extends State<SignUp> {
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           hintText: _isUsernameFocused ? null : "Felhasználónév",
-          //helperText: "pl: ",
           labelText: _isUsernameFocused ? "Felhasználónév" : null,
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
@@ -235,7 +234,7 @@ class _SignUpState extends State<SignUp> {
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.email(
               regex: RegExp(
-                  r"^[a-zA-z0-9.!#$°&'*+-/=?^_'{|}~]+@[a-zA-Z0-9]+\.[a-zA-z]+",
+                  r"^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
                   unicode: true),
               errorText: "Az email cím érvénytelen!",
               checkNullOrEmpty: false),
@@ -340,7 +339,8 @@ class _SignUpState extends State<SignUp> {
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           hintText: _isPasswordFocused ? null : "Jelszó",
           labelText: _isPasswordFocused ? "Jelszó" : null,
-          helperText: "Legalább 8 karakter, 1 kisbetű,\n1 nagybetű, és 1 szám.",
+          helperText:
+              "Min. 8 karakter, Max. 20 karakter,\n1 kisbetű, 1 nagybetű, és 1 szám.",
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
               color: Colors.deepPurpleAccent,
