@@ -1,5 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -10,107 +11,230 @@ class ForgotPasswordPage extends StatefulWidget {
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final TextEditingController _emailController = TextEditingController();
+  final FocusNode _emailFocusNode = FocusNode();
+  bool _isEmailFocused = false;
 
-  Future passwordReset() async {
-    try {
-      await FirebaseAuth.instance
-          .sendPasswordResetEmail(email: _emailController.text.trim());
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text("Success"),
-              content: Text("Password reset email sent"),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text("OK"))
-              ],
-            );
-          });
-    } on FirebaseAuthException catch (e) {
-      print(e);
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text("Error"),
-              content: Text(e.message.toString()),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text("OK"))
-              ],
-            );
-          });
+  final _formKey = GlobalKey<FormBuilderState>();
+
+  bool _isPasswordResetButtonDisabled = true;
+
+  void _checkPasswordResetFieldValidation() {
+    final isEmailValid =
+        _formKey.currentState?.fields['email']?.isValid ?? false;
+    setState(() {
+      _isPasswordResetButtonDisabled = !(isEmailValid);
+    });
+  }
+
+  void _validateEmailAddressField() {
+    if (_emailFocusNode.hasFocus) {
+      _formKey.currentState?.fields['email']?.validate();
     }
   }
 
-  // @override
-  // void dispose() {
-  //   _emailController.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    _emailFocusNode.addListener(() {
+      setState(() {
+        _isEmailFocused = _emailFocusNode.hasFocus;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _emailFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.grey[850],
+    return SafeArea(
+      child: Scaffold(
         resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.grey[850],
         appBar: AppBar(
           backgroundColor: Colors.deepPurple[400],
           elevation: 5,
         ),
-        body: Column(
-          children: [
-            SizedBox(
-              height: 30.0,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: Text(
-                "Enter your email to reset your password",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                ),
+        body: FormBuilder(
+          key: _formKey,
+          onChanged: () {
+            _validateEmailAddressField();
+            _checkPasswordResetFieldValidation();
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 25.0,
               ),
-            ),
-            SizedBox(
-              height: 30.0,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: TextField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.deepPurpleAccent,
-                      width: 2.5,
-                    ),
-                    borderRadius: BorderRadius.circular(12),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  "A jelszó helyreállításához adja meg az email címét!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
                   ),
-                  hintText: 'Email',
-                  fillColor: Colors.grey[200],
-                  filled: true,
+                ),
+              ),
+              SizedBox(
+                height: 25.0,
+              ),
+              _emailAddressFieldWidget(),
+              _passwordResetButtonWidget(),
+              _chatexWidget(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _emailAddressFieldWidget() {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
+      child: FormBuilderTextField(
+        name: "email",
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: FormBuilderValidators.compose([
+          FormBuilderValidators.email(
+              regex: RegExp(
+                  r"^[a-zA-z0-9.!#$°&'*+-/=?^_'{|}~]+@[a-zA-Z0-9]+\.[a-zA-z]+",
+                  unicode: true),
+              errorText: "Az email cím érvénytelen!",
+              checkNullOrEmpty: false),
+          FormBuilderValidators.required(
+              errorText: "Az email cím nem lehet üres!"),
+        ]),
+        focusNode: _emailFocusNode,
+        controller: _emailController,
+        keyboardType: TextInputType.emailAddress,
+        style: const TextStyle(
+          //szöveg stílusa
+          color: Colors.white,
+          fontSize: 20.0,
+        ),
+        decoration: InputDecoration(
+          //padding hozzáadása a mezőhöz
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          hintText: _isEmailFocused ? null : "E-mail cím",
+          labelText: _isEmailFocused ? "E-mail cím" : null,
+          enabledBorder: const UnderlineInputBorder(
+            //állandó szín a mező alsó csíkjának
+            borderSide: BorderSide(
+              color: Colors.white,
+              width: 2.5,
+            ),
+          ),
+          focusedBorder: const UnderlineInputBorder(
+            //fókuszra lila lesz a mező alsó csíkja
+            borderSide: BorderSide(
+              color: Colors.deepPurpleAccent,
+              width: 2.5,
+            ),
+          ),
+          hintStyle: TextStyle(
+            color: Colors.grey[600],
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.bold,
+            fontSize: 20.0,
+          ),
+          helperStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 15.0,
+            letterSpacing: 1.0,
+          ),
+          labelStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+            letterSpacing: 1.0,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _passwordResetButtonWidget() {
+    return Expanded(
+      flex: 0,
+      child: Align(
+        alignment: Alignment.center,
+        child: Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 10.0,
+                  right: 10.0,
+                  bottom: 20.0,
+                ),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.deepPurpleAccent,
+                    foregroundColor: Colors.white,
+                    disabledBackgroundColor: Colors.grey[700],
+                    disabledForegroundColor: Colors.white,
+                    elevation: 5,
+                  ),
+                  onPressed: _isPasswordResetButtonDisabled
+                      ? null
+                      : () async {
+                          if (_formKey.currentState!.saveAndValidate()) {
+                            // await AuthService().
+                          }
+                        },
+                  child: Text(
+                    "Jelszó helyreállítása",
+                    style: TextStyle(
+                      fontSize:
+                          20 * MediaQuery.of(context).textScaler.scale(1.0),
+                      //minden eszközön elvileg ugyanakkora lesz (px helyett dp)
+                      height: 3.0,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1,
+                    ),
+                  ),
                 ),
               ),
             ),
-            SizedBox(
-              height: 30.0,
-            ),
-            MaterialButton(
-              onPressed: passwordReset,
-              color: Colors.deepPurple[200],
-              child: Text("Reset Password"),
-            )
           ],
-        ));
+        ),
+      ),
+    );
+  }
+
+  Widget _chatexWidget() {
+    return Expanded(
+      flex: 1,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 10),
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              RichText(
+                //TODO: hát ha kell logo vagy valami
+                text: const TextSpan(
+                  text: "Chatex",
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1.0,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

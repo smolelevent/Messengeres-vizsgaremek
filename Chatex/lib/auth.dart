@@ -55,6 +55,7 @@ class AuthService {
   //         ? 'http://10.0.2.2' // Éles szerver
   //         : 'http://10.0.2.2'; // Fejlesztési szerver (emulátor)
 
+//register logika --------------------------------------------------------------
   Future<void> register(
       {required TextEditingController username,
       required TextEditingController email,
@@ -129,7 +130,7 @@ class AuthService {
     }
   }
 
-//Login logika --------------------------------------------------------------
+//logIn logika --------------------------------------------------------------
   Future<void> logIn(
       {required TextEditingController email,
       required TextEditingController password,
@@ -193,14 +194,14 @@ class AuthService {
     }
   }
 
-  // Future<void> logOut({required context}) async {
-  //   await _authInstance.signOut();
-  //   await Future.delayed(const Duration(seconds: 1)); //TODO: kell loading
-  //   if (context.mounted) {
-  //     Navigator.pushReplacement(context,
-  //         MaterialPageRoute(builder: (BuildContext context) => LoginUI()));
-  //   }
-  // }
+//logOut logika --------------------------------------------------------------
+  Future<void> logOut({required context}) async {
+    await Future.delayed(const Duration(seconds: 1)); //TODO: kell loading
+    if (context.mounted) {
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (BuildContext context) => LoginUI()));
+    }
+  }
 }
 
 

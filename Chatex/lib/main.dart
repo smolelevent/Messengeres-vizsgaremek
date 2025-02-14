@@ -232,17 +232,17 @@ class _LoginUIState extends State<LoginUI> {
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           hintText: _isEmailFocused ? null : "E-mail cím",
           labelText: _isEmailFocused ? "E-mail cím" : null,
-          focusedBorder: const UnderlineInputBorder(
-            //fókuszra lila lesz a mező alsó csíkja
-            borderSide: BorderSide(
-              color: Colors.deepPurpleAccent,
-              width: 2.5,
-            ),
-          ),
           enabledBorder: const UnderlineInputBorder(
             //állandó szín a mező alsó csíkjának
             borderSide: BorderSide(
               color: Colors.white,
+              width: 2.5,
+            ),
+          ),
+          focusedBorder: const UnderlineInputBorder(
+            //fókuszra lila lesz a mező alsó csíkja
+            borderSide: BorderSide(
+              color: Colors.deepPurpleAccent,
               width: 2.5,
             ),
           ),
