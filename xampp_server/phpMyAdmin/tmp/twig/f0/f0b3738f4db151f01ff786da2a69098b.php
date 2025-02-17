@@ -495,6 +495,6 @@ yield _gettext("Close");
 
     public function getSourceContext()
     {
-        return new Source("", "sql/query.twig", "C:\\Users\\user\\Desktop\\vizsgahoz szukseges\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\sql\\query.twig");
+        return new Source("", "sql/query.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\sql\\query.twig");
     }
 }

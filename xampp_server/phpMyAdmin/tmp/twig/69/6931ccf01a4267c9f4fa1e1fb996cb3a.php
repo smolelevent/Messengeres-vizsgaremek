@@ -1107,6 +1107,6 @@ yield _gettext("Export");
 
     public function getSourceContext()
     {
-        return new Source("", "export.twig", "C:\\Users\\user\\Desktop\\vizsgahoz szukseges\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\export.twig");
+        return new Source("", "export.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\export.twig");
     }
 }

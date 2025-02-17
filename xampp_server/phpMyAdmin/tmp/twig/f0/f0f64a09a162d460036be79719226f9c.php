@@ -289,6 +289,6 @@ $context["foreign_column"]]));
 
     public function getSourceContext()
     {
-        return new Source("", "table/relation/foreign_key_row.twig", "C:\\xampp\\phpMyAdmin\\templates\\table\\relation\\foreign_key_row.twig");
+        return new Source("", "table/relation/foreign_key_row.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\table\\relation\\foreign_key_row.twig");
     }
 }

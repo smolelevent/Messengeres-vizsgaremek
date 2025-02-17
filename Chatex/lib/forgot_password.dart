@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:chatex/auth.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
@@ -15,8 +16,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   bool _isEmailFocused = false;
 
   final _formKey = GlobalKey<FormBuilderState>();
-
   bool _isPasswordResetButtonDisabled = true;
+
+  final ToastMessages _toastMessagesInstance = ToastMessages();
 
   void _checkPasswordResetFieldValidation() {
     final isEmailValid =
@@ -74,7 +76,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  "A jelszó helyreállításához adja meg az email címét!",
+                  "A jelszó helyreállításához\nadja meg az e-mail címét!",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
@@ -173,7 +175,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 padding: const EdgeInsets.only(
                   left: 10.0,
                   right: 10.0,
-                  bottom: 20.0,
+                  top: 20.0,
                 ),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -187,7 +189,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       ? null
                       : () async {
                           if (_formKey.currentState!.saveAndValidate()) {
-                            // await AuthService().
+                            await AuthService().forgotPassword(
+                              email: _emailController,
+                              context: context,
+                            );
                           }
                         },
                   child: Text(

@@ -202,6 +202,65 @@ class AuthService {
           MaterialPageRoute(builder: (BuildContext context) => LoginUI()));
     }
   }
+
+//forgotPassword logika --------------------------------------------------------------
+  Future<void> forgotPassword(
+      {required TextEditingController email, required context}) async {
+    try {
+      final Uri forgotPasswordUrl = Uri.parse(
+          'http://10.0.2.2/ChatexProject/chatex_phps/forgot_password.php');
+      final response = await http.post(
+        forgotPasswordUrl,
+        body: jsonEncode(<String, String>{
+          'email': email.text.trim(),
+        }),
+      );
+
+      log(response.statusCode.toString());
+      if (response.statusCode == 200) {
+        _toastMessagesInstance.showToastMessages(
+            "A jelszó helyreállító emailt elküldtük!",
+            0.6,
+            Colors.green,
+            Icons.check,
+            Colors.black,
+            const Duration(seconds: 2));
+        await Future.delayed(const Duration(seconds: 2));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => LoginUI(),
+          ),
+        );
+        //TODO: megfelelőket lekezelni
+      } else if (response.statusCode == 401) {
+        _toastMessagesInstance.showToastMessages(
+            "Hibás email vagy jelszó!",
+            0.2,
+            Colors.redAccent,
+            Icons.error,
+            Colors.black,
+            const Duration(seconds: 2));
+      } else {
+        _toastMessagesInstance.showToastMessages(
+            "Hiba kód: ${response.statusCode}",
+            0.2,
+            Colors.redAccent,
+            Icons.error,
+            Colors.black,
+            const Duration(seconds: 2));
+      }
+    } catch (e) {
+      _toastMessagesInstance.showToastMessages(
+          "Kapcsolati hiba!",
+          0.2,
+          Colors.redAccent,
+          Icons.error,
+          Colors.black,
+          const Duration(seconds: 2));
+      log(e.toString());
+    }
+  }
 }
 
 
