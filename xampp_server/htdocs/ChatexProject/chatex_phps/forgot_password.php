@@ -32,8 +32,6 @@ print_r($result->getMessage());
 
 // require_once 'db.php'; // Adatbázis kapcsolat
 
-// //Sinch Mailgun API key: 256f32bacff9c787e60a01f1a10cf904-ac3d5f74-224b6560
-
 // // JSON adatok beolvasása
 // $data = json_decode(file_get_contents("php://input"), true);
 

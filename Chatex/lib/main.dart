@@ -1,22 +1,18 @@
 import 'package:chatex/auth.dart';
+import 'package:chatex/chat.dart';
 import 'package:flutter/material.dart';
 import 'package:chatex/forgot_password.dart';
 import 'package:chatex/sign_up.dart';
-// import 'package:firebase_core/firebase_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-//import 'firebase/firebase_options.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 GlobalKey<NavigatorState> flutterToastKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
-  //WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
   runApp(MaterialApp(
-    home: LoginUI(key: flutterToastKey),
+    home: ChatUI(),
+    // home: LoginUI(key: flutterToastKey),
     builder: FToastBuilder(),
   ));
 }
@@ -34,7 +30,6 @@ class _LoginUIState extends State<LoginUI> {
 
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
-
   bool _isEmailFocused = false;
   bool _isPasswordFocused = false;
 
@@ -55,6 +50,7 @@ class _LoginUIState extends State<LoginUI> {
   }
 
   void _validateActiveField() {
+    //TODO: nem működik jól
     if (_emailFocusNode.hasFocus) {
       _formKey.currentState?.fields['email']?.validate();
     } else if (_passwordFocusNode.hasFocus) {
