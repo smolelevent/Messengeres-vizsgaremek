@@ -3,7 +3,8 @@
         "firebase/php-jwt": "^6.11",
         "mailgun/mailgun-php": "^4.3",
         "symfony/http-client": "^7.2",
-        "nyholm/psr7": "^1.8"
+        "nyholm/psr7": "^1.8",
+        "phpmailer/phpmailer": "^6.9"
     },
     "config": {
         "allow-plugins": {

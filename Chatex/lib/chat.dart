@@ -1,12 +1,8 @@
 //import 'package:chatex/main.dart';
 import 'package:flutter/material.dart';
 import 'package:chatex/auth.dart';
-//import 'package:flutter_form_builder/flutter_form_builder.dart';
-//import 'package:form_builder_validators/form_builder_validators.dart';
 //import 'package:google_fonts/google_fonts.dart';
 import 'package:sidebarx/sidebarx.dart';
-
-//final _formKey = GlobalKey<FormBuilderState>();
 
 class ChatUI extends StatefulWidget {
   const ChatUI({super.key});
@@ -19,6 +15,24 @@ class _ChatUIState extends State<ChatUI> {
   final _sidebarXController =
       SidebarXController(selectedIndex: 0, extended: true);
 
+  int _bottomNavIndex = 0;
+
+  final _pages = [
+    Center(child: Text("💬 Chatek", style: TextStyle(fontSize: 24))),
+    Center(child: Text("📩 Engedélykérések", style: TextStyle(fontSize: 24))),
+    Center(child: Text("📁 Archívum", style: TextStyle(fontSize: 24))),
+    Center(child: Text("⚙️ Beállítások", style: TextStyle(fontSize: 24))),
+  ];
+
+  final _bottomNavPages = [
+    Center(
+        child: Text("📋 Lista",
+            style: TextStyle(
+                fontSize:
+                    24))), //TODO: csak az ismerősöknek kell új oldal, valahogy megoldani
+    Center(child: Text("⚙️ Profil", style: TextStyle(fontSize: 24))),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -30,24 +44,13 @@ class _ChatUIState extends State<ChatUI> {
           elevation: 5,
         ),
         drawer: _sideBar(),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        body: Stack(
           children: [
-            const SizedBox(
-              height: 25,
-            ),
-            Text(
-              'Chat',
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1,
-                fontSize: 35,
-              ),
-            ),
-            _logOut(context),
+            _pages[_sidebarXController.selectedIndex], // Sidebar oldal
+            _bottomNavPages[_bottomNavIndex], // Bottom NavBar oldal
           ],
         ),
+        bottomNavigationBar: _bottomNavBar(),
       ),
     );
   }
@@ -60,42 +63,93 @@ class _ChatUIState extends State<ChatUI> {
         return Column(
           children: [
             CircleAvatar(
+              // TODO: felhasználó képe, ha nincs akkor a kis ember sziluett alapértelmezetten
               radius: 40,
-              backgroundImage: AssetImage(
-                  "assets/profile.jpg"), // TODO: felhasználó képe, ha nincs akkor a kis ember sziluett alapértelmezetten
+              backgroundColor: Colors.grey[600],
+              child: Icon(
+                Icons.person,
+                size: 40,
+                color: Colors.white,
+              ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             Text(
-              "lorem ipsum", //TODO: felhasználó neve kell, ha túl hosszú akkor autosizetext
+              "felhasználónév", //TODO: felhasználó neve kell, ha túl hosszú akkor autosizetext
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,
                 letterSpacing: 1,
               ),
             ),
-            SizedBox(height: 20),
           ],
         );
       },
-      headerDivider: Text("divider"), //TODO: csík dividert
+      headerDivider: Divider(
+        height: 50,
+        thickness: 2,
+        color: Colors.deepPurple[400],
+      ),
       items: [
         SidebarXItem(
           label: "Chatek",
           icon: Icons.chat,
+          iconBuilder: (context, isSelected) {
+            return Icon(
+              Icons.chat,
+              color: Colors.deepPurple[400],
+            );
+          },
+          onTap: () {
+            setState(() {
+              _sidebarXController.selectIndex(0);
+            });
+          },
         ),
         SidebarXItem(
           label: "Engedélykérések",
           icon: Icons.chat_outlined,
+          iconBuilder: (context, isSelected) {
+            return Icon(
+              Icons.chat_outlined,
+              color: Colors.yellow,
+            );
+          },
+          onTap: () {
+            setState(() {
+              _sidebarXController.selectIndex(1);
+            });
+          },
         ),
         SidebarXItem(
           label: "Archívum",
           icon: Icons.archive,
+          iconBuilder: (context, isSelected) {
+            return Icon(
+              Icons.archive,
+              color: Colors.green,
+            );
+          },
+          onTap: () {
+            setState(() {
+              _sidebarXController.selectIndex(2);
+            });
+          },
         ),
       ],
       footerItems: [
         SidebarXItem(
           label: "Beállítások",
-          icon: Icons.settings,
+          iconBuilder: (context, isSelected) {
+            return Icon(
+              Icons.settings,
+              color: Colors.blue,
+            );
+          },
+          onTap: () {
+            setState(() {
+              _sidebarXController.selectIndex(3);
+            });
+          },
         ),
         SidebarXItem(
           label: "Kijelentkezés",
@@ -104,6 +158,10 @@ class _ChatUIState extends State<ChatUI> {
               Icons.logout,
               color: Colors.red,
             );
+          },
+          onTap: () async {
+            //TODO: biztosan ezt akarod stb..
+            await AuthService().logOut(context: context);
           },
         ),
       ],
@@ -133,7 +191,7 @@ class _ChatUIState extends State<ChatUI> {
           borderRadius: BorderRadius.circular(10),
         ),
         decoration: BoxDecoration(
-          color: Colors.grey[700],
+          color: Colors.grey[850],
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(20),
             bottomRight: Radius.circular(20),
@@ -151,20 +209,42 @@ class _ChatUIState extends State<ChatUI> {
     );
   }
 
-  Widget _logOut(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xff0D6EFD),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
+  Widget _bottomNavBar() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey[700],
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
         ),
-        minimumSize: const Size(double.infinity, 60),
-        elevation: 0,
       ),
-      onPressed: () async {
-        await AuthService().logOut(context: context);
-      },
-      child: const Text("Sign Out"),
+      child: BottomNavigationBar(
+        backgroundColor: Colors.transparent,
+        selectedItemColor: Colors.deepPurple[400],
+        unselectedItemColor: Colors.white,
+        currentIndex: _bottomNavIndex,
+        selectedFontSize: 16,
+        unselectedFontSize: 14,
+        selectedLabelStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          letterSpacing: 1,
+        ),
+        onTap: (index) {
+          setState(() {
+            _bottomNavIndex = index;
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
+            label: "Chatek",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: "Ismerősök",
+          ),
+        ],
+      ),
     );
   }
 }
