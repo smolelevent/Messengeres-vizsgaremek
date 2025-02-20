@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:chatex/chat/sidebar.dart';
+import 'package:chatex/chat/bottom_nav_bar.dart';
 
 class ArchivedMessages extends StatefulWidget {
   const ArchivedMessages({super.key});
@@ -20,14 +21,14 @@ class _ArchivedMessagesState extends State<ArchivedMessages> {
           elevation: 5,
         ),
         drawer: ChatSidebar(),
-        body: Text("data"),
+        body: Text("archived messages"),
         // Stack(
         //   children: [
         //     _pages[_sidebarXController.selectedIndex], // Sidebar oldal
         //     _bottomNavPages[_bottomNavIndex], // Bottom NavBar oldal
         //   ],
         // ),
-        //bottomNavigationBar: _bottomNavBar(),
+        bottomNavigationBar: BottomNavbarForChat(),
       ),
     );
   }

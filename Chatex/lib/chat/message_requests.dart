@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:chatex/chat/sidebar.dart';
+import 'package:chatex/chat/bottom_nav_bar.dart';
 
 class MessageRequests extends StatefulWidget {
   const MessageRequests({super.key});
@@ -20,14 +21,14 @@ class _MessageRequestsState extends State<MessageRequests> {
           elevation: 5,
         ),
         drawer: ChatSidebar(),
-        body: Text("data"),
+        body: Text("message requests"),
         // Stack(
         //   children: [
         //     _pages[_sidebarXController.selectedIndex], // Sidebar oldal
         //     _bottomNavPages[_bottomNavIndex], // Bottom NavBar oldal
         //   ],
         // ),
-        //bottomNavigationBar: _bottomNavBar(),
+        bottomNavigationBar: BottomNavbarForChat(),
       ),
     );
   }

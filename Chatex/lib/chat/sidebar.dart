@@ -1,3 +1,4 @@
+import 'package:chatex/chat/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:chatex/auth.dart';
@@ -63,7 +64,10 @@ class _ChatSidebarState extends State<ChatSidebar> {
           },
           onTap: () {
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => ChatUI()));
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        BottomNavbarForChat.neves(selectedIndex: 0)));
             //Navigator.pop(context);
           },
         ),

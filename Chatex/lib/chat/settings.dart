@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:chatex/chat/sidebar.dart';
+import 'package:chatex/chat/bottom_nav_bar.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -20,14 +21,14 @@ class _SettingsState extends State<Settings> {
           elevation: 5,
         ),
         drawer: ChatSidebar(),
-        body: Text("data"),
+        body: Text("settings"),
         // Stack(
         //   children: [
         //     _pages[_sidebarXController.selectedIndex], // Sidebar oldal
         //     _bottomNavPages[_bottomNavIndex], // Bottom NavBar oldal
         //   ],
         // ),
-        //bottomNavigationBar: _bottomNavBar(),
+        bottomNavigationBar: BottomNavbarForChat(),
       ),
     );
   }

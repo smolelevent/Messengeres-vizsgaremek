@@ -1,5 +1,6 @@
 import 'package:chatex/chat/sidebar.dart';
 import 'package:flutter/material.dart';
+import 'package:chatex/chat/bottom_nav_bar.dart';
 
 class ChatUI extends StatefulWidget {
   const ChatUI({super.key});
@@ -57,14 +58,14 @@ class _ChatUIState extends State<ChatUI> {
           elevation: 5,
         ),
         drawer: ChatSidebar(),
-        body: Text("data"),
+        body: Text("chat"),
         // Stack(
         //   children: [
         //     _pages[_sidebarXController.selectedIndex], // Sidebar oldal
         //     _bottomNavPages[_bottomNavIndex], // Bottom NavBar oldal
         //   ],
         // ),
-        bottomNavigationBar: _bottomNavBar(),
+        bottomNavigationBar: BottomNavbarForChat.neves(selectedIndex: 0),
       ),
     );
   }

@@ -13,7 +13,7 @@ GlobalKey<NavigatorState> flutterToastKey = GlobalKey<NavigatorState>();
 Future<void> main() async {
   runApp(MaterialApp(
     home: BottomNavbarForChat(),
-    // home: LoginUI(key: flutterToastKey),
+    //home: LoginUI(key: flutterToastKey),
     builder: FToastBuilder(),
   ));
 }
