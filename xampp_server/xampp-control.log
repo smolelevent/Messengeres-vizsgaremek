@@ -523,3 +523,38 @@
 23:26:42  [main] 	Deinitializing Modules
 23:26:42  [main] 	Deinitializing Control Panel
 
+8:30:53  [main] 	Initializing Control Panel
+8:30:53  [main] 	Windows Version:  Enterprise  64-bit
+8:30:53  [main] 	XAMPP Version: 8.2.12
+8:30:53  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+8:30:53  [main] 	Running with Administrator rights - good!
+8:30:53  [main] 	XAMPP Installation Directory: "c:\users\user\desktop\vizsgahoz szukseges\messengeres-vizsgaremek\xampp_server\"
+8:30:53  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+8:30:53  [main] 	Checking for prerequisites
+8:30:54  [main] 	All prerequisites found
+8:30:54  [main] 	Initializing Modules
+8:30:54  [main] 	The Mercury module is disabled
+8:30:54  [main] 	The Tomcat module is disabled
+8:30:54  [main] 	Starting Check-Timer
+8:30:54  [main] 	Control Panel Ready
+8:37:12  [Apache] 	Status change detected: running
+8:37:13  [mysql] 	Status change detected: running
+12:45:28  [Apache] 	Status change detected: stopped
+12:45:28  [Apache] 	Error: Apache shutdown unexpectedly.
+12:45:28  [Apache] 	This may be due to a blocked port, missing dependencies, 
+12:45:28  [Apache] 	improper privileges, a crash, or a shutdown by another method.
+12:45:28  [Apache] 	Press the Logs button to view error logs and check
+12:45:28  [Apache] 	the Windows Event Viewer for more clues
+12:45:28  [Apache] 	If you need more help, copy and post this
+12:45:28  [Apache] 	entire log window on the forums
+12:45:31  [mysql] 	Status change detected: stopped
+12:45:31  [mysql] 	Error: MySQL shutdown unexpectedly.
+12:45:31  [mysql] 	This may be due to a blocked port, missing dependencies, 
+12:45:31  [mysql] 	improper privileges, a crash, or a shutdown by another method.
+12:45:31  [mysql] 	Press the Logs button to view error logs and check
+12:45:31  [mysql] 	the Windows Event Viewer for more clues
+12:45:31  [mysql] 	If you need more help, copy and post this
+12:45:31  [mysql] 	entire log window on the forums
+12:46:37  [main] 	Deinitializing Modules
+12:46:37  [main] 	Deinitializing Control Panel
+

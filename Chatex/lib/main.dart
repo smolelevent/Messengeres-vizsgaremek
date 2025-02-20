@@ -1,5 +1,6 @@
 import 'package:chatex/auth.dart';
-import 'package:chatex/chat.dart';
+import 'package:chatex/chat/bottom_nav_bar.dart';
+import 'package:chatex/chat/chat.dart';
 import 'package:flutter/material.dart';
 import 'package:chatex/forgot_password.dart';
 import 'package:chatex/sign_up.dart';
@@ -11,7 +12,7 @@ GlobalKey<NavigatorState> flutterToastKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
   runApp(MaterialApp(
-    home: ChatUI(),
+    home: BottomNavbarForChat(),
     // home: LoginUI(key: flutterToastKey),
     builder: FToastBuilder(),
   ));

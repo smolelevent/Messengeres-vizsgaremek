@@ -1,4 +1,4 @@
-import 'package:chatex/chat.dart';
+import 'package:chatex/chat/chat.dart';
 import 'package:chatex/main.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';

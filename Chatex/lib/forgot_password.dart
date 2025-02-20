@@ -18,7 +18,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _formKey = GlobalKey<FormBuilderState>();
   bool _isPasswordResetButtonDisabled = true;
 
-  final ToastMessages _toastMessagesInstance = ToastMessages();
+  //final ToastMessages _toastMessagesInstance = ToastMessages();
 
   void _checkPasswordResetFieldValidation() {
     final isEmailValid =
