@@ -430,10 +430,8 @@ class _LoginUIState extends State<LoginUI> {
                 ),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => BottomNavbarForChat()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SignUp()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurpleAccent,
