@@ -12,8 +12,8 @@ GlobalKey<NavigatorState> flutterToastKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
   runApp(MaterialApp(
-    home: BottomNavbarForChat(),
-    //home: LoginUI(key: flutterToastKey),
+    //home: BottomNavbarForChat(),
+    home: LoginUI(key: flutterToastKey),
     builder: FToastBuilder(),
   ));
 }
@@ -352,6 +352,7 @@ class _LoginUIState extends State<LoginUI> {
   }
 
   Widget _logInWidget() {
+    //TODO: nem ad kapcsolati hibát
     return Row(
       children: [
         Expanded(
@@ -429,8 +430,10 @@ class _LoginUIState extends State<LoginUI> {
                 ),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SignUp()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BottomNavbarForChat()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurpleAccent,

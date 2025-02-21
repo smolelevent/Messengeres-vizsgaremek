@@ -67,7 +67,8 @@ class _ChatSidebarState extends State<ChatSidebar> {
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        BottomNavbarForChat.neves(selectedIndex: 0)));
+                        // BottomNavbarForChat.neves(selectedIndex: 0)
+                        ChatUI()));
             //Navigator.pop(context);
           },
         ),

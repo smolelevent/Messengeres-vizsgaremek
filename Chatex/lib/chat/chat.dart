@@ -12,41 +12,6 @@ class ChatUI extends StatefulWidget {
 class _ChatUIState extends State<ChatUI> {
   int _bottomNavIndex = 0;
 
-  final _pages = [
-    null,
-    //Center(child: Text("💬 Chatek", style: TextStyle(fontSize: 24))),
-    Center(
-        child: Text("📩 Engedélykérések",
-            style: TextStyle(fontSize: 24, color: Colors.white))),
-    Center(
-        child: Text("📁 Archívum",
-            style: TextStyle(fontSize: 24, color: Colors.white))),
-    Center(
-        child: Text("⚙️ Beállítások",
-            style: TextStyle(fontSize: 24, color: Colors.white))),
-  ];
-
-//TODO: csak az ismerősöknek kell új oldal, valahogy megoldani
-  final _bottomNavPages = [
-    Center(
-        child: Text("📋 Chatek",
-            style: TextStyle(fontSize: 24, color: Colors.white))),
-    Center(
-        child: Text("⚙️ Ismerősök",
-            style: TextStyle(fontSize: 24, color: Colors.white))),
-  ];
-
-  /// **Ez a függvény határozza meg, hogy melyik oldal látszódjon**
-  // Widget _getBody() {
-  //   if (_sidebarXController.selectedIndex == 0) {
-  //     // Ha a Sidebar első (Chatek) eleme van kiválasztva, akkor az alsó nav alapján változik a tartalom
-  //     return _bottomNavPages[_bottomNavIndex];
-  //   } else {
-  //     // Ha a Sidebar másik eleme van kiválasztva, azt jelenítjük meg
-  //     return _pages[_sidebarXController.selectedIndex]!;
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -59,13 +24,7 @@ class _ChatUIState extends State<ChatUI> {
         ),
         drawer: ChatSidebar(),
         body: Text("chat"),
-        // Stack(
-        //   children: [
-        //     _pages[_sidebarXController.selectedIndex], // Sidebar oldal
-        //     _bottomNavPages[_bottomNavIndex], // Bottom NavBar oldal
-        //   ],
-        // ),
-        bottomNavigationBar: BottomNavbarForChat.neves(selectedIndex: 0),
+        //bottomNavigationBar: BottomNavbarForChat(),
       ),
     );
   }
