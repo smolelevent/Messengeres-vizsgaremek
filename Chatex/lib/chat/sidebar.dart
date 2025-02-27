@@ -17,7 +17,6 @@ class ChatSidebar extends StatefulWidget {
 class _ChatSidebarState extends State<ChatSidebar> {
   final _sidebarXController =
       SidebarXController(selectedIndex: 0, extended: true);
-
   @override
   Widget build(BuildContext context) {
     return SidebarX(
@@ -63,13 +62,16 @@ class _ChatSidebarState extends State<ChatSidebar> {
             );
           },
           onTap: () {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
+            setState(() {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
                     builder: (context) =>
-                        // BottomNavbarForChat.neves(selectedIndex: 0)
-                        ChatUI()));
-            //Navigator.pop(context);
+                        //BottomNavbarForChat(),
+                        ChatUI(),
+                  ));
+              //Navigator.pop(context);
+            });
           },
         ),
         SidebarXItem(
@@ -81,9 +83,13 @@ class _ChatSidebarState extends State<ChatSidebar> {
             );
           },
           onTap: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => MessageRequests()));
-            //Navigator.pop(context);
+            setState(() {
+              _sidebarXController
+                  .selectIndex(1); //TODO: újra töltve is ki legyen jelölve
+              // Navigator.pushReplacement(context,
+              //     MaterialPageRoute(builder: (context) => MessageRequests()));
+              //Navigator.pop(context);
+            });
           },
         ),
         SidebarXItem(
@@ -95,14 +101,11 @@ class _ChatSidebarState extends State<ChatSidebar> {
             );
           },
           onTap: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => ArchivedMessages()));
-            //Navigator.pop(context);
-            // setState(() {
-            //   _sidebarXController.selectIndex(2);
-            // });
-            //Navigator.pushReplacement(context, Archive());
-            //Navigator.pop(context);
+            setState(() {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => ArchivedMessages()));
+              //Navigator.pop(context);
+            });
           },
         ),
       ],
@@ -116,14 +119,11 @@ class _ChatSidebarState extends State<ChatSidebar> {
             );
           },
           onTap: () {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => Settings()));
-            //Navigator.pop(context);
-            // setState(() {
-            //   _sidebarXController.selectIndex(3);
-            // });
-            //Navigator.pushReplacement(context, Settings());
-            //Navigator.pop(context);
+            setState(() {
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => Settings()));
+              //Navigator.pop(context);
+            });
           },
         ),
         SidebarXItem(

@@ -14,7 +14,7 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        //resizeToAvoidBottomInset: false,
         backgroundColor: Colors.grey[850],
         appBar: AppBar(
           backgroundColor: Colors.deepPurple[400],
@@ -22,13 +22,7 @@ class _SettingsState extends State<Settings> {
         ),
         drawer: ChatSidebar(),
         body: Text("settings"),
-        // Stack(
-        //   children: [
-        //     _pages[_sidebarXController.selectedIndex], // Sidebar oldal
-        //     _bottomNavPages[_bottomNavIndex], // Bottom NavBar oldal
-        //   ],
-        // ),
-        bottomNavigationBar: BottomNavbarForChat(),
+        //bottomNavigationBar: BottomNavbarForChat(),
       ),
     );
   }

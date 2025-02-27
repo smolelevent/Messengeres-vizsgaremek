@@ -14,7 +14,7 @@ class _ArchivedMessagesState extends State<ArchivedMessages> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        //resizeToAvoidBottomInset: false,
         backgroundColor: Colors.grey[850],
         appBar: AppBar(
           backgroundColor: Colors.deepPurple[400],
@@ -22,13 +22,7 @@ class _ArchivedMessagesState extends State<ArchivedMessages> {
         ),
         drawer: ChatSidebar(),
         body: Text("archived messages"),
-        // Stack(
-        //   children: [
-        //     _pages[_sidebarXController.selectedIndex], // Sidebar oldal
-        //     _bottomNavPages[_bottomNavIndex], // Bottom NavBar oldal
-        //   ],
-        // ),
-        bottomNavigationBar: BottomNavbarForChat(),
+        //bottomNavigationBar: BottomNavbarForChat(),
       ),
     );
   }

@@ -558,3 +558,87 @@
 12:46:37  [main] 	Deinitializing Modules
 12:46:37  [main] 	Deinitializing Control Panel
 
+14:19:27  [main] 	Initializing Control Panel
+14:19:27  [main] 	Windows Version:  Enterprise  64-bit
+14:19:27  [main] 	XAMPP Version: 8.2.12
+14:19:27  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+14:19:27  [main] 	Running with Administrator rights - good!
+14:19:27  [main] 	XAMPP Installation Directory: "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+14:19:27  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+14:19:27  [main] 	Checking for prerequisites
+14:19:27  [main] 	All prerequisites found
+14:19:27  [main] 	Initializing Modules
+14:19:27  [main] 	The Mercury module is disabled
+14:19:27  [main] 	The Tomcat module is disabled
+14:19:27  [main] 	Starting Check-Timer
+14:19:27  [main] 	Control Panel Ready
+14:20:12  [Apache] 	Attempting to start Apache service...
+14:20:31  [Apache] 	Attempting to start Apache service...
+14:20:34  [mysql] 	Attempting to start MySQL service...
+14:20:34  [mysql] 	Status change detected: running
+14:20:39  [mysql] 	Status change detected: stopped
+14:20:39  [mysql] 	Error: MySQL shutdown unexpectedly.
+14:20:39  [mysql] 	This may be due to a blocked port, missing dependencies, 
+14:20:39  [mysql] 	improper privileges, a crash, or a shutdown by another method.
+14:20:39  [mysql] 	Press the Logs button to view error logs and check
+14:20:39  [mysql] 	the Windows Event Viewer for more clues
+14:20:39  [mysql] 	If you need more help, copy and post this
+14:20:39  [mysql] 	entire log window on the forums
+14:21:40  [Apache] 	Status change detected: running
+14:21:42  [mysql] 	Status change detected: running
+14:22:00  [Apache] 	Status change detected: stopped
+14:22:00  [Apache] 	Error: Apache shutdown unexpectedly.
+14:22:00  [Apache] 	This may be due to a blocked port, missing dependencies, 
+14:22:00  [Apache] 	improper privileges, a crash, or a shutdown by another method.
+14:22:00  [Apache] 	Press the Logs button to view error logs and check
+14:22:00  [Apache] 	the Windows Event Viewer for more clues
+14:22:00  [Apache] 	If you need more help, copy and post this
+14:22:00  [Apache] 	entire log window on the forums
+14:22:02  [mysql] 	Status change detected: stopped
+14:22:02  [mysql] 	Error: MySQL shutdown unexpectedly.
+14:22:02  [mysql] 	This may be due to a blocked port, missing dependencies, 
+14:22:02  [mysql] 	improper privileges, a crash, or a shutdown by another method.
+14:22:02  [mysql] 	Press the Logs button to view error logs and check
+14:22:02  [mysql] 	the Windows Event Viewer for more clues
+14:22:02  [mysql] 	If you need more help, copy and post this
+14:22:02  [mysql] 	entire log window on the forums
+14:52:18  [Apache] 	Attempting to start Apache service...
+14:52:18  [Apache] 	Status change detected: running
+14:52:20  [mysql] 	Attempting to start MySQL service...
+14:52:20  [mysql] 	Status change detected: running
+15:22:10  [Apache] 	Attempting to stop Apache service...
+15:22:13  [Apache] 	Status change detected: stopped
+15:22:14  [mysql] 	Attempting to stop MySQL service...
+15:22:15  [mysql] 	Status change detected: stopped
+15:28:06  [main] 	Deinitializing Modules
+15:28:06  [main] 	Deinitializing Control Panel
+
+14:21:38  [main] 	Initializing Control Panel
+14:21:38  [main] 	Windows Version:  Enterprise  64-bit
+14:21:38  [main] 	XAMPP Version: 8.2.12
+14:21:38  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+14:21:38  [main] 	Running with Administrator rights - good!
+14:21:38  [main] 	XAMPP Installation Directory: "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+14:21:38  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+14:21:38  [main] 	Checking for prerequisites
+14:21:38  [main] 	All prerequisites found
+14:21:38  [main] 	Initializing Modules
+14:21:38  [main] 	The Mercury module is disabled
+14:21:38  [main] 	The Tomcat module is disabled
+14:21:38  [main] 	Starting Check-Timer
+14:21:38  [main] 	Control Panel Ready
+14:21:39  [Apache] 	Attempting to start Apache service...
+14:21:40  [Apache] 	Status change detected: running
+14:21:42  [mysql] 	Attempting to start MySQL service...
+14:21:42  [mysql] 	Status change detected: running
+14:21:58  [Apache] 	Attempting to stop Apache service...
+14:22:00  [Apache] 	Status change detected: stopped
+14:22:01  [mysql] 	Attempting to stop MySQL service...
+14:22:02  [mysql] 	Status change detected: stopped
+14:52:18  [Apache] 	Status change detected: running
+14:52:20  [mysql] 	Status change detected: running
+15:22:13  [Apache] 	Status change detected: stopped
+15:22:15  [mysql] 	Status change detected: stopped
+15:28:07  [main] 	Deinitializing Modules
+15:28:07  [main] 	Deinitializing Control Panel
+

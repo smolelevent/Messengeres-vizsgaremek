@@ -12,24 +12,16 @@ class People extends StatefulWidget {
 class _PeopleState extends State<People> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.grey[850],
-        appBar: AppBar(
-          backgroundColor: Colors.deepPurple[400],
-          elevation: 5,
-        ),
-        drawer: ChatSidebar(),
-        body: Text("ismerősök"),
-        // Stack(
-        //   children: [
-        //     _pages[_sidebarXController.selectedIndex], // Sidebar oldal
-        //     _bottomNavPages[_bottomNavIndex], // Bottom NavBar oldal
-        //   ],
-        // ),
-        bottomNavigationBar: BottomNavbarForChat(),
+    return Scaffold(
+      //resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.grey[850],
+      appBar: AppBar(
+        backgroundColor: Colors.deepPurple[400],
+        elevation: 5,
       ),
+      drawer: ChatSidebar(),
+      body: Text("ismerősök"),
+      //bottomNavigationBar: BottomNavbarForChat(selectedIndex: 1), //TODO: kifagy ha ezeket megadom, chatre is igaz
     );
   }
 }
