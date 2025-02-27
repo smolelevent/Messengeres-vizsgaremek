@@ -1,32 +1,35 @@
-import 'package:chatex/chat/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:chatex/auth.dart';
-import 'package:chatex/chat/chat.dart';
-import 'package:chatex/chat/message_requests.dart';
-import 'package:chatex/chat/archived_messages.dart';
-import 'package:chatex/chat/settings.dart';
 
 class ChatSidebar extends StatefulWidget {
-  const ChatSidebar({super.key});
+  //TODO: kell e minden dart fájlba stateful widget, vizsga leadás előtt optimalizálni ahogy lehet!
+  final SidebarXController sidebarXController;
+  final Function(int, {bool isSidebarPage}) onSelectPage;
+
+  const ChatSidebar(
+      {super.key,
+      required this.onSelectPage,
+      required this.sidebarXController});
 
   @override
   State<ChatSidebar> createState() => _ChatSidebarState();
 }
 
 class _ChatSidebarState extends State<ChatSidebar> {
-  final _sidebarXController =
+  final SidebarXController _controller =
       SidebarXController(selectedIndex: 0, extended: true);
+
   @override
   Widget build(BuildContext context) {
     return SidebarX(
       showToggleButton: false,
-      controller: _sidebarXController,
-      headerBuilder: (context, isCollapsed) {
+      controller: widget.sidebarXController,
+      headerBuilder: (context, extended) {
         return Column(
           children: [
             CircleAvatar(
-              // TODO: felhasználó képe, ha nincs akkor a kis ember sziluett alapértelmezetten
+              // TODO: felhasználó képe, ha nincs akkor a kis ember sziluett alapértelmezette
               radius: 40,
               backgroundColor: Colors.grey[600],
               child: Icon(
@@ -54,7 +57,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
       ),
       items: [
         SidebarXItem(
-          label: "Chatek",
+          label: 'Chatek',
           iconBuilder: (context, isSelected) {
             return Icon(
               Icons.chat,
@@ -62,20 +65,13 @@ class _ChatSidebarState extends State<ChatSidebar> {
             );
           },
           onTap: () {
-            setState(() {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        //BottomNavbarForChat(),
-                        ChatUI(),
-                  ));
-              //Navigator.pop(context);
-            });
+            _controller.selectIndex(0);
+            widget.onSelectPage(0, isSidebarPage: false);
+            Navigator.pop(context);
           },
         ),
         SidebarXItem(
-          label: "Engedélykérések",
+          label: 'Engedélykérések',
           iconBuilder: (context, isSelected) {
             return Icon(
               Icons.chat_outlined,
@@ -83,17 +79,13 @@ class _ChatSidebarState extends State<ChatSidebar> {
             );
           },
           onTap: () {
-            setState(() {
-              _sidebarXController
-                  .selectIndex(1); //TODO: újra töltve is ki legyen jelölve
-              // Navigator.pushReplacement(context,
-              //     MaterialPageRoute(builder: (context) => MessageRequests()));
-              //Navigator.pop(context);
-            });
+            _controller.selectIndex(2);
+            widget.onSelectPage(2, isSidebarPage: true);
+            Navigator.pop(context);
           },
         ),
         SidebarXItem(
-          label: "Archívum",
+          label: 'Archívum',
           iconBuilder: (context, isSelected) {
             return Icon(
               Icons.archive,
@@ -101,17 +93,15 @@ class _ChatSidebarState extends State<ChatSidebar> {
             );
           },
           onTap: () {
-            setState(() {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => ArchivedMessages()));
-              //Navigator.pop(context);
-            });
+            _controller.selectIndex(3);
+            widget.onSelectPage(3, isSidebarPage: true);
+            Navigator.pop(context);
           },
         ),
       ],
       footerItems: [
         SidebarXItem(
-          label: "Beállítások",
+          label: 'Beállítások',
           iconBuilder: (context, isSelected) {
             return Icon(
               Icons.settings,
@@ -119,11 +109,9 @@ class _ChatSidebarState extends State<ChatSidebar> {
             );
           },
           onTap: () {
-            setState(() {
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => Settings()));
-              //Navigator.pop(context);
-            });
+            _controller.selectIndex(4);
+            widget.onSelectPage(4, isSidebarPage: true);
+            Navigator.pop(context);
           },
         ),
         SidebarXItem(
