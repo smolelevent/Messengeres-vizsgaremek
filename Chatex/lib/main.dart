@@ -6,12 +6,14 @@ import 'package:chatex/sign_up.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:chatex/chat/chat_auth/chat_auth.dart';
 
 GlobalKey<NavigatorState> flutterToastKey = GlobalKey<NavigatorState>();
-
+//TODO: alkalmazás belépéskor ne a Flutter logo legyen
 Future<void> main() async {
   runApp(MaterialApp(
     home: ChatUI(),
+    //home: ChatListScreen(),
     //home: LoginUI(key: flutterToastKey),
     builder: FToastBuilder(),
   ));

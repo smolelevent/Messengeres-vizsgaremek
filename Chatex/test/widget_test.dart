@@ -7,23 +7,30 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:chatex/chat/chat.dart'; // Replace with actual import
+//import 'package:mockito/mockito.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    // await tester.pumpWidget(const MyApp());
+  testWidgets('Chat screen sends a message', (WidgetTester tester) async {
+    // Load the ChatScreen widget
+    await tester.pumpWidget(
+      MaterialApp(
+        home: ChatUI(), // Replace with your actual screen
+      ),
+    );
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Find the TextField and enter a message
+    final textFieldFinder = find.byType(TextField);
+    await tester.enterText(textFieldFinder, 'Hello, Flutter!');
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    // Tap the send button
+    final sendButtonFinder = find.byIcon(Icons.send);
+    await tester.tap(sendButtonFinder);
+
+    // Rebuild the widget
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Check if the message appears in the chat list
+    expect(find.text('Hello, Flutter!'), findsOneWidget);
   });
 }

@@ -6,6 +6,7 @@ import 'package:chatex/chat/message_requests.dart';
 import 'package:chatex/chat/archived_messages.dart';
 import 'package:chatex/chat/settings.dart';
 import 'package:sidebarx/sidebarx.dart';
+import 'package:chatex/chat/chat_auth/chat_auth.dart';
 
 class ChatUI extends StatefulWidget {
   const ChatUI({super.key});
@@ -31,7 +32,7 @@ class _ChatUIState extends State<ChatUI> {
       if (isSidebarPage) {
         _sidebarController.selectIndex(index);
       } else if (index == 0) {
-        // Ha az "Chatek" van kiválasztva (index = 1), akkor ne maradjon kijelölve sigma
+        // Ha az "Chatek" van kiválasztva (index = 1), akkor ne maradjon kijelölve semmi
         _sidebarController.selectIndex(0);
       } else {
         // Ha az "Ismerősök" van kiválasztva (index = 1), akkor ne maradjon kijelölve semmi
@@ -43,7 +44,7 @@ class _ChatUIState extends State<ChatUI> {
   Widget _getScreen() {
     switch (_selectedIndex) {
       case 0:
-        return const Text("CHAT");
+        return LoadedChatData();
       case 1:
         return const People();
       case 2:
