@@ -12,7 +12,8 @@ class LoadedChatData extends StatefulWidget {
 }
 
 class LoadedChatDataState extends State<LoadedChatData> {
-  late Future<List<dynamic>> _chatList;
+  late Future<List<dynamic>>
+      _chatList; //TODO: late initaliztaion error ha SharedPreferencet használok simán
   final ToastMessages _toastMessagesInstance = ToastMessages();
 
   @override

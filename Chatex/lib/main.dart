@@ -107,7 +107,7 @@ class _LoginUIState extends State<LoginUI> {
                 radius: 60,
                 backgroundImage: AssetImage("assets/logo_titkos.png"),
               ),
-              //TODO: jobb logó
+              //TODO: jobb logó jpg nem jó
               _emailAddressWidget(),
               _passwordWidget(),
               const SizedBox(

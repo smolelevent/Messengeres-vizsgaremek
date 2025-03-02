@@ -5,16 +5,16 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 require_once __DIR__ . "/../db.php"; // ../ egyszeres visszalépést tesz
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use Firebase\JWT\JWT;
 
 $userData = json_decode(file_get_contents("php://input"), true);
 
-//Ellenőrizzük, hogy minden szükséges mező megvan-e
+// Ellenőrizzük, hogy minden szükséges mező megvan-e
 if (!isset($userData['email'], $userData['password'])) {
     http_response_code(400); // Hibás kérés
-    echo json_encode(["message" => "Hiányzó adatok! Küldd el a email és password mezőket."]);
+    echo json_encode(["message" => "Hiányzó adatok! Küldd el az email és password mezőket."]);
     exit();
 }
 
@@ -27,7 +27,7 @@ if ($conn->connect_error) {
     exit();
 }
 
-//statement
+// Lekérdezzük a felhasználót az email alapján
 $stmt = $conn->prepare("SELECT id, username, email, password_hash FROM users WHERE email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
@@ -40,26 +40,31 @@ if (!$user || !password_verify($password, $user["password_hash"])) {
     exit();
 }
 
-//JWT token használata - JSON Web Token
+// JWT token létrehozása
 $issued_at = time();
 $expiration_time = $issued_at + (60 * 60 * 24); // 24 óra
 $payload = [
-    "iat" => $issued_at,       // Token kiadás időpontja
-    "exp" => $expiration_time, // Token lejárati időpontja
-    // "sub" => $userData["id"],      // Felhasználó ID-ja
-    // "username" => $userData["username"], //TODO: ez még problémás lehet hogy nem adjuk át a titkosított adatba
-    "email" => $userData["email"]
+    "iat" => $issued_at,
+    "exp" => $expiration_time,
+    "sub" => $user["id"],          // Felhasználó ID-ja az adatbázisból
+    "username" => $user["username"], // Adatbázisból lekért username
+    "email" => $user["email"],
 ];
 
-$secret_key = "chatex_secret_key";
+$secret_key = "chatex";
 
 $jwt = JWT::encode($payload, $secret_key, 'HS256');
 
-http_response_code(200); // 200 = OK
+http_response_code(200); // 200 = OK 
 echo json_encode([
     "message" => "Sikeres bejelentkezés",
-    "token" => $jwt
+    "success" => true,
+    "token" => $jwt,
+    "id" => $user["id"],       // Válaszként küldjük az ID-t is
+    "username" => $user["username"] // A username is szerepeljen a válaszban
 ]);
+
+//TODO: használni a tokent!!!
 
 $stmt->close();
 $conn->close();

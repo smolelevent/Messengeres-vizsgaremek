@@ -146,16 +146,17 @@ class AuthService {
           'password': password.text.trim(),
         }),
       );
+      log("eddig jó");
+      log(response.body);
 
       if (response.statusCode == 200) {
-        final responseData = json.decode(response.body);
-        if (responseData['success']) {
+        final responseData = json.decode(
+            response.body); //vissza kell adni a válaszba azt hogy success
+        if (responseData['success'] == true) {
           int userId = responseData['id']; // ID lekérése
-
-          final prefs = await SharedPreferencesWithCache.create(
-              cacheOptions: SharedPreferencesWithCacheOptions());
-          await prefs.setInt('id', userId);
           // Elmentjük a bejelentkezett user ID-ját
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setInt('id', userId);
           _toastMessagesInstance.showToastMessages(
               "Sikeres bejelentkezés!",
               0.2,
@@ -170,6 +171,8 @@ class AuthService {
               builder: (BuildContext context) => ChatUI(),
             ),
           );
+        } else {
+          log("hibás adat!");
         }
         //TODO: token emailbe vagy valahogy elküldeni a felhasználónak idk nem tudom mit csinál
       } else if (response.statusCode == 401) {
