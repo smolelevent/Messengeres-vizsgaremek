@@ -188,6 +188,6 @@ yield _gettext("Close");
 
     public function getSourceContext()
     {
-        return new Source("", "table/insert/actions_panel.twig", "C:\\Users\\user\\Desktop\\vizsgahoz szukseges\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\table\\insert\\actions_panel.twig");
+        return new Source("", "table/insert/actions_panel.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\table\\insert\\actions_panel.twig");
     }
 }

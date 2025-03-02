@@ -666,6 +666,6 @@ yield _gettext("Binary - do not edit");
 
     public function getSourceContext()
     {
-        return new Source("", "table/insert/column_row.twig", "C:\\Users\\user\\Desktop\\vizsgahoz szukseges\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\table\\insert\\column_row.twig");
+        return new Source("", "table/insert/column_row.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\table\\insert\\column_row.twig");
     }
 }

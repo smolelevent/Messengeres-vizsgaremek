@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'dart:developer'; //log miatt
 import 'package:http/http.dart' as http;
 import 'package:chatex/auth.dart';
-
-const String baseUrl = "http://localhost/api"; // XAMPP REST API
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoadedChatData extends StatefulWidget {
   const LoadedChatData({super.key});
@@ -19,14 +18,32 @@ class LoadedChatDataState extends State<LoadedChatData> {
   @override
   void initState() {
     super.initState();
-    _chatList = fetchChatListFromDatabase();
+    //_chatList = fetchChatListFromDatabase();
+    _getCorrectChatList();
   }
 
-  Future<List<dynamic>> fetchChatListFromDatabase() async {
+  Future<void> _getCorrectChatList() async {
+    SharedPreferencesWithCache prefs = await SharedPreferencesWithCache.create(
+        cacheOptions: SharedPreferencesWithCacheOptions());
+    int? userId = prefs.getInt('id');
+
+    if (userId == null) {
+      log("Hiba: Nincs elmentve user_id");
+      return;
+    }
+
+    setState(() {
+      _chatList = fetchChatListFromDatabase(userId);
+    });
+  }
+
+  Future<List<dynamic>> fetchChatListFromDatabase(int userId) async {
     final Uri chatFetchUrl =
         Uri.parse("http://10.0.2.2/ChatexProject/chatex_phps/get_chatlist.php");
     final response = await http.post(
       chatFetchUrl,
+      body: jsonEncode({"id": userId}),
+      headers: {"Content-Type": "application/json"}, //TODO: innen folyt köv
     );
 
     log(response.statusCode.toString());

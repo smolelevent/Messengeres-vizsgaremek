@@ -12,9 +12,9 @@ GlobalKey<NavigatorState> flutterToastKey = GlobalKey<NavigatorState>();
 //TODO: alkalmazás belépéskor ne a Flutter logo legyen
 Future<void> main() async {
   runApp(MaterialApp(
-    home: ChatUI(),
+    //home: ChatUI(),
     //home: ChatListScreen(),
-    //home: LoginUI(key: flutterToastKey),
+    home: LoginUI(key: flutterToastKey),
     builder: FToastBuilder(),
   ));
 }

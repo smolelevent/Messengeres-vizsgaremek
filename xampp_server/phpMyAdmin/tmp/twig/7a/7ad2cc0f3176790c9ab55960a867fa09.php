@@ -100,6 +100,6 @@ yield _gettext("Exporting a raw query");
 
     public function getSourceContext()
     {
-        return new Source("", "table/export/index.twig", "C:\\Users\\user\\Desktop\\vizsgahoz szukseges\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\table\\export\\index.twig");
+        return new Source("", "table/export/index.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\table\\export\\index.twig");
     }
 }

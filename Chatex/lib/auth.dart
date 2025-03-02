@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:developer'; //log miatt
 import 'dart:convert'; //json kódolás miatt
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ToastMessages {
   FToast fToastInstance = FToast();
@@ -62,8 +63,8 @@ class AuthService {
       required TextEditingController password,
       required context}) async {
     try {
-      final Uri registrationUrl =
-          Uri.parse('http://10.0.2.2/ChatexProject/chatex_phps/register.php');
+      final Uri registrationUrl = Uri.parse(
+          'http://10.0.2.2/ChatexProject/chatex_phps/auth/register.php');
       final response = await http.post(
         registrationUrl,
         body: jsonEncode(<String, String>{
@@ -74,7 +75,7 @@ class AuthService {
       );
 
       log(response.statusCode.toString());
-      if (response.statusCode == 201) {
+      if (response.statusCode == 201 || response.statusCode == 200) {
         // Sikeres regisztráció
         _toastMessagesInstance.showToastMessages(
             "Sikeres regisztráció!",
@@ -102,15 +103,15 @@ class AuthService {
             const Duration(seconds: 2));
       } else if (response.statusCode == 400) {
         _toastMessagesInstance.showToastMessages(
-            "Nem megfelelő kérés!",
+            "Nem megfelelő kérés! Hiba kód: ${response.statusCode}",
             0.1,
             Colors.redAccent,
             Icons.error,
             Colors.black,
             const Duration(seconds: 2));
-      } else {
+      } else if (response.statusCode == 404) {
         _toastMessagesInstance.showToastMessages(
-            "Hiba kód: ${response.statusCode}",
+            "Elérési hiba! Hiba kód: ${response.statusCode}",
             0.1,
             Colors.redAccent,
             Icons.error,
@@ -137,7 +138,7 @@ class AuthService {
       required context}) async {
     try {
       final Uri loginUrl =
-          Uri.parse('http://10.0.2.2/ChatexProject/chatex_phps/login.php');
+          Uri.parse('http://10.0.2.2/ChatexProject/chatex_phps/auth/login.php');
       final response = await http.post(
         loginUrl,
         body: jsonEncode(<String, String>{
@@ -146,23 +147,30 @@ class AuthService {
         }),
       );
 
-      //final data = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        //String token = data["token"];
-        _toastMessagesInstance.showToastMessages(
-            "Sikeres bejelentkezés!",
-            0.2,
-            Colors.green,
-            Icons.check,
-            Colors.black,
-            const Duration(seconds: 2));
-        await Future.delayed(const Duration(seconds: 2));
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => ChatUI(),
-          ),
-        );
+        final responseData = json.decode(response.body);
+        if (responseData['success']) {
+          int userId = responseData['id']; // ID lekérése
+
+          final prefs = await SharedPreferencesWithCache.create(
+              cacheOptions: SharedPreferencesWithCacheOptions());
+          await prefs.setInt('id', userId);
+          // Elmentjük a bejelentkezett user ID-ját
+          _toastMessagesInstance.showToastMessages(
+              "Sikeres bejelentkezés!",
+              0.2,
+              Colors.green,
+              Icons.check,
+              Colors.black,
+              const Duration(seconds: 2));
+          await Future.delayed(const Duration(seconds: 2));
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => ChatUI(),
+            ),
+          );
+        }
         //TODO: token emailbe vagy valahogy elküldeni a felhasználónak idk nem tudom mit csinál
       } else if (response.statusCode == 401) {
         // nem megfelelő adatok
@@ -210,7 +218,7 @@ class AuthService {
       required context}) async {
     try {
       final Uri forgotPasswordUrl = Uri.parse(
-          'http://10.0.2.2/ChatexProject/chatex_phps/forgot_password.php');
+          'http://10.0.2.2/ChatexProject/chatex_phps/reset_password.php/forgot_password.php');
       final response = await http.post(
         forgotPasswordUrl,
         body: jsonEncode(<String, String>{

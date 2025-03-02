@@ -508,6 +508,6 @@ yield _gettext("Storage engine");
 
     public function getSourceContext()
     {
-        return new Source("", "columns_definitions/partitions.twig", "C:\\Users\\user\\Desktop\\vizsgahoz szukseges\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\columns_definitions\\partitions.twig");
+        return new Source("", "columns_definitions/partitions.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\columns_definitions\\partitions.twig");
     }
 }

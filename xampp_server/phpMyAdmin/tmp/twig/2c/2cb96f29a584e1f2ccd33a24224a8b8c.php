@@ -110,6 +110,6 @@ yield _gettext("Preview SQL");
 
     public function getSourceContext()
     {
-        return new Source("", "table/index_rename_form.twig", "C:\\Users\\user\\Desktop\\vizsgahoz szukseges\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\table\\index_rename_form.twig");
+        return new Source("", "table/index_rename_form.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\table\\index_rename_form.twig");
     }
 }
