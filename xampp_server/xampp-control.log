@@ -675,3 +675,61 @@
 23:45:27  [main] 	Deinitializing Modules
 23:45:27  [main] 	Deinitializing Control Panel
 
+14:27:59  [main] 	Initializing Control Panel
+14:27:59  [main] 	Windows Version:  Enterprise  64-bit
+14:27:59  [main] 	XAMPP Version: 8.2.12
+14:27:59  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+14:27:59  [main] 	Running with Administrator rights - good!
+14:27:59  [main] 	XAMPP Installation Directory: "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+14:27:59  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+14:27:59  [main] 	Checking for prerequisites
+14:28:00  [main] 	All prerequisites found
+14:28:00  [main] 	Initializing Modules
+14:28:00  [main] 	The Mercury module is disabled
+14:28:00  [main] 	The Tomcat module is disabled
+14:28:00  [main] 	Starting Check-Timer
+14:28:00  [main] 	Control Panel Ready
+14:28:02  [Apache] 	Attempting to start Apache service...
+14:28:05  [Apache] 	Status change detected: running
+14:28:06  [mysql] 	Attempting to start MySQL service...
+14:28:10  [mysql] 	Status change detected: running
+17:40:46  [Apache] 	Attempting to stop Apache service...
+17:40:48  [Apache] 	Status change detected: stopped
+17:40:49  [mysql] 	Attempting to stop MySQL service...
+17:40:51  [mysql] 	Status change detected: stopped
+19:16:48  [Apache] 	Attempting to start Apache service...
+19:16:52  [Apache] 	Status change detected: running
+19:16:53  [mysql] 	Attempting to start MySQL service...
+19:16:58  [mysql] 	Status change detected: running
+22:58:42  [Apache] 	Attempting to stop Apache service...
+22:58:45  [Apache] 	Status change detected: stopped
+22:58:47  [mysql] 	Attempting to stop MySQL service...
+22:58:49  [mysql] 	Status change detected: stopped
+23:00:39  [main] 	Deinitializing Modules
+23:00:39  [main] 	Deinitializing Control Panel
+
+20:26:48  [main] 	Initializing Control Panel
+20:26:48  [main] 	Windows Version:  Enterprise  64-bit
+20:26:48  [main] 	XAMPP Version: 8.2.12
+20:26:48  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+20:26:48  [main] 	Running with Administrator rights - good!
+20:26:48  [main] 	XAMPP Installation Directory: "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+20:26:48  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+20:26:48  [main] 	Checking for prerequisites
+20:26:49  [main] 	All prerequisites found
+20:26:49  [main] 	Initializing Modules
+20:26:49  [main] 	The Mercury module is disabled
+20:26:49  [main] 	The Tomcat module is disabled
+20:26:49  [main] 	Starting Check-Timer
+20:26:49  [main] 	Control Panel Ready
+20:28:02  [Apache] 	Attempting to start Apache service...
+20:28:03  [Apache] 	Status change detected: running
+20:28:08  [mysql] 	Attempting to start MySQL service...
+20:28:13  [mysql] 	Status change detected: running
+22:39:25  [Apache] 	Attempting to stop Apache service...
+22:39:28  [Apache] 	Status change detected: stopped
+22:39:29  [mysql] 	Attempting to stop MySQL service...
+22:39:31  [mysql] 	Status change detected: stopped
+22:39:56  [main] 	Deinitializing Modules
+22:39:56  [main] 	Deinitializing Control Panel
+

@@ -154,6 +154,7 @@ class AuthService {
             response.body); //vissza kell adni a válaszba azt hogy success
         if (responseData['success'] == true) {
           int userId = responseData['id']; // ID lekérése
+          log(userId.toString());
           // Elmentjük a bejelentkezett user ID-ját
           final prefs = await SharedPreferences.getInstance();
           await prefs.setInt('id', userId);

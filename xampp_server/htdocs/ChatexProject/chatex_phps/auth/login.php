@@ -40,7 +40,7 @@ if (!$user || !password_verify($password, $user["password_hash"])) {
     exit();
 }
 
-// JWT token létrehozása
+// JWT token létrehozása - hitelesítés amivel pl: nem kell újra meg újra bejelentkezni
 $issued_at = time();
 $expiration_time = $issued_at + (60 * 60 * 24); // 24 óra
 $payload = [
