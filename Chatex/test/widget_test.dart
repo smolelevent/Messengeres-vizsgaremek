@@ -11,13 +11,37 @@ import 'package:chatex/chat/chat.dart'; // Replace with actual import
 //import 'package:mockito/mockito.dart';
 
 void main() {
-  testWidgets('Chat screen sends a message', (WidgetTester tester) async {
+
+testWidgets('Chat message displays correctly', (WidgetTester tester) async {
+    // Tesztelni fogjuk, hogy a chat képernyőn megjelenik-e egy üzenet
+    await tester.pumpWidget(MaterialApp(home: ChatUI()));
+
+    // Üzenet küldése
+    await tester.enterText(find.byType(TextField), 'Hello, how are you?');
+    await tester.tap(find.byIcon(Icons.send));
+    await tester.pump(); // Frissítjük az UI-t
+
+    // Ellenőrizzük, hogy a szöveg tényleg megjelenik
+    expect(find.text('Hello, how are you?'), findsOneWidget);
+  });
+
+  testWidgets('test that pmo icl', (WidgetTester tester) async {
     // Load the ChatScreen widget
     await tester.pumpWidget(
       MaterialApp(
         home: ChatUI(), // Replace with your actual screen
       ),
     );
+    
+
+
+  test('Message length should not exceed 500 characters', () {
+    String message = 'a' * 501;
+    expect(message.length, lessThanOrEqualTo(500));
+  });
+
+
+
 
     // Find the TextField and enter a message
     final textFieldFinder = find.byType(TextField);
