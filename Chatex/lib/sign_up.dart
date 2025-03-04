@@ -178,7 +178,8 @@ class _SignUpState extends State<SignUp> {
             checkNullOrEmpty: false,
           ),
           FormBuilderValidators.required(
-              errorText: "A felhasználónév nem lehet üres!"),
+              errorText: "A felhasználónév nem lehet üres!",
+              checkNullOrEmpty: false),
         ]),
         focusNode: _usernameFocusNode,
         controller: _usernameController,
@@ -239,7 +240,8 @@ class _SignUpState extends State<SignUp> {
               errorText: "Az email cím érvénytelen!",
               checkNullOrEmpty: false),
           FormBuilderValidators.required(
-              errorText: "Az email cím nem lehet üres!"),
+              errorText: "Az email cím nem lehet üres!",
+              checkNullOrEmpty: false),
         ]),
         focusNode: _emailFocusNode,
         controller: _emailController,
@@ -294,7 +296,8 @@ class _SignUpState extends State<SignUp> {
         name: "password",
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: FormBuilderValidators.compose([
-          FormBuilderValidators.required(errorText: "A jelszó nem lehet üres!"),
+          FormBuilderValidators.required(
+              errorText: "A jelszó nem lehet üres!", checkNullOrEmpty: false),
           FormBuilderValidators.minLength(8,
               errorText: "A jelszó túl rövid! (min 8 karakter)",
               checkNullOrEmpty: false),
@@ -382,7 +385,8 @@ class _SignUpState extends State<SignUp> {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.required(
-              errorText: "A mezőnek meg kell egyeznie a jelszó mezővel!"),
+              errorText: "A mezőnek meg kell egyeznie a jelszó mezővel!",
+              checkNullOrEmpty: false),
           FormBuilderValidators.equal(_passwordController.text,
               errorText: "A jelszavak nem egyeznek meg!",
               checkNullOrEmpty: false),

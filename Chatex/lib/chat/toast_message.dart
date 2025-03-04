@@ -7,8 +7,7 @@ class ToastMessages {
 
   void showToastMessages(String message, double whereToPercentage,
       Color bgcolor, IconData icon, Color iconcolor, Duration duration) {
-    fToastInstance.init(flutterToastKey
-        .currentContext!); //TODO: ha belépek jó, ha viszont mégegyszer akkor error
+    fToastInstance.init(flutterToastKey.currentContext!);
     fToastInstance.showToast(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),

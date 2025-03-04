@@ -49,9 +49,6 @@ class _PeopleState extends State<People> {
       backgroundColor: Colors.grey[850],
       body: FormBuilder(
         key: _formKey,
-        onChanged: () {
-          _searchUsers(_userSearchController.text);
-        },
         child: Column(
           //crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -74,7 +71,7 @@ class _PeopleState extends State<People> {
             ),
             _userSearchInputWidget(),
             const SizedBox(height: 10),
-            Expanded(child: _searchResultsWidget()), // 🔍 Keresési találatok
+            Expanded(child: _searchResultsWidget()),
           ],
         ),
       ),
@@ -94,8 +91,7 @@ class _PeopleState extends State<People> {
         body: jsonEncode({"query": query}),
         headers: {"Content-Type": "application/json"},
       );
-      log(response.statusCode.toString());
-
+      //log(response.statusCode.toString());
       if (response.statusCode == 200) {
         setState(() {
           _userSearchResults = json.decode(response.body);
@@ -149,11 +145,24 @@ class _PeopleState extends State<People> {
             checkNullOrEmpty: false,
           ),
           FormBuilderValidators.required(
-              errorText: "A felhasználónév nem lehet üres!"),
+              errorText: "A felhasználónév nem lehet üres!",
+              checkNullOrEmpty: false),
         ]),
         focusNode: _userSearchFocusNode,
         controller: _userSearchController,
-        //onChanged: (query) => _searchUsers(_userSearchController.toString()),
+        onChanged: (query) {
+          if (query == null ||
+              query.isEmpty ||
+              query.length < 3 ||
+              query.length > 20) {
+            // 🔹 Ha a mező üres, töröljük a találatokat
+            setState(() {
+              _userSearchResults = [];
+            });
+          } else {
+            _searchUsers(query); // 🔍 Keresés elindítása
+          }
+        },
         // 🔍 Keresés indítása gépeléskor
         keyboardType: TextInputType.name,
         style: const TextStyle(
@@ -163,8 +172,9 @@ class _PeopleState extends State<People> {
         decoration: InputDecoration(
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          hintText: _isUserSearchFocused ? null : "Felhasználónév",
-          labelText: _isUserSearchFocused ? "Felhasználónév" : null,
+          hintText: _isUserSearchFocused ? null : "Add meg a felhasználónevet!",
+          labelText:
+              _isUserSearchFocused ? "Add meg a felhasználónevet!" : null,
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
               color: Colors.deepPurpleAccent,

@@ -111,7 +111,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               errorText: "Az email cím érvénytelen!",
               checkNullOrEmpty: false),
           FormBuilderValidators.required(
-              errorText: "Az email cím nem lehet üres!"),
+              errorText: "Az email cím nem lehet üres!",
+              checkNullOrEmpty: false),
         ]),
         focusNode: _emailFocusNode,
         controller: _emailController,

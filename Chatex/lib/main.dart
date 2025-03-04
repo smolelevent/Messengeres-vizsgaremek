@@ -12,8 +12,8 @@ GlobalKey<NavigatorState> flutterToastKey = GlobalKey<NavigatorState>();
 //TODO: alkalmazás belépéskor ne a Flutter logo legyen
 Future<void> main() async {
   runApp(MaterialApp(
-    home: ChatUI(key: flutterToastKey),
-    //home: LoginUI(key: flutterToastKey),
+    //home: ChatUI(key: flutterToastKey),
+    home: LoginUI(key: flutterToastKey),
     builder: FToastBuilder(),
   ));
 }
@@ -213,7 +213,8 @@ class _LoginUIState extends State<LoginUI> {
               errorText: "Az email cím érvénytelen!",
               checkNullOrEmpty: false),
           FormBuilderValidators.required(
-              errorText: "Az email cím nem lehet üres!"),
+              errorText: "Az email cím nem lehet üres!",
+              checkNullOrEmpty: false),
         ]),
         focusNode: _emailFocusNode,
         controller: _emailController,
@@ -271,7 +272,8 @@ class _LoginUIState extends State<LoginUI> {
         name: "password",
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: FormBuilderValidators.compose([
-          FormBuilderValidators.required(errorText: "A jelszó nem lehet üres!"),
+          FormBuilderValidators.required(
+              errorText: "A jelszó nem lehet üres!", checkNullOrEmpty: false),
           FormBuilderValidators.minLength(8,
               errorText: "A jelszó túl rövid! (min 8 karakter)",
               checkNullOrEmpty: false),
