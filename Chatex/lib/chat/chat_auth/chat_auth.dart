@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
+import 'dart:convert'; //encode, decode
 import 'dart:developer'; //log miatt
 import 'package:http/http.dart' as http;
-import 'package:chatex/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:chatex/chat/toast_message.dart';
 
 class LoadedChatData extends StatefulWidget {
   const LoadedChatData({super.key});
@@ -15,12 +15,10 @@ class LoadedChatDataState extends State<LoadedChatData> {
   final ToastMessages _toastMessagesInstance = ToastMessages();
   late Future<List<dynamic>> _chatList =
       Future.value([]); // Üres lista, így nem lesz lateInitError
-  //late Future<List<dynamic>> _chatList;
 
   @override
   void initState() {
     super.initState();
-    //_chatList = fetchChatListFromDatabase();
     _getCorrectChatList();
   }
 
@@ -32,7 +30,6 @@ class LoadedChatDataState extends State<LoadedChatData> {
       log("Hiba: Nincs elmentve user_id");
       return;
     }
-
     setState(() {
       _chatList = fetchChatListFromDatabase(userId);
     });
