@@ -176,12 +176,10 @@ class AuthService {
 
 //forgotPassword logika --------------------------------------------------------------
   Future<void> forgotPassword(
-      //TODO: nem működik
-      {required TextEditingController email,
-      required context}) async {
+      {required TextEditingController email, required context}) async {
     try {
       final Uri forgotPasswordUrl = Uri.parse(
-          'http://10.0.2.2/ChatexProject/chatex_phps/reset_password/forgot_password.php');
+          'http://10.0.2.2/ChatexProject/chatex_phps/reset_password/reset_password.php');
       final response = await http.post(
         forgotPasswordUrl,
         body: jsonEncode(<String, String>{

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jelszó visszaállítása</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .container {
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 90%;
+        max-width: 400px;
+      }
+
+      h2 {
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      button:hover {
+        background-color: #218838;
+      }
+
+      .error {
+        color: red;
+        font-size: 14px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Jelszó visszaállítása</h2>
+      <form id="resetForm">
+        <input type="password" id="password" placeholder="Új jelszó" required />
+        <input
+          type="password"
+          id="confirmPassword"
+          placeholder="Jelszó megerősítése"
+          required
+        />
+        <input type='hidden' id='token' value='" .
+        htmlspecialchars($_GET['token'] ?? '') . "'>
+        <button type="submit">Jelszó módosítása</button>
+        <p class="error" id="errorMessage"></p>
+      </form>
+    </div>
+
+    <script>
+      document
+        .getElementById("resetForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const password = document.getElementById("password").value;
+          const confirmPassword =
+            document.getElementById("confirmPassword").value;
+          const token = document.getElementById("token").value;
+          const errorMessage = document.getElementById("errorMessage");
+
+          if (password !== confirmPassword) {
+            errorMessage.textContent = "A jelszavak nem egyeznek!";
+            return;
+          }
+
+          const response = await fetch("reset_password.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token, password }),
+          });
+
+          const data = await response.json();
+          if (data.success) {
+            alert("Jelszó sikeresen módosítva!");
+          } else {
+            errorMessage.textContent = data.message;
+          }
+        });
+    </script>
+  </body>
+</html>

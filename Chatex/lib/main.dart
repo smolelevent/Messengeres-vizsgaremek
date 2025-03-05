@@ -1,12 +1,13 @@
 import 'package:chatex/auth.dart';
-import 'package:chatex/chat/chat.dart';
+//import 'package:chatex/chat/chat.dart';
 import 'package:flutter/material.dart';
 import 'package:chatex/forgot_password.dart';
 import 'package:chatex/sign_up.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:chatex/chat/chat_auth/chat_auth.dart';
+//import 'package:chatex/chat/chat_auth/chat_auth.dart';
+//import 'package:device_preview/device_preview.dart';
 
 GlobalKey<NavigatorState> flutterToastKey = GlobalKey<NavigatorState>();
 //TODO: alkalmazás belépéskor ne a Flutter logo legyen
@@ -51,7 +52,6 @@ class _LoginUIState extends State<LoginUI> {
   }
 
   void _validateActiveField() {
-    //TODO: nem működik jól
     if (_emailFocusNode.hasFocus) {
       _formKey.currentState?.fields['email']?.validate();
     } else if (_passwordFocusNode.hasFocus) {
@@ -104,9 +104,8 @@ class _LoginUIState extends State<LoginUI> {
               _dropDownMenu(),
               const CircleAvatar(
                 radius: 60,
-                backgroundImage: AssetImage("assets/logo_titkos.png"),
+                backgroundImage: AssetImage("assets/logo.jpg"),
               ),
-              //TODO: jobb logó jpg nem jó
               _emailAddressWidget(),
               _passwordWidget(),
               const SizedBox(
@@ -142,7 +141,6 @@ class _LoginUIState extends State<LoginUI> {
           color: Colors.deepPurpleAccent,
         ),
         inputDecorationTheme: InputDecorationTheme(
-          //label text stílusa
           labelStyle: TextStyle(
             color: Colors.grey[600],
             fontStyle: FontStyle.italic,
@@ -354,7 +352,6 @@ class _LoginUIState extends State<LoginUI> {
   }
 
   Widget _logInWidget() {
-    //TODO: nem ad kapcsolati hibát
     return Row(
       children: [
         Expanded(
