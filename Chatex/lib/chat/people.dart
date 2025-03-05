@@ -105,6 +105,7 @@ class _PeopleState extends State<People> {
   }
 
   Future<void> _sendFriendRequest(int userId) async {
+    //TODO: megcsinálni
     final response = await http.post(
       Uri.parse(
           "http://10.0.2.2/ChatexProject/chatex_phps/send_friend_request.php"),

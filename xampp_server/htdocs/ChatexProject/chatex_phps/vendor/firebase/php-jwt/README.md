@@ -82,7 +82,7 @@ use Firebase\JWT\JWT;
 
 $key = 'example_key';
 $payload = [
-    'iss' ="../../../../../../../vendor/firebase/php-jwt"> 'http://example.org',
+    'iss' => 'http://example.org',
     'aud' => 'http://example.com',
     'iat' => 1356999524,
     'nbf' => 1357000000

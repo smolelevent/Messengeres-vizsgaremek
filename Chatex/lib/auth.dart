@@ -181,7 +181,7 @@ class AuthService {
       required context}) async {
     try {
       final Uri forgotPasswordUrl = Uri.parse(
-          'http://10.0.2.2/ChatexProject/chatex_phps/reset_password.php/forgot_password.php');
+          'http://10.0.2.2/ChatexProject/chatex_phps/reset_password/forgot_password.php');
       final response = await http.post(
         forgotPasswordUrl,
         body: jsonEncode(<String, String>{
@@ -193,7 +193,7 @@ class AuthService {
       if (response.statusCode == 200) {
         _toastMessagesInstance.showToastMessages(
             "A jelszó helyreállító emailt elküldtük!",
-            0.6,
+            0.2,
             Colors.green,
             Icons.check,
             Colors.black,
