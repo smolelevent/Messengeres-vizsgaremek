@@ -275,6 +275,6 @@ yield _gettext("Action");
 
     public function getSourceContext()
     {
-        return new Source("", "database/structure/table_header.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\database\\structure\\table_header.twig");
+        return new Source("", "database/structure/table_header.twig", "C:\\Users\\user\\Desktop\\vizsgahoz szukseges\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\database\\structure\\table_header.twig");
     }
 }

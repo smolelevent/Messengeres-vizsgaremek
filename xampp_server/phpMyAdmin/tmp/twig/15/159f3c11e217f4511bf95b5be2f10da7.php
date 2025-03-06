@@ -611,6 +611,6 @@ yield _gettext("in use");
 
     public function getSourceContext()
     {
-        return new Source("", "database/structure/structure_table_row.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\database\\structure\\structure_table_row.twig");
+        return new Source("", "database/structure/structure_table_row.twig", "C:\\Users\\user\\Desktop\\vizsgahoz szukseges\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\database\\structure\\structure_table_row.twig");
     }
 }

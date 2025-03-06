@@ -83,6 +83,6 @@ yield _gettext("Containing the word:");
 
     public function getSourceContext()
     {
-        return new Source("", "filter.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\filter.twig");
+        return new Source("", "filter.twig", "C:\\Users\\user\\Desktop\\vizsgahoz szukseges\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\filter.twig");
     }
 }

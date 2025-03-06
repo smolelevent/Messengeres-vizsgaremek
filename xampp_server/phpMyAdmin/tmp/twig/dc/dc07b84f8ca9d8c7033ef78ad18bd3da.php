@@ -826,6 +826,6 @@ yield _gettext("Drop");
 
     public function getSourceContext()
     {
-        return new Source("", "server/databases/index.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\server\\databases\\index.twig");
+        return new Source("", "server/databases/index.twig", "C:\\Users\\user\\Desktop\\vizsgahoz szukseges\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\server\\databases\\index.twig");
     }
 }

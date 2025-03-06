@@ -1,4 +1,4 @@
-#!C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\php\.\php.exe
+#!C:\Users\user\Desktop\vizsgahoz szukseges\Messengeres-vizsgaremek\xampp_server\php\.\php.exe
 <?php
 /* PHPUnit
  *
@@ -37,10 +37,10 @@
 
 define('PHPUnit_MAIN_METHOD', 'PHPUnit_TextUI_Command::main');
 
-if (strpos('C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\php\.\php.exe', '@php_bin') === 0) {
+if (strpos('C:\Users\user\Desktop\vizsgahoz szukseges\Messengeres-vizsgaremek\xampp_server\php\.\php.exe', '@php_bin') === 0) {
     require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'PHPUnit' . DIRECTORY_SEPARATOR . 'Autoload.php';
 } else {
-    require 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\php\pear' . DIRECTORY_SEPARATOR . 'PHPUnit' . DIRECTORY_SEPARATOR . 'Autoload.php';
+    require 'C:\Users\user\Desktop\vizsgahoz szukseges\Messengeres-vizsgaremek\xampp_server\php\pear' . DIRECTORY_SEPARATOR . 'PHPUnit' . DIRECTORY_SEPARATOR . 'Autoload.php';
 }
 
 PHPUnit_TextUI_Command::main();

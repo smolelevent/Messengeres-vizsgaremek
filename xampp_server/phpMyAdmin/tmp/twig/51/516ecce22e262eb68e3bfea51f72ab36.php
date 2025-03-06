@@ -302,6 +302,6 @@ yield _gettext("Default");
 
     public function getSourceContext()
     {
-        return new Source("", "database/structure/body_for_table_summary.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\database\\structure\\body_for_table_summary.twig");
+        return new Source("", "database/structure/body_for_table_summary.twig", "C:\\Users\\user\\Desktop\\vizsgahoz szukseges\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\database\\structure\\body_for_table_summary.twig");
     }
 }

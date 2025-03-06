@@ -17,7 +17,8 @@ dependencies {
 android {
     namespace = "com.example.chatex"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = "25.1.8937393"
+    ndkVersion = "26.3.11579264"
+    //25.1.8937393
 
 
     compileOptions {

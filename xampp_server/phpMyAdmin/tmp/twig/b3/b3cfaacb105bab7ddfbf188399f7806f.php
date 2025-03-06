@@ -86,6 +86,6 @@ class __TwigTemplate_8d26665d10e41dd1d4c4e8d320ba429c extends Template
 
     public function getSourceContext()
     {
-        return new Source("", "database/structure/favorite_anchor.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\database\\structure\\favorite_anchor.twig");
+        return new Source("", "database/structure/favorite_anchor.twig", "C:\\Users\\user\\Desktop\\vizsgahoz szukseges\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\database\\structure\\favorite_anchor.twig");
     }
 }

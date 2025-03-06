@@ -190,6 +190,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       : () async {
                           if (_formKey.currentState!.saveAndValidate()) {
                             await AuthService().forgotPassword(
+                              //TODO: loading ameddig csinálja az emailt
                               email: _emailController,
                               context: context,
                             );

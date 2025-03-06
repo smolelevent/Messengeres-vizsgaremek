@@ -238,6 +238,6 @@ yield _gettext("Continue");
 
     public function getSourceContext()
     {
-        return new Source("", "database/structure/check_all_tables.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\database\\structure\\check_all_tables.twig");
+        return new Source("", "database/structure/check_all_tables.twig", "C:\\Users\\user\\Desktop\\vizsgahoz szukseges\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\database\\structure\\check_all_tables.twig");
     }
 }

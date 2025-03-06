@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
-    $stmt = $conn->prepare("SELECT id FROM users WHERE password_reset_token = ? AND password_reset_expires > NOW()");
+    $stmt = $conn->prepare("SELECT id, email FROM users WHERE password_reset_token = ? AND password_reset_expires > NOW()");
     $stmt->bind_param("s", $token);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -23,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $userId = $row["id"];
+        $userEmail = $row["email"];
 
         $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
         $stmt = $conn->prepare("UPDATE users SET password = ?, password_reset_token = NULL, password_reset_expires = NULL WHERE id = ?");
@@ -39,14 +40,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     exit;
 }
 
-// Ha nem POST kérésről van szó, akkor ne küldjünk JSON fejlécet, mert HTML-t küldünk vissza
+// Ha nem POST kérés, hanem GET (az oldal megjelenítése)
 $token = $_GET["token"] ?? '';
 if (!$token) {
     die("Érvénytelen token.");
 }
 
-?>
-<!DOCTYPE html>
+// Lekérjük az email címet a token alapján
+$stmt = $conn->prepare("SELECT email FROM users WHERE password_reset_token = ? AND password_reset_expires > NOW()");
+$stmt->bind_param("s", $token);
+$stmt->execute();
+$result = $stmt->get_result();
+$userEmail = "";
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $userEmail = $row["email"];
+} else {
+    die("Érvénytelen vagy lejárt token.");
+}
+
+
+echo '<!DOCTYPE html>
 <html lang="hu">
 
 <head>
@@ -62,7 +77,7 @@ if (!$token) {
         }
 
         body {
-            background-color: #f4f4f4;
+            background-color: rgb(124, 76, 255);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -119,7 +134,7 @@ if (!$token) {
             display: none;
         }
 
-        button {
+        input[type=submit] {
             width: 100%;
             padding: 10px;
             border: none;
@@ -131,41 +146,47 @@ if (!$token) {
             margin-top: 10px;
         }
 
-        button.active {
+
+        input[type=submit] {
             background-color: purple;
         }
 
-        button.active:hover {
+        input[type=submit]:hover {
             background-color: darkviolet;
         }
     </style>
 </head>
 
 <body>
-
     <div class="container">
         <h2>Új jelszó megadása</h2>
-        <p>[email] címre</p>
+        <p><b>' . htmlspecialchars($userEmail) . '</b> címre</p>
+        <form action="" method="POST">
+            <div class="input-container">
+                <input type="password" id="password" placeholder="Új jelszó" required>
+                <span class="toggle-password" onclick="togglePassword()">👁</span>
+            </div>
+            <p class="error" id="passwordError">A jelszónak 8-20 karakter hosszúnak kell lennie, tartalmaznia kell legalább 1 kisbetűt, 1 nagybetűt és 1 számot!</p>
 
-        <div class="input-container">
-            <input type="password" id="password" placeholder="Új jelszó" required>
-            <span class="toggle-password" onclick="togglePassword('password')">👁</span>
-        </div>
-        <p class="error" id="passwordError">A jelszónak 8-20 karakter hosszúnak kell lennie, tartalmaznia kell legalább 1 kisbetűt, 1 nagybetűt és 1 számot.</p>
+            <div class="input-container">
+                <input type="password" id="confirmPassword" placeholder="Új jelszó megerősítése" required>
+                <span class="toggle-password" onclick="togglePassword()">👁</span>
+            </div>
+            <p class="error" id="confirmPasswordError">A jelszavak nem egyeznek!</p>
 
-        <div class="input-container">
-            <input type="password" id="confirmPassword" placeholder="Új jelszó megerősítése" required>
-            <span class="toggle-password" onclick="togglePassword('confirmPassword')">👁</span>
-        </div>
-        <p class="error" id="confirmPasswordError">A jelszavak nem egyeznek!</p>
-
-        <button id="resetButton" disabled>Jelszó helyreállítása</button> <!-- TODO: gomb megcsinálása -->
+            <input type="submit" id="resetButton" value="Jelszó helyreállítása">
+        </form>
     </div>
 
     <script>
-        function togglePassword(inputId) {
-            let input = document.getElementById(inputId);
-            input.type = input.type === "password" ? "text" : "password";
+        function togglePassword() {
+            let passwordField = document.getElementById("password");
+            let confirmPasswordField = document.getElementById("confirmPassword");
+
+            let newType = passwordField.type === "password" ? "text" : "password";
+
+            passwordField.type = newType;
+            confirmPasswordField.type = newType;
         }
 
         function validatePassword() {
@@ -204,8 +225,46 @@ if (!$token) {
 
         document.getElementById("password").addEventListener("input", validatePassword);
         document.getElementById("confirmPassword").addEventListener("input", validatePassword);
-    </script>
 
+        document.getElementById("resetButton").addEventListener("click", function(event) {
+            event.preventDefault(); // Megakadályozza az oldal újratöltését
+
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+            const token = ' . htmlspecialchars($token) . ';
+
+            if (password !== confirmPassword) {
+                alert("A jelszavak nem egyeznek!");
+                return;
+            }
+
+            fetch(window.location.href, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: new URLSearchParams({
+                        "token": token,
+                        "new_password": password
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Sikeres jelszóváltoztatás! Az oldal most bezáródik.");
+                        window.close(); // Bezárja az oldalt
+                    } else {
+                        alert("Hiba történt: " + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("Hálózati hiba:", error);
+                });
+        });
+    </script>
 </body>
 
-</html>
+</html>';
+
+$stmt->close();
+$conn->close();

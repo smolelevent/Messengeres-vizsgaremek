@@ -201,6 +201,7 @@ class _LoginUIState extends State<LoginUI> {
     return Container(
       margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
       child: FormBuilderTextField(
+        key: const Key("email"),
         name: "email",
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: FormBuilderValidators.compose([
@@ -267,6 +268,7 @@ class _LoginUIState extends State<LoginUI> {
     return Container(
       margin: const EdgeInsets.all(10.0),
       child: FormBuilderTextField(
+        key: const Key("password"),
         name: "password",
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: FormBuilderValidators.compose([
@@ -358,6 +360,7 @@ class _LoginUIState extends State<LoginUI> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: ElevatedButton(
+              key: const Key("logIn"),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.deepPurpleAccent,
                 foregroundColor: Colors.white,
