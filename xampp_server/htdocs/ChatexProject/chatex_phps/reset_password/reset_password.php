@@ -40,7 +40,7 @@ if ($result->num_rows > 0) {
     $stmt->execute();
 
     // Jelszó visszaállító link
-    $resetLink = "http://localhost/ChatexProject/chatex_phps/reset_password/reset_password_form.php?token=$token";
+    $resetLink = "http://localhost/ChatexProject/chatex_phps/reset_password/open_reset_window.php?token=$token";
 
     // **📧 PHPMailer konfigurálása és email küldés**
     $mail = new PHPMailer(true);
@@ -64,9 +64,10 @@ if ($result->num_rows > 0) {
         // E-mail tartalma
         $mail->isHTML(true);
         $mail->Subject = "Jelszó visszaállítás";
-        $mail->Body = "<p>Kattints az alábbi linkre a jelszó visszaállításához:</p>
-                       <p><a href='$resetLink'>$resetLink</a></p>
-                       <p>Ez a link 1 óráig érvényes.</p>";
+        $mail->Body = "<h1>Kattints az alábbi linkre a jelszó visszaállításához:</h1>
+                       <p><a href='$resetLink' target='_blank'>$resetLink</a></p>
+                       <h2>Ez a link 1 óráig érvényes.</h2><br>
+                       <p>Chatex</p>";
 
 
         // E-mail küldés

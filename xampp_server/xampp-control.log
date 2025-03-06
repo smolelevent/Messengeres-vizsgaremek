@@ -849,3 +849,40 @@
 17:27:45  [main] 	Deinitializing Modules
 17:27:45  [main] 	Deinitializing Control Panel
 
+20:48:40  [main] 	Initializing Control Panel
+20:48:40  [main] 	Windows Version:  Enterprise  64-bit
+20:48:40  [main] 	XAMPP Version: 8.2.12
+20:48:40  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+20:48:40  [main] 	Running with Administrator rights - good!
+20:48:40  [main] 	XAMPP Installation Directory: "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+20:48:40  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+20:48:40  [main] 	Checking for prerequisites
+20:48:40  [main] 	All prerequisites found
+20:48:40  [main] 	Initializing Modules
+20:48:40  [main] 	The Mercury module is disabled
+20:48:40  [main] 	The Tomcat module is disabled
+20:48:40  [main] 	Starting Check-Timer
+20:48:40  [main] 	Control Panel Ready
+20:48:55  [Apache] 	Attempting to start Apache service...
+20:48:56  [mysql] 	Attempting to start MySQL service...
+20:48:56  [mysql] 	Status change detected: running
+20:49:02  [mysql] 	Status change detected: stopped
+20:49:02  [mysql] 	Error: MySQL shutdown unexpectedly.
+20:49:02  [mysql] 	This may be due to a blocked port, missing dependencies, 
+20:49:02  [mysql] 	improper privileges, a crash, or a shutdown by another method.
+20:49:02  [mysql] 	Press the Logs button to view error logs and check
+20:49:02  [mysql] 	the Windows Event Viewer for more clues
+20:49:02  [mysql] 	If you need more help, copy and post this
+20:49:02  [mysql] 	entire log window on the forums
+20:49:04  [main] 	Executing "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+20:49:18  [Apache] 	Attempting to start Apache service...
+20:49:19  [Apache] 	Status change detected: running
+20:49:20  [mysql] 	Attempting to start MySQL service...
+20:49:20  [mysql] 	Status change detected: running
+23:54:21  [Apache] 	Attempting to stop Apache service...
+23:54:24  [Apache] 	Status change detected: stopped
+23:54:25  [mysql] 	Attempting to stop MySQL service...
+23:54:26  [mysql] 	Status change detected: stopped
+23:54:43  [main] 	Deinitializing Modules
+23:54:43  [main] 	Deinitializing Control Panel
+

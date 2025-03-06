@@ -164,13 +164,13 @@ echo '<!DOCTYPE html>
         <form action="" method="POST">
             <div class="input-container">
                 <input type="password" id="password" placeholder="Új jelszó" required>
-                <span class="toggle-password" onclick="togglePassword()">👁</span>
+                <span class="toggle-password" id="visible1" onclick="togglePassword()">◉</span>
             </div>
             <p class="error" id="passwordError">A jelszónak 8-20 karakter hosszúnak kell lennie, tartalmaznia kell legalább 1 kisbetűt, 1 nagybetűt és 1 számot!</p>
 
             <div class="input-container">
                 <input type="password" id="confirmPassword" placeholder="Új jelszó megerősítése" required>
-                <span class="toggle-password" onclick="togglePassword()">👁</span>
+                <span class="toggle-password" id="visible2" onclick="togglePassword()">◉</span>
             </div>
             <p class="error" id="confirmPasswordError">A jelszavak nem egyeznek!</p>
 
@@ -182,15 +182,21 @@ echo '<!DOCTYPE html>
         function togglePassword() {
             let passwordField = document.getElementById("password");
             let confirmPasswordField = document.getElementById("confirmPassword");
+            let icon1 = document.getElementById("visible1");
+            let icon2 = document.getElementById("visible2");
 
         if (passwordField.type === "password") {
                 passwordField.type = "text";
-                confirmPasswordField = "text";
-                iconElement.textContent = "◎"; // Áthúzott szem ikon (Unicode)
+                confirmPasswordField.type = "text";
+                icon1.textContent = "◎";
+                icon2.textContent = "◎";
+                //iconElement.textContent = "◎"; // Áthúzott szem ikon (Unicode)
             } else {
                 passwordField.type = "password";
-                confirmPasswordField = "password";
-                iconElement.textContent = "◉"; // Nyitott szem ikon
+                confirmPasswordField.type = "password";
+                icon1.textContent = "◉";
+                icon2.textContent = "◉";
+                //iconElement.textContent = "◉"; // Nyitott szem ikon
             }
         }
 
