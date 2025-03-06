@@ -26,13 +26,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $userEmail = $row["email"];
 
         $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
-        $stmt = $conn->prepare("UPDATE users SET password = ?, password_reset_token = NULL, password_reset_expires = NULL WHERE id = ?");
+        $stmt = $conn->prepare("UPDATE users SET password_hash = ?, password_reset_token = NULL, password_reset_expires = NULL WHERE id = ?");
         $stmt->bind_param("si", $hashedPassword, $userId);
         $stmt->execute();
 
         echo json_encode(["success" => true, "message" => "Jelszó sikeresen frissítve!"]);
     } else {
-        echo json_encode(["success" => false, "message" => "Érvénytelen vagy lejárt token."]);
+        echo json_encode(["success" => false, "message" => "A jelszó helyreállító email lejárt!"]); //Érvénytelen vagy lejárt token.
     }
 
     $stmt->close();
@@ -183,10 +183,15 @@ echo '<!DOCTYPE html>
             let passwordField = document.getElementById("password");
             let confirmPasswordField = document.getElementById("confirmPassword");
 
-            let newType = passwordField.type === "password" ? "text" : "password";
-
-            passwordField.type = newType;
-            confirmPasswordField.type = newType;
+        if (passwordField.type === "password") {
+                passwordField.type = "text";
+                confirmPasswordField = "text";
+                iconElement.textContent = "◎"; // Áthúzott szem ikon (Unicode)
+            } else {
+                passwordField.type = "password";
+                confirmPasswordField = "password";
+                iconElement.textContent = "◉"; // Nyitott szem ikon
+            }
         }
 
         function validatePassword() {
@@ -231,7 +236,7 @@ echo '<!DOCTYPE html>
 
             const password = document.getElementById("password").value;
             const confirmPassword = document.getElementById("confirmPassword").value;
-            const token = ' . htmlspecialchars($token) . ';
+            const token = ' . json_encode($token) . ';
 
             if (password !== confirmPassword) {
                 alert("A jelszavak nem egyeznek!");
