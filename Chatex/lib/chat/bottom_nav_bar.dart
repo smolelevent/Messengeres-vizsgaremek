@@ -27,15 +27,15 @@ class _BottomNavbarForChatState extends State<BottomNavbarForChat> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _bottomAppBarItem(Icons.chat, "Chatek", 0),
-            _bottomAppBarItem(Icons.person, "Ismerősök", 1),
+            _bottomAppBarItem(Icons.chat, "Chatek", 0, Key("chatNavBar")),
+            _bottomAppBarItem(Icons.person, "Ismerősök", 1, Key("friendsNavBar")),
           ],
         ),
       ),
     );
   }
 
-  Widget _bottomAppBarItem(IconData icon, String label, int index) {
+  Widget _bottomAppBarItem(IconData icon, String label, int index, Key key) {
     final bool isSelected = widget.selectedIndex == index;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,

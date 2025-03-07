@@ -1,21 +1,16 @@
 import 'package:chatex/auth.dart';
-//import 'package:chatex/chat/chat.dart';
 import 'package:flutter/material.dart';
 import 'package:chatex/reset_password.dart';
 import 'package:chatex/sign_up.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-//import 'package:chatex/chat/chat_auth/chat_auth.dart';
+import 'package:chatex/chat/toast_message.dart';
 //import 'package:device_preview/device_preview.dart';
 
-GlobalKey<NavigatorState> flutterToastKey = GlobalKey<NavigatorState>();
 //TODO: alkalmazás belépéskor ne a Flutter logo legyen
 Future<void> main() async {
   runApp(MaterialApp(
-    //home: ChatUI(key: flutterToastKey),
-    home: LoginUI(key: flutterToastKey),
-    builder: FToastBuilder(),
+    home: LoginUI(),
   ));
 }
 
@@ -82,6 +77,12 @@ class _LoginUIState extends State<LoginUI> {
     _emailFocusNode.dispose();
     _passwordFocusNode.dispose();
     super.dispose();
+  }
+
+  @override //FlutterToast
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    ToastMessages.init(context);
   }
 
   @override

@@ -12,7 +12,6 @@ class LoadedChatData extends StatefulWidget {
 }
 
 class LoadedChatDataState extends State<LoadedChatData> {
-  final ToastMessages _toastMessagesInstance = ToastMessages();
   late Future<List<dynamic>> _chatList =
       Future.value([]); // Üres lista, így nem lesz lateInitError
 
@@ -49,7 +48,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
       return json.decode(response.body);
     } else {
       log(response.statusCode.toString());
-      _toastMessagesInstance.showToastMessages(
+      ToastMessages.showToastMessages(
           "Valami hiba, dögölj meg!",
           0.1,
           Colors.red,

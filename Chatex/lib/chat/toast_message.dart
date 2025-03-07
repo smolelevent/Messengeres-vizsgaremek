@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:chatex/main.dart';
 
 class ToastMessages {
-  FToast fToastInstance = FToast();
+  static final FToast _fToastInstance = FToast();
 
-  void showToastMessages(String message, double whereToPercentage,
-      Color bgcolor, IconData icon, Color iconcolor, Duration duration) {
-    fToastInstance.init(flutterToastKey.currentContext!);
-    fToastInstance.showToast(
+  /// Inicializálás, ezt csak egyszer kell meghívni!
+  static void init(BuildContext context) {
+    _fToastInstance.init(context);
+  }
+
+  /// Toast üzenet megjelenítése
+  static void showToastMessages(String message, double whereToPercentage,
+      Color bgColor, IconData icon, Color iconColor, Duration duration) {
+    _fToastInstance.showToast(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25.0),
-          color: bgcolor,
+          color: bgColor,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
-              color: iconcolor,
-            ),
-            SizedBox(
-              width: 12.0,
-            ),
+            Icon(icon, color: iconColor),
+            const SizedBox(width: 12.0),
             Text(message),
           ],
         ),

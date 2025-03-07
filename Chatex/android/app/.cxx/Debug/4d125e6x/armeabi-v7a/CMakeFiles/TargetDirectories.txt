@@ -1,0 +1,2 @@
+C:/Users/Levi/Desktop/Szakmai/dualis/13.d/Git repok/Messengeres-vizsgaremek/Chatex/android/app/.cxx/Debug/4d125e6x/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/Levi/Desktop/Szakmai/dualis/13.d/Git repok/Messengeres-vizsgaremek/Chatex/android/app/.cxx/Debug/4d125e6x/armeabi-v7a/CMakeFiles/rebuild_cache.dir

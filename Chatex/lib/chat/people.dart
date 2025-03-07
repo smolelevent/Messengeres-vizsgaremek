@@ -15,7 +15,6 @@ class People extends StatefulWidget {
 }
 
 class _PeopleState extends State<People> {
-  final ToastMessages _toastMessagesInstance = ToastMessages();
   final TextEditingController _userSearchController = TextEditingController();
   final FocusNode _userSearchFocusNode = FocusNode();
   bool _isUserSearchFocused = false;
@@ -114,10 +113,10 @@ class _PeopleState extends State<People> {
     );
 
     if (response.statusCode == 200) {
-      _toastMessagesInstance.showToastMessages("Barátjelölés elküldve!", 0.2,
+      ToastMessages.showToastMessages("Barátjelölés elküldve!", 0.2,
           Colors.green, Icons.check, Colors.black, const Duration(seconds: 2));
     } else {
-      _toastMessagesInstance.showToastMessages(
+      ToastMessages.showToastMessages(
           "Hiba történt a barátjelölés közben!",
           0.2,
           Colors.redAccent,
