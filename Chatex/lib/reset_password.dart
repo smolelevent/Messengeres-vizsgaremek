@@ -14,6 +14,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final TextEditingController _emailController = TextEditingController();
   final FocusNode _emailFocusNode = FocusNode();
   bool _isEmailFocused = false;
+  bool _isLoading = false;
 
   final _formKey = GlobalKey<FormBuilderState>();
   bool _isPasswordResetButtonDisabled = true;
@@ -60,37 +61,48 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           backgroundColor: Colors.deepPurple[400],
           elevation: 5,
         ),
-        body: FormBuilder(
-          key: _formKey,
-          onChanged: () {
-            _validateEmailAddressField();
-            _checkPasswordResetFieldValidation();
-          },
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 25.0,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text(
-                  "A jelszó helyreállításához\nadja meg az e-mail címét!",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
+        body: Stack(
+          children: [
+            FormBuilder(
+              key: _formKey,
+              onChanged: () {
+                _validateEmailAddressField();
+                _checkPasswordResetFieldValidation();
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 25.0,
                   ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      "A jelszó helyreállításához\nadja meg az e-mail címét!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.0,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 25.0,
+                  ),
+                  _emailAddressFieldWidget(),
+                  _passwordResetButtonWidget(),
+                  _chatexWidget(),
+                ],
+              ),
+            ),
+            if (_isLoading)
+              const Center(
+                child: CircularProgressIndicator(
+                  strokeWidth: 3,
+                  color: Colors.deepPurpleAccent,
                 ),
               ),
-              SizedBox(
-                height: 25.0,
-              ),
-              _emailAddressFieldWidget(),
-              _passwordResetButtonWidget(),
-              _chatexWidget(),
-            ],
-          ),
+          ],
         ),
       ),
     );
@@ -185,18 +197,56 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     disabledForegroundColor: Colors.white,
                     elevation: 5,
                   ),
-                  onPressed: _isPasswordResetButtonDisabled
+                  onPressed: _isPasswordResetButtonDisabled || _isLoading
                       ? null
                       : () async {
                           if (_formKey.currentState!.saveAndValidate()) {
-                            await AuthService().forgotPassword(
-                              //TODO: loading ameddig csinálja az emailt
-                              email: _emailController,
-                              context: context,
-                            );
+                            setState(() {
+                              _isLoading = true;
+                            });
+
+                            try {
+                              //TODO: mire megjelenik a toast message addigra tűnjön el a loading
+                              await AuthService().forgotPassword(
+                                email: _emailController,
+                                context: context,
+                              );
+                            } finally {
+                              setState(() {
+                                _isLoading = false;
+                              });
+                            }
                           }
                         },
-                  child: Text(
+                  // _isPasswordResetButtonDisabled
+                  //     ? null
+                  //     : () async {
+                  //         if (_formKey.currentState!.saveAndValidate()) {
+                  //           await AuthService().forgotPassword(
+                  //             //TODO: loading ameddig csinálja az emailt
+                  //             email: _emailController,
+                  //             context: context,
+                  //           );
+                  //         }
+                  //       },
+                  child:
+                      // _isLoading
+                      //     ? const SizedBox(
+                      //         width: 24,
+                      //         height: 24,
+                      //         child: CircularProgressIndicator(
+                      //           strokeWidth: 3,
+                      //           color: Colors.white,
+                      //         ),
+                      //       )
+                      //     : const Text(
+                      //         "Jelszó helyreállítása",
+                      //         style: TextStyle(
+                      //             fontSize: 20,
+                      //             height: 3.0,
+                      //             fontWeight: FontWeight.bold),
+                      //       ),
+                      Text(
                     "Jelszó helyreállítása",
                     style: TextStyle(
                       fontSize:

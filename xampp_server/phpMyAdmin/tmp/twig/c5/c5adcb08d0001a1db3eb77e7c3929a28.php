@@ -129,6 +129,6 @@ yield _gettext("No");
 
     public function getSourceContext()
     {
-        return new Source("", "table/delete/confirm.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\table\\delete\\confirm.twig");
+        return new Source("", "table/delete/confirm.twig", "C:\\Users\\user\\Desktop\\vizsgahoz szukseges\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\table\\delete\\confirm.twig");
     }
 }

@@ -11,7 +11,7 @@ if (!$token) {
     <meta charset="UTF-8">
     <title>Jelszó visszaállítása</title>
     <script>
-        window.onload = function() {
+        window.onload = function() { //TODO: elugró ablak nem nyílik meg ha le van tíltva a böngészőben
             let width = 502;
             let height = 458;
 

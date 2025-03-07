@@ -32,7 +32,7 @@ if ($result->num_rows > 0) {
 
     // Token generálása és lejárati idő beállítása
     $token = bin2hex(random_bytes(20));
-    $expires = date("Y-m-d H:i:s", strtotime("+1 hour"));
+    $expires = date("Y-m-d H:i:s", strtotime("+15 minutes"));
 
     // Token mentése az adatbázisba
     $stmt = $conn->prepare("UPDATE users SET password_reset_token = ?, password_reset_expires = ? WHERE id = ?");
@@ -66,9 +66,8 @@ if ($result->num_rows > 0) {
         $mail->Subject = "Jelszó visszaállítás";
         $mail->Body = "<h1>Kattints az alábbi linkre a jelszó visszaállításához:</h1>
                        <p><a href='$resetLink' target='_blank'>$resetLink</a></p>
-                       <h2>Ez a link 1 óráig érvényes.</h2><br>
+                       <h2>Ez a link 15 percig érvényes.</h2>
                        <p>Chatex</p>";
-
 
         // E-mail küldés
         if ($mail->send()) {

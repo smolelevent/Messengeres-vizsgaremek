@@ -57,7 +57,44 @@ if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $userEmail = $row["email"];
 } else {
-    die("Érvénytelen vagy lejárt token.");
+    die('<!DOCTYPE html>
+        <html lang="hu">
+        <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Érvénytelen vagy lejárt token</title>
+        <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: rgb(124, 76, 255);
+            display: flex;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .content {
+            max-width: 100%;
+        }
+
+        h1, h2 {
+            color: white;
+        }
+        </style>
+        </head>
+        <body>
+        <div class="content">
+        <h1>Érvénytelen vagy lejárt token.</h1>
+        <br>
+        <h2>Jelentés: kérvényezz egy új jelszó helyreállításos emailt!</h2>
+        </div>
+        </body>
+        </html>');
 }
 
 
@@ -148,11 +185,11 @@ echo '<!DOCTYPE html>
 
 
         input[type=submit] {
-            background-color: purple;
+            background-color: rgb(124, 76, 255);
         }
 
         input[type=submit]:hover {
-            background-color: darkviolet;
+            background-color: purple;
         }
     </style>
 </head>

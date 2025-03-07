@@ -1,7 +1,7 @@
 import 'package:chatex/auth.dart';
 //import 'package:chatex/chat/chat.dart';
 import 'package:flutter/material.dart';
-import 'package:chatex/forgot_password.dart';
+import 'package:chatex/reset_password.dart';
 import 'package:chatex/sign_up.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
