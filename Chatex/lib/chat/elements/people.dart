@@ -50,25 +50,21 @@ class _PeopleState extends State<People> {
         key: _formKey,
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  height: 25,
-                ),
-                Text(
-                  'Ismerősök hozzáadása',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1,
-                    fontSize: 25,
-                  ),
-                ),
-              ],
-            ),
             const SizedBox(
               height: 25,
+            ),
+            Text(
+              'Ismerősök hozzáadása',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1,
+                fontSize: 25,
+              ),
+            ),
+            const SizedBox(
+              height: 20,
             ),
             _userSearchInputWidget(),
             const SizedBox(height: 10),
@@ -105,8 +101,8 @@ class _PeopleState extends State<People> {
     });
   }
 
+//TODO: megcsinálni
   Future<void> _sendFriendRequest(int userId) async {
-    //TODO: megcsinálni
     final response = await http.post(
       Uri.parse(
           "http://10.0.2.2/ChatexProject/chatex_phps/send_friend_request.php"),
@@ -128,9 +124,9 @@ class _PeopleState extends State<People> {
     }
   }
 
+//TODO: kód újrahasznosítása
   Widget _userSearchInputWidget() {
     return Container(
-      //TODO: kód újrahasznosítása
       margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
       child: FormBuilderTextField(
         name: "username",
@@ -157,15 +153,13 @@ class _PeopleState extends State<People> {
               query.isEmpty ||
               query.length < 3 ||
               query.length > 20) {
-            // 🔹 Ha a mező üres, töröljük a találatokat
             setState(() {
               _userSearchResults = [];
             });
           } else {
-            _searchUsers(query); // 🔍 Keresés elindítása
+            _searchUsers(query);
           }
         },
-        // 🔍 Keresés indítása gépeléskor
         keyboardType: TextInputType.name,
         style: const TextStyle(
           color: Colors.white,
@@ -209,8 +203,8 @@ class _PeopleState extends State<People> {
       ),
     );
   }
-//TODO: ide is lehetne circular de lehet fura lenne mert olyan gyors
 
+//TODO: ide is lehetne circular de lehet fura lenne mert olyan gyors
   Widget _searchResultsWidget() {
     return _userSearchResults.isEmpty
         ? const Center(
@@ -223,21 +217,37 @@ class _PeopleState extends State<People> {
             itemCount: _userSearchResults.length,
             itemBuilder: (context, index) {
               final user = _userSearchResults[index];
-              return ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: user["profile_picture"] != null
-                      ? NetworkImage(user["profile_picture"])
-                      : const AssetImage("assets/default_avatar.png")
-                          as ImageProvider,
-                  radius: 30,
-                ),
-                title: Text(user["username"],
-                    style: const TextStyle(color: Colors.white)),
-                // subtitle: Text(user["status"],
-                //     style: const TextStyle(color: Colors.grey)),
-                trailing: ElevatedButton(
-                  onPressed: () => _sendFriendRequest(user["id"]),
-                  child: const Text("Jelölés"),
+              return Padding(
+                padding: EdgeInsets.only(bottom: 10.0),
+                child: ListTile(
+                  horizontalTitleGap: 10,
+                  leading: CircleAvatar(
+                    backgroundImage: user["profile_picture"] != null
+                        ? NetworkImage(user["profile_picture"])
+                        : const AssetImage("assets/logo.jpg") as ImageProvider,
+                    radius: 30,
+                  ),
+                  title: Text(
+                    user["username"],
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 19,
+                    ),
+                  ),
+                  // subtitle: Text(user["status"],
+                  //     style: const TextStyle(color: Colors.grey)),
+                  trailing: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepPurpleAccent,
+                    ),
+                    onPressed: () => _sendFriendRequest(user["id"]),
+                    child: const Text(
+                      "Jelölés",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 ),
               );
             },
