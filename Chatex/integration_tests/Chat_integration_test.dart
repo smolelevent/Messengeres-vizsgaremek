@@ -27,11 +27,17 @@ void main() {
     // Tap the login button
     await tester.tap(loginButton);
     
-
     // Wait for the login process to complete
+    await tester.pumpAndSettle(); 
+    // Verify that the login was successful
+    
+    expect(find.text('Chatek'), findsOneWidget);
+    await tester.tap(friendNavBar);
+
     await tester.pumpAndSettle();
 
-    // Verify that the login was successful
-    expect(find.text('Chatek'), findsOneWidget);
+  });
+  testWidgets('FindValaki test', (WidgetTester tester) async {
+  await tester.pumpAndSettle();
   });
 }

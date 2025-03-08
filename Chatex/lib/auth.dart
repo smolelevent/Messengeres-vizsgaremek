@@ -31,8 +31,8 @@ class AuthService {
         }),
       );
 
-      log(response.statusCode.toString());
-      if (response.statusCode == 201 || response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      if (responseData["message"] == "Sikeres regisztráció!") {
         // Sikeres regisztráció
         ToastMessages.showToastMessages(
             "Sikeres regisztráció!",
@@ -48,8 +48,8 @@ class AuthService {
             builder: (BuildContext context) => LoginUI(),
           ),
         );
-      } else if (response.statusCode == 409) {
-        // Felhasználó már létezik, Conflict = hiba kód
+      } else if (responseData["message"] ==
+          "Ezzel az emailel már létezik felhasználó!") {
         ToastMessages.showToastMessages(
             //TODO: nem megfelelő logika mert megkéne nézni hogy tényleg vagy csak egy másik adattal
             "Ezzel az emailel már létezik felhasználó!",
@@ -58,17 +58,9 @@ class AuthService {
             Icons.error,
             Colors.black,
             const Duration(seconds: 2));
-      } else if (response.statusCode == 400) {
+      } else if (responseData["message"] == "Érvénytelen email cím!") {
         ToastMessages.showToastMessages(
-            "Nem megfelelő kérés! Hiba kód: ${response.statusCode}",
-            0.1,
-            Colors.redAccent,
-            Icons.error,
-            Colors.black,
-            const Duration(seconds: 2));
-      } else if (response.statusCode == 404) {
-        ToastMessages.showToastMessages(
-            "Elérési hiba! Hiba kód: ${response.statusCode}",
+            "Érvénytelen email cím!",
             0.1,
             Colors.redAccent,
             Icons.error,
@@ -98,34 +90,30 @@ class AuthService {
           'password': password.text.trim(),
         }),
       );
-      if (response.statusCode == 200) {
-        final responseData = json.decode(
-            response.body); //vissza kell adni a válaszba azt hogy success
-        if (responseData['success'] == true) {
-          int userId = responseData['id']; // ID lekérése
-          // Elmentjük a bejelentkezett user ID-ját
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setInt('id', userId);
-          ToastMessages.showToastMessages(
-              "Sikeres bejelentkezés!",
-              0.2,
-              Colors.green,
-              Icons.check,
-              Colors.black,
-              const Duration(seconds: 2));
-          await Future.delayed(const Duration(seconds: 2));
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (BuildContext context) => ChatUI(),
-            ),
-          );
-        } else {
-          log("hibás adat!");
-        }
-        //TODO: token emailbe vagy valahogy elküldeni a felhasználónak idk nem tudom mit csinál
-      } else if (response.statusCode == 401) {
-        // nem megfelelő adatok
+
+//TODO: token emailbe vagy valahogy elküldeni a felhasználónak idk nem tudom mit csinál
+      final responseData = json.decode(response.body);
+
+      if (responseData['success'] == true) {
+        int userId = responseData['id']; // ID lekérése
+        final prefs = await SharedPreferences
+            .getInstance(); // Elmentjük a bejelentkezett user ID-ját
+        await prefs.setInt('id', userId);
+        ToastMessages.showToastMessages(
+            "Sikeres bejelentkezés!",
+            0.2,
+            Colors.green,
+            Icons.check,
+            Colors.black,
+            const Duration(seconds: 2));
+        await Future.delayed(const Duration(seconds: 2));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => ChatUI(),
+          ),
+        );
+      } else if (responseData['message'] == 'Hibás email vagy jelszó!') {
         ToastMessages.showToastMessages(
             "Hibás email vagy jelszó!",
             0.2,
@@ -199,25 +187,15 @@ class AuthService {
             Icons.error,
             Colors.black,
             const Duration(seconds: 2));
+      } else {
+        ToastMessages.showToastMessages(
+            "Hiba kód: ${response.statusCode}",
+            0.2,
+            Colors.redAccent,
+            Icons.error,
+            Colors.black,
+            const Duration(seconds: 2));
       }
-      // else if (response.statusCode == 401) {
-      //   ToastMessages.showToastMessages(
-      //       "Hibás email vagy jelszó!",
-      //       0.2,
-      //       Colors.redAccent,
-      //       Icons.error,
-      //       Colors.black,
-      //       const Duration(seconds: 2));
-      // }
-      // else {
-      //   ToastMessages.showToastMessages(
-      //       "Hiba kód: ${response.statusCode}",
-      //       0.2,
-      //       Colors.redAccent,
-      //       Icons.error,
-      //       Colors.black,
-      //       const Duration(seconds: 2));
-      // }
     } catch (e) {
       ToastMessages.showToastMessages("Kapcsolati hiba!", 0.2, Colors.redAccent,
           Icons.error, Colors.black, const Duration(seconds: 2));
