@@ -7138,3 +7138,111 @@ Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribut
 2025-03-08 17:11:30 0 [Note] InnoDB: Shutdown completed; log sequence number 2540597; transaction id 3192
 2025-03-08 17:11:31 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: Shutdown complete
 
+2025-03-08 21:22:14 0 [Note] Starting MariaDB 10.4.32-MariaDB source revision c4143f909528e3fab0677a28631d10389354c491 as process 14508
+2025-03-08 21:22:14 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2025-03-08 21:22:14 0 [Note] InnoDB: Uses event mutexes
+2025-03-08 21:22:14 0 [Note] InnoDB: Compressed tables use zlib 1.3
+2025-03-08 21:22:14 0 [Note] InnoDB: Number of pools: 1
+2025-03-08 21:22:14 0 [Note] InnoDB: Using SSE2 crc32 instructions
+2025-03-08 21:22:14 0 [Note] InnoDB: Initializing buffer pool, total size = 16M, instances = 1, chunk size = 16M
+2025-03-08 21:22:14 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-03-08 21:22:14 0 [Note] InnoDB: 128 out of 128 rollback segments are active.
+2025-03-08 21:22:14 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-03-08 21:22:14 0 [Note] InnoDB: Setting file 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-03-08 21:22:14 0 [Note] InnoDB: File 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size is now 12 MB.
+2025-03-08 21:22:14 0 [Note] InnoDB: Waiting for purge to start
+2025-03-08 21:22:15 0 [Note] InnoDB: 10.4.32 started; log sequence number 2540597; transaction id 3193
+2025-03-08 21:22:15 0 [Note] InnoDB: Loading buffer pool(s) from C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-08 21:22:15 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-03-08 21:22:15 0 [Note] Server socket created on IP: '::'.
+2025-03-08 21:22:15 0 [Note] Reading of all Master_info entries succeeded
+2025-03-08 21:22:15 0 [Note] Added new Master_info '' to hash table
+2025-03-08 21:22:15 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: ready for connections.
+Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribution
+2025-03-08 21:22:15 0 [Note] InnoDB: Buffer pool(s) load completed at 250308 21:22:15
+2025-03-08 21:27:03 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:03 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:03 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:03 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:03 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:03 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:04 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:04 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:04 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:04 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:04 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:04 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:04 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:04 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:04 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:04 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:04 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:04 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:04 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:04 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:04 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:04 23 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:04 23 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:27:04 23 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:50:59 28 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:50:59 28 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 21:50:59 28 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-08 22:11:54 0 [Note] Starting MariaDB 10.4.32-MariaDB source revision c4143f909528e3fab0677a28631d10389354c491 as process 4620
+2025-03-08 22:11:54 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2025-03-08 22:11:54 0 [Note] InnoDB: Uses event mutexes
+2025-03-08 22:11:54 0 [Note] InnoDB: Compressed tables use zlib 1.3
+2025-03-08 22:11:54 0 [Note] InnoDB: Number of pools: 1
+2025-03-08 22:11:54 0 [Note] InnoDB: Using SSE2 crc32 instructions
+2025-03-08 22:11:54 0 [Note] InnoDB: Initializing buffer pool, total size = 16M, instances = 1, chunk size = 16M
+2025-03-08 22:11:54 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-03-08 22:11:54 0 [Note] InnoDB: Starting crash recovery from checkpoint LSN=2541083
+2025-03-08 22:11:55 0 [Note] InnoDB: 128 out of 128 rollback segments are active.
+2025-03-08 22:11:55 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+2025-03-08 22:11:55 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-03-08 22:11:55 0 [Note] InnoDB: Setting file 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-03-08 22:11:55 0 [Note] InnoDB: File 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size is now 12 MB.
+2025-03-08 22:11:55 0 [Note] InnoDB: Waiting for purge to start
+2025-03-08 22:11:55 0 [Note] InnoDB: 10.4.32 started; log sequence number 2541092; transaction id 3217
+2025-03-08 22:11:55 0 [Note] InnoDB: Loading buffer pool(s) from C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-08 22:11:55 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-03-08 22:11:55 0 [Note] Server socket created on IP: '::'.
+2025-03-08 22:11:55 0 [Note] InnoDB: Buffer pool(s) load completed at 250308 22:11:55
+2025-03-08 22:11:55 0 [Note] Reading of all Master_info entries succeeded
+2025-03-08 22:11:55 0 [Note] Added new Master_info '' to hash table
+2025-03-08 22:11:55 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: ready for connections.
+Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribution
+2025-03-08 22:21:56 0 [Note] Starting MariaDB 10.4.32-MariaDB source revision c4143f909528e3fab0677a28631d10389354c491 as process 4452
+2025-03-08 22:21:56 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2025-03-08 22:21:56 0 [Note] InnoDB: Uses event mutexes
+2025-03-08 22:21:56 0 [Note] InnoDB: Compressed tables use zlib 1.3
+2025-03-08 22:21:56 0 [Note] InnoDB: Number of pools: 1
+2025-03-08 22:21:56 0 [Note] InnoDB: Using SSE2 crc32 instructions
+2025-03-08 22:21:56 0 [Note] InnoDB: Initializing buffer pool, total size = 16M, instances = 1, chunk size = 16M
+2025-03-08 22:21:56 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-03-08 22:21:56 0 [Note] InnoDB: Starting crash recovery from checkpoint LSN=2541101
+2025-03-08 22:21:57 0 [Note] InnoDB: 128 out of 128 rollback segments are active.
+2025-03-08 22:21:57 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+2025-03-08 22:21:57 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-03-08 22:21:57 0 [Note] InnoDB: Setting file 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-03-08 22:21:57 0 [Note] InnoDB: File 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size is now 12 MB.
+2025-03-08 22:21:57 0 [Note] InnoDB: Waiting for purge to start
+2025-03-08 22:21:57 0 [Note] InnoDB: 10.4.32 started; log sequence number 2541110; transaction id 3217
+2025-03-08 22:21:57 0 [Note] InnoDB: Loading buffer pool(s) from C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-08 22:21:57 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-03-08 22:21:57 0 [Note] Server socket created on IP: '::'.
+2025-03-08 22:21:57 0 [Note] InnoDB: Buffer pool(s) load completed at 250308 22:21:57
+2025-03-08 22:21:57 0 [Note] Reading of all Master_info entries succeeded
+2025-03-08 22:21:57 0 [Note] Added new Master_info '' to hash table
+2025-03-08 22:21:57 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: ready for connections.
+Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribution
+2025-03-08 22:39:09 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe (initiated by: unknown): Normal shutdown
+2025-03-08 22:39:09 0 [Note] Event Scheduler: Purging the queue. 0 events
+2025-03-08 22:39:09 0 [Note] InnoDB: FTS optimize thread exiting.
+2025-03-08 22:39:09 0 [Note] InnoDB: Starting shutdown...
+2025-03-08 22:39:09 0 [Note] InnoDB: Dumping buffer pool(s) to C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-08 22:39:09 0 [Note] InnoDB: Instance 0, restricted to 250 pages due to innodb_buf_pool_dump_pct=25
+2025-03-08 22:39:09 0 [Note] InnoDB: Buffer pool(s) dump completed at 250308 22:39:09
+2025-03-08 22:39:10 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+2025-03-08 22:39:10 0 [Note] InnoDB: Shutdown completed; log sequence number 2541128; transaction id 3220
+2025-03-08 22:39:10 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: Shutdown complete
+

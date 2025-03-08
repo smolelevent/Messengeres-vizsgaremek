@@ -205,7 +205,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
                             try {
                               //TODO: mire megjelenik a toast message addigra tűnjön el a loading
-                              await AuthService().forgotPassword(
+                              await AuthService().resetPassword(
                                 email: _emailController,
                                 context: context,
                               );

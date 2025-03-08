@@ -1,4 +1,4 @@
-import 'package:chatex/chat/chat.dart';
+import 'package:chatex/chat/chat_build_ui.dart';
 import 'package:chatex/main.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer'; //log miatt
@@ -146,8 +146,8 @@ class AuthService {
     }
   }
 
-//forgotPassword logika --------------------------------------------------------------
-  Future<void> forgotPassword(
+//resetPassword logika --------------------------------------------------------------
+  Future<void> resetPassword(
       {required TextEditingController email, required context}) async {
     try {
       final Uri forgotPasswordUrl = Uri.parse(
@@ -160,7 +160,6 @@ class AuthService {
       );
 
       final responseData = jsonDecode(response.body);
-//response.statusCode == 200
       if (responseData["message"] == "Helyreállító e-mail elküldve.") {
         ToastMessages.showToastMessages(
             "A jelszó helyreállító emailt elküldtük!",
@@ -178,8 +177,7 @@ class AuthService {
         );
         //TODO: megfelelőket lekezelni, lehet hogy az adat alapján kéne nem a status kód alapján azt csak mondjuk az exceptionba, else ágba
       } else if (responseData["message"] ==
-          "Ez az e-mail nincs regisztrálva.") {
-        //401 Unauthorized
+          "Nincs ilyen email című felhasználó!") {
         ToastMessages.showToastMessages(
             "Nincs ilyen email című felhasználó!",
             0.2,

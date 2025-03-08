@@ -40,10 +40,12 @@ class LoadedChatDataState extends State<LoadedChatData> {
     final response = await http.post(
       chatFetchUrl,
       body: jsonEncode({"id": userId}),
-      headers: {"Content-Type": "application/json"}, //TODO: innen folyt köv
+      headers: {
+        "Content-Type": "application/json"
+      }, //TODO: ha nincs senki bejelentkezve akkor is ugyanazokat a chateket tölti be
     );
 
-    log(response.statusCode.toString());
+    //log(response.statusCode.toString());
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
@@ -66,7 +68,12 @@ class LoadedChatDataState extends State<LoadedChatData> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           //ha az adatokat még tölti
-          return Center(child: CircularProgressIndicator());
+          return Center(
+            child: CircularProgressIndicator(
+              strokeWidth: 3,
+              color: Colors.deepPurpleAccent,
+            ),
+          );
         } else if (snapshot.hasError) {
           return Center(child: Text("Hiba történt az adatok betöltésekor"));
         } else {

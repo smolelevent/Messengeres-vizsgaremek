@@ -6,11 +6,13 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:chatex/chat/toast_message.dart';
 //import 'package:device_preview/device_preview.dart';
+import 'package:chatex/chat/chat_build_ui.dart';
 
 //TODO: alkalmazás belépéskor ne a Flutter logo legyen
 Future<void> main() async {
   runApp(MaterialApp(
-    home: LoginUI(),
+    //home: LoginUI(),
+    home: ChatUI(),
   ));
 }
 
@@ -32,7 +34,6 @@ class _LoginUIState extends State<LoginUI> {
 
   bool _isPasswordNotVisible = true;
 
-//TODO: folyamatosan nézze hogy üres e a mező addig tiltsa a gombot, és amint jók az értékek gomb engedélyezve és kattintáskor nézze meg hogy van ilyen fiók
   final _formKey = GlobalKey<FormBuilderState>();
   bool _isLogInDisabled = true;
 

@@ -79,7 +79,7 @@ if ($result->num_rows > 0) {
         echo json_encode(["success" => false, "message" => "E-mail hiba: {$mail->ErrorInfo}"]);
     }
 } else {
-    echo json_encode(["success" => false, "message" => "Ez az e-mail nincs regisztrálva."]);
+    echo json_encode(["success" => false, "message" => "Nincs ilyen email című felhasználó!"]);
 }
 
 $stmt->close();
