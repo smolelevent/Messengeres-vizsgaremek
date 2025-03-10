@@ -1,7 +1,7 @@
 # <p align="center"> *Chatex* <br> Dokumentáció <p>
 
 <div style="text-align: center;">
-  <img src="/circular_image.png" alt="Chatex logó" width="280">
+  <img src="circular_image.png" alt="Chatex logó" width="280">
 </div>
 
 
@@ -48,7 +48,7 @@ Vizsgaremekünk egy modern, gyors és biztonságos chat alkalmazás, amely túlm
 
 
 <p align="center">
-  <img src="Chatex_dokumentacio/DALL·E-2025-03-03-19.06.png" alt="Telefon kép" width="500">
+  <img src="DALL·E-2025-03-03-19.06.png" alt="Telefon kép" width="500">
 </p>
 
 ---
