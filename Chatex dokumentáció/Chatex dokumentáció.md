@@ -1,7 +1,7 @@
 # <p align="center"> *Chatex* <br> Dokumentáció <p>
 
 <div style="text-align: center;">
-  <img src="Chatex%20dokumentáció/circular_image.png" alt="Chatex logó" width="280">
+  <img src="/circular_image.png" alt="Chatex logó" width="280">
 </div>
 
 
@@ -48,7 +48,7 @@ Vizsgaremekünk egy modern, gyors és biztonságos chat alkalmazás, amely túlm
 
 
 <p align="center">
-  <img src="Chatex%20dokumentáció/DALL·E-2025-03-03-19.06.png" alt="Telefon kép" width="500">
+  <img src="Chatex_dokumentacio/DALL·E-2025-03-03-19.06.png" alt="Telefon kép" width="500">
 </p>
 
 ---
@@ -69,3 +69,38 @@ Vizsgaremekünk egy modern, gyors és biztonságos chat alkalmazás, amely túlm
 # 3.4 <a id="szoftverfejlesztes"></a>Szoftverfejlesztés
 A projekt célja egy biztonságos és modern chat alkalmazás fejlesztése, amely túlmutat a hagyományos üzenetküldő megoldásokon. Az alkalmazás lehetőséget biztosít chatek, csoportok, létrehozására miközben kiemelt figyelmet fordít a felhasználói élményre és teljesítményre.<br>
 **A fejlesztés közben be kell tartani a Clean Code alapszabályait.** 
+
+--- 
+
+# 4 Specifikáció
+
+- Főoldal
+
+Az alkalmazás/weboldal megnyitása után megjelenő felület (ha a felhasználó nincs
+bejelentkezve). 
+
+A felületen található: 
+
+o felhasználónév 
+
+o jelszó mező 
+
+o bejelentkezés gomb 
+
+o regisztráció gomb 
+
+o elfelejtett jelszó 
+
+
+- Regisztráció <br>
+A főoldalon található regisztráció gomb megnyomása után megjelenő felület,
+amely a következő beviteli mezőket tartalmazza
+    -  o felhasználónév
+    -  o E-mailcím
+    -  o jelszó
+    -  o jelszó újra
+
+- Chat lista <br>
+Bejelentkezett felhasználóknak megjelenő felület, ahol listás nézetben megjelenik
+a felhasználó számára elérhető összes chatszoba.
+
