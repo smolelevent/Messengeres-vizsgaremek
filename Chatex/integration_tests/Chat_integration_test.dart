@@ -39,5 +39,6 @@ void main() {
     await tester.pumpAndSettle();
     final friendNavBar = find.byKey(Key('friendNavBar'));
     await tester.tap(friendNavBar);
+    
   });
 }

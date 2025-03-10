@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:chatex/auth.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:developer';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatSidebar extends StatefulWidget {
   //TODO: kell e minden dart fájlba stateful widget, vizsga leadás előtt optimalizálni ahogy lehet!
@@ -19,6 +23,59 @@ class ChatSidebar extends StatefulWidget {
 class _ChatSidebarState extends State<ChatSidebar> {
   final SidebarXController _controller =
       SidebarXController(selectedIndex: 0, extended: true);
+//TODO: visszatérni ide de előtte settingsbe profil kép feltöltés
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  String _username = "Betöltés...";
+  String? _profileImageUrl;
+
+  Future<void> _loadUserData() async {
+    // 🔹 1. Felhasználó ID-jának lekérése SharedPreferences-ből
+    final prefs = await SharedPreferences.getInstance();
+    int? userId = prefs.getInt('id');
+
+    if (userId == null) {
+      print("❌ Nincs bejelentkezett felhasználó.");
+      return;
+    }
+
+    // 🔹 2. Lekérjük az adatokat az ID alapján
+    var userData = await _fetchUserData(userId);
+    if (userData != null) {
+      setState(() {
+        _username = userData["username"] ?? "Ismeretlen";
+        _profileImageUrl = userData["profile_image"];
+      });
+    }
+  }
+
+  Future<Map<String, dynamic>?> _fetchUserData(int userId) async {
+    try {
+      final response = await http.post(
+        Uri.parse(
+            "http://10.0.2.2/ChatexProject/chatex_phps/sidebar/get_user_info.php"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"user_id": userId}),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data["success"]) {
+          return {
+            "username": data["username"],
+            "profile_picture": data["profile_picture"],
+          };
+        }
+      }
+    } catch (e) {
+      print("Hiba történt: $e");
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +89,16 @@ class _ChatSidebarState extends State<ChatSidebar> {
               // TODO: felhasználó képe, ha nincs akkor a kis ember sziluett alapértelmezette
               radius: 40,
               backgroundColor: Colors.grey[600],
-              child: Icon(
-                Icons.person,
-                size: 40,
-                color: Colors.white,
-              ),
+              backgroundImage: _profileImageUrl != null
+                  ? NetworkImage(_profileImageUrl!)
+                  : null,
+              child: _profileImageUrl == null
+                  ? Icon(Icons.person, size: 40, color: Colors.white)
+                  : null,
             ),
             SizedBox(height: 20),
             Text(
-              "felhasználónév", //TODO: felhasználó neve kell, ha túl hosszú akkor autosizetext
+              _username, //TODO: felhasználó neve kell, ha túl hosszú akkor autosizetext
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,

@@ -129,6 +129,7 @@ class _PeopleState extends State<People> {
     return Container(
       margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
       child: FormBuilderTextField(
+        key: (Key("userName")),
         name: "username",
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: FormBuilderValidators.compose([
@@ -231,12 +232,13 @@ class _PeopleState extends State<People> {
                     user["username"],
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 19,
+                      fontSize: 20,
                     ),
                   ),
                   // subtitle: Text(user["status"],
                   //     style: const TextStyle(color: Colors.grey)),
                   trailing: ElevatedButton(
+                    key: Key("addFriend"),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.deepPurpleAccent,
                     ),
