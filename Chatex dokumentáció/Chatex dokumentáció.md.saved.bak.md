@@ -1,7 +1,7 @@
 # <p align="center"> *Chatex* <br> Dokumentáció <p>
 
 <div style="text-align: center;">
-  <img src="images/circular_image.png" alt="Chatex logó" width="280">
+  <img src="circular_image.png" alt="Chatex logó" width="280">
 </div>
 
 
@@ -18,10 +18,10 @@
 - 3.2  [Felhasználandó programozási nyelv](#nyelv)
 - 3.3 [Megoldás Formátuma](#formatum)
 - 3.4 [Szoftverfejlesztés](#szoftverfejlesztes)
-- 3.5 [Modulok](#modulok)
-4. [Specifikáció](#spec)
-- 4.1 [Megjelenés](#megj)
-- 4.2 [Funkciók](#funkciok)
+- 3.5 [Modulok]()
+4. [Specifikáció]()
+- 4.1 [Megjelenés]()
+- 4.2 [Funkciók]()
 - 4.3 [Titkosítás]()
 5. [Dokumentáció]()
 - 5.1 [Erőforrásterv, munkaidő-nyilvántartás]()
@@ -48,7 +48,7 @@ Vizsgaremekünk egy modern, gyors és biztonságos chat alkalmazás, amely túlm
 
 
 <p align="center">
-  <img src="images/DALL·E-2025-03-03-19.06.png" alt="Telefon kép" width="500">
+  <img src="DALL·E-2025-03-03-19.06.png" alt="Telefon kép" width="500">
 </p>
 
 ---
@@ -72,8 +72,8 @@ A projekt célja egy biztonságos és modern chat alkalmazás fejlesztése, amel
 
 --- 
 
-# 4 <a id="spec"></a> Specifikáció
-## <a id="megj"></a> 4.1 Megjelenés
+# 4 Specifikáció
+
 - Főoldal
 
 Az alkalmazás/weboldal megnyitása után megjelenő felület (ha a felhasználó nincs
@@ -103,35 +103,4 @@ amely a következő beviteli mezőket tartalmazza
 - Chat lista <br>
 Bejelentkezett felhasználóknak megjelenő felület, ahol listás nézetben megjelenik
 a felhasználó számára elérhető összes chatszoba.
-- Chat felület <br>
-A chat listán egy chat szobára kattintva megjelenik annak felülete. A felhasználók
-ezen a felületen tudnak a chat szoba tagjainak üzenetet küldeni, illetve itt láthatják
-a többi felhasználó által küldött üzeneteket. Az üzenetek felett fel kell tüntetni az
-üzenetet küldő felhasználók becenevét (ha nincs beállítva, a felhasználónevét).
-- Profil felület <br>
-Bejelentkezés után elérhető felület. A felhasználó ezen a felületen tudja módosítani
-a jelszavát és az üzenetküldéskor megjelenő becenevét.
-
----
-# 4.2 <a id="funkciok"></a> Funkciók
-
-- Regisztráció <br>
-A program használatához regisztráció szükséges (regisztráció felület).
-
-- Üzenetküldés <br>
-Az alkalmazás legfőbb funkciója.
-A küldött üzeneteket tetszőleges módon megvalósított E2E titkosítással kell
-kezelni. 
-
-- Chatszoba létrehozása <br>
-A felhasználók chatszobákat hozhatnak létre, és közvetlenül hozzáadhatják ismerőseiket a beszélgetéshez. Csak azok csatlakozhatnak, akiket a létrehozó hozzáadott, és akik elfogadták az ismerősnek jelölést.
-
-- Profil kezelés <br>
-Saját jelszó és becenév módosítás. 
-
----
-# 5 Dokumentáció
-
-
-
 
