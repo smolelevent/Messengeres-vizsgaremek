@@ -108,7 +108,7 @@ class _SignUpState extends State<SignUp> {
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.grey[850],
         appBar: AppBar(
-          backgroundColor: Colors.deepPurple[400],
+          backgroundColor: Colors.deepPurpleAccent,
           elevation: 5,
         ),
         body: FormBuilder(

@@ -115,12 +115,13 @@ class AuthService {
         );
       } else if (responseData['message'] == 'Hibás email vagy jelszó!') {
         ToastMessages.showToastMessages(
-            "Hibás email vagy jelszó!",
-            0.2,
-            Colors.redAccent,
-            Icons.error,
-            Colors.black,
-            const Duration(seconds: 2));
+          "Hibás email vagy jelszó!",
+          0.2,
+          Colors.redAccent,
+          Icons.error,
+          Colors.black,
+          const Duration(seconds: 2),
+        );
       } else {
         ToastMessages.showToastMessages(
             "Hiba kód: ${response.statusCode}",

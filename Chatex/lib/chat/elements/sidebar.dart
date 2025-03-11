@@ -3,7 +3,7 @@ import 'package:sidebarx/sidebarx.dart';
 import 'package:chatex/auth.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:developer';
+//import 'dart:developer';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatSidebar extends StatefulWidget {
@@ -23,14 +23,14 @@ class ChatSidebar extends StatefulWidget {
 class _ChatSidebarState extends State<ChatSidebar> {
   final SidebarXController _controller =
       SidebarXController(selectedIndex: 0, extended: true);
-//TODO: visszatérni ide de előtte settingsbe profil kép feltöltés
+//TODO: visszatérni ide de előtte settingsbe profil kép feltöltés, megjelenik a felhasználó neve amikor nem is vagyok belépve
   @override
   void initState() {
     super.initState();
     _loadUserData();
   }
 
-  String _username = "Betöltés...";
+  String _username = "";
   String? _profileImageUrl;
 
   Future<void> _loadUserData() async {

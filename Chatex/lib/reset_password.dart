@@ -56,7 +56,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       child: Scaffold(
         backgroundColor: Colors.grey[850],
         appBar: AppBar(
-          backgroundColor: Colors.deepPurple[400],
+          backgroundColor: Colors.deepPurpleAccent,
           elevation: 5,
         ),
         body: Stack(

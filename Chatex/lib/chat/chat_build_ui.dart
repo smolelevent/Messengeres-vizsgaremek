@@ -64,7 +64,7 @@ class _ChatUIState extends State<ChatUI> {
       child: Scaffold(
         backgroundColor: Colors.grey[850],
         appBar: AppBar(
-          backgroundColor: Colors.deepPurple[400],
+          backgroundColor: Colors.deepPurpleAccent,
           elevation: 5,
         ),
         drawer: ChatSidebar(

@@ -11,8 +11,8 @@ import 'package:chatex/chat/chat_build_ui.dart';
 //TODO: alkalmazás belépéskor ne a Flutter logo legyen
 Future<void> main() async {
   runApp(MaterialApp(
-    //home: LoginUI(),
-    home: ChatUI(),
+    home: LoginUI(),
+    //home: ChatUI(),
   ));
 }
 
