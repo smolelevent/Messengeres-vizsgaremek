@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 //import 'package:shared_preferences/shared_preferences.dart';
 import 'package:chatex/logic/toast_message.dart';
+import 'package:chatex/logic/preferences.dart';
 
 class AuthService {
   // static const String serverUrl = //TODO: megoldani hogy rendes telefonon fusson
@@ -142,14 +143,17 @@ class AuthService {
       final responseData = json.decode(response.body);
 
       if (responseData['success'] == true) {
-        int userId = responseData['id'];
+        final userId = responseData['id'];
         final token = responseData['token'];
         final preferredlang = responseData['preferred_lang'];
-        //final prefs = await SharedPreferences.getInstance();
-        
-        //await prefs.setInt('id', userId);
-        //await prefs.setString('token', token);
-        //await prefs.setString('preferred_lang', preferredlang);
+        final email = responseData['email'];
+        final passwordHash = responseData['password_hash'];
+
+        await Preferences.setUserId(userId);
+        await Preferences.setToken(token);
+        await Preferences.setPreferredLanguage(preferredlang);
+        await Preferences.setEmail(email);
+        await Preferences.setPasswordHash(passwordHash);
         if (language == "magyar") {
           ToastMessages.showToastMessages(
               "Sikeres bejelentkezés!",

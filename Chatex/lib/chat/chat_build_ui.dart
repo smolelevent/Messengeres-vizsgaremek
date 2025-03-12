@@ -3,11 +3,10 @@ import 'package:chatex/chat/elements/elements_of_chat/sidebar.dart';
 import 'package:chatex/chat/elements/elements_of_chat/bottom_nav_bar.dart';
 import 'package:chatex/chat/elements/elements_of_chat/people.dart';
 import 'package:chatex/chat/elements/elements_of_chat/groups.dart';
-import 'package:chatex/chat/elements/elements_of_chat/archived_messages.dart';
 import 'package:chatex/chat/elements/elements_of_chat/settings.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:chatex/chat/chat_auth/chat_auth.dart';
-//import 'package:shared_preferences/shared_preferences.dart';
+//import 'package:chatex/logic/preferences.dart'; //TODO: innen folyt köv holnap!!! bottom_nav_bar nem jó a fordítás
 
 class ChatUI extends StatefulWidget {
   const ChatUI({super.key});
@@ -41,11 +40,6 @@ class _ChatUIState extends State<ChatUI> {
       }
     });
   }
-
-  // Future<String> getPreferredLanguage() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   return prefs.getString("preferred_lang") ?? "magyar";
-  // }
 
   Widget _getScreen() {
     switch (_selectedIndex) {

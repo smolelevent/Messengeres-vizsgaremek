@@ -52,7 +52,9 @@ echo json_encode([
     "token" => $jwt,
     "id" => $user["id"],
     "username" => $user["username"],
-    "preferred_lang" => $user["preferred_lang"]
+    "preferred_lang" => $user["preferred_lang"],
+    "email" => $user["email"],
+    "password_hash" => $user["password_hash"]
 ]);
 
 //TODO: használni a tokent!!!

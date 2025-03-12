@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:chatex/chat/elements/elements_of_settings/language.dart';
+import 'package:chatex/logic/preferences.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -14,26 +14,38 @@ class _SettingsState extends State<Settings> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
   String _searchQuery = "";
-  String _selectedLanguage = "Magyar"; // Alapértelmezett nyelv
+  String _selectedLanguage = "Magyar";
 
   @override
   void initState() {
+    _loadPreferredLanguage();
     super.initState();
   }
 
-  Future<void> savePreferredLanguage(String language) async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.setString('preferred_lang', language);
-}
+  Future<void> _loadPreferredLanguage() async {
+    setState(() {
+      _selectedLanguage = Preferences.getPreferredLanguage();
+    });
+  }
 
-  // Frissített beállítások lista
+  Future<void> _savePreferredLanguage(String language) async {
+    await Preferences.setPreferredLanguage(language);
+    setState(() {
+      _selectedLanguage = language;
+    });
+  }
+
   List<Map<String, dynamic>> getSettings() {
     return [
       {
-        "category": "Általános",
+        "category": Preferences.getPreferredLanguage() == "Magyar"
+            ? "Általános"
+            : "General",
         "items": [
           {
-            "title": "Nyelv",
+            "title": Preferences.getPreferredLanguage() == "Magyar"
+                ? "Nyelv"
+                : "Language",
             "subtitle": _selectedLanguage,
             "icon": Icons.language,
             "onTap": () async {
@@ -44,31 +56,37 @@ class _SettingsState extends State<Settings> {
               );
 
               if (newLanguage != null) {
-                setState(() {
-                  _selectedLanguage = newLanguage;
-                });
+                await _savePreferredLanguage(newLanguage);
               }
             },
           },
           {
-            "title": "Értesítések",
-            "subtitle": "Be",
+            "title": Preferences.getPreferredLanguage() == "Magyar"
+                ? "Értesítések"
+                : "Notifications",
+            "subtitle":
+                Preferences.getPreferredLanguage() == "Magyar" ? "Be" : "On",
             "icon": Icons.notifications,
             "onTap": () => print("értesítés"),
           },
         ],
       },
       {
-        "category": "Fiók",
+        "category":
+            Preferences.getPreferredLanguage() == "Magyar" ? "Fiók" : "Account",
         "items": [
           {
-            "title": "Fiók",
+            "title": Preferences.getPreferredLanguage() == "Magyar"
+                ? "Fiók"
+                : "Account",
             "subtitle": "",
             "icon": Icons.person,
             "onTap": () => print("fiók"),
           },
           {
-            "title": "Jelszó módosítása",
+            "title": Preferences.getPreferredLanguage() == "Magyar"
+                ? "Jelszó módosítása"
+                : "Change password",
             "subtitle": "",
             "icon": Icons.password,
             "onTap": () => print("jelszó"),
@@ -82,19 +100,20 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     final settings = getSettings();
 
-    // 🔍 Szűrés keresési feltétel szerint
     final filteredSettings = settings
-        .map((category) {
-          final filteredItems = (category["items"] as List)
-              .where((item) => item["title"]
-                  .toLowerCase()
-                  .contains(_searchQuery.toLowerCase()))
-              .toList();
+        .map(
+          (category) {
+            final filteredItems = (category["items"] as List)
+                .where((item) => item["title"]
+                    .toLowerCase()
+                    .contains(_searchQuery.toLowerCase()))
+                .toList();
 
-          return filteredItems.isNotEmpty
-              ? {"category": category["category"], "items": filteredItems}
-              : null;
-        })
+            return filteredItems.isNotEmpty
+                ? {"category": category["category"], "items": filteredItems}
+                : null;
+          },
+        )
         .whereType<Map<String, dynamic>>()
         .toList();
 
@@ -148,15 +167,22 @@ class _SettingsState extends State<Settings> {
           fillColor: Colors.grey[800],
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          hintText:
-              _searchFocusNode.hasFocus ? null : "Beállítások keresése...",
+          hintText: _searchFocusNode.hasFocus
+              ? null
+              : Preferences.getPreferredLanguage() == "Magyar"
+                  ? "Beállítások keresése..."
+                  : "Search settings...",
           hintStyle: TextStyle(
             color: Colors.grey[400],
             fontStyle: FontStyle.italic,
             fontWeight: FontWeight.bold,
             fontSize: 17.0,
           ),
-          labelText: _searchFocusNode.hasFocus ? "Beállítások keresése" : null,
+          labelText: _searchFocusNode.hasFocus
+              ? Preferences.getPreferredLanguage() == "Magyar"
+                  ? "Beállítások keresése..."
+                  : "Search settings..."
+              : null,
           labelStyle: const TextStyle(
             color: Colors.white,
             fontSize: 17.0,

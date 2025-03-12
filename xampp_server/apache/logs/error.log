@@ -1041,3 +1041,15 @@
 [Wed Mar 12 17:17:27.205409 2025] [mpm_winnt:notice] [pid 3828:tid 484] AH00422: Parent: Received shutdown signal -- Shutting down the server.
 [Wed Mar 12 17:17:29.288155 2025] [mpm_winnt:notice] [pid 6980:tid 468] AH00364: Child: All worker threads have exited.
 [Wed Mar 12 17:17:29.526819 2025] [mpm_winnt:notice] [pid 3828:tid 484] AH00430: Parent: Child process 6980 exited successfully.
+[Wed Mar 12 19:55:49.055355 2025] [ssl:warn] [pid 9888:tid 452] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Mar 12 19:55:49.095897 2025] [ssl:warn] [pid 9888:tid 452] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Mar 12 19:55:49.130133 2025] [mpm_winnt:notice] [pid 9888:tid 452] AH00455: Apache/2.4.58 (Win64) OpenSSL/3.1.3 PHP/8.2.12 configured -- resuming normal operations
+[Wed Mar 12 19:55:49.130133 2025] [mpm_winnt:notice] [pid 9888:tid 452] AH00456: Apache Lounge VS17 Server built: Oct 18 2023 13:03:18
+[Wed Mar 12 19:55:49.130133 2025] [core:notice] [pid 9888:tid 452] AH00094: Command line: 'C:\\Users\\Levi\\Desktop\\szakmai\\dualis\\13.d\\git repok\\messengeres-vizsgaremek\\xampp_server\\apache\\bin\\httpd.exe -d C:/Users/Levi/Desktop/Szakmai/dualis/13.d/Git repok/Messengeres-vizsgaremek/xampp_server/apache'
+[Wed Mar 12 19:55:49.133444 2025] [mpm_winnt:notice] [pid 9888:tid 452] AH00418: Parent: Created child process 12864
+[Wed Mar 12 19:55:49.420144 2025] [ssl:warn] [pid 12864:tid 468] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Mar 12 19:55:49.456265 2025] [ssl:warn] [pid 12864:tid 468] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Mar 12 19:55:49.488246 2025] [mpm_winnt:notice] [pid 12864:tid 468] AH00354: Child: Starting 150 worker threads.
+[Wed Mar 12 22:30:48.025058 2025] [mpm_winnt:notice] [pid 9888:tid 452] AH00422: Parent: Received shutdown signal -- Shutting down the server.
+[Wed Mar 12 22:30:50.234355 2025] [mpm_winnt:notice] [pid 12864:tid 468] AH00364: Child: All worker threads have exited.
+[Wed Mar 12 22:30:58.707249 2025] [mpm_winnt:notice] [pid 9888:tid 452] AH00430: Parent: Child process 12864 exited successfully.

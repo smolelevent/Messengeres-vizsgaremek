@@ -13,6 +13,7 @@ void main() {
     testWidgets('Login test', (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(home: app.LoginUI()));
       await tester.pumpAndSettle();
+      await Future.delayed(Duration(seconds: 1));
 
       // Find the email and password text fields
       final emailField = find.byKey(Key('email'));
@@ -22,13 +23,17 @@ void main() {
       // Enter text into the email and password fields
       await tester.enterText(emailField, 'ocsi2005levente@gmail.com');
       await tester.pumpAndSettle();
+      await Future.delayed(Duration(seconds: 1));
       await tester.enterText(passwordField, 'Micimacko32');
       await tester.pumpAndSettle();
+      await Future.delayed(Duration(seconds: 1));
       await tester.pump();
       await tester.pumpAndSettle();
+      await Future.delayed(Duration(seconds: 1));
       // Tap the login button
       await tester.tap(loginButton);
       await tester.pumpAndSettle();
+      await Future.delayed(Duration(seconds: 1));
     });
     group("Add people test", () {
       testWidgets('FindValaki test', (WidgetTester tester) async {
@@ -56,15 +61,19 @@ void main() {
           ),
         );
         await tester.pumpAndSettle();
+        await Future.delayed(Duration(seconds: 1));
         expect(find.byKey(Key('friendsNavBar')), findsOneWidget);
         await tester.tap(find.byKey(Key('friendsNavBar')));
         await tester.pumpAndSettle();
+        await Future.delayed(Duration(seconds: 1));
         final userNameField = find.byKey(Key('userName'));
         await tester.enterText(userNameField, 'Valaki');
         await tester.pumpAndSettle();
+        await Future.delayed(Duration(seconds: 1));
         final addFriendButton = find.byKey(Key('addFriend'));
         await tester.tap(addFriendButton);
         await tester.pumpAndSettle();
+        await Future.delayed(Duration(seconds: 1));
         expect(find.text("Valaki"), findsOneWidget);
       });
     });
