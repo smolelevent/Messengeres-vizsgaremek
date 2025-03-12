@@ -5,7 +5,7 @@ import 'package:chatex/main.dart' as app;
 //import 'package:chatex/chat/chat_auth/chat_auth.dart' as app;
 //import 'package:chatex/chat/elements/people.dart' as app;
 import 'package:chatex/chat/chat_build_ui.dart' as app;
-import 'package:chatex/chat/elements/bottom_nav_bar.dart' as app;
+import 'package:chatex/chat/elements/elements_of_chat/bottom_nav_bar.dart' as app;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();

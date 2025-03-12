@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:chatex/main.dart' as app;
-import 'package:chatex/auth.dart' as app;
+import 'package:chatex/logic/auth.dart' as app;
 
 void main() {
   testWidgets('Login with incorrect credentials test',

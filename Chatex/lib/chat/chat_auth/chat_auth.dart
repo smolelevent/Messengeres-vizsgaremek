@@ -3,7 +3,7 @@ import 'dart:convert'; //encode, decode
 import 'dart:developer'; //log miatt
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:chatex/chat/toast_message.dart';
+import 'package:chatex/logic/toast_message.dart';
 
 class LoadedChatData extends StatefulWidget {
   const LoadedChatData({super.key});

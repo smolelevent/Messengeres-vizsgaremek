@@ -1,2 +1,0 @@
-C:/Users/user/Desktop/vizsgahoz szukseges/Messengeres-vizsgaremek/Chatex/android/app/.cxx/Debug/12a35316/x86/CMakeFiles/edit_cache.dir
-C:/Users/user/Desktop/vizsgahoz szukseges/Messengeres-vizsgaremek/Chatex/android/app/.cxx/Debug/12a35316/x86/CMakeFiles/rebuild_cache.dir

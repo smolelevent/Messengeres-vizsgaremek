@@ -1,16 +1,19 @@
-import 'package:chatex/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:chatex/reset_password.dart';
-import 'package:chatex/sign_up.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:chatex/chat/toast_message.dart';
 //import 'package:device_preview/device_preview.dart';
-import 'package:chatex/chat/chat_build_ui.dart';
+import 'package:chatex/main/reset_password.dart';
+import 'package:chatex/main/sign_up.dart';
+import 'package:chatex/logic/auth.dart';
+import 'package:chatex/logic/preferences.dart';
+import 'package:chatex/logic/toast_message.dart';
+//import 'package:chatex/chat/chat_build_ui.dart';
 //TODO: nyelvválasztás csak a menűbe legyen, a fiók pedig majd regisztrációs során
 
 //TODO: alkalmazás belépéskor ne a Flutter logo legyen
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Preferences.init();
   runApp(MaterialApp(
     home: LoginUI(),
     //home: ChatUI(),

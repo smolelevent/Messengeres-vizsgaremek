@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:chatex/main.dart' as app;
-import 'package:chatex/chat/elements/bottom_nav_bar.dart' as app;
+import 'package:chatex/chat/elements/elements_of_chat/bottom_nav_bar.dart' as app;
 
 void main() {
   testWidgets('Search for "Valaki" in Ismerősök', (WidgetTester tester) async {

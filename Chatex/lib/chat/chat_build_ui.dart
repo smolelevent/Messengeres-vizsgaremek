@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:chatex/chat/elements/sidebar.dart';
-import 'package:chatex/chat/elements/bottom_nav_bar.dart';
-import 'package:chatex/chat/elements/people.dart';
-import 'package:chatex/chat/elements/message_requests.dart';
-import 'package:chatex/chat/elements/archived_messages.dart';
-import 'package:chatex/chat/elements/settings.dart';
+import 'package:chatex/chat/elements/elements_of_chat/sidebar.dart';
+import 'package:chatex/chat/elements/elements_of_chat/bottom_nav_bar.dart';
+import 'package:chatex/chat/elements/elements_of_chat/people.dart';
+import 'package:chatex/chat/elements/elements_of_chat/groups.dart';
+import 'package:chatex/chat/elements/elements_of_chat/archived_messages.dart';
+import 'package:chatex/chat/elements/elements_of_chat/settings.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:chatex/chat/chat_auth/chat_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+//import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatUI extends StatefulWidget {
   const ChatUI({super.key});
@@ -42,10 +42,10 @@ class _ChatUIState extends State<ChatUI> {
     });
   }
 
-  Future<String> getPreferredLanguage() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString("preferred_lang") ?? "magyar";
-  }
+  // Future<String> getPreferredLanguage() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   return prefs.getString("preferred_lang") ?? "magyar";
+  // }
 
   Widget _getScreen() {
     switch (_selectedIndex) {
@@ -54,10 +54,8 @@ class _ChatUIState extends State<ChatUI> {
       case 1:
         return const People();
       case 2:
-        return const MessageRequests();
+        return const Groups();
       case 3:
-        return const ArchivedMessages(); //TODO: csoportok hely az archived message, message requests helyére
-      case 4:
         return const Settings();
       default:
         return const Text("CHAT");
