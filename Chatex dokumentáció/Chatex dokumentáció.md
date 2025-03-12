@@ -22,11 +22,9 @@
 4. [Specifikáció](#spec)
 - 4.1 [Megjelenés](#megj)
 - 4.2 [Funkciók](#funkciok)
-- 4.3 [Titkosítás]()
-5. [Dokumentáció]()
-- 5.1 [Erőforrásterv, munkaidő-nyilvántartás]()
-- 5.2 [Forráskód dokumentáció]()
-- 5.3 [Felhasználói dokumentáció]()
+5. [Tesztelés](#teszt)
+- 5.1 [Forráskód dokumentáció]()
+- 5.2 [Felhasználói dokumentáció]()
 6. [A projekt értékelése]()
 - 6.1 [A feladat értékelésének felhasználói oldali szempontjai]()
 - 6.2 [A feladat értékelésének technikai szempontjai]() 
@@ -64,7 +62,6 @@ Vizsgaremekünk egy modern, gyors és biztonságos chat alkalmazás, amely túlm
 - Forráskód állományok
 - Teljes projekt környezet
 - Forráskód dokumentáció
-- Erőforrás terv és munkaidő nyilvántartás
 
 # 3.4 <a id="szoftverfejlesztes"></a>Szoftverfejlesztés
 A projekt célja egy biztonságos és modern chat alkalmazás fejlesztése, amely túlmutat a hagyományos üzenetküldő megoldásokon. Az alkalmazás lehetőséget biztosít chatek, csoportok, létrehozására miközben kiemelt figyelmet fordít a felhasználói élményre és teljesítményre.<br>
@@ -130,8 +127,32 @@ A felhasználók chatszobákat hozhatnak létre, és közvetlenül hozzáadhatj�
 Saját jelszó és becenév módosítás. 
 
 ---
-# 5 Dokumentáció
 
+# <a id="teszt"></a> 5  Dokumentáció
 
+## Forráskód dokumentáció:
+## Felhsználói dokumentáció:
+### A program részletes bemutatása
+Bejelentkezés és regisztráció:
 
+- Az alkalmazás első megnyitásakor regisztráció szükséges egy E-mail cím és egy jelszó.
+Regisztráció után a felhasználó bejelentkezhet a megadott adatokkal.
 
+Üzenetküldés és fogadás:
+- Kattintson a „+” ikonra új beszélgetés indításához.
+Válassza ki a kapcsolattartót, majd írja be az üzenetet és küldje el.
+
+Csoportos chat létrehozása:
+- Nyissa meg a „Csoport létrehozása” opciót.
+Adjon nevet a csoportnak, és válassza ki a résztvevőket.
+
+Beállítások:
+- A felhasználói fiókhoz tartozó beállítások módosítása.
+Értesítések, adatvédelem és egyéb személyes preferenciák kezelése.
+
+## Tesztelés fajtái:
+<p align="left">
+- Integration test<br>
+
+<img src="images/teszt.png" alt="Login teszt" width="200" height="400">
+</p>
