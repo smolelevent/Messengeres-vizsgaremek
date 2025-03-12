@@ -15,7 +15,7 @@ $email = trim($userData['email']);
 $password = trim($userData['password']);
 
 // Lekérdezzük a felhasználót az email alapján
-$stmt = $conn->prepare("SELECT id, username, email, password_hash FROM users WHERE email = ?");
+$stmt = $conn->prepare("SELECT id, preferred_lang, username, email, password_hash FROM users WHERE email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 
@@ -38,6 +38,7 @@ $payload = [
     "sub" => $user["id"],          // Felhasználó ID-ja az adatbázisból
     "username" => $user["username"], // Adatbázisból lekért username
     "email" => $user["email"],
+    "preferred_lang" => $user["preferred_lang"]
 ];
 
 $secret_key = "chatex";
@@ -49,8 +50,9 @@ echo json_encode([
     "message" => "Sikeres bejelentkezés",
     "success" => true,
     "token" => $jwt,
-    "id" => $user["id"],       // Válaszként küldjük az ID-t is
-    "username" => $user["username"] // A username is szerepeljen a válaszban
+    "id" => $user["id"],
+    "username" => $user["username"],
+    "preferred_lang" => $user["preferred_lang"]
 ]);
 
 //TODO: használni a tokent!!!

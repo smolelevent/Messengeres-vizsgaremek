@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Feb 17. 21:59
+-- Létrehozás ideje: 2025. Már 12. 12:42
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -30,13 +30,21 @@ USE `dbchatex`;
 --
 
 CREATE TABLE `messages` (
-  `id` int(11) NOT NULL,
+  `message_id` int(11) NOT NULL,
   `sender_id` int(11) NOT NULL,
   `receiver_id` int(11) NOT NULL,
-  `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci NOT NULL,
+  `message_text` varchar(500) NOT NULL,
   `sent_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `is_read` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `is_read` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `messages`
+--
+
+INSERT INTO `messages` (`message_id`, `sender_id`, `receiver_id`, `message_text`, `sent_at`, `is_read`) VALUES
+(1, 1, 1, 'valami text', '2025-03-02 15:23:55', 0),
+(2, 1, 1, 'valami 2 fldfsdúfokfúkowefúkowefefkefopef', '2025-03-04 12:54:04', 0);
 
 -- --------------------------------------------------------
 
@@ -46,20 +54,24 @@ CREATE TABLE `messages` (
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `username` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci NOT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci NOT NULL,
-  `password_hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci NOT NULL,
-  `password_reset_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci DEFAULT NULL,
+  `preferred_lang` text NOT NULL DEFAULT '\'magyar\'',
+  `profile_picture` text DEFAULT NULL,
+  `username` varchar(20) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password_hash` varchar(255) NOT NULL,
+  `password_reset_token` varchar(255) DEFAULT NULL,
   `password_reset_expires` datetime DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password_hash`, `password_reset_token`, `password_reset_expires`, `created_at`) VALUES
-(1, 'valaki', 'ocsi2005levente@gmail.com', '$2y$10$qKhB6F19o3qVfcK5CttTguiWd9Dp4TxTUWuLI/XrucXdxFIUcNlU2', NULL, NULL, '2025-02-17 20:55:22');
+INSERT INTO `users` (`id`, `preferred_lang`, `profile_picture`, `username`, `email`, `password_hash`, `password_reset_token`, `password_reset_expires`, `created_at`) VALUES
+(1, 'magyar', NULL, 'valakidddddddddddddd', 'ocsi2005levente@gmail.com', '$2y$10$Npsa/3eWFxssWcj4TBnETOK16LBuz9JSu9NVaKfge7uIxmYdYy3P6', '45a157961726288c65947ebf8a0d0c8a97b13a47', '2025-03-08 00:15:22', '2025-03-02 15:02:59'),
+(2, 'magyar', NULL, 'valaki2', 'chatexfejlesztok@gmail.com', '$2y$10$HvL6BaKUqE1FTo9V.rLGK.9CxHVc2aJwiXeGVP9N5CXPz2U2LdHna', NULL, NULL, '2025-03-04 15:10:10'),
+(7, 'english', NULL, 'ang', 'ang@ang.hu', '$2y$10$TrpuuLgt52QTDZqdJvopk.slaZR.wdgDXx2Sfe.9JK3YTWxsrzdSK', NULL, NULL, '2025-03-12 10:18:08');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -69,16 +81,17 @@ INSERT INTO `users` (`id`, `username`, `email`, `password_hash`, `password_reset
 -- A tábla indexei `messages`
 --
 ALTER TABLE `messages`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `sender_id` (`sender_id`),
-  ADD KEY `receiver_id` (`receiver_id`);
+  ADD PRIMARY KEY (`message_id`),
+  ADD KEY `idx_sender` (`sender_id`),
+  ADD KEY `idx_receiver` (`receiver_id`);
 
 --
 -- A tábla indexei `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`,`email`);
+  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- A kiírt táblák AUTO_INCREMENT értéke
@@ -88,13 +101,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Megkötések a kiírt táblákhoz
@@ -104,8 +117,8 @@ ALTER TABLE `users`
 -- Megkötések a táblához `messages`
 --
 ALTER TABLE `messages`
-  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `fk_receiver` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_sender` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 --
 -- Adatbázis: `phpmyadmin`
 --
@@ -178,7 +191,7 @@ CREATE TABLE `pma__designer_settings` (
 --
 
 INSERT INTO `pma__designer_settings` (`username`, `settings_data`) VALUES
-('root', '{\"relation_lines\":\"true\",\"snap_to_grid\":\"off\",\"angular_direct\":\"direct\"}');
+('root', '{\"relation_lines\":\"true\",\"snap_to_grid\":\"on\",\"angular_direct\":\"angular\"}');
 
 -- --------------------------------------------------------
 
@@ -246,6 +259,13 @@ CREATE TABLE `pma__pdf_pages` (
   `page_descr` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='PDF relation pages for phpMyAdmin';
 
+--
+-- A tábla adatainak kiíratása `pma__pdf_pages`
+--
+
+INSERT INTO `pma__pdf_pages` (`db_name`, `page_nr`, `page_descr`) VALUES
+('dbchatex', 1, 'kapcsolatok');
+
 -- --------------------------------------------------------
 
 --
@@ -262,7 +282,7 @@ CREATE TABLE `pma__recent` (
 --
 
 INSERT INTO `pma__recent` (`username`, `tables`) VALUES
-('root', '[{\"db\":\"dbchatex\",\"table\":\"users\"},{\"db\":\"dbchatex\",\"table\":\"messages\"},{\"db\":\"dbchatex\",\"table\":\"users2\"}]');
+('root', '[{\"db\":\"dbchatex\",\"table\":\"users\"},{\"db\":\"dbchatex\",\"table\":\"messages\"},{\"db\":\"dbchatex\",\"table\":\"messages2\"},{\"db\":\"dbchatex\",\"table\":\"users2\"}]');
 
 -- --------------------------------------------------------
 
@@ -307,6 +327,14 @@ CREATE TABLE `pma__table_coords` (
   `y` float UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Table coordinates for phpMyAdmin PDF output';
 
+--
+-- A tábla adatainak kiíratása `pma__table_coords`
+--
+
+INSERT INTO `pma__table_coords` (`db_name`, `table_name`, `pdf_page_number`, `x`, `y`) VALUES
+('dbchatex', 'messages', 1, 610, 90),
+('dbchatex', 'users', 1, 200, 90);
+
 -- --------------------------------------------------------
 
 --
@@ -318,14 +346,6 @@ CREATE TABLE `pma__table_info` (
   `table_name` varchar(64) NOT NULL DEFAULT '',
   `display_field` varchar(64) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Table information for phpMyAdmin';
-
---
--- A tábla adatainak kiíratása `pma__table_info`
---
-
-INSERT INTO `pma__table_info` (`db_name`, `table_name`, `display_field`) VALUES
-('dbchatex', 'messages', 'message'),
-('dbchatex', 'users', 'username');
 
 -- --------------------------------------------------------
 
@@ -365,7 +385,7 @@ CREATE TABLE `pma__tracking` (
 --
 
 INSERT INTO `pma__tracking` (`db_name`, `table_name`, `version`, `date_created`, `date_updated`, `schema_snapshot`, `schema_sql`, `data_sql`, `tracking`, `tracking_active`) VALUES
-('dbchatex', 'users', 1, '2025-02-07 23:18:13', '2025-02-17 21:50:58', 'a:2:{s:7:\"COLUMNS\";a:5:{i:0;a:8:{s:5:\"Field\";s:2:\"id\";s:4:\"Type\";s:7:\"int(11)\";s:9:\"Collation\";N;s:4:\"Null\";s:2:\"NO\";s:3:\"Key\";s:3:\"PRI\";s:7:\"Default\";N;s:5:\"Extra\";s:14:\"auto_increment\";s:7:\"Comment\";s:0:\"\";}i:1;a:8:{s:5:\"Field\";s:8:\"username\";s:4:\"Type\";s:11:\"varchar(20)\";s:9:\"Collation\";s:20:\"utf8mb4_hungarian_ci\";s:4:\"Null\";s:2:\"NO\";s:3:\"Key\";s:3:\"MUL\";s:7:\"Default\";N;s:5:\"Extra\";s:0:\"\";s:7:\"Comment\";s:0:\"\";}i:2;a:8:{s:5:\"Field\";s:5:\"email\";s:4:\"Type\";s:12:\"varchar(100)\";s:9:\"Collation\";s:20:\"utf8mb4_hungarian_ci\";s:4:\"Null\";s:2:\"NO\";s:3:\"Key\";s:3:\"MUL\";s:7:\"Default\";N;s:5:\"Extra\";s:0:\"\";s:7:\"Comment\";s:0:\"\";}i:3;a:8:{s:5:\"Field\";s:13:\"password_hash\";s:4:\"Type\";s:12:\"varchar(255)\";s:9:\"Collation\";s:20:\"utf8mb4_hungarian_ci\";s:4:\"Null\";s:2:\"NO\";s:3:\"Key\";s:0:\"\";s:7:\"Default\";N;s:5:\"Extra\";s:0:\"\";s:7:\"Comment\";s:0:\"\";}i:4;a:8:{s:5:\"Field\";s:10:\"created_at\";s:4:\"Type\";s:9:\"timestamp\";s:9:\"Collation\";N;s:4:\"Null\";s:2:\"NO\";s:3:\"Key\";s:0:\"\";s:7:\"Default\";s:19:\"current_timestamp()\";s:5:\"Extra\";s:0:\"\";s:7:\"Comment\";s:0:\"\";}}s:7:\"INDEXES\";a:3:{i:0;a:13:{s:5:\"Table\";s:5:\"users\";s:10:\"Non_unique\";s:1:\"0\";s:8:\"Key_name\";s:7:\"PRIMARY\";s:12:\"Seq_in_index\";s:1:\"1\";s:11:\"Column_name\";s:2:\"id\";s:9:\"Collation\";s:1:\"A\";s:11:\"Cardinality\";s:1:\"0\";s:8:\"Sub_part\";N;s:6:\"Packed\";N;s:4:\"Null\";s:0:\"\";s:10:\"Index_type\";s:5:\"BTREE\";s:7:\"Comment\";s:0:\"\";s:13:\"Index_comment\";s:0:\"\";}i:1;a:13:{s:5:\"Table\";s:5:\"users\";s:10:\"Non_unique\";s:1:\"1\";s:8:\"Key_name\";s:8:\"username\";s:12:\"Seq_in_index\";s:1:\"1\";s:11:\"Column_name\";s:8:\"username\";s:9:\"Collation\";s:1:\"A\";s:11:\"Cardinality\";s:1:\"0\";s:8:\"Sub_part\";N;s:6:\"Packed\";N;s:4:\"Null\";s:0:\"\";s:10:\"Index_type\";s:5:\"BTREE\";s:7:\"Comment\";s:0:\"\";s:13:\"Index_comment\";s:0:\"\";}i:2;a:13:{s:5:\"Table\";s:5:\"users\";s:10:\"Non_unique\";s:1:\"1\";s:8:\"Key_name\";s:8:\"username\";s:12:\"Seq_in_index\";s:1:\"2\";s:11:\"Column_name\";s:5:\"email\";s:9:\"Collation\";s:1:\"A\";s:11:\"Cardinality\";s:1:\"0\";s:8:\"Sub_part\";N;s:6:\"Packed\";N;s:4:\"Null\";s:0:\"\";s:10:\"Index_type\";s:5:\"BTREE\";s:7:\"Comment\";s:0:\"\";s:13:\"Index_comment\";s:0:\"\";}}}', '# log 2025-02-07 23:18:13 root\nDROP TABLE IF EXISTS `users`;\n# log 2025-02-07 23:18:13 root\n\nCREATE TABLE `users` (\n  `id` int(11) NOT NULL,\n  `username` varchar(20) NOT NULL,\n  `email` varchar(100) NOT NULL,\n  `password_hash` varchar(255) NOT NULL,\n  `created_at` timestamp NOT NULL DEFAULT current_timestamp()\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;\n\n# log 2025-02-13 11:06:53 root\nALTER TABLE `users` ADD UNIQUE(`email`);\n# log 2025-02-13 11:07:27 root\nALTER TABLE `users` ADD UNIQUE(`username`);\n# log 2025-02-13 11:07:39 root\nALTER TABLE `users` DROP INDEX `username_2`;\n# log 2025-02-13 11:08:54 root\nALTER TABLE `users` DROP INDEX `username`;\n# log 2025-02-13 11:09:03 root\nALTER TABLE `users` DROP INDEX `email`;\n# log 2025-02-13 11:09:19 root\nALTER TABLE `users` ADD UNIQUE(`username`, `email`);\n# log 2025-02-17 21:46:10 root\nDROP TABLE `users`;\n\n# log 2025-02-17 21:46:46 root\nCREATE TABLE users (\r\n    id INT AUTO_INCREMENT PRIMARY KEY,\r\n    username VARCHAR(50) NOT NULL,\r\n    email VARCHAR(100) UNIQUE NOT NULL,\r\n    password_hash VARCHAR(255) NOT NULL,\r\n    password_reset_token VARCHAR(255) DEFAULT NULL,\r\n    password_reset_expires DATETIME DEFAULT NULL,\r\n    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\r\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;\n# log 2025-02-17 21:49:50 root\nALTER TABLE `users` CHANGE `username` `username` BLOB;\n# log 2025-02-17 21:49:50 root\nALTER TABLE `users` CHANGE `password_hash` `password_hash` BLOB;\n# log 2025-02-17 21:49:50 root\nALTER TABLE `users` CHANGE `password_reset_token` `password_reset_token` BLOB;\n# log 2025-02-17 21:49:50 root\nALTER TABLE `users` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT, CHANGE `username` `username` VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci NOT NULL, CHANGE `email` `email` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci NOT NULL, CHANGE `password_hash` `password_hash` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci NOT NULL, CHANGE `password_reset_token` `password_reset_token` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci NULL DEFAULT NULL, CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;\n# log 2025-02-17 21:50:17 root\nALTER TABLE `users` ADD UNIQUE(`username`, `email`);\n# log 2025-02-17 21:50:58 root\nALTER TABLE `users` DROP INDEX `email`;', '\n\n# log 2025-02-08 17:10:24 root\nDELETE FROM `users` WHERE `users`.`id` = 1;\n\n# log 2025-02-08 18:53:41 root\nDELETE FROM `users` WHERE `users`.`id` = 2;\n\n# log 2025-02-11 20:29:06 root\nDELETE FROM `users` WHERE `users`.`id` = 3 LIMIT 1;\n# log 2025-02-11 20:29:06 root\nDELETE FROM `users` WHERE `users`.`id` = 4 LIMIT 1;\n# log 2025-02-11 20:29:06 root\nDELETE FROM `users` WHERE `users`.`id` = 5 LIMIT 1;\n# log 2025-02-11 22:09:19 root\nDELETE FROM `users` WHERE `users`.`id` = 6 LIMIT 1;\n# log 2025-02-11 22:09:19 root\nDELETE FROM `users` WHERE `users`.`id` = 7 LIMIT 1;\n# log 2025-02-11 22:30:38 root\nDELETE FROM `users` WHERE `users`.`id` = 8 LIMIT 1;\n# log 2025-02-11 22:30:38 root\nDELETE FROM `users` WHERE `users`.`id` = 9 LIMIT 1;\n# log 2025-02-11 22:30:41 root\nDELETE FROM `users` WHERE `users`.`id` = 10 LIMIT 1;\n# log 2025-02-12 22:39:59 root\nDELETE FROM `users` WHERE `users`.`id` = 12 LIMIT 1;\n# log 2025-02-13 09:16:20 root\nDELETE FROM `users` WHERE `users`.`id` = 11 LIMIT 1;\n# log 2025-02-13 09:16:20 root\nDELETE FROM `users` WHERE `users`.`id` = 13 LIMIT 1;\n# log 2025-02-13 09:47:18 root\nDELETE FROM `users` WHERE `users`.`id` = 14 LIMIT 1;\n# log 2025-02-13 10:37:40 root\nDELETE FROM `users` WHERE `users`.`id` = 15 LIMIT 1;\n# log 2025-02-13 10:37:40 root\nDELETE FROM `users` WHERE `users`.`id` = 16 LIMIT 1;\n# log 2025-02-13 10:37:45 root\nDELETE FROM `users` WHERE `users`.`id` = 17 LIMIT 1;\n# log 2025-02-13 11:35:05 root\nDELETE FROM `users` WHERE `users`.`id` = 18 LIMIT 1;\n# log 2025-02-13 11:35:05 root\nDELETE FROM `users` WHERE `users`.`id` = 19 LIMIT 1;\n# log 2025-02-13 11:35:05 root\nDELETE FROM `users` WHERE `users`.`id` = 20 LIMIT 1;\n# log 2025-02-13 11:41:08 root\nDELETE FROM `users` WHERE `users`.`id` = 21 LIMIT 1;\n# log 2025-02-13 11:41:08 root\nDELETE FROM `users` WHERE `users`.`id` = 22 LIMIT 1;\n# log 2025-02-13 11:48:40 root\nUPDATE `users` SET `id` = \'1\' WHERE `users`.`id` = 23;\n', 'UPDATE,INSERT,DELETE,TRUNCATE,CREATE TABLE,ALTER TABLE,RENAME TABLE,DROP TABLE,CREATE INDEX,DROP INDEX', 1);
+('dbchatex', 'users', 1, '2025-02-07 23:18:13', '2025-03-12 12:33:35', 'a:2:{s:7:\"COLUMNS\";a:5:{i:0;a:8:{s:5:\"Field\";s:2:\"id\";s:4:\"Type\";s:7:\"int(11)\";s:9:\"Collation\";N;s:4:\"Null\";s:2:\"NO\";s:3:\"Key\";s:3:\"PRI\";s:7:\"Default\";N;s:5:\"Extra\";s:14:\"auto_increment\";s:7:\"Comment\";s:0:\"\";}i:1;a:8:{s:5:\"Field\";s:8:\"username\";s:4:\"Type\";s:11:\"varchar(20)\";s:9:\"Collation\";s:20:\"utf8mb4_hungarian_ci\";s:4:\"Null\";s:2:\"NO\";s:3:\"Key\";s:3:\"MUL\";s:7:\"Default\";N;s:5:\"Extra\";s:0:\"\";s:7:\"Comment\";s:0:\"\";}i:2;a:8:{s:5:\"Field\";s:5:\"email\";s:4:\"Type\";s:12:\"varchar(100)\";s:9:\"Collation\";s:20:\"utf8mb4_hungarian_ci\";s:4:\"Null\";s:2:\"NO\";s:3:\"Key\";s:3:\"MUL\";s:7:\"Default\";N;s:5:\"Extra\";s:0:\"\";s:7:\"Comment\";s:0:\"\";}i:3;a:8:{s:5:\"Field\";s:13:\"password_hash\";s:4:\"Type\";s:12:\"varchar(255)\";s:9:\"Collation\";s:20:\"utf8mb4_hungarian_ci\";s:4:\"Null\";s:2:\"NO\";s:3:\"Key\";s:0:\"\";s:7:\"Default\";N;s:5:\"Extra\";s:0:\"\";s:7:\"Comment\";s:0:\"\";}i:4;a:8:{s:5:\"Field\";s:10:\"created_at\";s:4:\"Type\";s:9:\"timestamp\";s:9:\"Collation\";N;s:4:\"Null\";s:2:\"NO\";s:3:\"Key\";s:0:\"\";s:7:\"Default\";s:19:\"current_timestamp()\";s:5:\"Extra\";s:0:\"\";s:7:\"Comment\";s:0:\"\";}}s:7:\"INDEXES\";a:3:{i:0;a:13:{s:5:\"Table\";s:5:\"users\";s:10:\"Non_unique\";s:1:\"0\";s:8:\"Key_name\";s:7:\"PRIMARY\";s:12:\"Seq_in_index\";s:1:\"1\";s:11:\"Column_name\";s:2:\"id\";s:9:\"Collation\";s:1:\"A\";s:11:\"Cardinality\";s:1:\"0\";s:8:\"Sub_part\";N;s:6:\"Packed\";N;s:4:\"Null\";s:0:\"\";s:10:\"Index_type\";s:5:\"BTREE\";s:7:\"Comment\";s:0:\"\";s:13:\"Index_comment\";s:0:\"\";}i:1;a:13:{s:5:\"Table\";s:5:\"users\";s:10:\"Non_unique\";s:1:\"1\";s:8:\"Key_name\";s:8:\"username\";s:12:\"Seq_in_index\";s:1:\"1\";s:11:\"Column_name\";s:8:\"username\";s:9:\"Collation\";s:1:\"A\";s:11:\"Cardinality\";s:1:\"0\";s:8:\"Sub_part\";N;s:6:\"Packed\";N;s:4:\"Null\";s:0:\"\";s:10:\"Index_type\";s:5:\"BTREE\";s:7:\"Comment\";s:0:\"\";s:13:\"Index_comment\";s:0:\"\";}i:2;a:13:{s:5:\"Table\";s:5:\"users\";s:10:\"Non_unique\";s:1:\"1\";s:8:\"Key_name\";s:8:\"username\";s:12:\"Seq_in_index\";s:1:\"2\";s:11:\"Column_name\";s:5:\"email\";s:9:\"Collation\";s:1:\"A\";s:11:\"Cardinality\";s:1:\"0\";s:8:\"Sub_part\";N;s:6:\"Packed\";N;s:4:\"Null\";s:0:\"\";s:10:\"Index_type\";s:5:\"BTREE\";s:7:\"Comment\";s:0:\"\";s:13:\"Index_comment\";s:0:\"\";}}}', '# log 2025-02-07 23:18:13 root\nDROP TABLE IF EXISTS `users`;\n# log 2025-02-07 23:18:13 root\n\nCREATE TABLE `users` (\n  `id` int(11) NOT NULL,\n  `username` varchar(20) NOT NULL,\n  `email` varchar(100) NOT NULL,\n  `password_hash` varchar(255) NOT NULL,\n  `created_at` timestamp NOT NULL DEFAULT current_timestamp()\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;\n\n# log 2025-02-13 11:06:53 root\nALTER TABLE `users` ADD UNIQUE(`email`);\n# log 2025-02-13 11:07:27 root\nALTER TABLE `users` ADD UNIQUE(`username`);\n# log 2025-02-13 11:07:39 root\nALTER TABLE `users` DROP INDEX `username_2`;\n# log 2025-02-13 11:08:54 root\nALTER TABLE `users` DROP INDEX `username`;\n# log 2025-02-13 11:09:03 root\nALTER TABLE `users` DROP INDEX `email`;\n# log 2025-02-13 11:09:19 root\nALTER TABLE `users` ADD UNIQUE(`username`, `email`);\n# log 2025-02-17 21:46:10 root\nDROP TABLE `users`;\n\n# log 2025-02-17 21:46:46 root\nCREATE TABLE users (\r\n    id INT AUTO_INCREMENT PRIMARY KEY,\r\n    username VARCHAR(50) NOT NULL,\r\n    email VARCHAR(100) UNIQUE NOT NULL,\r\n    password_hash VARCHAR(255) NOT NULL,\r\n    password_reset_token VARCHAR(255) DEFAULT NULL,\r\n    password_reset_expires DATETIME DEFAULT NULL,\r\n    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\r\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;\n# log 2025-02-17 21:49:50 root\nALTER TABLE `users` CHANGE `username` `username` BLOB;\n# log 2025-02-17 21:49:50 root\nALTER TABLE `users` CHANGE `password_hash` `password_hash` BLOB;\n# log 2025-02-17 21:49:50 root\nALTER TABLE `users` CHANGE `password_reset_token` `password_reset_token` BLOB;\n# log 2025-02-17 21:49:50 root\nALTER TABLE `users` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT, CHANGE `username` `username` VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci NOT NULL, CHANGE `email` `email` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci NOT NULL, CHANGE `password_hash` `password_hash` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci NOT NULL, CHANGE `password_reset_token` `password_reset_token` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci NULL DEFAULT NULL, CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;\n# log 2025-02-17 21:50:17 root\nALTER TABLE `users` ADD UNIQUE(`username`, `email`);\n# log 2025-02-17 21:50:58 root\nALTER TABLE `users` DROP INDEX `email`;\n# log 2025-03-02 14:34:03 root\nALTER TABLE `users` ADD `profile_picture` TEXT NOT NULL AFTER `id`;\n# log 2025-03-02 14:34:37 root\nALTER TABLE `users` CHANGE `profile_picture` `profile_picture` BLOB;\n# log 2025-03-02 14:34:37 root\nALTER TABLE `users` CHANGE `profile_picture` `profile_picture` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci NOT NULL;\n# log 2025-03-02 15:31:37 root\nDROP TABLE `users`;\n\n# log 2025-03-02 15:32:03 root\nCREATE TABLE `users` (\r\n  `id` INT(11) NOT NULL AUTO_INCREMENT,\r\n  `profile_picture` TEXT NOT NULL,\r\n  `username` VARCHAR(20) NOT NULL UNIQUE,\r\n  `email` VARCHAR(100) NOT NULL UNIQUE,\r\n  `password_hash` VARCHAR(255) NOT NULL,\r\n  `password_reset_token` VARCHAR(255) DEFAULT NULL,\r\n  `password_reset_expires` DATETIME DEFAULT NULL,\r\n  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),\r\n  PRIMARY KEY (`id`)\r\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;\n# log 2025-03-02 15:55:48 root\nALTER TABLE `users` CHANGE `profile_picture` `profile_picture` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci NULL DEFAULT NULL;\n# log 2025-03-12 10:22:41 root\nALTER TABLE `users` ADD `prefered_lang` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci NOT NULL DEFAULT \'magyar\' AFTER `id`;\n# log 2025-03-12 10:30:37 root\nALTER TABLE `users` CHANGE `prefered_lang` `preferred_lang` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci NOT NULL DEFAULT \'\\\'magyar\\\'\';', '\n\n# log 2025-02-08 17:10:24 root\nDELETE FROM `users` WHERE `users`.`id` = 1;\n\n# log 2025-02-08 18:53:41 root\nDELETE FROM `users` WHERE `users`.`id` = 2;\n\n# log 2025-02-11 20:29:06 root\nDELETE FROM `users` WHERE `users`.`id` = 3 LIMIT 1;\n# log 2025-02-11 20:29:06 root\nDELETE FROM `users` WHERE `users`.`id` = 4 LIMIT 1;\n# log 2025-02-11 20:29:06 root\nDELETE FROM `users` WHERE `users`.`id` = 5 LIMIT 1;\n# log 2025-02-11 22:09:19 root\nDELETE FROM `users` WHERE `users`.`id` = 6 LIMIT 1;\n# log 2025-02-11 22:09:19 root\nDELETE FROM `users` WHERE `users`.`id` = 7 LIMIT 1;\n# log 2025-02-11 22:30:38 root\nDELETE FROM `users` WHERE `users`.`id` = 8 LIMIT 1;\n# log 2025-02-11 22:30:38 root\nDELETE FROM `users` WHERE `users`.`id` = 9 LIMIT 1;\n# log 2025-02-11 22:30:41 root\nDELETE FROM `users` WHERE `users`.`id` = 10 LIMIT 1;\n# log 2025-02-12 22:39:59 root\nDELETE FROM `users` WHERE `users`.`id` = 12 LIMIT 1;\n# log 2025-02-13 09:16:20 root\nDELETE FROM `users` WHERE `users`.`id` = 11 LIMIT 1;\n# log 2025-02-13 09:16:20 root\nDELETE FROM `users` WHERE `users`.`id` = 13 LIMIT 1;\n# log 2025-02-13 09:47:18 root\nDELETE FROM `users` WHERE `users`.`id` = 14 LIMIT 1;\n# log 2025-02-13 10:37:40 root\nDELETE FROM `users` WHERE `users`.`id` = 15 LIMIT 1;\n# log 2025-02-13 10:37:40 root\nDELETE FROM `users` WHERE `users`.`id` = 16 LIMIT 1;\n# log 2025-02-13 10:37:45 root\nDELETE FROM `users` WHERE `users`.`id` = 17 LIMIT 1;\n# log 2025-02-13 11:35:05 root\nDELETE FROM `users` WHERE `users`.`id` = 18 LIMIT 1;\n# log 2025-02-13 11:35:05 root\nDELETE FROM `users` WHERE `users`.`id` = 19 LIMIT 1;\n# log 2025-02-13 11:35:05 root\nDELETE FROM `users` WHERE `users`.`id` = 20 LIMIT 1;\n# log 2025-02-13 11:41:08 root\nDELETE FROM `users` WHERE `users`.`id` = 21 LIMIT 1;\n# log 2025-02-13 11:41:08 root\nDELETE FROM `users` WHERE `users`.`id` = 22 LIMIT 1;\n# log 2025-02-13 11:48:40 root\nUPDATE `users` SET `id` = \'1\' WHERE `users`.`id` = 23;\n\n# log 2025-03-07 10:26:27 root\nDELETE FROM `users` WHERE `users`.`id` = 3 LIMIT 1;\n# log 2025-03-10 21:32:03 root\nDELETE FROM `users` WHERE `users`.`id` = 4;\n\n# log 2025-03-12 10:33:53 root\nDELETE FROM `users` WHERE `users`.`id` = 5 LIMIT 1;\n# log 2025-03-12 11:18:38 root\nUPDATE `users` SET `preferred_lang` = \'english\' WHERE `users`.`id` = 7;\n\n# log 2025-03-12 11:18:42 root\nDELETE FROM `users` WHERE `users`.`id` = 6 LIMIT 1;\n# log 2025-03-12 12:33:35 root\nUPDATE `users` SET `username` = \'valakiddddddddddddddddddddddddddddddddddddd\' WHERE `users`.`id` = 1;\n', 'UPDATE,INSERT,DELETE,TRUNCATE,CREATE TABLE,ALTER TABLE,RENAME TABLE,DROP TABLE,CREATE INDEX,DROP INDEX', 1);
 
 -- --------------------------------------------------------
 
@@ -384,7 +404,7 @@ CREATE TABLE `pma__userconfig` (
 --
 
 INSERT INTO `pma__userconfig` (`username`, `timevalue`, `config_data`) VALUES
-('root', '2025-02-17 20:59:09', '{\"Console\\/Mode\":\"collapse\",\"lang\":\"hu\",\"NavigationWidth\":193}');
+('root', '2025-03-12 11:42:05', '{\"Console\\/Mode\":\"collapse\",\"lang\":\"hu\",\"NavigationWidth\":193}');
 
 -- --------------------------------------------------------
 
@@ -565,7 +585,7 @@ ALTER TABLE `pma__history`
 -- AUTO_INCREMENT a táblához `pma__pdf_pages`
 --
 ALTER TABLE `pma__pdf_pages`
-  MODIFY `page_nr` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `page_nr` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT a táblához `pma__savedsearches`

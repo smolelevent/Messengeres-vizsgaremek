@@ -1160,3 +1160,30 @@
 22:08:12  [main] 	Deinitializing Modules
 22:08:12  [main] 	Deinitializing Control Panel
 
+8:24:40  [main] 	Initializing Control Panel
+8:24:40  [main] 	Windows Version:  Enterprise  64-bit
+8:24:40  [main] 	XAMPP Version: 8.2.12
+8:24:40  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+8:24:40  [main] 	Running with Administrator rights - good!
+8:24:40  [main] 	XAMPP Installation Directory: "c:\users\user\desktop\vizsgahoz szukseges\messengeres-vizsgaremek\xampp_server\"
+8:24:40  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+8:24:40  [main] 	Checking for prerequisites
+8:24:41  [main] 	All prerequisites found
+8:24:41  [main] 	Initializing Modules
+8:24:41  [main] 	The Mercury module is disabled
+8:24:41  [main] 	The Tomcat module is disabled
+8:24:41  [main] 	Starting Check-Timer
+8:24:41  [main] 	Control Panel Ready
+8:24:42  [Apache] 	Attempting to start Apache service...
+8:24:43  [Apache] 	Status change detected: running
+8:24:44  [mysql] 	Attempting to start MySQL service...
+8:24:45  [mysql] 	Status change detected: running
+12:43:12  [Apache] 	Attempting to stop Apache service...
+12:43:18  [mysql] 	Attempting to stop MySQL service...
+12:43:19  [mysql] 	Status change detected: stopped
+12:43:24  [Apache] 	Attempting to stop Apache service...
+12:43:36  [Apache] 	Attempting to stop Apache service...
+12:43:42  [Apache] 	Status change detected: stopped
+12:43:48  [main] 	Deinitializing Modules
+12:43:48  [main] 	Deinitializing Control Panel
+

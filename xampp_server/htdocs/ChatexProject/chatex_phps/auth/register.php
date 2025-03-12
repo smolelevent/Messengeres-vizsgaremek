@@ -27,6 +27,7 @@ $username = trim($userData['username']);
 $email = normalizeEmail(trim($userData['email']));
 $password = trim($userData['password']);
 $password_hash = password_hash($password, PASSWORD_DEFAULT);
+$language = $userData['language'];
 
 // Ellenőrizzük, hogy az e-mail formátuma helyes-e
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -48,14 +49,14 @@ if ($checkStmt->num_rows > 0) {
 }
 
 // Felhasználó beszúrása az adatbázisba stmt = STATEMENT (állítás)
-$stmt = $conn->prepare("INSERT INTO users (username, email, password_hash, created_at) VALUES (?, ?, ?, NOW())");
+$stmt = $conn->prepare("INSERT INTO users (preferred_lang, username, email, password_hash, created_at) VALUES (?, ?, ?, ?, NOW())");
 if ($stmt === false) {
     http_response_code(500); // Belső szerverhiba
     echo json_encode(["message" => "SQL előkészítési hiba."]);
     exit();
 }
 
-$stmt->bind_param("sss", $username, $email, $password_hash);
+$stmt->bind_param("ssss", $language, $username, $email, $password_hash);
 
 // Lekérdezés végrehajtása és válasz küldése
 if ($stmt->execute()) {

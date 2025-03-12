@@ -79,6 +79,6 @@ class __TwigTemplate_b850dfe8081782a8167d9d8878f99248 extends Template
 
     public function getSourceContext()
     {
-        return new Source("", "database/structure/tracking_icon.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\database\\structure\\tracking_icon.twig");
+        return new Source("", "database/structure/tracking_icon.twig", "C:\\Users\\user\\Desktop\\vizsgahoz szukseges\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\database\\structure\\tracking_icon.twig");
     }
 }

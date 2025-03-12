@@ -7,7 +7,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:chatex/chat/toast_message.dart';
 //import 'package:device_preview/device_preview.dart';
 import 'package:chatex/chat/chat_build_ui.dart';
-import 'package:chatex/chat/elements/elements_of_settings/language.dart';
+//TODO: nyelvválasztás csak a menűbe legyen, a fiók pedig majd regisztrációs során
 
 //TODO: alkalmazás belépéskor ne a Flutter logo legyen
 Future<void> main() async {
@@ -38,6 +38,8 @@ class _LoginUIState extends State<LoginUI> {
 
   final _formKey = GlobalKey<FormBuilderState>();
   bool _isLogInDisabled = true;
+
+  String _selectedLanguage = "magyar";
 
   void _checkLogInFieldsValidation() {
     final isEmailValid =
@@ -134,41 +136,15 @@ class _LoginUIState extends State<LoginUI> {
       padding: const EdgeInsets.only(bottom: 20),
       child: DropdownMenu(
         requestFocusOnTap: false,
-        label: const Text("Nyelvek"),
-        initialSelection: "magyar",
-        trailingIcon: const Icon(
-          Icons.arrow_drop_down,
-          color: Colors.white,
-        ),
-        selectedTrailingIcon: const Icon(
-          Icons.arrow_drop_up,
-          color: Colors.deepPurpleAccent,
-        ),
-        inputDecorationTheme: InputDecorationTheme(
-          labelStyle: TextStyle(
-            color: Colors.grey[600],
-            fontStyle: FontStyle.italic,
-            fontWeight: FontWeight.bold,
-            fontSize: 20.0,
-          ),
-          enabledBorder: const OutlineInputBorder(
-            //állandó border
-            //TODO: nem tudom megoldani hogy alapból fehér legyen és ha bele kattintunk lila legyen
-            borderSide: BorderSide(color: Colors.deepPurpleAccent, width: 2.5),
-          ),
-        ),
-        textStyle: const TextStyle(
-          //kiválasztott nyelv stílusa
-          color: Colors.white,
-          fontSize: 15.0,
-          fontWeight: FontWeight.w500,
-          letterSpacing: 1,
-        ),
-        menuStyle: MenuStyle(
-          //választó rész
-          backgroundColor: WidgetStatePropertyAll(Colors.deepPurpleAccent),
-          elevation: WidgetStatePropertyAll(5),
-        ),
+        label: _selectedLanguage == "magyar"
+            ? const Text("Nyelvek")
+            : const Text("Languages"),
+        initialSelection: _selectedLanguage,
+        onSelected: (String? newValue) {
+          setState(() {
+            _selectedLanguage = newValue!;
+          });
+        },
         dropdownMenuEntries: [
           DropdownMenuEntry(
             style: TextButton.styleFrom(
@@ -197,6 +173,38 @@ class _LoginUIState extends State<LoginUI> {
             label: "English",
           ),
         ],
+        trailingIcon: const Icon(
+          Icons.arrow_drop_down,
+          color: Colors.white,
+        ),
+        selectedTrailingIcon: const Icon(
+          Icons.arrow_drop_up,
+          color: Colors.deepPurpleAccent,
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          labelStyle: TextStyle(
+            color: Colors.grey[600],
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.bold,
+            fontSize: 20.0,
+          ),
+          enabledBorder: const OutlineInputBorder(
+            //állandó border
+            borderSide: BorderSide(color: Colors.deepPurpleAccent, width: 2.5),
+          ),
+        ),
+        textStyle: const TextStyle(
+          //kiválasztott nyelv stílusa
+          color: Colors.white,
+          fontSize: 15.0,
+          fontWeight: FontWeight.w500,
+          letterSpacing: 1,
+        ),
+        menuStyle: MenuStyle(
+          //választó rész
+          backgroundColor: WidgetStatePropertyAll(Colors.deepPurpleAccent),
+          elevation: WidgetStatePropertyAll(5),
+        ),
       ),
     );
   }
@@ -213,10 +221,14 @@ class _LoginUIState extends State<LoginUI> {
               regex: RegExp(
                   r"^[a-zA-z0-9.!#$°&'*+-/=?^_'{|}~]+@[a-zA-Z0-9]+\.[a-zA-z]+",
                   unicode: true),
-              errorText: "Az email cím érvénytelen!",
+              errorText: _selectedLanguage == "magyar"
+                  ? "Az email cím érvénytelen!"
+                  : "The email address is invalid!",
               checkNullOrEmpty: false),
           FormBuilderValidators.required(
-              errorText: "Az email cím nem lehet üres!",
+              errorText: _selectedLanguage == "magyar"
+                  ? "Az email cím nem lehet üres!"
+                  : "The email address cannot be empty!",
               checkNullOrEmpty: false),
         ]),
         focusNode: _emailFocusNode,
@@ -231,8 +243,16 @@ class _LoginUIState extends State<LoginUI> {
           //padding hozzáadása a mezőhöz
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          hintText: _isEmailFocused ? null : "E-mail cím",
-          labelText: _isEmailFocused ? "E-mail cím" : null,
+          hintText: _isEmailFocused
+              ? null
+              : _selectedLanguage == "magyar"
+                  ? "E-mail cím"
+                  : "E-mail address",
+          labelText: _isEmailFocused
+              ? _selectedLanguage == "magyar"
+                  ? "E-mail cím"
+                  : "Email address"
+              : null,
           enabledBorder: const UnderlineInputBorder(
             //állandó szín a mező alsó csíkjának
             borderSide: BorderSide(
@@ -277,27 +297,40 @@ class _LoginUIState extends State<LoginUI> {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.required(
-              errorText: "A jelszó nem lehet üres!", checkNullOrEmpty: false),
+              errorText: _selectedLanguage == "magyar"
+                  ? "A jelszó nem lehet üres!"
+                  : "The password cannot be empty!",
+              checkNullOrEmpty: false),
           FormBuilderValidators.minLength(8,
-              errorText: "A jelszó túl rövid! (min 8 karakter)",
+              errorText: _selectedLanguage == "magyar"
+                  ? "A jelszó túl rövid! (min 8 karakter)"
+                  : "The password is too short! (min 8 characters)",
               checkNullOrEmpty: false),
           FormBuilderValidators.maxLength(20,
-              errorText: "A jelszó túl hosszú! (max 20 karakter)",
+              errorText: _selectedLanguage == "magyar"
+                  ? "A jelszó túl hosszú! (max 20 karakter)"
+                  : "The password is too long! (max 20 characters)",
               checkNullOrEmpty: false),
           FormBuilderValidators.hasUppercaseChars(
               atLeast: 1,
               regex: RegExp(r'\p{Lu}', unicode: true),
-              errorText: "A jelszónak legalább 1 nagybetűt tartalmaznia kell!",
+              errorText: _selectedLanguage == "magyar"
+                  ? "A jelszónak legalább 1 nagybetűt tartalmaznia kell!"
+                  : "The password must contain at least 1 uppercase letter!",
               checkNullOrEmpty: false),
           FormBuilderValidators.hasLowercaseChars(
               atLeast: 1,
               regex: RegExp(r'\p{Ll}', unicode: true),
-              errorText: "A jelszónak legalább 1 kisbetűt tartalmaznia kell!",
+              errorText: _selectedLanguage == "magyar"
+                  ? "A jelszónak legalább 1 kisbetűt tartalmaznia kell!"
+                  : "The password must contain at least 1 lowercase letter!",
               checkNullOrEmpty: false),
           FormBuilderValidators.hasNumericChars(
               atLeast: 1,
               regex: RegExp(r'[0-9]', unicode: true),
-              errorText: "A jelszónak legalább 1 számot tartalmaznia kell!",
+              errorText: _selectedLanguage == "magyar"
+                  ? "A jelszónak legalább 1 számot tartalmaznia kell!"
+                  : "The password must contain at least 1 number!",
               checkNullOrEmpty: false),
         ]),
         focusNode: _passwordFocusNode,
@@ -322,8 +355,16 @@ class _LoginUIState extends State<LoginUI> {
           ),
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          hintText: _isPasswordFocused ? null : "Jelszó",
-          labelText: _isPasswordFocused ? "Jelszó" : null,
+          hintText: _isPasswordFocused
+              ? null
+              : _selectedLanguage == "magyar"
+                  ? "Jelszó"
+                  : "Password",
+          labelText: _isPasswordFocused
+              ? _selectedLanguage == "magyar"
+                  ? "Jelszó"
+                  : "Password"
+              : null,
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
               color: Colors.deepPurpleAccent,
@@ -377,21 +418,33 @@ class _LoginUIState extends State<LoginUI> {
                   : () async {
                       if (_formKey.currentState!.saveAndValidate()) {
                         await AuthService().logIn(
-                          email: _emailController,
-                          password: _passwordController,
-                          context: context,
-                        );
+                            email: _emailController,
+                            password: _passwordController,
+                            context: context,
+                            language: _selectedLanguage);
                       }
                     },
-              child: Text(
-                "Bejelentkezés",
-                style: TextStyle(
-                  fontSize: 20 * MediaQuery.of(context).textScaler.scale(1.0),
-                  height: 3.0,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1,
-                ),
-              ),
+              child: _selectedLanguage == "magyar"
+                  ? Text(
+                      "Bejelentkezés",
+                      style: TextStyle(
+                        fontSize:
+                            20 * MediaQuery.of(context).textScaler.scale(1.0),
+                        height: 3.0,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1,
+                      ),
+                    )
+                  : Text(
+                      "Log in",
+                      style: TextStyle(
+                        fontSize:
+                            20 * MediaQuery.of(context).textScaler.scale(1.0),
+                        height: 3.0,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1,
+                      ),
+                    ),
             ),
           ),
         ),
@@ -402,8 +455,11 @@ class _LoginUIState extends State<LoginUI> {
   Widget _forgotPasswordWidget() {
     return TextButton(
       onPressed: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ForgotPasswordPage()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    ForgotPasswordPage(language: _selectedLanguage)));
       },
       style: TextButton.styleFrom(
         foregroundColor: Colors.white,
@@ -413,9 +469,13 @@ class _LoginUIState extends State<LoginUI> {
           letterSpacing: 1,
         ),
       ),
-      child: const Text(
-        "Elfelejtett jelszó",
-      ),
+      child: _selectedLanguage == "magyar"
+          ? const Text(
+              "Elfelejtett jelszó",
+            )
+          : const Text(
+              "Forgot password",
+            ),
     );
   }
 
@@ -436,25 +496,39 @@ class _LoginUIState extends State<LoginUI> {
                 ),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SignUp()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                SignUp(language: _selectedLanguage)));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurpleAccent,
                     foregroundColor: Colors.white,
                     elevation: 5,
                   ),
-                  child: Text(
-                    "Új fiók létrehozása",
-                    style: TextStyle(
-                      fontSize:
-                          20 * MediaQuery.of(context).textScaler.scale(1.0),
-                      //minden eszközön elvileg ugyanakkora lesz (px helyett dp)
-                      height: 3.0,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1,
-                    ),
-                  ),
+                  child: _selectedLanguage == "magyar"
+                      ? Text(
+                          "Új fiók létrehozása",
+                          style: TextStyle(
+                            fontSize: 20 *
+                                MediaQuery.of(context).textScaler.scale(1.0),
+                            //minden eszközön elvileg ugyanakkora lesz (px helyett dp)
+                            height: 3.0,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1,
+                          ),
+                        )
+                      : Text(
+                          "Create new account",
+                          style: TextStyle(
+                            fontSize: 20 *
+                                MediaQuery.of(context).textScaler.scale(1.0),
+                            height: 3.0,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1,
+                          ),
+                        ),
                 ),
               ),
             ),

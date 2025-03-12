@@ -4,7 +4,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
-  const ForgotPasswordPage({super.key});
+  final String language;
+  const ForgotPasswordPage({super.key, required this.language});
 
   @override
   State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
@@ -76,7 +77,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
-                      "A jelszó helyreállításához\nadja meg az e-mail címét!",
+                      widget.language == "magyar"
+                          ? "A jelszó helyreállításához\nadja meg az e-mail címét!"
+                          : "To reset your password\nenter your email address!",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
@@ -117,10 +120,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               regex: RegExp(
                   r"^[a-zA-z0-9.!#$°&'*+-/=?^_'{|}~]+@[a-zA-Z0-9]+\.[a-zA-z]+",
                   unicode: true),
-              errorText: "Az email cím érvénytelen!",
+              errorText: widget.language == "magyar"
+                  ? "Az email cím érvénytelen!"
+                  : "The email address is invalid!",
               checkNullOrEmpty: false),
           FormBuilderValidators.required(
-              errorText: "Az email cím nem lehet üres!",
+              errorText: widget.language == "magyar"
+                  ? "Az email cím nem lehet üres!"
+                  : "The email address cannot be empty!",
               checkNullOrEmpty: false),
         ]),
         focusNode: _emailFocusNode,
@@ -135,8 +142,16 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           //padding hozzáadása a mezőhöz
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          hintText: _isEmailFocused ? null : "E-mail cím",
-          labelText: _isEmailFocused ? "E-mail cím" : null,
+          hintText: _isEmailFocused
+              ? null
+              : widget.language == "magyar"
+                  ? "E-mail cím"
+                  : "Email address",
+          labelText: _isEmailFocused
+              ? widget.language == "magyar"
+                  ? "E-mail cím"
+                  : "Email address"
+              : null,
           enabledBorder: const UnderlineInputBorder(
             //állandó szín a mező alsó csíkjának
             borderSide: BorderSide(
@@ -208,6 +223,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               await AuthService().resetPassword(
                                 email: _emailController,
                                 context: context,
+                                language: widget.language,
                               );
                             } finally {
                               setState(() {
@@ -216,36 +232,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             }
                           }
                         },
-                  // _isPasswordResetButtonDisabled
-                  //     ? null
-                  //     : () async {
-                  //         if (_formKey.currentState!.saveAndValidate()) {
-                  //           await AuthService().forgotPassword(
-                  //             //TODO: loading ameddig csinálja az emailt
-                  //             email: _emailController,
-                  //             context: context,
-                  //           );
-                  //         }
-                  //       },
-                  child:
-                      // _isLoading
-                      //     ? const SizedBox(
-                      //         width: 24,
-                      //         height: 24,
-                      //         child: CircularProgressIndicator(
-                      //           strokeWidth: 3,
-                      //           color: Colors.white,
-                      //         ),
-                      //       )
-                      //     : const Text(
-                      //         "Jelszó helyreállítása",
-                      //         style: TextStyle(
-                      //             fontSize: 20,
-                      //             height: 3.0,
-                      //             fontWeight: FontWeight.bold),
-                      //       ),
-                      Text(
-                    "Jelszó helyreállítása",
+                  child: Text(
+                    widget.language == "magyar"
+                        ? "Jelszó helyreállítása"
+                        : "Reset password",
                     style: TextStyle(
                       fontSize:
                           20 * MediaQuery.of(context).textScaler.scale(1.0),

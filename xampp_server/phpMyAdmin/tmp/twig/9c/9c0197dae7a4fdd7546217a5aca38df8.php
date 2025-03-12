@@ -210,6 +210,6 @@ yield _gettext("Export the data of all tables.");
 
     public function getSourceContext()
     {
-        return new Source("", "database/export/index.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\database\\export\\index.twig");
+        return new Source("", "database/export/index.twig", "C:\\Users\\user\\Desktop\\vizsgahoz szukseges\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\database\\export\\index.twig");
     }
 }

@@ -28,7 +28,8 @@ class _BottomNavbarForChatState extends State<BottomNavbarForChat> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             _bottomAppBarItem(Icons.chat, "Chatek", 0, Key("chatNavBar")),
-            _bottomAppBarItem(Icons.person, "Ismerősök", 1, Key("friendsNavBar")),
+            _bottomAppBarItem(
+                Icons.person, "Ismerősök", 1, Key("friendsNavBar")),
           ],
         ),
       ),
