@@ -135,20 +135,28 @@ Saját jelszó és becenév módosítás.
 ### A program részletes bemutatása
 Bejelentkezés és regisztráció:
 
-- Az alkalmazás első megnyitásakor regisztráció szükséges egy E-mail cím és egy jelszó.
+- Az alkalmazás első megnyitásakor a bejelentkezésnél taáljuk magunkat, de mivel regisztráció szükséges
+az alkalmazás használatához ezért a regisztációs gombra kattintva ezt meg is tehetjük
+egy E-mail cím és egy jelszó megadásával a regisztrációs gombra kattintva.
 Regisztráció után a felhasználó bejelentkezhet a megadott adatokkal.
 
 Üzenetküldés és fogadás:
-- Kattintson a „+” ikonra új beszélgetés indításához.
-Válassza ki a kapcsolattartót, majd írja be az üzenetet és küldje el.
+- Kattintson a jobb lent található Ismerősök gombra ahol megtalálhatja ismerőseit
+barátait a kereső használata segítségével. Miután megtalálta a személyt akinek üzeneteket
+szeretne küldeni a bal lent található csevegések gombra kattintva találja ezt a beszélgetést.
+Itt a chatbe belépve küldhet üzenetet ismerősének.
 
 Csoportos chat létrehozása:
-- Nyissa meg a „Csoport létrehozása” opciót.
-Adjon nevet a csoportnak, és válassza ki a résztvevőket.
+- A csoportos chatet a bal fent található menü fülön belül a csoport létrehozása gombra
+kattintva hozhat létre. Miután ezt megtette válassza ki, hogy kiket szeretne bevenni
+a csoportba és, hogy mire szeretné elnevezni, ezek megtétele után a csopportos chat 
+megtalálható lesz a fent emlíett Chatek fülben.
 
 Beállítások:
-- A felhasználói fiókhoz tartozó beállítások módosítása.
-Értesítések, adatvédelem és egyéb személyes preferenciák kezelése.
+- A beállításokat a bal fent lévő menü fülben találja meg, amikor rákattint a beállítások
+fülre, ott találja magát a beállításokban ahol a nyelvet, értesítéseket, account fül alatt a profilkép 
+megváltoztatás és felhasználónév megváltoztatást hajthat végre, ezen kívül a beállításokban 
+még a jelszót is megváltoztathatja.
 
 ## Tesztelés fajtái:
 <p align="left">
