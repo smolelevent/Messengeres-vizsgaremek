@@ -101,7 +101,6 @@ class _SignUpState extends State<SignUp> {
     super.dispose();
   }
 
-//TODO: ha ki kattintunk a mezőből akkor jelenjenek meg az információk különben vizsgálja hogy az üres mezőt stb... - már deepseeken foglalkoztam vele
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -581,5 +580,4 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
-  //TODO: tesztek írása, csökkenteni a kód méretét
 }

@@ -44,6 +44,7 @@ dependencies:
   shared_preferences: ^2.5.2
   device_preview: ^1.2.0
   flutter_svg_provider: ^1.0.7
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:

@@ -38,6 +38,10 @@ class Preferences {
     await _prefs?.setString('password_hash', passwordHash);
   }
 
+  static Future<void> setProfilePicture(String profilePicture) async {
+    await _prefs?.setString("profile_picture", profilePicture);
+  }
+
 //Getterek ----------------------------------------------------
   static String getPreferredLanguage() {
     languageNotifier.value = _prefs?.getString('preferred_lang') ?? 'Magyar';
@@ -63,6 +67,10 @@ class Preferences {
 
   static String? getPasswordHash() {
     return _prefs?.getString('password_hash');
+  }
+
+  static String? getProfilePicture() {
+    return _prefs?.getString("profile_picture");
   }
 
 //Egyéb ----------------------------------------------------

@@ -8,9 +8,12 @@ import 'package:chatex/logic/auth.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'package:chatex/logic/toast_message.dart';
 //import 'package:chatex/chat/chat_build_ui.dart';
-//TODO: nyelvválasztás csak a menűbe legyen, a fiók pedig majd regisztrációs során
 
 //TODO: alkalmazás belépéskor ne a Flutter logo legyen
+
+//TODO: ha nyelvek angol és regisztráció akkor utána magyart állít be
+//TODO: nincs adat akkor is lila a bejelentkezés gomb
+//TODO: phpMyAdmin id-k sorrendje
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Preferences.init();

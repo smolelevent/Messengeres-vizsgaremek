@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:chatex/chat/elements/elements_of_settings/language.dart';
 import 'package:chatex/logic/preferences.dart';
+import 'package:chatex/chat/elements/elements_of_settings/account.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -81,7 +82,12 @@ class _SettingsState extends State<Settings> {
                 : "Account",
             "subtitle": "",
             "icon": Icons.person,
-            "onTap": () => print("fiók"),
+            "onTap": () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const AccountScreen()));
+            },
           },
           {
             "title": Preferences.getPreferredLanguage() == "Magyar"

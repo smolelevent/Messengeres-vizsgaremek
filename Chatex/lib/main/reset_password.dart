@@ -265,7 +265,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               RichText(
-                //TODO: hát ha kell logo vagy valami
                 text: const TextSpan(
                   text: "Chatex",
                   style: TextStyle(

@@ -22,12 +22,12 @@ if (!$token) {
             let url = "reset_password_form.php?token=<?php echo htmlspecialchars($token); ?>";
             // Új ablak megnyitása középen
             window.open(url, "JelszóVisszaállítás", `width=${width},height=${height},left=${left},top=${top},scrollbars=no,resizable=no`);
-            window.close(); // A közvetítő oldalt bezárja
+            window.close(); // A közvetítő oldalt bezárja //TODO: bezárja ha nincs engedélyezve a pop-up
         };
     </script>
 </head>
 
-<body>
+<body> <!-- TODO: center a tartalmat, meg a reset_password_formot is -->
     <p>Ha az új ablak nem nyílt meg, <a href="reset_password_form.php?token=<?php echo htmlspecialchars($token); ?>" target="_blank">kattints ide</a>.</p>
 </body>
 
