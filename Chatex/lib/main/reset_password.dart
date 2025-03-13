@@ -77,7 +77,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
-                      widget.language == "magyar"
+                      widget.language == "Magyar"
                           ? "A jelszó helyreállításához\nadja meg az e-mail címét!"
                           : "To reset your password\nenter your email address!",
                       textAlign: TextAlign.center,
@@ -120,12 +120,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               regex: RegExp(
                   r"^[a-zA-z0-9.!#$°&'*+-/=?^_'{|}~]+@[a-zA-Z0-9]+\.[a-zA-z]+",
                   unicode: true),
-              errorText: widget.language == "magyar"
+              errorText: widget.language == "Magyar"
                   ? "Az email cím érvénytelen!"
                   : "The email address is invalid!",
               checkNullOrEmpty: false),
           FormBuilderValidators.required(
-              errorText: widget.language == "magyar"
+              errorText: widget.language == "Magyar"
                   ? "Az email cím nem lehet üres!"
                   : "The email address cannot be empty!",
               checkNullOrEmpty: false),
@@ -144,11 +144,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           hintText: _isEmailFocused
               ? null
-              : widget.language == "magyar"
+              : widget.language == "Magyar"
                   ? "E-mail cím"
                   : "Email address",
           labelText: _isEmailFocused
-              ? widget.language == "magyar"
+              ? widget.language == "Magyar"
                   ? "E-mail cím"
                   : "Email address"
               : null,
@@ -233,7 +233,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           }
                         },
                   child: Text(
-                    widget.language == "magyar"
+                    widget.language == "Magyar"
                         ? "Jelszó helyreállítása"
                         : "Reset password",
                     style: TextStyle(

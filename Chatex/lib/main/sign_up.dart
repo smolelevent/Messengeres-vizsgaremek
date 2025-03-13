@@ -125,7 +125,7 @@ class _SignUpState extends State<SignUp> {
                 height: 25,
               ),
               Text(
-                widget.language == "magyar" ? 'Regisztráció' : 'Registration',
+                widget.language == "Magyar" ? 'Regisztráció' : 'Registration',
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -170,20 +170,20 @@ class _SignUpState extends State<SignUp> {
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.minLength(
             3,
-            errorText: widget.language == "magyar"
+            errorText: widget.language == "Magyar"
                 ? "A felhasználónév túl rövid! (min 3)"
                 : "The username is too short! (min 3)",
             checkNullOrEmpty: false,
           ),
           FormBuilderValidators.maxLength(
             20,
-            errorText: widget.language == "magyar"
+            errorText: widget.language == "Magyar"
                 ? "A felhasználónév túl hosszú! (max 20)"
                 : "The username is too long! (max 20)",
             checkNullOrEmpty: false,
           ),
           FormBuilderValidators.required(
-              errorText: widget.language == "magyar"
+              errorText: widget.language == "Magyar"
                   ? "A felhasználónév nem lehet üres!"
                   : "The username cannot be empty!",
               checkNullOrEmpty: false),
@@ -200,11 +200,11 @@ class _SignUpState extends State<SignUp> {
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           hintText: _isUsernameFocused
               ? null
-              : widget.language == "magyar"
+              : widget.language == "Magyar"
                   ? "Felhasználónév"
                   : "Username",
           labelText: _isUsernameFocused
-              ? widget.language == "magyar"
+              ? widget.language == "Magyar"
                   ? "Felhasználónév"
                   : "Username"
               : null,
@@ -252,12 +252,12 @@ class _SignUpState extends State<SignUp> {
               regex: RegExp(
                   r"^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
                   unicode: true),
-              errorText: widget.language == "magyar"
+              errorText: widget.language == "Magyar"
                   ? "Az email cím érvénytelen!"
                   : "The email address is invalid!",
               checkNullOrEmpty: false),
           FormBuilderValidators.required(
-              errorText: widget.language == "magyar"
+              errorText: widget.language == "Magyar"
                   ? "Az email cím nem lehet üres!"
                   : "The email address cannot be empty!",
               checkNullOrEmpty: false),
@@ -274,14 +274,14 @@ class _SignUpState extends State<SignUp> {
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           hintText: _isEmailFocused
               ? null
-              : widget.language == "magyar"
+              : widget.language == "Magyar"
                   ? "E-mail cím"
                   : "E-mail address",
-          helperText: widget.language == "magyar"
+          helperText: widget.language == "Magyar"
               ? "pl: valaki@kiszolgalo.hu"
               : "eg: example@example.com",
           labelText: _isEmailFocused
-              ? widget.language == "magyar"
+              ? widget.language == "Magyar"
                   ? "E-mail cím"
                   : "E-mail address"
               : null,
@@ -326,39 +326,39 @@ class _SignUpState extends State<SignUp> {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.required(
-            errorText: widget.language == "magyar"
+            errorText: widget.language == "Magyar"
                 ? "A jelszó nem lehet üres!"
                 : "The password cannot be empty!",
             checkNullOrEmpty: false,
           ),
           FormBuilderValidators.minLength(8,
-              errorText: widget.language == "magyar"
+              errorText: widget.language == "Magyar"
                   ? "A jelszó túl rövid! (min 8 karakter)"
                   : "The password is too short! (min 8 characters)",
               checkNullOrEmpty: false),
           FormBuilderValidators.maxLength(20,
-              errorText: widget.language == "magyar"
+              errorText: widget.language == "Magyar"
                   ? "A jelszó túl hosszú! (max 20 karakter)"
                   : "The password is too long! (max 20 characters)",
               checkNullOrEmpty: false),
           FormBuilderValidators.hasUppercaseChars(
               atLeast: 1,
               regex: RegExp(r'\p{Lu}', unicode: true),
-              errorText: widget.language == "magyar"
+              errorText: widget.language == "Magyar"
                   ? "A jelszónak legalább 1 nagybetűt tartalmaznia kell!"
                   : "The password must contain at least 1 uppercase letter!",
               checkNullOrEmpty: false),
           FormBuilderValidators.hasLowercaseChars(
               atLeast: 1,
               regex: RegExp(r'\p{Ll}', unicode: true),
-              errorText: widget.language == "magyar"
+              errorText: widget.language == "Magyar"
                   ? "A jelszónak legalább 1 kisbetűt tartalmaznia kell!"
                   : "The password must contain at least 1 lowercase letter!",
               checkNullOrEmpty: false),
           FormBuilderValidators.hasNumericChars(
               atLeast: 1,
               regex: RegExp(r'[0-9]', unicode: true),
-              errorText: widget.language == "magyar"
+              errorText: widget.language == "Magyar"
                   ? "A jelszónak legalább 1 számot tartalmaznia kell!"
                   : "The password must contain at least 1 number!",
               checkNullOrEmpty: false),
@@ -385,15 +385,15 @@ class _SignUpState extends State<SignUp> {
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           hintText: _isPasswordFocused
               ? null
-              : widget.language == "magyar"
+              : widget.language == "Magyar"
                   ? "Jelszó"
                   : "Password",
           labelText: _isPasswordFocused
-              ? widget.language == "magyar"
+              ? widget.language == "Magyar"
                   ? "Jelszó"
                   : "Password"
               : null,
-          helperText: widget.language == "magyar"
+          helperText: widget.language == "Magyar"
               ? "Min. 8 karakter, Max. 20 karakter,\n1 kisbetű, 1 nagybetű, és 1 szám."
               : "Min. 8 characters, Max. 20 characters,\n1 lowercase, 1 uppercase, and 1 number.",
           focusedBorder: const UnderlineInputBorder(
@@ -437,12 +437,12 @@ class _SignUpState extends State<SignUp> {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.required(
-              errorText: widget.language == "magyar"
+              errorText: widget.language == "Magyar"
                   ? "A mezőnek meg kell egyeznie a jelszó mezővel!"
                   : "The field must match the password field!",
               checkNullOrEmpty: false),
           FormBuilderValidators.equal(_passwordController.text,
-              errorText: widget.language == "magyar"
+              errorText: widget.language == "Magyar"
                   ? "A jelszavak nem egyeznek meg!"
                   : "The passwords do not match!",
               checkNullOrEmpty: false),
@@ -468,13 +468,13 @@ class _SignUpState extends State<SignUp> {
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           labelText: _isPasswordConfirmFocused
-              ? widget.language == "magyar"
+              ? widget.language == "Magyar"
                   ? "Jelszó újra"
                   : "Confirm password"
               : null,
           hintText: _isPasswordConfirmFocused
               ? null
-              : widget.language == "magyar"
+              : widget.language == "Magyar"
                   ? "Jelszó újra"
                   : "Confirm password",
           focusedBorder: const UnderlineInputBorder(
@@ -533,7 +533,7 @@ class _SignUpState extends State<SignUp> {
                       }
                     },
               child: Text(
-                widget.language == "magyar" ? "Regisztrálás" : "Sign up",
+                widget.language == "Magyar" ? "Regisztrálás" : "Sign up",
                 style: TextStyle(
                   fontSize: 20 * MediaQuery.of(context).textScaler.scale(1.0),
                   height: 3.0,

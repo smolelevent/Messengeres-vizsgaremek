@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-//import 'package:shared_preferences/shared_preferences.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'package:chatex/logic/preferences.dart';
+//import '../utils/toast_service.dart';
 
 class AuthService {
   // static const String serverUrl = //TODO: megoldani hogy rendes telefonon fusson
@@ -38,23 +38,15 @@ class AuthService {
       final responseData = jsonDecode(response.body);
 
       if (responseData["message"] == "Sikeres regisztráció!") {
-        if (language == "magyar") {
-          ToastMessages.showToastMessages(
-              "Sikeres regisztráció!",
-              0.1,
-              Colors.green,
-              Icons.check,
-              Colors.black,
-              const Duration(seconds: 2));
-        } else {
-          ToastMessages.showToastMessages(
-              "Successful registration!",
-              0.1,
-              Colors.green,
-              Icons.check,
-              Colors.black,
-              const Duration(seconds: 2));
-        }
+        ToastMessages.showToastMessages(
+            language == "Magyar"
+                ? "Sikeres regisztráció!"
+                : "Successful registration!",
+            0.1,
+            Colors.green,
+            Icons.check,
+            Colors.black,
+            const Duration(seconds: 2));
         await Future.delayed(const Duration(seconds: 2));
         Navigator.pushReplacement(
           context,
@@ -64,61 +56,35 @@ class AuthService {
         );
       } else if (responseData["message"] ==
           "Ezzel az emailel már létezik felhasználó!") {
-        if (language == "magyar") {
-          ToastMessages.showToastMessages(
-              "Ezzel az emailel már létezik felhasználó!",
-              0.1,
-              Colors.redAccent,
-              Icons.error,
-              Colors.black,
-              const Duration(seconds: 2));
-        } else {
-          ToastMessages.showToastMessages(
-              "User already exists with this email!",
-              0.1,
-              Colors.redAccent,
-              Icons.error,
-              Colors.black,
-              const Duration(seconds: 2));
-        }
+        ToastMessages.showToastMessages(
+            language == "Magyar"
+                ? "Ezzel az emailel már létezik felhasználó!"
+                : "User already exists with this email!",
+            0.1,
+            Colors.redAccent,
+            Icons.error,
+            Colors.black,
+            const Duration(seconds: 2));
       } else if (responseData["message"] == "Érvénytelen email cím!") {
-        if (language == "magyar") {
-          ToastMessages.showToastMessages(
-              "Érvénytelen email cím!",
-              0.1,
-              Colors.redAccent,
-              Icons.error,
-              Colors.black,
-              const Duration(seconds: 2));
-        } else {
-          ToastMessages.showToastMessages(
-              "Invalid email address!",
-              0.1,
-              Colors.redAccent,
-              Icons.error,
-              Colors.black,
-              const Duration(seconds: 2));
-        }
+        ToastMessages.showToastMessages(
+            language == "Magyar"
+                ? "Érvénytelen email cím!"
+                : "Invalid email address!",
+            0.1,
+            Colors.redAccent,
+            Icons.error,
+            Colors.black,
+            const Duration(seconds: 2));
       }
     } catch (e) {
-      if (language == "magyar") {
-        ToastMessages.showToastMessages(
-            "Kapcsolati hiba!",
-            0.2,
-            Colors.redAccent,
-            Icons.error,
-            Colors.black,
-            const Duration(seconds: 2));
-        log(e.toString());
-      } else {
-        ToastMessages.showToastMessages(
-            "Connection error!",
-            0.2,
-            Colors.redAccent,
-            Icons.error,
-            Colors.black,
-            const Duration(seconds: 2));
-      }
+      ToastMessages.showToastMessages(
+          language == "Magyar" ? "Kapcsolati hiba!" : "Connection error!",
+          0.2,
+          Colors.redAccent,
+          Icons.error,
+          Colors.black,
+          const Duration(seconds: 2));
+      log(e.toString());
     }
   }
 
@@ -154,23 +120,15 @@ class AuthService {
         await Preferences.setPreferredLanguage(preferredlang);
         await Preferences.setEmail(email);
         await Preferences.setPasswordHash(passwordHash);
-        if (language == "magyar") {
-          ToastMessages.showToastMessages(
-              "Sikeres bejelentkezés!",
-              0.2,
-              Colors.green,
-              Icons.check,
-              Colors.black,
-              const Duration(seconds: 2));
-        } else {
-          ToastMessages.showToastMessages(
-              "Successful login!",
-              0.2,
-              Colors.green,
-              Icons.check,
-              Colors.black,
-              const Duration(seconds: 2));
-        }
+        ToastMessages.showToastMessages(
+            language == "Magyar"
+                ? "Sikeres bejelentkezés!"
+                : "Successful login!",
+            0.2,
+            Colors.green,
+            Icons.check,
+            Colors.black,
+            const Duration(seconds: 2));
         await Future.delayed(const Duration(seconds: 2));
         Navigator.pushReplacement(
           context,
@@ -179,63 +137,36 @@ class AuthService {
           ),
         );
       } else if (responseData['message'] == 'Hibás email vagy jelszó!') {
-        if (language == "magyar") {
-          ToastMessages.showToastMessages(
-            "Hibás email vagy jelszó!",
-            0.2,
-            Colors.redAccent,
-            Icons.error,
-            Colors.black,
-            const Duration(seconds: 2),
-          );
-        } else {
-          ToastMessages.showToastMessages(
-            "Incorrect email or password!",
-            0.2,
-            Colors.redAccent,
-            Icons.error,
-            Colors.black,
-            const Duration(seconds: 2),
-          );
-        }
+        ToastMessages.showToastMessages(
+          language == "Magyar"
+              ? "Hibás email vagy jelszó!"
+              : "Incorrect email or password!",
+          0.2,
+          Colors.redAccent,
+          Icons.error,
+          Colors.black,
+          const Duration(seconds: 2),
+        );
       } else {
-        if (language == "magyar") {
-          ToastMessages.showToastMessages(
-              "Hiba kód: ${response.statusCode}",
-              0.2,
-              Colors.redAccent,
-              Icons.error,
-              Colors.black,
-              const Duration(seconds: 2));
-        } else {
-          ToastMessages.showToastMessages(
-              "Error code: ${response.statusCode}",
-              0.2,
-              Colors.redAccent,
-              Icons.error,
-              Colors.black,
-              const Duration(seconds: 2));
-        }
+        ToastMessages.showToastMessages(
+            language == "Magyar"
+                ? "Hiba kód: ${response.statusCode}"
+                : "Error code: ${response.statusCode}",
+            0.2,
+            Colors.redAccent,
+            Icons.error,
+            Colors.black,
+            const Duration(seconds: 2));
       }
     } catch (e) {
-      if (language == "magyar") {
-        ToastMessages.showToastMessages(
-            "Kapcsolati hiba!",
-            0.2,
-            Colors.redAccent,
-            Icons.error,
-            Colors.black,
-            const Duration(seconds: 2));
-        log(e.toString());
-      } else {
-        ToastMessages.showToastMessages(
-            "Connection error!",
-            0.2,
-            Colors.redAccent,
-            Icons.error,
-            Colors.black,
-            const Duration(seconds: 2));
-      }
+      ToastMessages.showToastMessages(
+          language == "Magyar" ? "Kapcsolati hiba!" : "Connection error!",
+          0.2,
+          Colors.redAccent,
+          Icons.error,
+          Colors.black,
+          const Duration(seconds: 2));
+      log(e.toString());
     }
   }
 
@@ -265,23 +196,15 @@ class AuthService {
 
       final responseData = jsonDecode(response.body);
       if (responseData["message"] == "Helyreállító e-mail elküldve.") {
-        if (language == "magyar") {
-          ToastMessages.showToastMessages(
-              "A jelszó helyreállító emailt elküldtük!",
-              0.2,
-              Colors.green,
-              Icons.check,
-              Colors.black,
-              const Duration(seconds: 2));
-        } else {
-          ToastMessages.showToastMessages(
-              "Password recovery email sent!",
-              0.2,
-              Colors.green,
-              Icons.check,
-              Colors.black,
-              const Duration(seconds: 2));
-        }
+        ToastMessages.showToastMessages(
+            language == "Magyar"
+                ? "A jelszó helyreállító emailt elküldtük!"
+                : "Password recovery email sent!",
+            0.2,
+            Colors.green,
+            Icons.check,
+            Colors.black,
+            const Duration(seconds: 2));
         await Future.delayed(const Duration(seconds: 2));
         Navigator.pushReplacement(
           context,
@@ -291,61 +214,35 @@ class AuthService {
         );
       } else if (responseData["message"] ==
           "Nincs ilyen email című felhasználó!") {
-        if (language == "magyar") {
-          ToastMessages.showToastMessages(
-              "Nincs ilyen email című felhasználó!",
-              0.2,
-              Colors.redAccent,
-              Icons.error,
-              Colors.black,
-              const Duration(seconds: 2));
-        } else {
-          ToastMessages.showToastMessages(
-              "There is no user with this email address!",
-              0.2,
-              Colors.redAccent,
-              Icons.error,
-              Colors.black,
-              const Duration(seconds: 2));
-        }
+        ToastMessages.showToastMessages(
+            language == "Magyar"
+                ? "Nincs ilyen email című felhasználó!"
+                : "No user with this email address!",
+            0.2,
+            Colors.redAccent,
+            Icons.error,
+            Colors.black,
+            const Duration(seconds: 2));
       } else {
-        if (language == "magyar") {
-          ToastMessages.showToastMessages(
-              "Hiba kód: ${response.statusCode}",
-              0.2,
-              Colors.redAccent,
-              Icons.error,
-              Colors.black,
-              const Duration(seconds: 2));
-        } else {
-          ToastMessages.showToastMessages(
-              "Error code: ${response.statusCode}",
-              0.2,
-              Colors.redAccent,
-              Icons.error,
-              Colors.black,
-              const Duration(seconds: 2));
-        }
+        ToastMessages.showToastMessages(
+            language == "Magyar"
+                ? "Hiba kód: ${response.statusCode}"
+                : "Error code: ${response.statusCode}",
+            0.2,
+            Colors.redAccent,
+            Icons.error,
+            Colors.black,
+            const Duration(seconds: 2));
       }
     } catch (e) {
-      if (language == "magyar") {
-        ToastMessages.showToastMessages(
-            "Kapcsolati hiba!",
-            0.2,
-            Colors.redAccent,
-            Icons.error,
-            Colors.black,
-            const Duration(seconds: 2));
-        log(e.toString());
-      } else {
-        ToastMessages.showToastMessages(
-            "Connection error!",
-            0.2,
-            Colors.redAccent,
-            Icons.error,
-            Colors.black,
-            const Duration(seconds: 2));
-      }
+      ToastMessages.showToastMessages(
+          language == "Magyar" ? "Kapcsolati hiba!" : "Connection error!",
+          0.2,
+          Colors.redAccent,
+          Icons.error,
+          Colors.black,
+          const Duration(seconds: 2));
+      log(e.toString());
     }
   }
 }

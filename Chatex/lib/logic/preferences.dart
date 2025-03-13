@@ -1,7 +1,10 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
 
 class Preferences {
   static SharedPreferences? _prefs;
+  static ValueNotifier<String> languageNotifier =
+      ValueNotifier<String>("Magyar");
 
   // Inicializálás (ezt a main.dart-ban egyszer kell meghívni)
   static Future<void> init() async {
@@ -11,6 +14,7 @@ class Preferences {
 //Setterek ----------------------------------------------------
   static Future<void> setPreferredLanguage(String language) async {
     await _prefs?.setString('preferred_lang', language);
+    languageNotifier.value = language;
   }
 
   static Future<void> setUsername(String username) async {
@@ -36,6 +40,7 @@ class Preferences {
 
 //Getterek ----------------------------------------------------
   static String getPreferredLanguage() {
+    languageNotifier.value = _prefs?.getString('preferred_lang') ?? 'Magyar';
     return _prefs?.getString('preferred_lang') ?? 'Magyar';
   }
 

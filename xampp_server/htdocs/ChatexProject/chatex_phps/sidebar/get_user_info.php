@@ -25,7 +25,7 @@ if ($result->num_rows > 0) {
     echo json_encode([
         "success" => true,
         "username" => $user["username"],
-        "profile_picture" => $user["profile_picture"] ?: "http://10.0.2.2/ChatexProject/default_avatar.png"
+        "profile_picture" => $user["profile_picture"] ?: "http://10.0.2.2/ChatexProject/profile_pictures/skibidi_joszeff.jpg"
     ]);
 } else {
     echo json_encode(["success" => false, "message" => "Felhasználó nem található."]);

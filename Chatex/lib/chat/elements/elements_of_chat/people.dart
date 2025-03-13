@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'dart:convert';
-//import 'dart:developer'; //log miatt
 import 'package:http/http.dart' as http;
 import 'dart:async'; // Debounce-hoz
 import 'package:chatex/logic/toast_message.dart';
+import 'package:chatex/logic/preferences.dart';
 
 class People extends StatefulWidget {
   const People({super.key});
@@ -54,7 +54,9 @@ class _PeopleState extends State<People> {
               height: 25,
             ),
             Text(
-              'Ismerősök hozzáadása',
+              Preferences.getPreferredLanguage() == "Magyar"
+                  ? 'Ismerősök hozzáadása'
+                  : 'Add friends',
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Colors.white,
@@ -75,7 +77,6 @@ class _PeopleState extends State<People> {
     );
   }
 
-  // 🔍 Felhasználók keresése a szerveren
   void _searchUsers(String query) {
     if (_timer?.isActive ?? false) _timer?.cancel();
 
@@ -111,11 +112,20 @@ class _PeopleState extends State<People> {
     );
 
     if (response.statusCode == 200) {
-      ToastMessages.showToastMessages("Barátjelölés elküldve!", 0.2,
-          Colors.green, Icons.check, Colors.black, const Duration(seconds: 2));
+      ToastMessages.showToastMessages(
+          Preferences.getPreferredLanguage() == "Magyar"
+              ? "Barátjelölés elküldve!"
+              : "Friend request sent!",
+          0.2,
+          Colors.green,
+          Icons.check,
+          Colors.black,
+          const Duration(seconds: 2));
     } else {
       ToastMessages.showToastMessages(
-          "Hiba történt a barátjelölés közben!",
+          Preferences.getPreferredLanguage() == "Magyar"
+              ? "Hiba történt a barátjelölés közben!"
+              : "Error occurred while sending the friend request!",
           0.2,
           Colors.redAccent,
           Icons.error,
@@ -135,16 +145,22 @@ class _PeopleState extends State<People> {
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.minLength(
             3,
-            errorText: "A felhasználónév túl rövid! (min 3)",
+            errorText: Preferences.getPreferredLanguage() == "Magyar"
+                ? "A felhasználónév túl rövid! (min 3)"
+                : "The username is too short! (min 3)",
             checkNullOrEmpty: false,
           ),
           FormBuilderValidators.maxLength(
             20,
-            errorText: "A felhasználónév túl hosszú! (max 20)",
+            errorText: Preferences.getPreferredLanguage() == "Magyar"
+                ? "A felhasználónév túl hosszú! (max 20)"
+                : "The username is too long! (max 20)",
             checkNullOrEmpty: false,
           ),
           FormBuilderValidators.required(
-              errorText: "A felhasználónév nem lehet üres!",
+              errorText: Preferences.getPreferredLanguage() == "Magyar"
+                  ? "A felhasználónév nem lehet üres!"
+                  : "The username cannot be empty!",
               checkNullOrEmpty: false),
         ]),
         focusNode: _userSearchFocusNode,
@@ -169,9 +185,16 @@ class _PeopleState extends State<People> {
         decoration: InputDecoration(
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          hintText: _isUserSearchFocused ? null : "Add meg a felhasználónevet!",
-          labelText:
-              _isUserSearchFocused ? "Add meg a felhasználónevet!" : null,
+          hintText: _isUserSearchFocused
+              ? null
+              : Preferences.getPreferredLanguage() == "Magyar"
+                  ? "Add meg a felhasználónevet!"
+                  : "Enter the username!",
+          labelText: _isUserSearchFocused
+              ? Preferences.getPreferredLanguage() == "Magyar"
+                  ? "Add meg a felhasználónevet!"
+                  : "Enter the username!"
+              : null,
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
               color: Colors.deepPurpleAccent,
@@ -205,12 +228,13 @@ class _PeopleState extends State<People> {
     );
   }
 
-//TODO: ide is lehetne circular de lehet fura lenne mert olyan gyors
   Widget _searchResultsWidget() {
     return _userSearchResults.isEmpty
-        ? const Center(
+        ? Center(
             child: Text(
-              "Nincs találat",
+              Preferences.getPreferredLanguage() == "Magyar"
+                  ? "Nincs találat"
+                  : "No results",
               style: TextStyle(color: Colors.white70, fontSize: 18),
             ),
           )
@@ -243,8 +267,10 @@ class _PeopleState extends State<People> {
                       backgroundColor: Colors.deepPurpleAccent,
                     ),
                     onPressed: () => _sendFriendRequest(user["id"]),
-                    child: const Text(
-                      "Jelölés",
+                    child: Text(
+                      Preferences.getPreferredLanguage() == "Magyar"
+                          ? "Jelölés"
+                          : "Add",
                       style: TextStyle(
                         color: Colors.white,
                       ),

@@ -1,6 +1,51 @@
-import 'dart:nativewrappers/_internal/vm/lib/ffi_native_type_patch.dart';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+import 'package:chatex/main.dart' as app;
+import 'package:chatex/logic/auth.dart';
+import 'package:chatex/utils/toast_service.dart';
+import 'mock_fluttertoast.mocks.dart';
+import 'package:mockito/annotations.dart';
+
+@GenerateMocks([ToastService])
+void main() {
+  late MockToastService mockToastService;
+  late AuthService authService;
+
+  setUp(() {
+    mockToastService = MockToastService();
+    authService = AuthService();
+  });
+
+  testWidgets('Login with incorrect credentials test',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(home: app.LoginUI()));
+    await tester.pumpAndSettle();
+
+    final emailField = find.byKey(Key('email'));
+    final passwordField = find.byKey(Key('password'));
+    final loginButton = find.byKey(Key('logIn'));
+
+    await tester.enterText(emailField, 'wrongemail@example.com');
+    await tester.enterText(passwordField, 'wrongpassword');
+    await tester.tap(loginButton);
+    await tester.pumpAndSettle();
+
+    // Verify that the toast service was called with the correct message
+    verify(mockToastService.showToastMessages(
+      "Hibás email vagy jelszó!",
+      0.2,
+      Colors.redAccent,
+      Icons.error,
+      Colors.black,
+      const Duration(seconds: 2),
+    )).called(1);
+  });
+}
+
+
+
+/*import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:chatex/main.dart' as app;
 import 'package:chatex/logic/auth.dart' as app;
@@ -34,3 +79,4 @@ void main() {
     expect(find.widgetWithText(Void, "Hibás email vagy jelszó!"), findsOneWidget);
   });
 }
+*/

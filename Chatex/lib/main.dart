@@ -42,7 +42,7 @@ class _LoginUIState extends State<LoginUI> {
   final _formKey = GlobalKey<FormBuilderState>();
   bool _isLogInDisabled = true;
 
-  String _selectedLanguage = "magyar";
+  String _selectedLanguage = "Magyar";
 
   void _checkLogInFieldsValidation() {
     final isEmailValid =
@@ -139,7 +139,7 @@ class _LoginUIState extends State<LoginUI> {
       padding: const EdgeInsets.only(bottom: 20),
       child: DropdownMenu(
         requestFocusOnTap: false,
-        label: _selectedLanguage == "magyar"
+        label: _selectedLanguage == "Magyar"
             ? const Text("Nyelvek")
             : const Text("Languages"),
         initialSelection: _selectedLanguage,
@@ -159,7 +159,7 @@ class _LoginUIState extends State<LoginUI> {
                 letterSpacing: 1,
               ),
             ),
-            value: "magyar",
+            value: "Magyar",
             label: "Magyar",
           ),
           DropdownMenuEntry(
@@ -172,7 +172,7 @@ class _LoginUIState extends State<LoginUI> {
                 letterSpacing: 1,
               ),
             ),
-            value: "english",
+            value: "English",
             label: "English",
           ),
         ],
@@ -224,12 +224,12 @@ class _LoginUIState extends State<LoginUI> {
               regex: RegExp(
                   r"^[a-zA-z0-9.!#$°&'*+-/=?^_'{|}~]+@[a-zA-Z0-9]+\.[a-zA-z]+",
                   unicode: true),
-              errorText: _selectedLanguage == "magyar"
+              errorText: _selectedLanguage == "Magyar"
                   ? "Az email cím érvénytelen!"
                   : "The email address is invalid!",
               checkNullOrEmpty: false),
           FormBuilderValidators.required(
-              errorText: _selectedLanguage == "magyar"
+              errorText: _selectedLanguage == "Magyar"
                   ? "Az email cím nem lehet üres!"
                   : "The email address cannot be empty!",
               checkNullOrEmpty: false),
@@ -248,11 +248,11 @@ class _LoginUIState extends State<LoginUI> {
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           hintText: _isEmailFocused
               ? null
-              : _selectedLanguage == "magyar"
+              : _selectedLanguage == "Magyar"
                   ? "E-mail cím"
                   : "E-mail address",
           labelText: _isEmailFocused
-              ? _selectedLanguage == "magyar"
+              ? _selectedLanguage == "Magyar"
                   ? "E-mail cím"
                   : "Email address"
               : null,
@@ -300,38 +300,38 @@ class _LoginUIState extends State<LoginUI> {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.required(
-              errorText: _selectedLanguage == "magyar"
+              errorText: _selectedLanguage == "Magyar"
                   ? "A jelszó nem lehet üres!"
                   : "The password cannot be empty!",
               checkNullOrEmpty: false),
           FormBuilderValidators.minLength(8,
-              errorText: _selectedLanguage == "magyar"
+              errorText: _selectedLanguage == "Magyar"
                   ? "A jelszó túl rövid! (min 8 karakter)"
                   : "The password is too short! (min 8 characters)",
               checkNullOrEmpty: false),
           FormBuilderValidators.maxLength(20,
-              errorText: _selectedLanguage == "magyar"
+              errorText: _selectedLanguage == "Magyar"
                   ? "A jelszó túl hosszú! (max 20 karakter)"
                   : "The password is too long! (max 20 characters)",
               checkNullOrEmpty: false),
           FormBuilderValidators.hasUppercaseChars(
               atLeast: 1,
               regex: RegExp(r'\p{Lu}', unicode: true),
-              errorText: _selectedLanguage == "magyar"
+              errorText: _selectedLanguage == "Magyar"
                   ? "A jelszónak legalább 1 nagybetűt tartalmaznia kell!"
                   : "The password must contain at least 1 uppercase letter!",
               checkNullOrEmpty: false),
           FormBuilderValidators.hasLowercaseChars(
               atLeast: 1,
               regex: RegExp(r'\p{Ll}', unicode: true),
-              errorText: _selectedLanguage == "magyar"
+              errorText: _selectedLanguage == "Magyar"
                   ? "A jelszónak legalább 1 kisbetűt tartalmaznia kell!"
                   : "The password must contain at least 1 lowercase letter!",
               checkNullOrEmpty: false),
           FormBuilderValidators.hasNumericChars(
               atLeast: 1,
               regex: RegExp(r'[0-9]', unicode: true),
-              errorText: _selectedLanguage == "magyar"
+              errorText: _selectedLanguage == "Magyar"
                   ? "A jelszónak legalább 1 számot tartalmaznia kell!"
                   : "The password must contain at least 1 number!",
               checkNullOrEmpty: false),
@@ -360,11 +360,11 @@ class _LoginUIState extends State<LoginUI> {
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           hintText: _isPasswordFocused
               ? null
-              : _selectedLanguage == "magyar"
+              : _selectedLanguage == "Magyar"
                   ? "Jelszó"
                   : "Password",
           labelText: _isPasswordFocused
-              ? _selectedLanguage == "magyar"
+              ? _selectedLanguage == "Magyar"
                   ? "Jelszó"
                   : "Password"
               : null,
@@ -427,7 +427,7 @@ class _LoginUIState extends State<LoginUI> {
                             language: _selectedLanguage);
                       }
                     },
-              child: _selectedLanguage == "magyar"
+              child: _selectedLanguage == "Magyar"
                   ? Text(
                       "Bejelentkezés",
                       style: TextStyle(
@@ -472,7 +472,7 @@ class _LoginUIState extends State<LoginUI> {
           letterSpacing: 1,
         ),
       ),
-      child: _selectedLanguage == "magyar"
+      child: _selectedLanguage == "Magyar"
           ? const Text(
               "Elfelejtett jelszó",
             )
@@ -510,7 +510,7 @@ class _LoginUIState extends State<LoginUI> {
                     foregroundColor: Colors.white,
                     elevation: 5,
                   ),
-                  child: _selectedLanguage == "magyar"
+                  child: _selectedLanguage == "Magyar"
                       ? Text(
                           "Új fiók létrehozása",
                           style: TextStyle(
