@@ -13,7 +13,9 @@ import 'package:chatex/logic/toast_message.dart';
 
 //TODO: ha nyelvek angol és regisztráció akkor utána magyart állít be
 //TODO: nincs adat akkor is lila a bejelentkezés gomb
-//TODO: phpMyAdmin id-k sorrendje
+//TODO: phpMyAdmin id-k sorrendje rendezése
+
+// '\'magyar\'' sql be az alapértelmezett érték
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Preferences.init();

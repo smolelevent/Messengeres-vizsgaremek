@@ -15,7 +15,7 @@ $email = trim($userData['email']);
 $password = trim($userData['password']);
 
 // Lekérdezzük a felhasználót az email alapján
-$stmt = $conn->prepare("SELECT id, preferred_lang, username, email, password_hash FROM users WHERE email = ?");
+$stmt = $conn->prepare("SELECT id, preferred_lang, profile_picture, username, email, password_hash FROM users WHERE email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 
@@ -54,7 +54,8 @@ echo json_encode([
     "username" => $user["username"],
     "preferred_lang" => $user["preferred_lang"],
     "email" => $user["email"],
-    "password_hash" => $user["password_hash"]
+    "password_hash" => $user["password_hash"],
+    "profile_picture" => $user["profile_picture"]
 ]);
 
 //TODO: használni a tokent!!!

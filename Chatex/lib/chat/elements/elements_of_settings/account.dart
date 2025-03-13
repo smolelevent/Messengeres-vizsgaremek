@@ -9,14 +9,14 @@ import 'package:http/http.dart' as http;
 import 'package:chatex/logic/toast_message.dart';
 import 'package:chatex/logic/preferences.dart';
 
-class AccountScreen extends StatefulWidget {
-  const AccountScreen({super.key});
+class AccountSetting extends StatefulWidget {
+  const AccountSetting({super.key});
 
   @override
-  State<AccountScreen> createState() => _AccountScreenState();
+  State<AccountSetting> createState() => _AccountSettingState();
 }
 
-class _AccountScreenState extends State<AccountScreen> {
+class _AccountSettingState extends State<AccountSetting> {
   final _formKey = GlobalKey<FormBuilderState>();
   final TextEditingController _usernameController = TextEditingController();
   File? _selectedImage;
@@ -150,7 +150,7 @@ class _AccountScreenState extends State<AccountScreen> {
               child: CircleAvatar(
                 radius: 50,
                 backgroundImage: _profilePicture != null
-                    ? MemoryImage(
+                    ? MemoryImage(//nem tudja megjeleníteni az idézőjel miatt
                         base64Decode(_profilePicture!)) // Base64-ből kép
                     : const AssetImage("assets/logo.jpg")
                         as ImageProvider, // Alapértelmezett kép

@@ -86,7 +86,7 @@ class _SettingsState extends State<Settings> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const AccountScreen()));
+                      builder: (context) => const AccountSetting()));
             },
           },
           {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+//import 'package:flutter_svg_provider/flutter_svg_provider.dart'; //TODO: át kell írni a flutter_svg-re
 import 'package:chatex/logic/preferences.dart';
 
 class LanguageSetting extends StatefulWidget {
@@ -34,19 +34,20 @@ class _LanguageSettingState extends State<LanguageSetting> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        appBar: _buildAppbar(),
-        backgroundColor: Colors.grey[850],
-        body: ListView(
-          padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
-          children: [
-            _buildLanguageOption(
-                context, "Magyar", Svg('assets/flags/hungary.svg')),
-            _buildLanguageOption(
-                context, "English", Svg('assets/flags/uk.svg')),
-          ],
-        ),
-      ),
+      child: Text("data"),
+      // child: Scaffold(
+      //   appBar: _buildAppbar(),
+      //   backgroundColor: Colors.grey[850],
+      //   body: ListView(
+      //     padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+      //     children: [
+      //       _buildLanguageOption(
+      //           context, "Magyar", //Svg('assets/flags/hungary.svg')),
+      //       _buildLanguageOption(
+      //           context, "English", Svg('assets/flags/uk.svg')),
+      //     ],
+      //   ),
+      // ),
     );
   }
 
@@ -67,30 +68,30 @@ class _LanguageSettingState extends State<LanguageSetting> {
     );
   }
 
-  Widget _buildLanguageOption(BuildContext context, String language, Svg flag) {
-    return Card(
-      color: Colors.grey[800],
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: ListTile(
-        leading: Image(image: flag),
-        title: Text(
-          language,
-          style: const TextStyle(
-              color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        trailing: _selectedLanguage == language
-            ? const Icon(
-                Icons.check,
-                color: Colors.green,
-              )
-            : null,
-        onTap: () async {
-          await _saveLanguage(language);
-          if (context.mounted) {
-            Navigator.pop(context, language);
-          }
-        },
-      ),
-    );
-  }
+  // Widget _buildLanguageOption(BuildContext context, String language, Svg flag) {
+  //   return Card(
+  //     color: Colors.grey[800],
+  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+  //     child: ListTile(
+  //       leading: Image(image: flag),
+  //       title: Text(
+  //         language,
+  //         style: const TextStyle(
+  //             color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+  //       ),
+  //       trailing: _selectedLanguage == language
+  //           ? const Icon(
+  //               Icons.check,
+  //               color: Colors.green,
+  //             )
+  //           : null,
+  //       onTap: () async {
+  //         await _saveLanguage(language);
+  //         if (context.mounted) {
+  //           Navigator.pop(context, language);
+  //         }
+  //       },
+  //     ),
+  //   );
+  //}
 }

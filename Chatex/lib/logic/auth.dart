@@ -114,12 +114,14 @@ class AuthService {
         final preferredlang = responseData['preferred_lang'];
         final email = responseData['email'];
         final passwordHash = responseData['password_hash'];
+        final profilePicture = responseData['profile_picture'];
 
         await Preferences.setUserId(userId);
         await Preferences.setToken(token);
         await Preferences.setPreferredLanguage(preferredlang);
         await Preferences.setEmail(email);
         await Preferences.setPasswordHash(passwordHash);
+        await Preferences.setProfilePicture(profilePicture);
         ToastMessages.showToastMessages(
             language == "Magyar"
                 ? "Sikeres bejelentkezés!"
