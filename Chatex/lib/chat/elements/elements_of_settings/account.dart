@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:chatex/logic/toast_message.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'dart:convert';
-import 'dart:io'; //TODO: folyt köv otthon
+import 'dart:io';
 
 class AccountSetting extends StatefulWidget {
   const AccountSetting({super.key});
@@ -20,11 +20,25 @@ class _AccountSettingState extends State<AccountSetting> {
   final TextEditingController _usernameController = TextEditingController();
   File? _selectedImage;
   String? _profilePicture; // Base64 formátumban tároljuk
+  bool _isUsernameFocused = false;
+  final FocusNode _usernameFocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     _loadUserData();
+    _usernameFocusNode.addListener(() {
+      setState(() {
+        _isUsernameFocused = _usernameFocusNode.hasFocus;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _usernameFocusNode.dispose();
+    super.dispose();
   }
 
   // 🔹 Felhasználói adatok betöltése a Preferences-ből
@@ -131,75 +145,145 @@ class _AccountSettingState extends State<AccountSetting> {
     }
   }
 
+  _buildAppbar() {
+    return AppBar(
+      title: Text(
+        Preferences.getPreferredLanguage() == "Magyar"
+            ? "Fiók adatok"
+            : "Account details",
+      ),
+      backgroundColor: Colors.deepPurpleAccent,
+      elevation: 5,
+      centerTitle: true,
+      titleTextStyle: const TextStyle(
+        color: Colors.white,
+        fontSize: 22,
+        fontWeight: FontWeight.bold,
+        letterSpacing: 1,
+      ),
+    );
+  }
+
+  Widget _usernameWidget() {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
+      child: FormBuilderTextField(
+        name: "username",
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: FormBuilderValidators.compose([
+          FormBuilderValidators.minLength(
+            3,
+            errorText: Preferences.getPreferredLanguage() == "Magyar"
+                ? "A felhasználónév túl rövid! (min 3)"
+                : "The username is too short! (min 3)",
+            checkNullOrEmpty: false,
+          ),
+          FormBuilderValidators.maxLength(
+            20,
+            errorText: Preferences.getPreferredLanguage() == "Magyar"
+                ? "A felhasználónév túl hosszú! (max 20)"
+                : "The username is too long! (max 20)",
+            checkNullOrEmpty: false,
+          ),
+          FormBuilderValidators.required(
+              errorText: Preferences.getPreferredLanguage() == "Magyar"
+                  ? "A felhasználónév nem lehet üres!"
+                  : "The username cannot be empty!",
+              checkNullOrEmpty: false),
+        ]),
+        focusNode: _usernameFocusNode,
+        controller: _usernameController,
+        keyboardType: TextInputType.name,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 20.0,
+        ),
+        decoration: InputDecoration(
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          hintText: _isUsernameFocused
+              ? null
+              : Preferences.getPreferredLanguage() == "Magyar"
+                  ? "Felhasználónév"
+                  : "Username",
+          labelText: _isUsernameFocused
+              ? Preferences.getPreferredLanguage() == "Magyar"
+                  ? "Felhasználónév"
+                  : "Username"
+              : null,
+          focusedBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.deepPurpleAccent,
+              width: 2.5,
+            ),
+          ),
+          enabledBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.white,
+              width: 2.5,
+            ),
+          ),
+          hintStyle: TextStyle(
+            color: Colors.grey[600],
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.bold,
+            fontSize: 20.0,
+          ),
+          helperStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 15.0,
+            letterSpacing: 1.0,
+          ),
+          labelStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+            letterSpacing: 1.0,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[850],
-      appBar: AppBar(
-        title: const Text("Fiók beállításai"),
-        backgroundColor: Colors.deepPurpleAccent,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            GestureDetector(
-              onTap: _pickImage,
-              child: CircleAvatar(
-                radius: 50,
-                backgroundImage: _profilePicture != null
-                    ? MemoryImage(//nem tudja megjeleníteni az idézőjel miatt
-                        base64Decode(_profilePicture!)) // Base64-ből kép
-                    : const AssetImage("assets/logo.jpg")
-                        as ImageProvider, // Alapértelmezett kép
-              ),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: _updateProfilePicture,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurpleAccent,
-              ),
-              child: const Text("Profilkép módosítása"),
-            ),
-            const SizedBox(height: 20),
-            FormBuilder(
-              key: _formKey,
-              child: FormBuilderTextField(
-                name: "username",
-                controller: _usernameController,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: FormBuilderValidators.compose([
-                  FormBuilderValidators.minLength(3,
-                      errorText: "Túl rövid! (min 3)"),
-                  FormBuilderValidators.maxLength(20,
-                      errorText: "Túl hosszú! (max 20)"),
-                  FormBuilderValidators.required(errorText: "Nem lehet üres!"),
-                ]),
-                style: const TextStyle(color: Colors.white, fontSize: 20.0),
-                decoration: const InputDecoration(
-                  labelText: "Felhasználónév",
-                  labelStyle: TextStyle(color: Colors.white),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.deepPurpleAccent),
-                  ),
+      appBar: _buildAppbar(),
+      body: Column(
+        //crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Row(
+            children: [
+              GestureDetector(
+                onTap: _pickImage,
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundImage: _profilePicture != null
+                      ? MemoryImage(//nem tudja megjeleníteni az idézőjel miatt
+                          base64Decode(_profilePicture!)) // Base64-ből kép
+                      : const AssetImage("assets/logo.jpg")
+                          as ImageProvider, // Alapértelmezett kép
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _updateUsername,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurpleAccent,
+              ElevatedButton(
+                onPressed: _updateProfilePicture,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurpleAccent,
+                ),
+                child: const Text("Profilkép módosítása"),
               ),
-              child: const Text("Felhasználónév módosítása"),
+            ],
+          ),
+          _usernameWidget(),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: _updateUsername,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.deepPurpleAccent,
             ),
-          ],
-        ),
+            child: const Text("Felhasználónév módosítása"),
+          ),
+        ],
       ),
     );
   }

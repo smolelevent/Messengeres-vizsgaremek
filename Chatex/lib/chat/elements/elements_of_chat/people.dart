@@ -102,7 +102,7 @@ class _PeopleState extends State<People> {
     });
   }
 
-//TODO: megcsinálni
+//TODO: megcsinálni a friend requestet
   Future<void> _sendFriendRequest(int userId) async {
     final response = await http.post(
       Uri.parse(

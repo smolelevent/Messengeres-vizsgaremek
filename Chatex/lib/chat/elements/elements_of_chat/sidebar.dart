@@ -91,7 +91,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
                   _username,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 22,
+                    fontSize: 20,
                     letterSpacing: 1,
                     wordSpacing: 2,
                   ),

@@ -118,13 +118,22 @@ class AuthService {
       final responseData = json.decode(response.body);
 
       if (responseData['success'] == true) {
-        final token = responseData['token'];
         final userId = responseData['id'];
+        final preferredlang = responseData['preferred_lang'];
         final profilePicture = responseData['profile_picture'];
+        final username = responseData['username'];
+        final email = responseData['email'];
+        final passwordHash = responseData['password_hash'];
 
-        await Preferences.setToken(token);
         await Preferences.setUserId(userId);
+        await Preferences.setPreferredLanguage(preferredlang);
         await Preferences.setProfilePicture(profilePicture);
+        await Preferences.setUsername(username);
+        await Preferences.setEmail(email);
+        await Preferences.setPasswordHash(passwordHash);
+
+        final token = responseData['token']; //TODO: kezdeni vele valamit
+        await Preferences.setToken(token);
         ToastMessages.showToastMessages(
             language == "Magyar"
                 ? "Sikeres bejelentkezés!"

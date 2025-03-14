@@ -1,25 +1,24 @@
-@GenerateMocks([ToastService])
+import 'package:chatex/logic/toast_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:chatex/main.dart' as app;
-import 'package:chatex/utils/toast_service.dart';
-import 'package:mockito/annotations.dart';
-import 'login_test.mocks.dart';
+import 'package:mocktail/mocktail.dart';
+
+// Mock class for ToastMessages
+class MockToastMessages extends Mock implements ToastMessages {}
 
 void main() {
-  late MockToastService mockToastService;
+  late MockToastMessages mockToastMessages;
 
   setUp(() {
-    mockToastService = MockToastService();
+    mockToastMessages = MockToastMessages();
   });
 
   group('Login UI Tests', () {
     testWidgets('Login with incorrect credentials shows toast message',
         (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
-        home: app.LoginUI(
-            toastService: mockToastService), // Ensure dependency injection
+        home: app.LoginUI(),
       ));
       await tester.pumpAndSettle();
 
@@ -32,15 +31,15 @@ void main() {
       await tester.tap(loginButton);
       await tester.pumpAndSettle();
 
-      // Verify that the toast service was called with the correct message
-      verify(mockToastService.showToastMessages(
-        "Hibás email vagy jelszó!",
-        0.2,
-        Colors.redAccent,
-        Icons.error,
-        Colors.black,
-        const Duration(seconds: 2),
-      )).called(1);
+      // Verify that the toast message is called with correct parameters
+      verify(() => mockToastMessages.showToastMessages(
+            "Hibás email vagy jelszó!",
+            0.2,
+            Colors.redAccent,
+            Icons.error,
+            Colors.black,
+            const Duration(seconds: 2),
+          )).called(1);
     });
   });
 }
