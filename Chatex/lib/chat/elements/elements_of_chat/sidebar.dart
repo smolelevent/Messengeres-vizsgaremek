@@ -22,7 +22,7 @@ class ChatSidebar extends StatefulWidget {
 
 class _ChatSidebarState extends State<ChatSidebar> {
   final String _username = Preferences.getUsername();
-  String? _profileImageUrl = Preferences.getProfilePicture();
+  final String? _profileImageUrl = Preferences.getProfilePicture();
 
   @override
   void initState() {
@@ -34,34 +34,30 @@ class _ChatSidebarState extends State<ChatSidebar> {
       return _defaultAvatar();
     }
 
-    // Ha az SVG előtag hiányzik, hozzáadjuk
-    if (!_profileImageUrl!.startsWith("data:image/svg+xml;base64,")) {
-      _profileImageUrl = "data:image/svg+xml;base64,$_profileImageUrl";
-    }
-
-    // Ha az adat egy Base64 kódolt SVG kép
-    if (_profileImageUrl!.startsWith("data:image/svg+xml;base64,")) {
-      try {
+    try {
+      // MIME-típus alapján ellenőrzés
+      if (_profileImageUrl!.startsWith("data:image/svg+xml;base64,")) {
+        // Base64 kódolt SVG
         final svgBytes = base64Decode(_profileImageUrl!.split(",")[1]);
         return ClipOval(
           child: SvgPicture.memory(svgBytes, width: 80, height: 80),
         );
-      } catch (e) {
-        log("Hiba az SVG dekódolásakor: $e");
+      } else if (_profileImageUrl!.startsWith("data:image/jpeg;base64,") ||
+          _profileImageUrl!.startsWith("data:image/jpg;base64,") ||
+          _profileImageUrl!.startsWith("data:image/png;base64,")) {
+        // Base64 kódolt PNG/JPG
+        final imageBytes = base64Decode(_profileImageUrl!.split(",")[1]);
+        return CircleAvatar(
+          radius: 40,
+          backgroundColor: Colors.grey[600],
+          backgroundImage: MemoryImage(imageBytes),
+        );
+      } else {
+        log("Ismeretlen képformátum: $_profileImageUrl");
         return _defaultAvatar();
       }
-    }
-
-    // Ha az adat egy Base64 kódolt PNG/JPG kép
-    try {
-      final imageBytes = base64Decode(_profileImageUrl!);
-      return CircleAvatar(
-        radius: 40,
-        backgroundColor: Colors.grey[600],
-        backgroundImage: MemoryImage(imageBytes),
-      );
     } catch (e) {
-      log("Hiba a PNG/JPG dekódolásakor: $e");
+      log("Hiba a kép dekódolásakor: $e");
       return _defaultAvatar();
     }
   }

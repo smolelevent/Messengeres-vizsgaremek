@@ -10290,3 +10290,234 @@ Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribut
 2025-03-14 17:05:49 0 [Note] InnoDB: Shutdown completed; log sequence number 23017838; transaction id 4334
 2025-03-14 17:05:51 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: Shutdown complete
 
+2025-03-14 18:27:33 0 [Note] Starting MariaDB 10.4.32-MariaDB source revision c4143f909528e3fab0677a28631d10389354c491 as process 4740
+2025-03-14 18:27:33 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2025-03-14 18:27:33 0 [Note] InnoDB: Uses event mutexes
+2025-03-14 18:27:33 0 [Note] InnoDB: Compressed tables use zlib 1.3
+2025-03-14 18:27:33 0 [Note] InnoDB: Number of pools: 1
+2025-03-14 18:27:33 0 [Note] InnoDB: Using SSE2 crc32 instructions
+2025-03-14 18:27:33 0 [Note] InnoDB: Initializing buffer pool, total size = 16M, instances = 1, chunk size = 16M
+2025-03-14 18:27:33 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-03-14 18:27:37 0 [Note] InnoDB: 128 out of 128 rollback segments are active.
+2025-03-14 18:27:37 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-03-14 18:27:37 0 [Note] InnoDB: Setting file 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-03-14 18:27:37 0 [Note] InnoDB: File 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size is now 12 MB.
+2025-03-14 18:27:37 0 [Note] InnoDB: Waiting for purge to start
+2025-03-14 18:27:37 0 [Note] InnoDB: 10.4.32 started; log sequence number 23017838; transaction id 4333
+2025-03-14 18:27:37 0 [Note] InnoDB: Loading buffer pool(s) from C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-14 18:27:37 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-03-14 18:27:38 0 [Note] Server socket created on IP: '::'.
+2025-03-14 18:27:38 0 [Note] InnoDB: Buffer pool(s) load completed at 250314 18:27:38
+2025-03-14 18:27:38 0 [Note] Reading of all Master_info entries succeeded
+2025-03-14 18:27:38 0 [Note] Added new Master_info '' to hash table
+2025-03-14 18:27:38 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: ready for connections.
+Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribution
+2025-03-14 20:17:03 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:17:03 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:17:03 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:17:04 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:17:04 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:17:04 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:17:04 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:17:04 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:17:04 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:17:04 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:17:04 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:17:04 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:17:04 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:17:04 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:17:04 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:17:04 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:17:04 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:17:04 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:18:46 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:18:46 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:18:46 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:18:47 23 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:18:47 23 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:18:47 23 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:32:16 25 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:32:16 25 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:32:16 25 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:32:16 27 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:32:16 27 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:32:16 27 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:32:16 29 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:32:16 29 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:32:16 29 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:32:16 31 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:32:16 31 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:32:16 31 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:32:17 33 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:32:17 33 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:32:17 33 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:32:17 35 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:32:17 35 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:32:17 35 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:56:12 44 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:56:12 44 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 20:56:12 44 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 21:18:52 49 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 21:18:52 49 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 21:18:52 49 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 21:41:10 56 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 21:41:10 56 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 21:41:10 56 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:04:08 58 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:04:08 58 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:04:08 58 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:09:51 0 [Note] Starting MariaDB 10.4.32-MariaDB source revision c4143f909528e3fab0677a28631d10389354c491 as process 4396
+2025-03-14 22:09:51 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2025-03-14 22:09:51 0 [Note] InnoDB: Uses event mutexes
+2025-03-14 22:09:51 0 [Note] InnoDB: Compressed tables use zlib 1.3
+2025-03-14 22:09:51 0 [Note] InnoDB: Number of pools: 1
+2025-03-14 22:09:51 0 [Note] InnoDB: Using SSE2 crc32 instructions
+2025-03-14 22:09:51 0 [Note] InnoDB: Initializing buffer pool, total size = 16M, instances = 1, chunk size = 16M
+2025-03-14 22:09:51 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-03-14 22:09:52 0 [Note] InnoDB: Starting crash recovery from checkpoint LSN=23018666
+2025-03-14 22:09:53 0 [Note] InnoDB: 128 out of 128 rollback segments are active.
+2025-03-14 22:09:53 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+2025-03-14 22:09:53 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-03-14 22:09:53 0 [Note] InnoDB: Setting file 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-03-14 22:09:53 0 [Note] InnoDB: File 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size is now 12 MB.
+2025-03-14 22:09:53 0 [Note] InnoDB: Waiting for purge to start
+2025-03-14 22:09:53 0 [Note] InnoDB: 10.4.32 started; log sequence number 23018675; transaction id 4359
+2025-03-14 22:09:53 0 [Note] InnoDB: Loading buffer pool(s) from C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-14 22:09:53 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-03-14 22:09:53 0 [Note] Server socket created on IP: '::'.
+2025-03-14 22:09:53 0 [Note] InnoDB: Buffer pool(s) load completed at 250314 22:09:53
+2025-03-14 22:09:53 0 [Note] Reading of all Master_info entries succeeded
+2025-03-14 22:09:53 0 [Note] Added new Master_info '' to hash table
+2025-03-14 22:09:53 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: ready for connections.
+Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribution
+2025-03-14 22:18:51 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:18:51 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:18:51 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:18:52 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:18:52 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:18:52 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:18:52 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:18:52 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:18:52 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:18:52 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:18:52 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:18:52 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:18:52 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:18:52 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:18:52 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:18:52 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:18:52 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:18:52 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:33:08 23 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:33:08 23 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:33:08 23 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:33:08 25 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:33:08 25 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:33:08 25 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:33:09 27 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:33:09 27 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:33:09 27 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:33:09 29 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:33:09 29 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:33:09 29 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:33:09 31 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:33:09 31 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:33:09 31 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:33:09 33 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:33:09 33 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:33:09 33 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:57:04 41 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:57:04 41 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 22:57:04 41 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:00:01 47 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:00:01 47 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:00:01 47 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:00:02 49 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:00:02 49 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:00:02 49 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:00:02 51 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:00:02 51 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:00:02 51 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:00:02 53 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:00:02 53 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:00:02 53 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:00:02 55 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:00:02 55 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:00:02 55 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:00:02 57 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:00:02 57 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:00:02 57 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:24 63 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:26 63 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:26 63 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:26 65 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:26 65 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:26 65 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:27 67 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:27 67 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:27 67 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:27 69 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:27 69 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:27 69 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:27 71 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:27 71 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:27 71 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:27 73 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:27 73 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:27 73 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:41 75 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:41 75 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:41 75 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:41 77 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:41 77 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:04:41 77 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:06:09 79 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:06:09 79 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:06:09 79 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:06:12 81 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:06:12 81 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:06:12 81 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:06:12 83 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:06:12 83 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:06:12 83 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:06:20 85 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:06:20 85 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:06:20 85 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:06:20 87 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:06:20 87 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:06:20 87 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:07:01 89 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:07:01 89 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:07:01 89 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:07:02 91 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:07:02 91 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:07:02 91 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:16:14 97 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:16:20 97 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:16:20 97 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:16:21 99 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:16:21 99 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:16:21 99 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:16:21 101 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:16:21 101 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:16:21 101 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:16:21 103 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:16:21 103 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:16:21 103 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:16:21 105 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:16:21 105 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:16:21 105 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:16:21 107 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:16:21 107 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:16:21 107 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-14 23:20:00 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe (initiated by: unknown): Normal shutdown
+2025-03-14 23:20:00 0 [Note] Event Scheduler: Purging the queue. 0 events
+2025-03-14 23:20:00 0 [Note] InnoDB: FTS optimize thread exiting.
+2025-03-14 23:20:00 0 [Note] InnoDB: Starting shutdown...
+2025-03-14 23:20:00 0 [Note] InnoDB: Dumping buffer pool(s) to C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-14 23:20:00 0 [Note] InnoDB: Instance 0, restricted to 250 pages due to innodb_buf_pool_dump_pct=25
+2025-03-14 23:20:00 0 [Note] InnoDB: Buffer pool(s) dump completed at 250314 23:20:00
+2025-03-14 23:20:01 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+2025-03-14 23:20:01 0 [Note] InnoDB: Shutdown completed; log sequence number 23320482; transaction id 4395
+2025-03-14 23:20:01 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: Shutdown complete
+
