@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:chatex/logic/auth.dart';
 import 'package:chatex/logic/preferences.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter_svg/flutter_svg.dart'; //TODO: megcsinálni a pfpt
+import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:developer';
 
 class ChatSidebar extends StatefulWidget {
   final SidebarXController sidebarXController;
@@ -21,80 +21,57 @@ class ChatSidebar extends StatefulWidget {
 }
 
 class _ChatSidebarState extends State<ChatSidebar> {
-  String _username = "";
-  String? _profileImageUrl;
+  final String _username = Preferences.getUsername();
+  String? _profileImageUrl = Preferences.getProfilePicture();
 
   @override
   void initState() {
     super.initState();
-    _loadUserData();
-  }
-
-  // Future<void> _loadUserData() async {
-  //   final response = await http.post(
-  //     Uri.parse(
-  //         "http://10.0.2.2/ChatexProject/chatex_phps/sidebar/get_user_info.php"),
-  //     headers: {"Content-Type": "application/json"},
-  //     body: jsonEncode({"user_id": Preferences.getUserId()}), //userId
-  //   );
-
-  //   if (response.statusCode == 200) {
-  //     final data = jsonDecode(response.body);
-  //     if (data["success"]) {
-  //       setState(() {
-  //         _username = data["username"] ?? "Ismeretlen";
-  //         _profileImageUrl = data[
-  //             "profile_picture"]; //TODO: amint beállítom a pfp-t akkor error
-  //       });
-  //     }
-  //   }
-  // }
-
-  Future<void> _loadUserData() async {
-    final response = await http.post(
-      Uri.parse(
-          "http://10.0.2.2/ChatexProject/chatex_phps/sidebar/get_user_info.php"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({"user_id": Preferences.getUserId()}),
-    );
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      if (data["success"]) {
-        setState(() {
-          _username = data["username"] ?? "Ismeretlen";
-          _profileImageUrl = data["profile_picture"];
-
-          // SVG esetén az előtagot hozzáadjuk, hogy felismerje a decoder
-          if (_profileImageUrl != null &&
-              !_profileImageUrl!.startsWith("http")) {
-            _profileImageUrl = "data:image/svg+xml;base64,$_profileImageUrl";
-          }
-        });
-      }
-    }
   }
 
   Widget _buildProfileImage() {
-    if (_profileImageUrl == null) {
-      return Icon(Icons.person, size: 40, color: Colors.white);
-    } else if (_profileImageUrl!.startsWith("data:image/svg+xml;base64,")) {
-      // Ha SVG Base64
-      final svgBytes = base64Decode(_profileImageUrl!.split("'")[1]);
-      return SvgPicture.memory(svgBytes, width: 80, height: 80);
-    } else if (_profileImageUrl!.startsWith("http")) {
-      // Ha URL, akkor NetworkImage
-      return CircleAvatar(
-        radius: 40,
-        backgroundImage: NetworkImage(_profileImageUrl!),
-      );
-    } else {
-      // Ha BASE64 PNG vagy JPG
-      return CircleAvatar(
-        radius: 40,
-        backgroundImage: MemoryImage(base64Decode(_profileImageUrl!)),
-      );
+    if (_profileImageUrl == null || _profileImageUrl!.isEmpty) {
+      return _defaultAvatar();
     }
+
+    // Ha az SVG előtag hiányzik, hozzáadjuk
+    if (!_profileImageUrl!.startsWith("data:image/svg+xml;base64,")) {
+      _profileImageUrl = "data:image/svg+xml;base64,$_profileImageUrl";
+    }
+
+    // Ha az adat egy Base64 kódolt SVG kép
+    if (_profileImageUrl!.startsWith("data:image/svg+xml;base64,")) {
+      try {
+        final svgBytes = base64Decode(_profileImageUrl!.split(",")[1]);
+        return ClipOval(
+          child: SvgPicture.memory(svgBytes, width: 80, height: 80),
+        );
+      } catch (e) {
+        log("Hiba az SVG dekódolásakor: $e");
+        return _defaultAvatar();
+      }
+    }
+
+    // Ha az adat egy Base64 kódolt PNG/JPG kép
+    try {
+      final imageBytes = base64Decode(_profileImageUrl!);
+      return CircleAvatar(
+        radius: 40,
+        backgroundColor: Colors.grey[600],
+        backgroundImage: MemoryImage(imageBytes),
+      );
+    } catch (e) {
+      log("Hiba a PNG/JPG dekódolásakor: $e");
+      return _defaultAvatar();
+    }
+  }
+
+  Widget _defaultAvatar() {
+    return CircleAvatar(
+      radius: 40,
+      backgroundColor: Colors.grey[600],
+      child: Icon(Icons.person, size: 40, color: Colors.white),
+    );
   }
 
   @override
@@ -109,23 +86,14 @@ class _ChatSidebarState extends State<ChatSidebar> {
             return Column(
               children: [
                 _buildProfileImage(),
-                // CircleAvatar(
-                //   radius: 40,
-                //   backgroundColor: Colors.grey[600],
-                //   backgroundImage: _profileImageUrl != null
-                //       ? NetworkImage(_profileImageUrl!)
-                //       : null,
-                //   child: _profileImageUrl == null
-                //       ? Icon(Icons.person, size: 40, color: Colors.white)
-                //       : null,
-                // ),
                 SizedBox(height: 20),
                 Text(
                   _username,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: 22,
                     letterSpacing: 1,
+                    wordSpacing: 2,
                   ),
                 ),
               ],

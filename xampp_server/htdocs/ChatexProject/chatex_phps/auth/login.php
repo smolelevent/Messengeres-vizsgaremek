@@ -55,7 +55,7 @@ echo json_encode([
     "preferred_lang" => $user["preferred_lang"],
     "email" => $user["email"],
     "password_hash" => $user["password_hash"],
-    "profile_picture" => $user["profile_picture"]
+    "profile_picture" => trim($user["profile_picture"], "'\"")
 ]);
 
 //TODO: használni a tokent!!!

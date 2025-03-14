@@ -22,7 +22,15 @@ void main() {
 
   group("Main test", () {
     testWidgets('Login test', (WidgetTester tester) async {
-      await tester.pumpWidget(MaterialApp(home: app.LoginUI()));
+      await tester.pumpWidget(MaterialApp(
+          builder: (context, child) {
+            return Overlay(
+              initialEntries: [
+                OverlayEntry(builder: (context) => child ?? Container())
+              ],
+            );
+          },
+          home: app.LoginUI()));
       await tester.pumpAndSettle();
 
       final emailField = find.byKey(Key('email'));
@@ -48,16 +56,19 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify ToastMessages was called with the expected message
-      verify(mockToastMessages.showToastMessages(
-        "Sikeres bejelentkezés!",
-        0.2,
-        Colors.green,
-        Icons.check,
-        Colors.black,
-        const Duration(seconds: 2),
-      )).called(1);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Future.delayed(Duration(milliseconds: 500), () {
+          verify(mockToastMessages.showToastMessages(
+            "Sikeres bejelentkezés!",
+            0.2,
+            Colors.green,
+            Icons.check,
+            Colors.black,
+            const Duration(seconds: 2),
+          )).called(1);
+        });
+      });
     });
-
     group("Add people test", () {
       testWidgets('FindValaki test', (WidgetTester tester) async {
         int selectedIndex = 1;

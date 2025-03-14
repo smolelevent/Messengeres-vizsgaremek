@@ -61,7 +61,13 @@ $stmt->bind_param("ssss", $language, $username, $email, $password_hash);
 // Lekérdezés végrehajtása és válasz küldése
 if ($stmt->execute()) {
     http_response_code(201); // Erőforrás létrehozva
-    echo json_encode(["message" => "Sikeres regisztráció!"]);
+    echo json_encode([
+        "message" => "Sikeres regisztráció!",
+        "username" => $username,
+        "email" => $email,
+        "password_hash" => $password_hash,
+        "preferred_lang" => $language
+    ]);
 } else {
     http_response_code(500); // Belső szerverhiba
     echo json_encode(["message" => "Sikertelen regisztráció!"]);

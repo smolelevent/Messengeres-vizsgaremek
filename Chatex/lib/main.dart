@@ -12,10 +12,11 @@ import 'package:chatex/logic/toast_message.dart';
 //TODO: alkalmazás belépéskor ne a Flutter logo legyen
 
 //TODO: ha nyelvek angol és regisztráció akkor utána magyart állít be
+
 //TODO: nincs adat akkor is lila a bejelentkezés gomb
+
 //TODO: phpMyAdmin id-k sorrendje rendezése
 
-// '\'magyar\'' sql be az alapértelmezett érték
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Preferences.init();
@@ -47,7 +48,7 @@ class _LoginUIState extends State<LoginUI> {
   final _formKey = GlobalKey<FormBuilderState>();
   bool _isLogInDisabled = true;
 
-  String _selectedLanguage = "Magyar";
+  String _selectedLanguage = Preferences.getPreferredLanguage();
 
   void _checkLogInFieldsValidation() {
     final isEmailValid =
@@ -567,3 +568,16 @@ class _LoginUIState extends State<LoginUI> {
     );
   }
 }
+/*
+           │Entrance hidden by
+           │Bricks and rubble
+       ▂▃▂▅▇▅▅▇▄▃
+    ┳  ║       ║▔▔▔▔▔▔▔
+    │  ╚╗     ╔╝
+    │   ║     ║   │
+   6ft  ╚╗   ╔╝   │
+    │====o   ╚════│═════╗
+    │   │║@    ▇▅▆▇▆▅▅█ ║
+    ┷   │╚│═════════════╝
+Air vent│ │Fan
+*/

@@ -3,8 +3,10 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'dart:async' as _i6;
 import 'dart:ui' as _i3;
 
+import 'package:chatex/logic/auth.dart' as _i5;
 import 'package:chatex/utils/toast_service.dart' as _i2;
 import 'package:flutter/material.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
@@ -39,15 +41,86 @@ class MockToastService extends _i1.Mock implements _i2.ToastService {
     _i4.IconData? icon,
     _i3.Color? iconColor,
     Duration? duration,
-  ) => super.noSuchMethod(
-    Invocation.method(#showToastMessages, [
-      message,
-      whereToPercentage,
-      bgColor,
-      icon,
-      iconColor,
-      duration,
-    ]),
-    returnValueForMissingStub: null,
-  );
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(#showToastMessages, [
+          message,
+          whereToPercentage,
+          bgColor,
+          icon,
+          iconColor,
+          duration,
+        ]),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [AuthService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAuthService extends _i1.Mock implements _i5.AuthService {
+  MockAuthService() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i6.Future<void> register({
+    required _i4.TextEditingController? username,
+    required _i4.TextEditingController? email,
+    required _i4.TextEditingController? password,
+    required dynamic context,
+    required String? language,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(#register, [], {
+          #username: username,
+          #email: email,
+          #password: password,
+          #context: context,
+          #language: language,
+        }),
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
+
+  @override
+  _i6.Future<void> logIn({
+    required _i4.TextEditingController? email,
+    required _i4.TextEditingController? password,
+    required dynamic context,
+    required String? language,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(#logIn, [], {
+          #email: email,
+          #password: password,
+          #context: context,
+          #language: language,
+        }),
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
+
+  @override
+  _i6.Future<void> logOut({required dynamic context}) => (super.noSuchMethod(
+        Invocation.method(#logOut, [], {#context: context}),
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
+
+  @override
+  _i6.Future<void> resetPassword({
+    required _i4.TextEditingController? email,
+    required dynamic context,
+    required dynamic language,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(#resetPassword, [], {
+          #email: email,
+          #context: context,
+          #language: language,
+        }),
+        returnValue: _i6.Future<void>.value(),
+        returnValueForMissingStub: _i6.Future<void>.value(),
+      ) as _i6.Future<void>);
 }

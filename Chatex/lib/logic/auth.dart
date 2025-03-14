@@ -38,6 +38,15 @@ class AuthService {
       final responseData = jsonDecode(response.body);
 
       if (responseData["message"] == "Sikeres regisztráció!") {
+        final username = responseData['username'];
+        final email = responseData['email'];
+        final passwordHash = responseData['password_hash'];
+        final preferredlang = responseData['preferred_lang'];
+
+        await Preferences.setUsername(username);
+        await Preferences.setEmail(email);
+        await Preferences.setPasswordHash(passwordHash);
+        await Preferences.setPreferredLanguage(preferredlang);
         ToastMessages.showToastMessages(
             language == "Magyar"
                 ? "Sikeres regisztráció!"
@@ -79,7 +88,7 @@ class AuthService {
     } catch (e) {
       ToastMessages.showToastMessages(
           language == "Magyar" ? "Kapcsolati hiba!" : "Connection error!",
-          0.2,
+          0.1,
           Colors.redAccent,
           Icons.error,
           Colors.black,
@@ -109,18 +118,12 @@ class AuthService {
       final responseData = json.decode(response.body);
 
       if (responseData['success'] == true) {
-        final userId = responseData['id'];
         final token = responseData['token'];
-        final preferredlang = responseData['preferred_lang'];
-        final email = responseData['email'];
-        final passwordHash = responseData['password_hash'];
+        final userId = responseData['id'];
         final profilePicture = responseData['profile_picture'];
 
-        await Preferences.setUserId(userId);
         await Preferences.setToken(token);
-        await Preferences.setPreferredLanguage(preferredlang);
-        await Preferences.setEmail(email);
-        await Preferences.setPasswordHash(passwordHash);
+        await Preferences.setUserId(userId);
         await Preferences.setProfilePicture(profilePicture);
         ToastMessages.showToastMessages(
             language == "Magyar"
