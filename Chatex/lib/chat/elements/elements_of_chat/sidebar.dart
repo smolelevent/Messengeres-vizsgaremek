@@ -48,6 +48,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
         // Base64 kódolt PNG/JPG
         final imageBytes = base64Decode(_profileImageUrl!.split(",")[1]);
         return CircleAvatar(
+          //TODO: azért nem jó mert alapból azt keresi hogy van e előtag de nincs
           radius: 40,
           backgroundColor: Colors.grey[600],
           backgroundImage: MemoryImage(imageBytes),

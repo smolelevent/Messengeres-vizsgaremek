@@ -15,19 +15,20 @@ class _SettingsState extends State<Settings> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
   String _searchQuery = "";
-  String _selectedLanguage = "Magyar";
+  String _selectedLanguage = Preferences.getPreferredLanguage();
 
   @override
   void initState() {
-    _loadPreferredLanguage();
+    //_loadPreferredLanguage();
+    _selectedLanguage = Preferences.getPreferredLanguage();
     super.initState();
   }
 
-  Future<void> _loadPreferredLanguage() async {
-    setState(() {
-      _selectedLanguage = Preferences.getPreferredLanguage();
-    });
-  }
+  // Future<void> _loadPreferredLanguage() async {
+  //   setState(() {
+  //     _selectedLanguage = Preferences.getPreferredLanguage();
+  //   });
+  // }
 
   Future<void> _savePreferredLanguage(String language) async {
     await Preferences.setPreferredLanguage(language);

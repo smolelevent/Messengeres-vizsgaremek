@@ -8,6 +8,7 @@ import 'package:chatex/logic/auth.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'package:chatex/logic/toast_message.dart';
 //import 'package:chatex/chat/chat_build_ui.dart';
+import 'dart:developer';
 
 //TODO: alkalmazás belépéskor ne a Flutter logo legyen
 
