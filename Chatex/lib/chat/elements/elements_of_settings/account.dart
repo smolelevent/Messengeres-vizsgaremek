@@ -56,25 +56,88 @@ class _AccountSettingState extends State<AccountSetting> {
     });
   }
 
+  //TODO: a _pickImage-nek NEM kell frissítenie a adatbázisba, és majd a gombmegnyomásával lehessen
+  //TODO: INNEN FOLYT KÖV amint megváltoztatom a pfp-t akkor showtoastmessage nem jó de amúgy sikeres, kódokat elrendezni, + php és CHAT
+
+  // Future<void> _pickImage() async {
+
+  //   final pickedFile =
+  //       await ImagePicker().pickImage(source: ImageSource.gallery);
+
+  //   if (pickedFile != null) {
+  //     File imageFile = File(pickedFile.path);
+  //     List<int> imageBytes = await imageFile.readAsBytes();
+
+  //     String base64Image = base64Encode(imageBytes);
+  //     // Kép MIME-típusának meghatározása
+  //     String mimeType;
+
+  //     if (pickedFile.path.endsWith(".svg")) {
+  //       mimeType = "data:image/svg+xml;base64,";
+  //     } else if (pickedFile.path.endsWith(
+  //         ".jpg")) //megnézem ha .jpg mimetype-ot teszek hozzá akkor mi van mert minden esetben .jpeg jelzést tesz hozzá
+  //     {
+  //       mimeType = "data:image/jpg;base64,";
+  //     } else if (pickedFile.path.endsWith(".jpeg")) {
+  //       mimeType = "data:image/jpeg;base64,";
+  //     } else if (pickedFile.path.endsWith(".png")) {
+  //       mimeType = "data:image/png;base64,";
+  //     } else {
+  //       log("Nem támogatott fájlformátum!");
+  //       return;
+  //     }
+
+  //     // if (pickedFile.path.endsWith(".svg")) { //mentés
+  //     //   mimeType = "data:image/svg+xml;base64,";
+  //     // } else if (pickedFile.path.endsWith(
+  //     //         ".jpg") || //megnézem ha .jpg mimetype-ot teszek hozzá akkor mi van mert minden esetben .jpeg jelzést tesz hozzá
+  //     //     pickedFile.path.endsWith(".jpeg")) {
+  //     //   mimeType = "data:image/jpeg;base64,";
+  //     // } else if (pickedFile.path.endsWith(".png")) {
+  //     //   mimeType = "data:image/png;base64,";
+  //     // } else {
+  //     //   log("Nem támogatott fájlformátum!");
+  //     //   return;
+  //     // }
+
+  //     setState(() {
+  //       _selectedImage = imageFile;
+  //       _profilePicture = "$mimeType$base64Image"; // Hozzáadjuk a MIME-típust
+  //     });
+
+  //     // **Elküldjük a szervernek**
+  //     var data = {
+  //       "profile_picture": _profilePicture,
+  //       "user_id": Preferences.getUserId(), // Ellenőrizd, hogy van-e értéke!
+  //     };
+
+  //     log("Küldött adatok: ${json.encode(data)}"); // **Itt logoljuk a küldött adatokat**
+
+  //     final response = await http.post(
+  //       Uri.parse(
+  //           'http://10.0.2.2/ChatexProject/chatex_phps/settings/update_profile_picture.php'),
+  //       headers: {"Content-Type": "application/json"},
+  //       body: json.encode(data),
+  //     );
+
+  //     log("Szerver válasz: ${response.body}");
+  //     Preferences.setProfilePicture(_profilePicture!);
+  //   }
+  // }
+
   Future<void> _pickImage() async {
-    //TODO: a _pickImage-nek NEM kell frissítenie a adatbázisba, és majd a gombmegnyomásával lehessen
-    //TODO: INNEN FOLYT KÖV amint megváltoztatom a pfp-t akkor showtoastmessage nem jó de amúgy sikeres, kódokat elrendezni, + php és CHAT
     final pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       File imageFile = File(pickedFile.path);
       List<int> imageBytes = await imageFile.readAsBytes();
-
       String base64Image = base64Encode(imageBytes);
-      // Kép MIME-típusának meghatározása
       String mimeType;
 
       if (pickedFile.path.endsWith(".svg")) {
         mimeType = "data:image/svg+xml;base64,";
-      } else if (pickedFile.path.endsWith(
-          ".jpg")) //megnézem ha .jpg mimetype-ot teszek hozzá akkor mi van mert minden esetben .jpeg jelzést tesz hozzá
-      {
+      } else if (pickedFile.path.endsWith(".jpg")) {
         mimeType = "data:image/jpg;base64,";
       } else if (pickedFile.path.endsWith(".jpeg")) {
         mimeType = "data:image/jpeg;base64,";
@@ -85,41 +148,20 @@ class _AccountSettingState extends State<AccountSetting> {
         return;
       }
 
-      // if (pickedFile.path.endsWith(".svg")) { //mentés
-      //   mimeType = "data:image/svg+xml;base64,";
-      // } else if (pickedFile.path.endsWith(
-      //         ".jpg") || //megnézem ha .jpg mimetype-ot teszek hozzá akkor mi van mert minden esetben .jpeg jelzést tesz hozzá
-      //     pickedFile.path.endsWith(".jpeg")) {
-      //   mimeType = "data:image/jpeg;base64,";
-      // } else if (pickedFile.path.endsWith(".png")) {
-      //   mimeType = "data:image/png;base64,";
-      // } else {
-      //   log("Nem támogatott fájlformátum!");
-      //   return;
-      // }
-
+      // Frissítjük a kiválasztott képet, de **nem küldjük el a szerverre!**
       setState(() {
         _selectedImage = imageFile;
-        _profilePicture = "$mimeType$base64Image"; // Hozzáadjuk a MIME-típust
+        _profilePicture = "$mimeType$base64Image";
       });
 
-      // **Elküldjük a szervernek**
-      var data = {
-        "profile_picture": _profilePicture,
-        "user_id": Preferences.getUserId(), // Ellenőrizd, hogy van-e értéke!
-      };
-
-      log("Küldött adatok: ${json.encode(data)}"); // **Itt logoljuk a küldött adatokat**
-
-      final response = await http.post(
-        Uri.parse(
-            'http://10.0.2.2/ChatexProject/chatex_phps/settings/update_profile_picture.php'),
-        headers: {"Content-Type": "application/json"},
-        body: json.encode(data),
-      );
-
-      log("Szerver válasz: ${response.body}");
-      Preferences.setProfilePicture(_profilePicture!);
+      ToastMessages.showToastMessages(
+          "Kép kiválasztva! Ne felejtsd el menteni!",
+          0.2,
+          Colors.orange,
+          Icons.image,
+          Colors.black,
+          const Duration(seconds: 2),
+          context);
     }
   }
 
@@ -131,7 +173,8 @@ class _AccountSettingState extends State<AccountSetting> {
           Colors.redAccent,
           Icons.error,
           Colors.black,
-          const Duration(seconds: 2));
+          const Duration(seconds: 2),
+          context);
     } else {
       final response = await http.post(
         Uri.parse(
@@ -149,7 +192,8 @@ class _AccountSettingState extends State<AccountSetting> {
             Colors.green,
             Icons.check,
             Colors.black,
-            const Duration(seconds: 2));
+            const Duration(seconds: 2),
+            context);
 
         //log(Preferences.getProfilePicture()!);
         await Preferences.setProfilePicture(_profilePicture!);
@@ -160,7 +204,8 @@ class _AccountSettingState extends State<AccountSetting> {
             Colors.redAccent,
             Icons.error,
             Colors.black,
-            const Duration(seconds: 2));
+            const Duration(seconds: 2),
+            context);
       }
     }
   }
@@ -174,7 +219,8 @@ class _AccountSettingState extends State<AccountSetting> {
           Colors.redAccent,
           Icons.error,
           Colors.black,
-          const Duration(seconds: 2));
+          const Duration(seconds: 2),
+          context);
     } else {
       final response = await http.post(
         Uri.parse(
@@ -190,7 +236,8 @@ class _AccountSettingState extends State<AccountSetting> {
             Colors.green,
             Icons.check,
             Colors.black,
-            const Duration(seconds: 2));
+            const Duration(seconds: 2),
+            context);
 
         // ✅ Preferences-ben is frissítjük
         await Preferences.setUsername(_usernameController.text);
@@ -201,7 +248,8 @@ class _AccountSettingState extends State<AccountSetting> {
             Colors.redAccent,
             Icons.error,
             Colors.black,
-            const Duration(seconds: 2));
+            const Duration(seconds: 2),
+            context);
       }
     }
   }

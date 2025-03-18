@@ -55,7 +55,8 @@ class AuthService {
             Colors.green,
             Icons.check,
             Colors.black,
-            const Duration(seconds: 2));
+            const Duration(seconds: 2),
+            context);
         await Future.delayed(const Duration(seconds: 2));
         Navigator.pushReplacement(
           context,
@@ -73,7 +74,8 @@ class AuthService {
             Colors.redAccent,
             Icons.error,
             Colors.black,
-            const Duration(seconds: 2));
+            const Duration(seconds: 2),
+            context);
       } else if (responseData["message"] == "Érvénytelen email cím!") {
         ToastMessages.showToastMessages(
             language == "Magyar"
@@ -83,7 +85,8 @@ class AuthService {
             Colors.redAccent,
             Icons.error,
             Colors.black,
-            const Duration(seconds: 2));
+            const Duration(seconds: 2),
+            context);
       }
     } catch (e) {
       ToastMessages.showToastMessages(
@@ -92,7 +95,8 @@ class AuthService {
           Colors.redAccent,
           Icons.error,
           Colors.black,
-          const Duration(seconds: 2));
+          const Duration(seconds: 2),
+          context);
       log(e.toString());
     }
   }
@@ -142,7 +146,8 @@ class AuthService {
             Colors.green,
             Icons.check,
             Colors.black,
-            const Duration(seconds: 2));
+            const Duration(seconds: 2),
+            context);
         await Future.delayed(const Duration(seconds: 2));
         Navigator.pushReplacement(
           context,
@@ -160,6 +165,7 @@ class AuthService {
           Icons.error,
           Colors.black,
           const Duration(seconds: 2),
+          context,
         );
       } else {
         ToastMessages.showToastMessages(
@@ -170,7 +176,8 @@ class AuthService {
             Colors.redAccent,
             Icons.error,
             Colors.black,
-            const Duration(seconds: 2));
+            const Duration(seconds: 2),
+            context);
       }
     } catch (e) {
       ToastMessages.showToastMessages(
@@ -179,7 +186,8 @@ class AuthService {
           Colors.redAccent,
           Icons.error,
           Colors.black,
-          const Duration(seconds: 2));
+          const Duration(seconds: 2),
+          context);
       log(e.toString());
     }
   }
@@ -218,7 +226,8 @@ class AuthService {
             Colors.green,
             Icons.check,
             Colors.black,
-            const Duration(seconds: 2));
+            const Duration(seconds: 2),
+            context);
         await Future.delayed(const Duration(seconds: 2));
         Navigator.pushReplacement(
           context,
@@ -236,7 +245,8 @@ class AuthService {
             Colors.redAccent,
             Icons.error,
             Colors.black,
-            const Duration(seconds: 2));
+            const Duration(seconds: 2),
+            context);
       } else {
         ToastMessages.showToastMessages(
             language == "Magyar"
@@ -246,7 +256,8 @@ class AuthService {
             Colors.redAccent,
             Icons.error,
             Colors.black,
-            const Duration(seconds: 2));
+            const Duration(seconds: 2),
+            context);
       }
     } catch (e) {
       ToastMessages.showToastMessages(
@@ -255,7 +266,8 @@ class AuthService {
           Colors.redAccent,
           Icons.error,
           Colors.black,
-          const Duration(seconds: 2));
+          const Duration(seconds: 2),
+          context);
       log(e.toString());
     }
   }

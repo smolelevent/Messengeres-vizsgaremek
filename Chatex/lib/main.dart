@@ -22,6 +22,13 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Preferences.init();
   runApp(MaterialApp(
+    // builder: (context, child) {
+    //   return Overlay(
+    //     initialEntries: [
+    //       OverlayEntry(builder: (context) => child!),
+    //     ],
+    //   );
+    // },
     home: LoginUI(),
     //home: ChatUI(),
     //home: LanguageSetting(),

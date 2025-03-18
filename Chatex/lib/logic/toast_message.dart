@@ -10,8 +10,16 @@ class ToastMessages {
   }
 
   /// Toast üzenet megjelenítése
-  static void showToastMessages(String message, double whereToPercentage,
-      Color bgColor, IconData icon, Color iconColor, Duration duration) {
+  static void showToastMessages(
+      String message,
+      double whereToPercentage,
+      Color bgColor,
+      IconData icon,
+      Color iconColor,
+      Duration duration,
+      BuildContext context) {
+    final fToast = FToast();
+    fToast.init(context);
     _fToastInstance.showToast(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
