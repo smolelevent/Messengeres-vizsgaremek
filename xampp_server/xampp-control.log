@@ -1332,3 +1332,53 @@
 13:54:50  [main] 	Deinitializing Modules
 13:54:50  [main] 	Deinitializing Control Panel
 
+11:07:04  [main] 	Initializing Control Panel
+11:07:04  [main] 	Windows Version:  Enterprise  64-bit
+11:07:04  [main] 	XAMPP Version: 8.2.12
+11:07:04  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+11:07:04  [main] 	Running with Administrator rights - good!
+11:07:04  [main] 	XAMPP Installation Directory: "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+11:07:04  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+11:07:04  [main] 	Checking for prerequisites
+11:07:04  [main] 	All prerequisites found
+11:07:04  [main] 	Initializing Modules
+11:07:04  [Apache] 	XAMPP Apache Service is already running on port 80
+11:07:04  [Apache] 	XAMPP Apache Service is already running on port 443
+11:07:04  [mysql] 	XAMPP MySQL Service is already running on port 3306
+11:07:04  [main] 	The Mercury module is disabled
+11:07:04  [main] 	The Tomcat module is disabled
+11:07:04  [main] 	Starting Check-Timer
+11:07:04  [main] 	Control Panel Ready
+14:48:50  [Apache] 	Attempting to stop Apache service...
+14:48:53  [Apache] 	Status change detected: stopped
+14:48:54  [mysql] 	Attempting to stop MySQL service...
+14:48:56  [mysql] 	Status change detected: stopped
+16:49:33  [main] 	Deinitializing Modules
+16:49:33  [main] 	Deinitializing Control Panel
+
+15:06:04  [main] 	Initializing Control Panel
+15:06:04  [main] 	Windows Version:  Enterprise  64-bit
+15:06:04  [main] 	XAMPP Version: 8.2.12
+15:06:04  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+15:06:04  [main] 	Running with Administrator rights - good!
+15:06:04  [main] 	XAMPP Installation Directory: "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+15:06:04  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+15:06:04  [main] 	Checking for prerequisites
+15:06:04  [main] 	All prerequisites found
+15:06:04  [main] 	Initializing Modules
+15:06:04  [main] 	The Mercury module is disabled
+15:06:04  [main] 	The Tomcat module is disabled
+15:06:04  [main] 	Starting Check-Timer
+15:06:04  [main] 	Control Panel Ready
+15:08:20  [main] 	Executing "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+15:08:36  [Apache] 	Attempting to start Apache service...
+15:08:37  [Apache] 	Status change detected: running
+15:08:38  [mysql] 	Attempting to start MySQL service...
+15:08:49  [mysql] 	Status change detected: running
+17:02:37  [Apache] 	Attempting to stop Apache service...
+17:02:44  [Apache] 	Status change detected: stopped
+17:02:45  [mysql] 	Attempting to stop MySQL service...
+17:02:47  [mysql] 	Status change detected: stopped
+17:03:02  [main] 	Deinitializing Modules
+17:03:02  [main] 	Deinitializing Control Panel
+

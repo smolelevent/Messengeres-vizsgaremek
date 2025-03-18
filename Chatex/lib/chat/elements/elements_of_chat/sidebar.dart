@@ -49,7 +49,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
         final imageBytes = base64Decode(_profileImageUrl!.split(",")[1]);
         return CircleAvatar(
           //TODO: azért nem jó mert alapból azt keresi hogy van e előtag de nincs
-          radius: 40,
+          radius: 60,
           backgroundColor: Colors.grey[600],
           backgroundImage: MemoryImage(imageBytes),
         );
@@ -65,7 +65,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
 
   Widget _defaultAvatar() {
     return CircleAvatar(
-      radius: 40,
+      radius: 60,
       backgroundColor: Colors.grey[600],
       child: Icon(Icons.person, size: 40, color: Colors.white),
     );

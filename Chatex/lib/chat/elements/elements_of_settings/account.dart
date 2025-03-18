@@ -56,83 +56,14 @@ class _AccountSettingState extends State<AccountSetting> {
     });
   }
 
-  //TODO: a _pickImage-nek NEM kell frissítenie a adatbázisba, és majd a gombmegnyomásával lehessen
-  //TODO: INNEN FOLYT KÖV amint megváltoztatom a pfp-t akkor showtoastmessage nem jó de amúgy sikeres, kódokat elrendezni, + php és CHAT
-
-  // Future<void> _pickImage() async {
-
-  //   final pickedFile =
-  //       await ImagePicker().pickImage(source: ImageSource.gallery);
-
-  //   if (pickedFile != null) {
-  //     File imageFile = File(pickedFile.path);
-  //     List<int> imageBytes = await imageFile.readAsBytes();
-
-  //     String base64Image = base64Encode(imageBytes);
-  //     // Kép MIME-típusának meghatározása
-  //     String mimeType;
-
-  //     if (pickedFile.path.endsWith(".svg")) {
-  //       mimeType = "data:image/svg+xml;base64,";
-  //     } else if (pickedFile.path.endsWith(
-  //         ".jpg")) //megnézem ha .jpg mimetype-ot teszek hozzá akkor mi van mert minden esetben .jpeg jelzést tesz hozzá
-  //     {
-  //       mimeType = "data:image/jpg;base64,";
-  //     } else if (pickedFile.path.endsWith(".jpeg")) {
-  //       mimeType = "data:image/jpeg;base64,";
-  //     } else if (pickedFile.path.endsWith(".png")) {
-  //       mimeType = "data:image/png;base64,";
-  //     } else {
-  //       log("Nem támogatott fájlformátum!");
-  //       return;
-  //     }
-
-  //     // if (pickedFile.path.endsWith(".svg")) { //mentés
-  //     //   mimeType = "data:image/svg+xml;base64,";
-  //     // } else if (pickedFile.path.endsWith(
-  //     //         ".jpg") || //megnézem ha .jpg mimetype-ot teszek hozzá akkor mi van mert minden esetben .jpeg jelzést tesz hozzá
-  //     //     pickedFile.path.endsWith(".jpeg")) {
-  //     //   mimeType = "data:image/jpeg;base64,";
-  //     // } else if (pickedFile.path.endsWith(".png")) {
-  //     //   mimeType = "data:image/png;base64,";
-  //     // } else {
-  //     //   log("Nem támogatott fájlformátum!");
-  //     //   return;
-  //     // }
-
-  //     setState(() {
-  //       _selectedImage = imageFile;
-  //       _profilePicture = "$mimeType$base64Image"; // Hozzáadjuk a MIME-típust
-  //     });
-
-  //     // **Elküldjük a szervernek**
-  //     var data = {
-  //       "profile_picture": _profilePicture,
-  //       "user_id": Preferences.getUserId(), // Ellenőrizd, hogy van-e értéke!
-  //     };
-
-  //     log("Küldött adatok: ${json.encode(data)}"); // **Itt logoljuk a küldött adatokat**
-
-  //     final response = await http.post(
-  //       Uri.parse(
-  //           'http://10.0.2.2/ChatexProject/chatex_phps/settings/update_profile_picture.php'),
-  //       headers: {"Content-Type": "application/json"},
-  //       body: json.encode(data),
-  //     );
-
-  //     log("Szerver válasz: ${response.body}");
-  //     Preferences.setProfilePicture(_profilePicture!);
-  //   }
-  // }
-
-  Future<void> _pickImage() async {
+  Future<void> _pickProfilePicture() async {
     final pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       File imageFile = File(pickedFile.path);
-      List<int> imageBytes = await imageFile.readAsBytes();
-      String base64Image = base64Encode(imageBytes);
+      List<int> imageAsBytes = await imageFile.readAsBytes();
+      String base64Image = base64Encode(imageAsBytes);
       String mimeType;
 
       if (pickedFile.path.endsWith(".svg")) {
@@ -144,112 +75,150 @@ class _AccountSettingState extends State<AccountSetting> {
       } else if (pickedFile.path.endsWith(".png")) {
         mimeType = "data:image/png;base64,";
       } else {
-        log("Nem támogatott fájlformátum!");
+        ToastMessages.showToastMessages(
+          "Nem támogatott fájlformátum!",
+          0.2,
+          Colors.red,
+          Icons.image,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
         return;
       }
 
-      // Frissítjük a kiválasztott képet, de **nem küldjük el a szerverre!**
       setState(() {
         _selectedImage = imageFile;
         _profilePicture = "$mimeType$base64Image";
       });
 
       ToastMessages.showToastMessages(
-          "Kép kiválasztva! Ne felejtsd el menteni!",
-          0.2,
-          Colors.orange,
-          Icons.image,
-          Colors.black,
-          const Duration(seconds: 2),
-          context);
+        "Kép kiválasztva! Most módosíthatod!",
+        0.2,
+        Colors.orange,
+        Icons.image,
+        Colors.black,
+        const Duration(seconds: 2),
+        context,
+      );
     }
   }
 
   Future<void> _updateProfilePicture() async {
     if (_selectedImage == null) {
       ToastMessages.showToastMessages(
-          "Nincs kiválasztott kép!",
-          0.2,
-          Colors.redAccent,
-          Icons.error,
-          Colors.black,
-          const Duration(seconds: 2),
-          context);
-    } else {
-      final response = await http.post(
-        Uri.parse(
-            "http://10.0.2.2/ChatexProject/chatex_phps/settings/update_profile_picture.php"),
-        body: jsonEncode({"profile_picture": _profilePicture}),
-        headers: {"Content-Type": "application/json"},
+        "Nincs kiválasztott kép!",
+        0.2,
+        Colors.redAccent,
+        Icons.error,
+        Colors.black,
+        const Duration(seconds: 2),
+        context,
       );
+    } else {
+      try {
+        final response = await http.post(
+          Uri.parse(
+              "http://10.0.2.2/ChatexProject/chatex_phps/settings/update_profile_picture.php"),
+          body: jsonEncode({"profile_picture": _profilePicture}),
+          headers: {"Content-Type": "application/json"},
+        );
 
-      final responseData = json.decode(response.body);
-      log(responseData.toString());
-      if (response.statusCode == 200) {
-        ToastMessages.showToastMessages(
+        final responseData = json.decode(response.body);
+        if (responseData["status"] == "success") {
+          ToastMessages.showToastMessages(
             "Profilkép frissítve!",
             0.2,
             Colors.green,
             Icons.check,
             Colors.black,
             const Duration(seconds: 2),
-            context);
+            context,
+          );
 
-        //log(Preferences.getProfilePicture()!);
-        await Preferences.setProfilePicture(_profilePicture!);
-      } else {
-        ToastMessages.showToastMessages(
+          await Preferences.setProfilePicture(_profilePicture!);
+        } else {
+          ToastMessages.showToastMessages(
             "Hiba történt a frissítés során!",
             0.2,
             Colors.redAccent,
             Icons.error,
             Colors.black,
             const Duration(seconds: 2),
-            context);
-      }
-    }
-  }
-
-  // ✏️ Felhasználónév módosítása
-  Future<void> _updateUsername() async {
-    if (_usernameController.text.isEmpty) {
-      ToastMessages.showToastMessages(
-          "A név nem lehet üres!",
+            context,
+          );
+        }
+      } catch (e) {
+        ToastMessages.showToastMessages(
+          "Kapcsolati hiba!",
           0.2,
           Colors.redAccent,
           Icons.error,
           Colors.black,
           const Duration(seconds: 2),
-          context);
-    } else {
-      final response = await http.post(
-        Uri.parse(
-            "http://10.0.2.2/ChatexProject/chatex_phps/settings/update_username.php"),
-        body: jsonEncode({"username": _usernameController.text}),
-        headers: {"Content-Type": "application/json"},
-      );
+          context,
+        );
+        log(e.toString());
+      }
+    }
+  }
 
-      if (response.statusCode == 200) {
-        ToastMessages.showToastMessages(
+  Future<void> _updateUsername() async {
+    if (_usernameController.text.isEmpty) {
+      //TODO: nem jól van le kezelve
+      ToastMessages.showToastMessages(
+        "A név nem lehet üres!",
+        0.2,
+        Colors.redAccent,
+        Icons.error,
+        Colors.black,
+        const Duration(seconds: 2),
+        context,
+      );
+    } else {
+      try {
+        final response = await http.post(
+          Uri.parse(
+              "http://10.0.2.2/ChatexProject/chatex_phps/settings/update_username.php"),
+          body: jsonEncode({"username": _usernameController.text}),
+          headers: {"Content-Type": "application/json"},
+        );
+
+        final responseData = json.decode(response.body);
+        if (responseData["status"] == "success") {
+          ToastMessages.showToastMessages(
             "Felhasználónév frissítve!",
             0.2,
             Colors.green,
             Icons.check,
             Colors.black,
             const Duration(seconds: 2),
-            context);
+            context,
+          );
 
-        // ✅ Preferences-ben is frissítjük
-        await Preferences.setUsername(_usernameController.text);
-      } else {
-        ToastMessages.showToastMessages(
+          await Preferences.setUsername(_usernameController.text);
+        } else {
+          ToastMessages.showToastMessages(
             "Hiba történt a frissítés során!",
             0.2,
             Colors.redAccent,
             Icons.error,
             Colors.black,
             const Duration(seconds: 2),
-            context);
+            context,
+          );
+        }
+      } catch (e) {
+        ToastMessages.showToastMessages(
+          "Kapcsolati hiba!",
+          0.2,
+          Colors.redAccent,
+          Icons.error,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
+        log(e.toString());
       }
     }
   }
@@ -273,7 +242,7 @@ class _AccountSettingState extends State<AccountSetting> {
     );
   }
 
-  Widget _buildProfileImage() {
+  Widget _buildProfilePicture() {
     if (_profilePicture == null || _profilePicture!.isEmpty) {
       return _defaultAvatar();
     }
@@ -287,54 +256,24 @@ class _AccountSettingState extends State<AccountSetting> {
       } else if (_profilePicture!.startsWith("data:image/png;base64,") ||
           _profilePicture!.startsWith("data:image/jpeg;base64,") ||
           _profilePicture!.startsWith("data:image/jpg;base64,")) {
-        final imageBytes = base64Decode(_profilePicture!.split(",")[1]);
+        final imageAsBytes = base64Decode(_profilePicture!.split(",")[1]);
         return CircleAvatar(
-          radius: 40,
-          backgroundColor: Colors.grey[600],
-          backgroundImage: MemoryImage(imageBytes),
+          radius: 60,
+          backgroundImage: MemoryImage(imageAsBytes),
         );
       } else {
-        debugPrint("Ismeretlen MIME-típus a profilképnél: $_profilePicture");
+        log("Ismeretlen MIME-típus a profilképnél: $_profilePicture");
         return _defaultAvatar();
       }
     } catch (e) {
-      debugPrint("Hiba a kép dekódolásakor: $e");
+      log("Hiba a kép dekódolásakor: $e");
       return _defaultAvatar();
     }
   }
 
-  // Widget _buildProfileImage() { //mentés
-  //   if (_profilePicture == null || _profilePicture!.isEmpty) {
-  //     return _defaultAvatar();
-  //   }
-
-  //   try {
-  //     if (_profilePicture!.startsWith("data:image/svg+xml;base64,")) {
-  //       final svgBytes = base64Decode(_profilePicture!.split(",")[1]);
-  //       return ClipOval(
-  //         child: SvgPicture.memory(svgBytes, width: 80, height: 80),
-  //       );
-  //     } else if (_profilePicture!.startsWith("data:image/png;base64,") ||
-  //         _profilePicture!.startsWith("data:image/jpeg;base64,")) {
-  //       final imageBytes = base64Decode(_profilePicture!.split(",")[1]);
-  //       return CircleAvatar(
-  //         radius: 40,
-  //         backgroundColor: Colors.grey[600],
-  //         backgroundImage: MemoryImage(imageBytes),
-  //       );
-  //     } else {
-  //       debugPrint("Ismeretlen MIME-típus a profilképnél: $_profilePicture");
-  //       return _defaultAvatar();
-  //     }
-  //   } catch (e) {
-  //     debugPrint("Hiba a kép dekódolásakor: $e");
-  //     return _defaultAvatar();
-  //   }
-  // }
-
   Widget _defaultAvatar() {
     return CircleAvatar(
-      radius: 50,
+      radius: 60,
       backgroundColor: Colors.grey[600],
       child: const Icon(Icons.person, size: 50, color: Colors.white),
     );
@@ -426,39 +365,334 @@ class _AccountSettingState extends State<AccountSetting> {
       child: Scaffold(
         backgroundColor: Colors.grey[850],
         appBar: _buildAppbar(),
-        body: FormBuilder(
-          key: _formKey,
-          child: Column(
-            //crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: _pickImage,
-                    child: _buildProfileImage(),
-                  ),
-                  ElevatedButton(
-                    onPressed: _updateProfilePicture,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepPurpleAccent,
+        body: Column(
+          children: [
+            ListView( //TODO: folyt köv!
+              //padding: const EdgeInsets.symmetric(horizontal: 16),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 5),
+                  child: Text(
+                    "title",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1,
                     ),
-                    child: const Text("Profilkép módosítása"),
                   ),
-                ],
-              ),
-              _usernameWidget(),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _updateUsername,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurpleAccent,
-                ),
-                child: const Text("Felhasználónév módosítása"),
-              ),
-            ],
-          ),
+                )
+              ],
+            ),
+            // Row(
+            //   children: [
+            //     GestureDetector(
+            //       onTap: _pickProfilePicture,
+            //       child: _buildProfilePicture(),
+            //     ),
+            //     ElevatedButton(
+            //       onPressed: _updateProfilePicture,
+            //       style: ElevatedButton.styleFrom(
+            //         backgroundColor: Colors.deepPurpleAccent,
+            //         disabledBackgroundColor: Colors.grey[700],
+            //         elevation: 5,
+            //       ),
+            //       child: const Text(
+            //         "Profilkép módosítása",
+            //         style: TextStyle(
+            //           color: Colors.white,
+            //           //fontSize: 10,
+            //           letterSpacing: 1,
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            //_usernameWidget(),
+            // const SizedBox(height: 20),
+            // ElevatedButton(
+            //   onPressed: _updateUsername,
+            //   style: ElevatedButton.styleFrom(
+            //     backgroundColor: Colors.deepPurpleAccent,
+            //     disabledBackgroundColor: Colors.grey[700],
+            //     elevation: 5,
+            //   ),
+            //   child: const Text(
+            //     "Felhasználónév módosítása",
+            //     style: TextStyle(
+            //       color: Colors.white,
+            //       //fontSize: 10,
+            //       letterSpacing: 1,
+            //     ),
+            //   ),
+            // ),
+          ],
         ),
       ),
     );
   }
 }
+
+// import 'package:flutter/material.dart';
+// import 'package:flutter_form_builder/flutter_form_builder.dart';
+// import 'package:form_builder_validators/form_builder_validators.dart';
+// import 'package:image_picker/image_picker.dart';
+// import 'dart:convert';
+// import 'dart:io';
+// import 'dart:developer';
+
+// import 'package:chatex/logic/toast_message.dart';
+// import 'package:chatex/logic/preferences.dart';
+// import 'package:http/http.dart' as http;
+
+// class AccountSetting extends StatefulWidget {
+//   const AccountSetting({super.key});
+
+//   @override
+//   State<AccountSetting> createState() => _AccountSettingState();
+// }
+
+// class _AccountSettingState extends State<AccountSetting> {
+//   final TextEditingController _usernameController = TextEditingController();
+//   final FocusNode _usernameFocusNode = FocusNode();
+//   final _formKey = GlobalKey<FormBuilderState>();
+
+//   File? _selectedImage;
+//   String? _profilePicture;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _loadUserData();
+//   }
+
+//   @override
+//   void dispose() {
+//     _usernameController.dispose();
+//     _usernameFocusNode.dispose();
+//     super.dispose();
+//   }
+
+//   Future<void> _loadUserData() async {
+//     String? profilePic = Preferences.getProfilePicture();
+//     setState(() {
+//       _profilePicture = profilePic;
+//     });
+//   }
+
+//   Future<void> _pickProfilePicture() async {
+//     final pickedFile =
+//         await ImagePicker().pickImage(source: ImageSource.gallery);
+
+//     if (pickedFile != null) {
+//       File imageFile = File(pickedFile.path);
+//       List<int> imageAsBytes = await imageFile.readAsBytes();
+//       String base64Image = base64Encode(imageAsBytes);
+
+//       setState(() {
+//         _selectedImage = imageFile;
+//         _profilePicture = "data:image/png;base64,$base64Image";
+//       });
+
+//       ToastMessages.showToastMessages(
+//         "Kép kiválasztva!",
+//         0.2,
+//         Colors.orange,
+//         Icons.image,
+//         Colors.black,
+//         const Duration(seconds: 2),
+//         context,
+//       );
+//     }
+//   }
+
+//   Future<void> _updateProfilePicture() async {
+//     if (_selectedImage == null) {
+//       ToastMessages.showToastMessages(
+//         "Nincs kiválasztott kép!",
+//         0.2,
+//         Colors.redAccent,
+//         Icons.error,
+//         Colors.black,
+//         const Duration(seconds: 2),
+//         context,
+//       );
+//       return;
+//     }
+
+//     try {
+//       final response = await http.post(
+//         Uri.parse(
+//             "http://10.0.2.2/ChatexProject/chatex_phps/settings/update_profile_picture.php"),
+//         body: jsonEncode({"profile_picture": _profilePicture}),
+//         headers: {"Content-Type": "application/json"},
+//       );
+
+//       final responseData = json.decode(response.body);
+//       if (responseData["status"] == "success") {
+//         ToastMessages.showToastMessages(
+//           "Profilkép frissítve!",
+//           0.2,
+//           Colors.green,
+//           Icons.check,
+//           Colors.black,
+//           const Duration(seconds: 2),
+//           context,
+//         );
+
+//         await Preferences.setProfilePicture(_profilePicture!);
+//       } else {
+//         ToastMessages.showToastMessages(
+//           "Hiba történt!",
+//           0.2,
+//           Colors.redAccent,
+//           Icons.error,
+//           Colors.black,
+//           const Duration(seconds: 2),
+//           context,
+//         );
+//       }
+//     } catch (e) {
+//       log(e.toString());
+//     }
+//   }
+
+//   Future<void> _updateUsername() async {
+//     if (_usernameController.text.isEmpty) {
+//       ToastMessages.showToastMessages(
+//         "A név nem lehet üres!",
+//         0.2,
+//         Colors.redAccent,
+//         Icons.error,
+//         Colors.black,
+//         const Duration(seconds: 2),
+//         context,
+//       );
+//       return;
+//     }
+
+//     try {
+//       final response = await http.post(
+//         Uri.parse(
+//             "http://10.0.2.2/ChatexProject/chatex_phps/settings/update_username.php"),
+//         body: jsonEncode({"username": _usernameController.text}),
+//         headers: {"Content-Type": "application/json"},
+//       );
+
+//       final responseData = json.decode(response.body);
+//       if (responseData["status"] == "success") {
+//         ToastMessages.showToastMessages(
+//           "Felhasználónév frissítve!",
+//           0.2,
+//           Colors.green,
+//           Icons.check,
+//           Colors.black,
+//           const Duration(seconds: 2),
+//           context,
+//         );
+
+//         await Preferences.setUsername(_usernameController.text);
+//       } else {
+//         ToastMessages.showToastMessages(
+//           "Hiba történt!",
+//           0.2,
+//           Colors.redAccent,
+//           Icons.error,
+//           Colors.black,
+//           const Duration(seconds: 2),
+//           context,
+//         );
+//       }
+//     } catch (e) {
+//       log(e.toString());
+//     }
+//   }
+
+//   Widget _buildCategoryTitle(String title) {
+//     return Padding(
+//       padding: const EdgeInsets.symmetric(vertical: 10),
+//       child: Text(
+//         title,
+//         style: const TextStyle(
+//           color: Colors.white,
+//           fontSize: 18,
+//           fontWeight: FontWeight.bold,
+//           letterSpacing: 1,
+//         ),
+//       ),
+//     );
+//   }
+
+//   Widget _buildProfileImage() {
+//     if (_profilePicture == null || _profilePicture!.isEmpty) {
+//       return CircleAvatar(
+//           radius: 60,
+//           backgroundColor: Colors.grey[600],
+//           child: const Icon(Icons.person, size: 50, color: Colors.white));
+//     }
+
+//     try {
+//       final imageAsBytes = base64Decode(_profilePicture!.split(",")[1]);
+//       return CircleAvatar(
+//           radius: 60, backgroundImage: MemoryImage(imageAsBytes));
+//     } catch (e) {
+//       return CircleAvatar(
+//           radius: 60,
+//           backgroundColor: Colors.grey[600],
+//           child: const Icon(Icons.person, size: 50, color: Colors.white));
+//     }
+//   }
+
+//   Widget _buildUsernameField() {
+//     return FormBuilderTextField(
+//       name: "username",
+//       focusNode: _usernameFocusNode,
+//       controller: _usernameController,
+//       keyboardType: TextInputType.name,
+//       style: const TextStyle(color: Colors.white, fontSize: 20.0),
+//       decoration: InputDecoration(
+//         contentPadding:
+//             const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+//         hintText: "Felhasználónév",
+//         enabledBorder: const UnderlineInputBorder(
+//             borderSide: BorderSide(color: Colors.white, width: 2.5)),
+//         focusedBorder: const UnderlineInputBorder(
+//             borderSide: BorderSide(color: Colors.deepPurpleAccent, width: 2.5)),
+//       ),
+//     );
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.grey[850],
+//       appBar: AppBar(
+//         title: const Text("Fiók beállítások"),
+//         backgroundColor: Colors.deepPurpleAccent,
+//         centerTitle: true,
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.symmetric(horizontal: 16),
+//         child: ListView(
+//           children: [
+//             _buildCategoryTitle("Fiókadatok"),
+//             Row(children: [
+//               GestureDetector(
+//                   onTap: _pickProfilePicture, child: _buildProfileImage())
+//             ]),
+//             _buildCategoryTitle("Módosítások"),
+//             _buildUsernameField(),
+//             const SizedBox(height: 20),
+//             ElevatedButton(
+//                 onPressed: _updateProfilePicture,
+//                 child: const Text("Profilkép módosítása")),
+//             const SizedBox(height: 10),
+//             ElevatedButton(
+//                 onPressed: _updateUsername,
+//                 child: const Text("Felhasználónév módosítása")),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

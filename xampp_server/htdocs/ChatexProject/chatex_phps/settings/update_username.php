@@ -4,9 +4,8 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-include '../db.php'; // Az adatbázis kapcsolatot biztosító fájl
+include '../db.php';
 
-// JSON adatok beolvasása
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (!isset($data['username']) || !isset($data['user_id'])) {
@@ -17,7 +16,6 @@ if (!isset($data['username']) || !isset($data['user_id'])) {
 $username = trim($data['username']); // Felhasználónév megtisztítása
 $user_id = intval($data['user_id']); // Biztonságos integer konverzió
 
-// Adatbázis lekérdezés előkészítése és végrehajtása
 $query = "UPDATE users SET username = ? WHERE id = ?";
 $stmt = $conn->prepare($query);
 

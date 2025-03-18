@@ -8,7 +8,7 @@ import 'package:chatex/logic/auth.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'package:chatex/logic/toast_message.dart';
 //import 'package:chatex/chat/chat_build_ui.dart';
-import 'dart:developer';
+//import 'dart:developer';
 
 //TODO: alkalmazás belépéskor ne a Flutter logo legyen
 
@@ -22,13 +22,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Preferences.init();
   runApp(MaterialApp(
-    // builder: (context, child) {
-    //   return Overlay(
-    //     initialEntries: [
-    //       OverlayEntry(builder: (context) => child!),
-    //     ],
-    //   );
-    // },
     home: LoginUI(),
     //home: ChatUI(),
     //home: LanguageSetting(),

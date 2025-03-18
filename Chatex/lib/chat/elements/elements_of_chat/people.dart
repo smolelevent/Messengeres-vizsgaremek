@@ -121,7 +121,8 @@ class _PeopleState extends State<People> {
           Icons.check,
           Colors.black,
           const Duration(seconds: 2),
-          context); //TODO: lehetne ignorálni
+          context,
+          ); //TODO: lehetne ignorálni
     } else {
       ToastMessages.showToastMessages(
           Preferences.getPreferredLanguage() == "Magyar"
@@ -132,7 +133,8 @@ class _PeopleState extends State<People> {
           Icons.error,
           Colors.black,
           const Duration(seconds: 2),
-          context);
+          context,
+          );
     }
   }
 

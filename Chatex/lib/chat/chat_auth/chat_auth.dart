@@ -57,7 +57,8 @@ class LoadedChatDataState extends State<LoadedChatData> {
           Icons.error_outline,
           Colors.black,
           const Duration(seconds: 2),
-          context);
+          context,
+        );
       throw Exception("Nem sikerült betölteni a chatlistát");
     }
   }

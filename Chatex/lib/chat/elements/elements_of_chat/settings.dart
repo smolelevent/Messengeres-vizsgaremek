@@ -19,16 +19,9 @@ class _SettingsState extends State<Settings> {
 
   @override
   void initState() {
-    //_loadPreferredLanguage();
     _selectedLanguage = Preferences.getPreferredLanguage();
     super.initState();
   }
-
-  // Future<void> _loadPreferredLanguage() async {
-  //   setState(() {
-  //     _selectedLanguage = Preferences.getPreferredLanguage();
-  //   });
-  // }
 
   Future<void> _savePreferredLanguage(String language) async {
     await Preferences.setPreferredLanguage(language);

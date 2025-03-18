@@ -1,46 +1,29 @@
-import 'package:chatex/logic/toast_message.dart';
+//import 'package:chatex/logic/toast_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:chatex/main.dart' as app;
-import 'package:mocktail/mocktail.dart';
-
-// Mock class for ToastMessages
-class MockToastMessages extends Mock implements ToastMessages {}
 
 void main() {
-  late MockToastMessages mockToastMessages;
+  testWidgets('Login with incorrect credentials shows toast message',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(
+      home: app.LoginUI(),
+    ));
+    await tester.pumpAndSettle();
 
-  setUp(() {
-    mockToastMessages = MockToastMessages();
-  });
+    final emailField = find.byKey(const Key('email'));
+    final passwordField = find.byKey(const Key('password'));
+    final loginButton = find.byKey(const Key('logIn'));
 
-  group('Login UI Tests', () {
-    testWidgets('Login with incorrect credentials shows toast message',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(MaterialApp(
-        home: app.LoginUI(),
-      ));
-      await tester.pumpAndSettle();
+    await tester.enterText(emailField, 'wrongemail@example.com');
+    await tester.enterText(passwordField, 'wrongpassword');
+    await tester.tap(loginButton);
+    await tester.pump(); // Allow UI updates
+    await tester.pump(const Duration(seconds: 1)); // Wait for the toast to appear
+    await tester.pumpAndSettle();
 
-      final emailField = find.byKey(const Key('email'));
-      final passwordField = find.byKey(const Key('password'));
-      final loginButton = find.byKey(const Key('logIn'));
-
-      await tester.enterText(emailField, 'wrongemail@example.com');
-      await tester.enterText(passwordField, 'wrongpassword');
-      await tester.tap(loginButton);
-      await tester.pumpAndSettle();
-
-      // Verify that the toast message is called with correct parameters
-      // verify(() => mockToastMessages.showToastMessages(
-      //       "Hibás email vagy jelszó!",
-      //       0.2,
-      //       Colors.redAccent,
-      //       Icons.error,
-      //       Colors.black,
-      //       const Duration(seconds: 2),
-      //     )).called(1);
-    });
+    // Look for a SnackBar or Toast widget containing the expected message
+    expect(find.text("Hibás email vagy jelszó!"), findsOne);
   });
 }
 
