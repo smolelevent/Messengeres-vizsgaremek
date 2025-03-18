@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'package:chatex/logic/preferences.dart';
@@ -22,7 +23,7 @@ class _AccountSettingState extends State<AccountSetting> {
   final FocusNode _usernameFocusNode = FocusNode();
   bool _isUsernameFocused = false;
 
-  final _formKey = GlobalKey<FormBuilderState>();
+  //final _formKey = GlobalKey<FormBuilderState>();
 
   File? _selectedImage;
   String? _profilePicture;
@@ -59,7 +60,6 @@ class _AccountSettingState extends State<AccountSetting> {
   Future<void> _pickProfilePicture() async {
     final pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
-
     if (pickedFile != null) {
       File imageFile = File(pickedFile.path);
       List<int> imageAsBytes = await imageFile.readAsBytes();
@@ -117,14 +117,18 @@ class _AccountSettingState extends State<AccountSetting> {
       );
     } else {
       try {
+        log(_profilePicture.toString());
         final response = await http.post(
           Uri.parse(
               "http://10.0.2.2/ChatexProject/chatex_phps/settings/update_profile_picture.php"),
-          body: jsonEncode({"profile_picture": _profilePicture}),
+          body: jsonEncode({
+            "user_id": Preferences.getUserId(),
+            "profile_picture": _profilePicture,
+          }),
           headers: {"Content-Type": "application/json"},
         );
-
         final responseData = json.decode(response.body);
+        log(responseData.toString());
         if (responseData["status"] == "success") {
           ToastMessages.showToastMessages(
             "Profilkép frissítve!",
@@ -251,15 +255,18 @@ class _AccountSettingState extends State<AccountSetting> {
       if (_profilePicture!.startsWith("data:image/svg+xml;base64,")) {
         final svgBytes = base64Decode(_profilePicture!.split(",")[1]);
         return ClipOval(
-          child: SvgPicture.memory(svgBytes, width: 80, height: 80),
+          child: SvgPicture.memory(svgBytes, width: 60, height: 60),
         );
       } else if (_profilePicture!.startsWith("data:image/png;base64,") ||
           _profilePicture!.startsWith("data:image/jpeg;base64,") ||
           _profilePicture!.startsWith("data:image/jpg;base64,")) {
         final imageAsBytes = base64Decode(_profilePicture!.split(",")[1]);
-        return CircleAvatar(
-          radius: 60,
-          backgroundImage: MemoryImage(imageAsBytes),
+        return Padding(
+          padding: const EdgeInsets.only(right: 30),
+          child: CircleAvatar(
+            radius: 60,
+            backgroundImage: MemoryImage(imageAsBytes),
+          ),
         );
       } else {
         log("Ismeretlen MIME-típus a profilképnél: $_profilePicture");
@@ -359,6 +366,40 @@ class _AccountSettingState extends State<AccountSetting> {
     );
   }
 
+  Widget _buildCategoryTitle(String title) {
+    return Padding(
+      padding: EdgeInsets.only(top: 10, bottom: 5),
+      child: Text(
+        title,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 1,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDivider() {
+    return const Divider(color: Colors.deepPurpleAccent, thickness: 2);
+  }
+
+  Widget _buildUserDataText(
+      String text, double left, double top, double right, double fontSize) {
+    return Padding(
+      padding: EdgeInsets.only(top: top, left: left, right: right),
+      child: Text(
+        text,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: fontSize,
+          letterSpacing: 1,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -367,65 +408,61 @@ class _AccountSettingState extends State<AccountSetting> {
         appBar: _buildAppbar(),
         body: Column(
           children: [
-            ListView( //TODO: folyt köv!
-              //padding: const EdgeInsets.symmetric(horizontal: 16),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 5),
-                  child: Text(
-                    "title",
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1,
+            const SizedBox(height: 15),
+            Expanded(
+              //kell az expanded widget mivel akkor scrollable lesz a scrollableben ami túl nagy hashSizehoz vezet
+              child: ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                children: [
+                  _buildCategoryTitle("Fiók adatai:"),
+                  _buildDivider(),
+                  _buildUserDataText("Felhasználónév:", 10, 5, 10, 20),
+                  _buildUserDataText(
+                      Preferences.getUsername().toString(), 20, 5, 10, 18),
+                  _buildUserDataText("Email cím:", 10, 5, 10, 20),
+                  _buildUserDataText(
+                      Preferences.getEmail().toString(), 20, 5, 10, 18),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildUserDataText("Profil kép:", 10, 10, 10,
+                          20), //TODO: képre kattintás
+                      GestureDetector(
+                        onTap: _pickProfilePicture,
+                        child: _buildProfilePicture(),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  _buildCategoryTitle("Fiók adatainak módosítása:"),
+                  _buildDivider(),
+                  _buildUserDataText(
+                      "Felhasználónév módosítása:", 10, 5, 10, 20),
+                  _usernameWidget(),
+                  ElevatedButton(
+                    onPressed: _updateUsername,
+                    child: const Text("Felhasználónév módosítása"),
+                  ),
+                  ElevatedButton(
+                    onPressed: _updateProfilePicture,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepPurpleAccent,
+                      disabledBackgroundColor: Colors.grey[700],
+                      elevation: 5,
+                    ),
+                    child: const Text(
+                      "Profilkép módosítása",
+                      style: TextStyle(
+                        color: Colors.white,
+                        //fontSize: 10,
+                        letterSpacing: 1,
+                      ),
                     ),
                   ),
-                )
-              ],
+                ],
+              ),
             ),
-            // Row(
-            //   children: [
-            //     GestureDetector(
-            //       onTap: _pickProfilePicture,
-            //       child: _buildProfilePicture(),
-            //     ),
-            //     ElevatedButton(
-            //       onPressed: _updateProfilePicture,
-            //       style: ElevatedButton.styleFrom(
-            //         backgroundColor: Colors.deepPurpleAccent,
-            //         disabledBackgroundColor: Colors.grey[700],
-            //         elevation: 5,
-            //       ),
-            //       child: const Text(
-            //         "Profilkép módosítása",
-            //         style: TextStyle(
-            //           color: Colors.white,
-            //           //fontSize: 10,
-            //           letterSpacing: 1,
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            //_usernameWidget(),
-            // const SizedBox(height: 20),
-            // ElevatedButton(
-            //   onPressed: _updateUsername,
-            //   style: ElevatedButton.styleFrom(
-            //     backgroundColor: Colors.deepPurpleAccent,
-            //     disabledBackgroundColor: Colors.grey[700],
-            //     elevation: 5,
-            //   ),
-            //   child: const Text(
-            //     "Felhasználónév módosítása",
-            //     style: TextStyle(
-            //       color: Colors.white,
-            //       //fontSize: 10,
-            //       letterSpacing: 1,
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),

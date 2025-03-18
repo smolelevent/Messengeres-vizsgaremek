@@ -51,18 +51,19 @@ class LoadedChatDataState extends State<LoadedChatData> {
     } else {
       log(response.statusCode.toString());
       ToastMessages.showToastMessages(
-          "Valami hiba, dögölj meg!",
-          0.1,
-          Colors.red,
-          Icons.error_outline,
-          Colors.black,
-          const Duration(seconds: 2),
-          context,
-        );
+        "Valami hiba, dögölj meg!",
+        0.1,
+        Colors.red,
+        Icons.error_outline,
+        Colors.black,
+        const Duration(seconds: 2),
+        context,
+      );
       throw Exception("Nem sikerült betölteni a chatlistát");
     }
   }
 
+//TODO: nincs chat akkor ne egy üres képernyő legyen
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<dynamic>>(
