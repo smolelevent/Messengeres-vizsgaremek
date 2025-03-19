@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:chatex/main.dart' as app;
-import 'package:chatex/main/toast_service.dart';
+import 'package:chatex/utils/toast_service.dart';
 
 // Create a Mock class for ToastService
 class MockToastService extends Mock implements ToastService {}

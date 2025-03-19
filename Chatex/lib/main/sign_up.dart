@@ -135,23 +135,31 @@ class _SignUpState extends State<SignUp> {
               const SizedBox(
                 height: 25,
               ),
-              _usernameWidget(),
+              _usernameWidget(
+                Key("userName")
+              ),
               const SizedBox(
                 height: 10,
               ),
-              _emailAddressWidget(),
+              _emailAddressWidget(
+                Key("emailAddress")
+              ),
               const SizedBox(
                 height: 10,
               ),
-              _passwordWidget(),
+              _passwordWidget(
+                Key("passWord")
+              ),
               const SizedBox(
                 height: 10,
               ),
-              _passwordConfirmWidget(),
+              _passwordConfirmWidget(
+                Key("passWordConfirm")
+              ),
               const SizedBox(
                 height: 25,
               ),
-              _signUpWidget(context),
+              _signUpWidget(context, Key("signUp")),
               _chatexWidget(),
             ],
           ),
@@ -160,7 +168,7 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  Widget _usernameWidget() {
+  Widget _usernameWidget(Key key) {
     return Container(
       margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
       child: FormBuilderTextField(
@@ -240,7 +248,7 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  Widget _emailAddressWidget() {
+  Widget _emailAddressWidget(Key key) {
     return Container(
       margin: const EdgeInsets.all(10),
       child: FormBuilderTextField(
@@ -317,7 +325,7 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  Widget _passwordWidget() {
+  Widget _passwordWidget(Key key) {
     return Container(
       margin: const EdgeInsets.all(10.0),
       child: FormBuilderTextField(
@@ -428,7 +436,7 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  Widget _passwordConfirmWidget() {
+  Widget _passwordConfirmWidget(Key key) {
     return Container(
       margin: const EdgeInsets.all(10.0),
       child: FormBuilderTextField(
@@ -504,7 +512,7 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  Widget _signUpWidget(BuildContext context) {
+  Widget _signUpWidget(BuildContext context, Key key) {
     return Row(
       children: [
         Expanded(
