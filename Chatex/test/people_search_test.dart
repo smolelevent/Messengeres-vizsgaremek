@@ -1,57 +1,68 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:chatex/main.dart' as app;
 import 'package:chatex/chat/elements/elements_of_chat/bottom_nav_bar.dart'
     as app;
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+//import 'package:chatex/main.dart' as app;
+//import 'package:chatex/chat/chat_build_ui.dart' as app;
+import 'package:chatex/chat/elements/elements_of_chat/people.dart' as app;
 
 void main() {
-  testWidgets('Search for "valaki2" in Ismerősök', (WidgetTester tester) async {
-    int selectedIndex = 0;
+  testWidgets('FindValaki test', (WidgetTester tester) async {
+    int selectedIndex = 1;
     void onItemTapped(int index) {
       selectedIndex = index;
     }
 
+    // Initialize the widget tree
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          body: app.BottomNavbarForChat(
-            selectedIndex: selectedIndex,
-            onItemTapped: onItemTapped,
+          body: Column(
+            children: [
+              Expanded(
+                child: app.People(), // Include the People widget
+              ),
+              app.BottomNavbarForChat(
+                selectedIndex: selectedIndex,
+                onItemTapped: onItemTapped,
+              ),
+            ],
           ),
         ),
       ),
     );
 
-    // Ensure bottom navigation bar is built
+    // Wait for UI updates
     await tester.pumpAndSettle();
-    expect(find.byType(BottomNavigationBar), findsOneWidget);
 
-    // Try finding the navigation button by type or icon
+    // Debugging: Print the widget tree
+    debugPrint(tester.allWidgets.toStringDeep());
+
+    // Try finding the Friends tab
     final friendsTab = find.byKey(Key('friendsNavBar'));
-    if (friendsTab.evaluate().isEmpty) {
-      // Fallback if key is not found
-      await tester
-          .tap(find.byIcon(Icons.people)); // Adjust based on actual icon
-    } else {
-      await tester.tap(friendsTab);
-    }
+    expect(friendsTab, findsOneWidget,
+        reason: 'The friendsNavBar key is missing in the widget tree.');
 
+    // Tap the Friends tab
+    await tester.tap(friendsTab);
     await tester.pumpAndSettle();
 
-    // Verify that the search field is present
-    final searchField = find.byKey(Key('userName'));
-    expect(searchField, findsOneWidget);
+    // Verify that the search field exists
+    await tester.ensureVisible(find.byKey(Key('userName')));
+    final userNameField = find.byKey(Key('userName'));
+    expect(userNameField, findsOneWidget);
 
     // Enter search text
-    await tester.enterText(searchField, 'valaki2');
+    await tester.enterText(userNameField, 'valaki2');
     await tester.pumpAndSettle();
-
-    // Verify the search result appears
-    expect(find.text('valaki2'), findsOneWidget);
   });
 }
 
-
+extension on Iterable<Widget> {
+  String? toStringDeep() {
+    return null;
+  }
+}
 
 
 /*

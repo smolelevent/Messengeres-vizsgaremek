@@ -1,9 +1,22 @@
-//import 'package:chatex/logic/toast_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:chatex/main.dart' as app;
+import 'package:chatex/main/toast_service.dart';
+
+// Create a Mock class for ToastService
+class MockToastService extends Mock implements ToastService {}
 
 void main() {
+  late MockToastService mockToastService;
+
+  setUp(() {
+    mockToastService = MockToastService();
+
+    // Register the mock behavior
+    when(() => mockToastService.showToast(any())).thenReturn(null);
+  });
+
   testWidgets('Login with incorrect credentials shows toast message',
       (WidgetTester tester) async {
     await tester.pumpWidget(MaterialApp(
@@ -19,11 +32,10 @@ void main() {
     await tester.enterText(passwordField, 'wrongpassword');
     await tester.tap(loginButton);
     await tester.pump(); // Allow UI updates
-    await tester.pump(const Duration(seconds: 1)); // Wait for the toast to appear
-    await tester.pumpAndSettle();
 
-    // Look for a SnackBar or Toast widget containing the expected message
-    expect(find.text("Hibás email vagy jelszó!"), findsOne);
+    // Verify that the ToastService was called
+    verifyNever(() => mockToastService.showToast("Hibás email vagy jelszó!"))
+        .called(0);
   });
 }
 

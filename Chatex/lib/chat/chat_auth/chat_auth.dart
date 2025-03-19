@@ -11,6 +11,7 @@ class LoadedChatData extends StatefulWidget {
   LoadedChatDataState createState() => LoadedChatDataState();
 }
 
+//TODO: nem tölti be a pfp-ket a chatekre
 class LoadedChatDataState extends State<LoadedChatData> {
   late Future<List<dynamic>> _chatList =
       Future.value([]); // Üres lista, így nem lesz lateInitError

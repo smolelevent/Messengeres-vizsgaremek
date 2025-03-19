@@ -1,3 +1,4 @@
+import 'package:chatex/chat/elements/elements_of_chat/people.dart' as app;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -5,70 +6,36 @@ import 'package:chatex/main.dart' as app;
 import 'package:chatex/chat/chat_build_ui.dart' as app;
 import 'package:chatex/chat/elements/elements_of_chat/bottom_nav_bar.dart'
     as app;
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-import 'package:chatex/logic/toast_message.dart';
-import 'chat_integration_test.mocks.dart'; // Ensure this file is generated
 
-@GenerateMocks([ToastMessages]) // Generates a mock class for ToastMessages
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  late MockToastMessages mockToastMessages;
-
-  setUp(() {
-    mockToastMessages = MockToastMessages(); // Correct initialization
-  });
-
   group("Main test", () {
     testWidgets('Login test', (WidgetTester tester) async {
-      await tester.pumpWidget(MaterialApp(
-          builder: (context, child) {
-            return Overlay(
-              initialEntries: [
-                OverlayEntry(builder: (context) => child ?? Container())
-              ],
-            );
-          },
-          home: app.LoginUI()));
+      // Initialize the app with the LoginUI
+
+      await tester.pumpWidget(MaterialApp(home: app.LoginUI()));
       await tester.pumpAndSettle();
 
+      // Find the email and password text fields
       final emailField = find.byKey(Key('email'));
       final passwordField = find.byKey(Key('password'));
       final loginButton = find.byKey(Key('logIn'));
 
+      // Enter text into the email and password fields
       await tester.enterText(emailField, 'ocsi2005levente@gmail.com');
       await tester.pumpAndSettle();
       await tester.enterText(passwordField, 'Micimacko32');
       await tester.pumpAndSettle();
 
-      // Mock ToastMessages behavior
-      when(mockToastMessages.showToastMessages(
-        any,
-        any,
-        any,
-        any,
-        any,
-        any,
-      )).thenReturn(null);
-
+      // Tap the login button
       await tester.tap(loginButton);
       await tester.pumpAndSettle();
 
-      // Verify ToastMessages was called with the expected message
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Future.delayed(Duration(milliseconds: 500), () {
-          verify(mockToastMessages.showToastMessages(
-            "Sikeres bejelentkezés!",
-            0.2,
-            Colors.green,
-            Icons.check,
-            Colors.black,
-            const Duration(seconds: 2),
-          )).called(1);
-        });
-      });
+      // Verify that the login was successful by checking for a widget in the next screen
+      expect(find.byType(app.ChatUI), findsOneWidget);
     });
+
     group("Add people test", () {
       testWidgets('FindValaki test', (WidgetTester tester) async {
         int selectedIndex = 1;
@@ -79,55 +46,43 @@ void main() {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
-              body: app.ChatUI(),
-            ),
-          ),
-        );
-
-        await tester.pumpWidget(
-          MaterialApp(
-            home: Scaffold(
-              body: app.BottomNavbarForChat(
-                selectedIndex: selectedIndex,
-                onItemTapped: onItemTapped,
+              body: Column(
+                children: [
+                  Expanded(
+                    child: app.People(), // Include the People widget
+                  ),
+                  app.BottomNavbarForChat(
+                    selectedIndex: selectedIndex,
+                    onItemTapped: onItemTapped,
+                  ),
+                ],
               ),
             ),
           ),
         );
-        await tester.pumpAndSettle();
-        await tester.tap(find.byKey(Key('friendsNavBar')));
+        // Initialize the app with the ChatUI and BottomNavbarForChat
         await tester.pumpAndSettle();
 
+        // Tap the Friends tab
+        final friendsTab = find.byKey(Key('friendsNavBar'));
+        expect(friendsTab, findsOneWidget);
+        await tester.tap(friendsTab);
+        await tester.pumpAndSettle();
+
+        // Enter text into the search field
         final userNameField = find.byKey(Key('userName'));
+        expect(userNameField, findsOneWidget);
         await tester.enterText(userNameField, 'valaki2');
         await tester.pumpAndSettle();
 
+        // Tap the Add Friend button
         final addFriendButton = find.byKey(Key('addFriend'));
+        expect(addFriendButton, findsOneWidget);
         await tester.tap(addFriendButton);
         await tester.pumpAndSettle();
 
-        // Mock ToastMessages when adding a friend
-        when(mockToastMessages.showToastMessages(
-          any,
-          any,
-          any,
-          any,
-          any,
-          any,
-        )).thenReturn(null);
-
-        // Verify that ToastMessages was triggered
-        /*
-        verify(mockToastMessages.showToastMessages(
-          "Friend request sent!",
-          0.2,
-          Colors.green,
-          Icons.check,
-          Colors.black,
-          const Duration(seconds: 2),
-        )).called(1);
-*/
-        expect(find.text("valaki2"), findsOneWidget);
+        // Verify that the friend request was sent by checking for a success message
+        expect(find.text("Friend request sent!"), findsOneWidget);
       });
     });
   });

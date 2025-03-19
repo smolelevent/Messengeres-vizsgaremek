@@ -96,6 +96,6 @@ class __TwigTemplate_4c09a992e0edad6ad074c822362ce4c4 extends Template
 
     public function getSourceContext()
     {
-        return new Source("", "table/relation/dropdown_generate.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\table\\relation\\dropdown_generate.twig");
+        return new Source("", "table/relation/dropdown_generate.twig", "C:\\Users\\user\\Desktop\\vizsgahoz szukseges\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\table\\relation\\dropdown_generate.twig");
     }
 }

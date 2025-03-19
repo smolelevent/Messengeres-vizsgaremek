@@ -447,6 +447,6 @@ yield _gettext("Options");
 
     public function getSourceContext()
     {
-        return new Source("", "database/designer/database_tables.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\database\\designer\\database_tables.twig");
+        return new Source("", "database/designer/database_tables.twig", "C:\\Users\\user\\Desktop\\vizsgahoz szukseges\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\database\\designer\\database_tables.twig");
     }
 }

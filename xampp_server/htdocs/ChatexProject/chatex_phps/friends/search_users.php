@@ -8,11 +8,11 @@ require_once __DIR__ . "/../db.php";
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-// if ($data['query'] == " ") {
-//     echo json_encode(["error" => "Hibás lekérdezés!"]);
-//     http_response_code(400);
-//     exit();
-// }
+if ($data['query'] == " ") {
+    echo json_encode(["error" => "Hibás lekérdezés!"]);
+    http_response_code(400);
+    exit();
+}
 
 $query = "%" . $conn->real_escape_string($data['query']) . "%";
 
@@ -27,7 +27,7 @@ while ($row = $result->fetch_assoc()) {
     $users[] = [
         //"id" => $row["id"],
         "username" => $row["username"],
-        "profile_picture" => $row["profile_picture"] ?? null
+        "profile_picture" => $row["profile_picture"]
     ];
 }
 

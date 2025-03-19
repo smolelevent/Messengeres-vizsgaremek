@@ -126,6 +126,6 @@ class __TwigTemplate_9cbf5f36e40a17d7cf286e54b2f1cbc1 extends Template
 
     public function getSourceContext()
     {
-        return new Source("", "table/insert/continue_insertion_form.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\table\\insert\\continue_insertion_form.twig");
+        return new Source("", "table/insert/continue_insertion_form.twig", "C:\\Users\\user\\Desktop\\vizsgahoz szukseges\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\table\\insert\\continue_insertion_form.twig");
     }
 }

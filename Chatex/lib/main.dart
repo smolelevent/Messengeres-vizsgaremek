@@ -29,7 +29,9 @@ Future<void> main() async {
 }
 
 class LoginUI extends StatefulWidget {
-  const LoginUI({super.key});
+  const LoginUI({
+    super.key,
+  });
 
   @override
   State<LoginUI> createState() => _LoginUIState();

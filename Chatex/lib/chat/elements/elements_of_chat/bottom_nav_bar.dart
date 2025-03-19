@@ -32,19 +32,21 @@ class _BottomNavbarForChatState extends State<BottomNavbarForChat> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _bottomAppBarItem(
-                    Icons.chat,
-                    Preferences.getPreferredLanguage() == "Magyar"
-                        ? "Chatek"
-                        : "Chats",
-                    0,
-                    Key("chatNavBar")),
+                  Icons.chat,
+                  Preferences.getPreferredLanguage() == "Magyar"
+                      ? "Chatek"
+                      : "Chats",
+                  0,
+                  Key("chatNavBar"), // Unique key for the Chats tab
+                ),
                 _bottomAppBarItem(
-                    Icons.person,
-                    Preferences.getPreferredLanguage() == "Magyar"
-                        ? "Ismerősök"
-                        : "Friends",
-                    1,
-                    Key("friendsNavBar")),
+                  Icons.person,
+                  Preferences.getPreferredLanguage() == "Magyar"
+                      ? "Ismerősök"
+                      : "Friends",
+                  1,
+                  Key("friendsNavBar"), // Unique key for the Friends tab
+                ),
               ],
             ),
           ),
@@ -59,6 +61,7 @@ class _BottomNavbarForChatState extends State<BottomNavbarForChat> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         MaterialButton(
+          key: key,
           minWidth: 0,
           onPressed: () => widget.onItemTapped(index),
           child: Column(

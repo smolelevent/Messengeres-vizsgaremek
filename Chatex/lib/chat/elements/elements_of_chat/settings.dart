@@ -206,6 +206,7 @@ class _SettingsState extends State<Settings> {
     return Card(
       color: Colors.grey[800],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      elevation: 5,
       child: ListTile(
         leading: Icon(icon, color: iconColor),
         title: Text(title, style: const TextStyle(color: Colors.white)),
