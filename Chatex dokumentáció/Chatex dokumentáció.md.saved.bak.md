@@ -1,4 +1,4 @@
-# <p align="center"> *Chatex* <br> Dokumentáció <p>
+# <center>*Chatex* <br> Dokumentáció </center>
 
 <div style="text-align: center;">
   <img src="circular_image.png" alt="Chatex logó" width="280">
