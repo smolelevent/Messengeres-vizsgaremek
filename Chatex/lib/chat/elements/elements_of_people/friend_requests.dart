@@ -93,7 +93,6 @@ class _FriendRequestsState extends State<FriendRequests> {
     }
   }
 
-  /// **UI felépítése**
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -101,7 +100,9 @@ class _FriendRequestsState extends State<FriendRequests> {
         appBar: _buildAppbar(),
         backgroundColor: Colors.grey[850],
         body: _isLoading
-            ? const Center(child: CircularProgressIndicator())
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
             : _friendRequests.isEmpty
                 ? _noRequestsWidget()
                 : _friendRequestsList(),
@@ -123,9 +124,12 @@ class _FriendRequestsState extends State<FriendRequests> {
 
   /// **Jelölés kártya UI**
   Widget _buildFriendRequestCard(dynamic request) {
+    //TODO: innen folyt köv, design elrendezése
     return Card(
-      color: Colors.deepPurple.shade700,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      color: Colors.grey[800],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      elevation: 5,
+      margin: EdgeInsets.only(left: 10, right: 10, top: 10),
       child: ListTile(
         leading: CircleAvatar(
           backgroundImage: NetworkImage(request['profile_picture']),
@@ -165,12 +169,14 @@ class _FriendRequestsState extends State<FriendRequests> {
         Preferences.getPreferredLanguage() == "Magyar"
             ? "Nincsenek új jelölések"
             : "No new friend requests",
-        style: const TextStyle(color: Colors.white, fontSize: 18),
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+        ),
       ),
     );
   }
 
-  /// **AppBar**
   _buildAppbar() {
     return AppBar(
       title: Text(
@@ -190,44 +196,3 @@ class _FriendRequestsState extends State<FriendRequests> {
     );
   }
 }
-
-// import 'package:flutter/material.dart';
-// import 'package:chatex/logic/preferences.dart';
-
-// class FriendRequests extends StatefulWidget {
-//   const FriendRequests({super.key});
-
-//   @override
-//   State<FriendRequests> createState() => _FriendRequestsState();
-// }
-
-// class _FriendRequestsState extends State<FriendRequests> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return SafeArea(
-//       child: Scaffold(
-//         appBar: _buildAppbar(),
-//         backgroundColor: Colors.grey[850],
-//       ),
-//     );
-//   }
-
-//   _buildAppbar() {
-//     return AppBar(
-//       title: Text(
-//         Preferences.getPreferredLanguage() == "Magyar"
-//             ? "Jelölések"
-//             : "Friend requests",
-//       ),
-//       backgroundColor: Colors.deepPurpleAccent,
-//       elevation: 5,
-//       centerTitle: true,
-//       titleTextStyle: const TextStyle(
-//         color: Colors.white,
-//         fontSize: 22,
-//         fontWeight: FontWeight.bold,
-//         letterSpacing: 1,
-//       ),
-//     );
-//   }
-// }

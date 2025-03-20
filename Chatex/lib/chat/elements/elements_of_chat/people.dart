@@ -45,20 +45,20 @@ class _PeopleState extends State<People> {
     super.dispose();
   }
 
-  Widget _buildTitle() {
-    return Text(
-      Preferences.getPreferredLanguage() == "Magyar"
-          ? 'Ismerősök hozzáadása'
-          : 'Add friends',
-      textAlign: TextAlign.center,
-      style: const TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-        letterSpacing: 1,
-        fontSize: 25,
-      ),
-    );
-  }
+  // Widget _buildTitle() {
+  //   return Text(
+  //     Preferences.getPreferredLanguage() == "Magyar"
+  //         ? 'Ismerősök hozzáadása'
+  //         : 'Add friends',
+  //     textAlign: TextAlign.center,
+  //     style: const TextStyle(
+  //       color: Colors.white,
+  //       fontWeight: FontWeight.bold,
+  //       letterSpacing: 1,
+  //       fontSize: 25,
+  //     ),
+  //   );
+  // }
 
   Widget _buildSettingCard(
       IconData icon, Color iconColor, String title, VoidCallback onTap) {
@@ -93,10 +93,10 @@ class _PeopleState extends State<People> {
         key: _formKey,
         child: Column(
           children: [
-            const SizedBox(
-              height: 25,
-            ),
-            _buildTitle(),
+            // const SizedBox(
+            //   height: 25,
+            // ),
+            //_buildTitle(),
             SizedBox(
               height: 70,
               child: ListView(
@@ -109,9 +109,11 @@ class _PeopleState extends State<People> {
                         : "Friend requests",
                     () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const FriendRequests()));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const FriendRequests(),
+                        ),
+                      );
                     },
                   ),
                 ],
@@ -176,14 +178,15 @@ class _PeopleState extends State<People> {
       Uri.parse(
           "http://10.0.2.2/ChatexProject/chatex_phps/friends/send_friend_request.php"),
       body: jsonEncode({
-        "user_id": userId, // Jelenlegi felhasználó
-        "friend_id": friendId // Akinek küldi a kérést
+        "user_id": userId, // A bejelentkezett felhasználó ID-ja
+        "friend_id": friendId // A kiválasztott felhasználó ID-ja
       }),
       headers: {"Content-Type": "application/json"},
     );
 
     final data = jsonDecode(response.body);
-    if (data["success"]) {
+
+    if (data["success"] == true) {
       ToastMessages.showToastMessages(
         Preferences.getPreferredLanguage() == "Magyar"
             ? "Barátjelölés elküldve!"
@@ -198,7 +201,7 @@ class _PeopleState extends State<People> {
     } else {
       ToastMessages.showToastMessages(
         Preferences.getPreferredLanguage() == "Magyar"
-            ? data["message"] // Hibaüzenetet küld az API-ból
+            ? data["message"] // API válaszából vett hibaüzenet
             : "Error occurred while sending the friend request!",
         0.2,
         Colors.redAccent,
@@ -209,42 +212,6 @@ class _PeopleState extends State<People> {
       );
     }
   }
-
-// //TODO: megcsinálni a friend requestet
-//   Future<void> _sendFriendRequest(int userId, int friendId) async { régi friend request nem tudtam megnézni mert a megjelenítés is szar
-//     final response = await http.post(
-//       Uri.parse(
-//           "http://10.0.2.2/ChatexProject/chatex_phps/friends/send_friend_request.php"),
-//       body: jsonEncode({"user_id": userId}),
-//       headers: {"Content-Type": "application/json"},
-//     );
-
-//     if (response.statusCode == 200) {
-//       ToastMessages.showToastMessages(
-//         Preferences.getPreferredLanguage() == "Magyar"
-//             ? "Barátjelölés elküldve!"
-//             : "Friend request sent!",
-//         0.2,
-//         Colors.green,
-//         Icons.check,
-//         Colors.black,
-//         const Duration(seconds: 2),
-//         context,
-//       );
-//     } else {
-//       ToastMessages.showToastMessages(
-//         Preferences.getPreferredLanguage() == "Magyar"
-//             ? "Hiba történt a barátjelölés közben!"
-//             : "Error occurred while sending the friend request!",
-//         0.2,
-//         Colors.redAccent,
-//         Icons.error,
-//         Colors.black,
-//         const Duration(seconds: 2),
-//         context,
-//       );
-//     }
-//   }
 
   Widget _userSearchInputWidget() {
     return Container(
@@ -341,8 +308,8 @@ class _PeopleState extends State<People> {
   }
 
   Widget _searchResultsWidget() {
-    //nem működik, gpt 2
-    String currentUsername = Preferences.getUsername();
+    String currentUsername =
+        Preferences.getUsername(); // Bejelentkezett felhasználó neve
 
     if (_userSearchResults.isEmpty) {
       return Center(
@@ -361,16 +328,13 @@ class _PeopleState extends State<People> {
         final user = _userSearchResults[index];
         String? profilePicture = user["profile_picture"];
         String username = user["username"];
+        int friendId = user["id"]; // A keresési találat user ID-ja
 
-        // Ha nincs ID, kihagyjuk a felhasználót a listából
-        int? friendId = user["id"];
-        if (friendId == null) {
-          return SizedBox();
-        }
-
-        // Ha a keresési eredményben a saját nevünket találjuk, ne listázzuk ki
-        if (username == currentUsername) {
-          return SizedBox();
+        // MIME előtag hozzáadása, ha nincs
+        if (profilePicture != null && profilePicture.isNotEmpty) {
+          if (!profilePicture.contains(",")) {
+            profilePicture = "data:image/svg+xml;base64,$profilePicture";
+          }
         }
 
         Widget profileImage;
@@ -425,126 +389,27 @@ class _PeopleState extends State<People> {
             username,
             style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
-          trailing: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurpleAccent),
-            onPressed: () => _sendFriendRequest(friendId),
-            child: Text(
-              Preferences.getPreferredLanguage() == "Magyar"
-                  ? "Jelölés"
-                  : "Add",
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
+          trailing: username != currentUsername
+              ? ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepPurpleAccent),
+                  onPressed: () =>
+                      _sendFriendRequest(friendId), // API hívás itt
+                  child: Text(
+                    Preferences.getPreferredLanguage() == "Magyar"
+                        ? "Jelölés"
+                        : "Add",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+              : null, // Ha saját magát találja meg, ne legyen gomb
         );
       },
     );
   }
 
-  // Widget _searchResultsWidget() { nem működik, gpt 1
-  //   String currentUsername = Preferences.getUsername();
-
-  //   if (_userSearchResults.isEmpty) {
-  //     return Center(
-  //       child: Text(
-  //         Preferences.getPreferredLanguage() == "Magyar"
-  //             ? "Nincs találat"
-  //             : "No results",
-  //         style: TextStyle(color: Colors.white70, fontSize: 18),
-  //       ),
-  //     );
-  //   }
-
-  //   return ListView.builder(
-  //     itemCount: _userSearchResults.length,
-  //     itemBuilder: (context, index) {
-  //       final user = _userSearchResults[index];
-  //       String? profilePicture = user["profile_picture"];
-  //       String username = user["username"];
-  //       int friendId = user["id"]; // A keresési eredményben lévő user ID-ja
-
-  //       if (username == currentUsername) {
-  //         return SizedBox();
-  //       }
-  //       // Kihagyjuk a bejelentkezett felhasználót
-
-  //       // MIME előtag hozzáadása, ha nincs
-  //       if (profilePicture != null && profilePicture.isNotEmpty) {
-  //         if (!profilePicture.contains(",")) {
-  //           profilePicture = "data:image/svg+xml;base64,$profilePicture";
-  //         }
-  //       }
-
-  //       Widget profileImage;
-  //       if (profilePicture != null && profilePicture.isNotEmpty) {
-  //         if (profilePicture.startsWith("data:image/svg+xml;base64,")) {
-  //           final svgString =
-  //               utf8.decode(base64Decode(profilePicture.split(",")[1]));
-  //           profileImage = SvgPicture.string(
-  //             svgString,
-  //             width: 60,
-  //             height: 60,
-  //             fit: BoxFit.cover,
-  //           );
-  //         } else if (profilePicture.startsWith("data:image/")) {
-  //           profileImage = Image.memory(
-  //             base64Decode(profilePicture.split(",")[1]),
-  //             width: 60,
-  //             height: 60,
-  //             fit: BoxFit.cover,
-  //           );
-  //         } else if (profilePicture.startsWith("http")) {
-  //           profileImage = Image.network(
-  //             profilePicture,
-  //             width: 60,
-  //             height: 60,
-  //             fit: BoxFit.cover,
-  //           );
-  //         } else {
-  //           profileImage = SvgPicture.asset(
-  //             "assets/default_avatar.svg",
-  //             width: 60,
-  //             height: 60,
-  //             fit: BoxFit.cover,
-  //           );
-  //         }
-  //       } else {
-  //         profileImage = SvgPicture.asset(
-  //           "assets/default_avatar.svg",
-  //           width: 60,
-  //           height: 60,
-  //           fit: BoxFit.cover,
-  //         );
-  //       }
-
-  //       return ListTile(
-  //         leading: CircleAvatar(
-  //           backgroundColor: Colors.grey[600],
-  //           radius: 30,
-  //           child: ClipOval(child: profileImage),
-  //         ),
-  //         title: Text(
-  //           username,
-  //           style: const TextStyle(color: Colors.white, fontSize: 20),
-  //         ),
-  //         trailing: ElevatedButton(
-  //           style: ElevatedButton.styleFrom(
-  //               backgroundColor: Colors.deepPurpleAccent),
-  //           onPressed: () =>
-  //               _sendFriendRequest(friendId), // Helyesen küldi el a friend_id-t
-  //           child: Text(
-  //             Preferences.getPreferredLanguage() == "Magyar"
-  //                 ? "Jelölés"
-  //                 : "Add",
-  //             style: TextStyle(color: Colors.white),
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
-  // Widget _searchResultsWidget() { //működik, régi
+  // Widget _searchResultsWidget() {
+  //   //működik, régi
   //   String currentUsername =
   //       Preferences.getUsername(); // Bejelentkezett felhasználó neve
 

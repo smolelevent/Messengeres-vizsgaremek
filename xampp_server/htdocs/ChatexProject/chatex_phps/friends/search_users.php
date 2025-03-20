@@ -25,7 +25,7 @@ $result = $stmt->get_result();
 $users = [];
 while ($row = $result->fetch_assoc()) {
     $users[] = [
-        //"id" => $row["id"],
+        "id" => $row["id"],
         "username" => $row["username"],
         "profile_picture" => $row["profile_picture"]
     ];

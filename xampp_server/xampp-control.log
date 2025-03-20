@@ -1419,3 +1419,66 @@
 22:22:08  [main] 	Deinitializing Modules
 22:22:08  [main] 	Deinitializing Control Panel
 
+8:50:23  [main] 	Initializing Control Panel
+8:50:23  [main] 	Windows Version:  Enterprise  64-bit
+8:50:23  [main] 	XAMPP Version: 8.2.12
+8:50:23  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+8:50:23  [main] 	Running with Administrator rights - good!
+8:50:23  [main] 	XAMPP Installation Directory: "c:\users\user\desktop\vizsgahoz szukseges\messengeres-vizsgaremek\xampp_server\"
+8:50:23  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+8:50:23  [main] 	Checking for prerequisites
+8:50:24  [main] 	All prerequisites found
+8:50:24  [main] 	Initializing Modules
+8:50:24  [Apache] 	XAMPP Apache Service is already running on port 80
+8:50:24  [Apache] 	XAMPP Apache Service is already running on port 443
+8:50:24  [mysql] 	XAMPP MySQL Service is already running on port 3306
+8:50:24  [main] 	The Mercury module is disabled
+8:50:24  [main] 	The Tomcat module is disabled
+8:50:24  [main] 	Starting Check-Timer
+8:50:24  [main] 	Control Panel Ready
+11:03:48  [Apache] 	Attempting to stop Apache service...
+11:03:53  [Apache] 	Status change detected: stopped
+11:03:56  [mysql] 	Attempting to stop MySQL service...
+11:03:57  [mysql] 	Status change detected: stopped
+11:04:08  [main] 	Deinitializing Modules
+11:04:08  [main] 	Deinitializing Control Panel
+
+8:22:23  [main] 	Initializing Control Panel
+8:22:23  [main] 	Windows Version:  Enterprise  64-bit
+8:22:23  [main] 	XAMPP Version: 8.2.12
+8:22:23  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+8:22:23  [main] 	Running with Administrator rights - good!
+8:22:23  [main] 	XAMPP Installation Directory: "c:\users\user\desktop\vizsgahoz szukseges\messengeres-vizsgaremek\xampp_server\"
+8:22:23  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+8:22:24  [main] 	Checking for prerequisites
+8:22:25  [main] 	All prerequisites found
+8:22:25  [main] 	Initializing Modules
+8:22:25  [main] 	The Mercury module is disabled
+8:22:25  [main] 	The Tomcat module is disabled
+8:22:25  [main] 	Starting Check-Timer
+8:22:25  [main] 	Control Panel Ready
+8:22:26  [Apache] 	Attempting to start Apache service...
+8:22:28  [main] 	Executing "c:\users\user\desktop\vizsgahoz szukseges\messengeres-vizsgaremek\xampp_server\"
+8:22:55  [Apache] 	Attempting to start Apache service...
+8:22:55  [Apache] 	Status change detected: running
+8:22:56  [mysql] 	Attempting to start MySQL service...
+8:22:57  [mysql] 	Status change detected: running
+11:03:53  [Apache] 	Status change detected: stopped
+11:03:53  [Apache] 	Error: Apache shutdown unexpectedly.
+11:03:53  [Apache] 	This may be due to a blocked port, missing dependencies, 
+11:03:53  [Apache] 	improper privileges, a crash, or a shutdown by another method.
+11:03:53  [Apache] 	Press the Logs button to view error logs and check
+11:03:53  [Apache] 	the Windows Event Viewer for more clues
+11:03:53  [Apache] 	If you need more help, copy and post this
+11:03:53  [Apache] 	entire log window on the forums
+11:03:57  [mysql] 	Status change detected: stopped
+11:03:57  [mysql] 	Error: MySQL shutdown unexpectedly.
+11:03:57  [mysql] 	This may be due to a blocked port, missing dependencies, 
+11:03:57  [mysql] 	improper privileges, a crash, or a shutdown by another method.
+11:03:57  [mysql] 	Press the Logs button to view error logs and check
+11:03:57  [mysql] 	the Windows Event Viewer for more clues
+11:03:57  [mysql] 	If you need more help, copy and post this
+11:03:57  [mysql] 	entire log window on the forums
+11:04:10  [main] 	Deinitializing Modules
+11:04:10  [main] 	Deinitializing Control Panel
+

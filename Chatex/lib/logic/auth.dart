@@ -151,7 +151,7 @@ class AuthService {
           const Duration(seconds: 2),
           context,
         );
-        
+
         await Future.delayed(const Duration(seconds: 2));
         Navigator.pushReplacement(
           context,
@@ -207,7 +207,7 @@ class AuthService {
     }
   }
 
-//resetPassword logika --------------------------------------------------------------
+  //resetPassword logika --------------------------------------------------------------
   Future<void> resetPassword(
       {required TextEditingController email,
       required context,
