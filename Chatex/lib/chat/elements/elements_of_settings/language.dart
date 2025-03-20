@@ -72,6 +72,7 @@ class _LanguageSettingState extends State<LanguageSetting> {
     return Card(
       color: Colors.grey[800],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      elevation: 5,
       child: ListTile(
         leading: SvgPicture.asset(
           flagPath,

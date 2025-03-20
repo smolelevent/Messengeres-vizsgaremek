@@ -1,7 +1,11 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:chatex/logic/preferences.dart';
+import 'package:chatex/logic/toast_message.dart';
+import 'dart:convert';
+import 'dart:developer';
 
 class FriendRequests extends StatefulWidget {
   const FriendRequests({super.key});
@@ -20,7 +24,7 @@ class _FriendRequestsState extends State<FriendRequests> {
     _fetchFriendRequests();
   }
 
-  /// **Barátjelölések lekérése az API-ból**
+//TODO: amikor jön bejövő barátkérés akkor annak az illetőnek ne tudj küldeni barátkérést
   Future<void> _fetchFriendRequests() async {
     try {
       final response = await http.post(
@@ -32,24 +36,31 @@ class _FriendRequestsState extends State<FriendRequests> {
         headers: {"Content-Type": "application/json"},
       );
 
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
+      final responseData = jsonDecode(response.body);
+      if (responseData["success"] == true) {
         setState(() {
-          _friendRequests = data['requests'];
+          _friendRequests = responseData['requests'];
           _isLoading = false;
         });
-      } else {
-        throw Exception('Sikertelen lekérés');
       }
     } catch (e) {
-      print('Hiba történt: $e');
+      ToastMessages.showToastMessages(
+        Preferences.getPreferredLanguage() == "Magyar"
+            ? "Kapcsolati hiba!"
+            : "Connection error!",
+        0.2,
+        Colors.redAccent,
+        Icons.error,
+        Colors.black,
+        const Duration(seconds: 2),
+        context,
+      );
       setState(() {
         _isLoading = false;
       });
     }
   }
 
-  /// **Barátjelölés elfogadása**
   Future<void> _acceptRequest(int requestId) async {
     try {
       final response = await http.post(
@@ -60,18 +71,48 @@ class _FriendRequestsState extends State<FriendRequests> {
       );
 
       if (response.statusCode == 200) {
+        ToastMessages.showToastMessages(
+          Preferences.getPreferredLanguage() == "Magyar"
+              ? "Barát kérés sikeresen elfogadva!🎊"
+              : "Friend request accepted!🎊",
+          0.2,
+          Colors.green,
+          Icons.check,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
         setState(() {
           _friendRequests.removeWhere((req) => req['id'] == requestId);
         });
       } else {
-        throw Exception('Hiba történt az elfogadás során');
+        ToastMessages.showToastMessages(
+          Preferences.getPreferredLanguage() == "Magyar"
+              ? "Hiba történt az elfogadás során!"
+              : "An error occured while accepting!",
+          0.2,
+          Colors.red,
+          Icons.error,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
       }
     } catch (e) {
-      print("Elfogadás hiba: $e");
+      ToastMessages.showToastMessages(
+        Preferences.getPreferredLanguage() == "Magyar"
+            ? "Kapcsolati hiba!"
+            : "Connection error!",
+        0.2,
+        Colors.red,
+        Icons.error,
+        Colors.black,
+        const Duration(seconds: 2),
+        context,
+      );
     }
   }
 
-  /// **Barátjelölés elutasítása**
   Future<void> _declineRequest(int requestId) async {
     try {
       final response = await http.post(
@@ -82,14 +123,45 @@ class _FriendRequestsState extends State<FriendRequests> {
       );
 
       if (response.statusCode == 200) {
+        ToastMessages.showToastMessages(
+          Preferences.getPreferredLanguage() == "Magyar"
+              ? "Barát kérés sikeresen elutasítva!"
+              : "Friend request declined!",
+          0.2,
+          Colors.green,
+          Icons.check,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
         setState(() {
           _friendRequests.removeWhere((req) => req['id'] == requestId);
         });
       } else {
-        throw Exception('Hiba történt az elutasítás során');
+        ToastMessages.showToastMessages(
+          Preferences.getPreferredLanguage() == "Magyar"
+              ? "Hiba történt az elutasítás során!"
+              : "An error occured while declining",
+          0.2,
+          Colors.red,
+          Icons.error,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
       }
     } catch (e) {
-      print("Elutasítás hiba: $e");
+      ToastMessages.showToastMessages(
+        Preferences.getPreferredLanguage() == "Magyar"
+            ? "Kapcsolati hiba!"
+            : "Connection error!",
+        0.2,
+        Colors.red,
+        Icons.error,
+        Colors.black,
+        const Duration(seconds: 2),
+        context,
+      );
     }
   }
 
@@ -110,59 +182,6 @@ class _FriendRequestsState extends State<FriendRequests> {
     );
   }
 
-  /// **Jelölések listájának megjelenítése**
-  Widget _friendRequestsList() {
-    return ListView.builder(
-      padding: const EdgeInsets.all(10),
-      itemCount: _friendRequests.length,
-      itemBuilder: (context, index) {
-        final request = _friendRequests[index];
-        return _buildFriendRequestCard(request);
-      },
-    );
-  }
-
-  /// **Jelölés kártya UI**
-  Widget _buildFriendRequestCard(dynamic request) {
-    //TODO: innen folyt köv, design elrendezése
-    return Card(
-      color: Colors.grey[800],
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      elevation: 5,
-      margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundImage: NetworkImage(request['profile_picture']),
-        ),
-        title: Text(
-          request['username'],
-          style:
-              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        subtitle: Text(
-          Preferences.getPreferredLanguage() == "Magyar"
-              ? "Barátjelölés érkezett"
-              : "Friend request received",
-          style: const TextStyle(color: Colors.white70),
-        ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.check, color: Colors.green),
-              onPressed: () => _acceptRequest(request['id']),
-            ),
-            IconButton(
-              icon: const Icon(Icons.close, color: Colors.red),
-              onPressed: () => _declineRequest(request['id']),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  /// **Ha nincs jelölés**
   Widget _noRequestsWidget() {
     return Center(
       child: Text(
@@ -172,6 +191,124 @@ class _FriendRequestsState extends State<FriendRequests> {
         style: const TextStyle(
           color: Colors.white,
           fontSize: 18,
+        ),
+      ),
+    );
+  }
+
+  Widget _friendRequestsList() {
+    return ListView.builder(
+      padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+      itemCount: _friendRequests.length,
+      itemBuilder: (context, index) {
+        final request = _friendRequests[index];
+        return _buildFriendRequestCard(request);
+      },
+    );
+  }
+
+  Widget _buildProfileImage(String? profilePicture) {
+    if (profilePicture == null || profilePicture.isEmpty) {
+      return _defaultAvatar();
+    }
+
+    try {
+      if (profilePicture.startsWith("data:image/svg+xml;base64,")) {
+        final svgBytes = base64Decode(profilePicture.split(",")[1]);
+        return ClipOval(
+          child: SvgPicture.memory(
+            svgBytes,
+            width: 60,
+            height: 60,
+            fit: BoxFit.cover,
+          ),
+        );
+      } else if (profilePicture.startsWith("data:image/png;base64,") ||
+          profilePicture.startsWith("data:image/jpeg;base64,") ||
+          profilePicture.startsWith("data:image/jpg;base64,")) {
+        final imageAsBytes = base64Decode(profilePicture.split(",")[1]);
+        return CircleAvatar(
+          radius: 30,
+          backgroundImage: MemoryImage(imageAsBytes),
+        );
+      } else {
+        ToastMessages.showToastMessages(
+          Preferences.getPreferredLanguage() == "Magyar"
+              ? "Ismeretlen MIME-típus a profilképnél!"
+              : "An unknown MIME type has been detected!",
+          0.2,
+          Colors.redAccent,
+          Icons.error,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
+        log("An unknown MIME type has been detected: $profilePicture");
+        return _defaultAvatar();
+      }
+    } catch (e) {
+      ToastMessages.showToastMessages(
+        Preferences.getPreferredLanguage() == "Magyar"
+            ? "Hiba a kép dekódolásakor!"
+            : "Error in picture decoding!",
+        0.2,
+        Colors.redAccent,
+        Icons.error,
+        Colors.black,
+        const Duration(seconds: 2),
+        context,
+      );
+      log("Error in picture decoding: $e");
+      return _defaultAvatar();
+    }
+  }
+
+  Widget _defaultAvatar() {
+    return const CircleAvatar(
+      radius: 30,
+      backgroundColor: Colors.grey,
+      child: Icon(Icons.person, size: 30, color: Colors.white),
+    );
+  }
+
+  Widget _buildFriendRequestCard(dynamic request) {
+    return Card(
+      color: Colors.grey[800],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      elevation: 5,
+      child: ListTile(
+        leading: _buildProfileImage(request["profile_picture"]),
+        title: AutoSizeText(
+          maxLines: 1,
+          request['username'],
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+        subtitle: Text(
+          Preferences.getPreferredLanguage() == "Magyar"
+              ? "Barát jelölés🤓"
+              : "Friend request🤓",
+          style: const TextStyle(
+            color: Colors.white70,
+          ),
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              iconSize: 30,
+              icon: const Icon(Icons.check, color: Colors.green),
+              onPressed: () => _acceptRequest(request['id']),
+            ),
+            IconButton(
+              iconSize: 30,
+              icon: const Icon(Icons.close, color: Colors.red),
+              onPressed: () => _declineRequest(request['id']),
+            ),
+          ],
         ),
       ),
     );

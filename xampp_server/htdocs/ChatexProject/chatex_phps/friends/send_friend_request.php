@@ -6,7 +6,6 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 require_once __DIR__ . "/../db.php";
 
-// Beolvasás JSON formátumban
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (!isset($data["user_id"]) || !isset($data["friend_id"])) {
@@ -48,7 +47,7 @@ if ($stmt->num_rows > 0) {
 }
 
 // Ellenőrizzük, hogy van-e már függőben lévő kérelem
-$query = "SELECT * FROM friend_requests WHERE sender_id = ? AND receiver_id = ?";
+$query = "SELECT * FROM friend_requests WHERE sender_id = ? AND receiver_id = ? AND status = 'pending'";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("ii", $user_id, $friend_id);
 $stmt->execute();
