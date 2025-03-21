@@ -222,7 +222,7 @@ class _FriendRequestsState extends State<FriendRequests> {
             height: 60,
             fit: BoxFit.cover,
           ),
-        );
+        ); //TODO: nem jelenik meg jól a .jpg
       } else if (profilePicture.startsWith("data:image/png;base64,") ||
           profilePicture.startsWith("data:image/jpeg;base64,") ||
           profilePicture.startsWith("data:image/jpg;base64,")) {

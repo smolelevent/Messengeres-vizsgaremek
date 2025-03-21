@@ -46,6 +46,25 @@ dependencies:
   image_picker: ^1.1.2
   flutter_svg: ^2.0.17
   mocktail: ^1.0.4
+  flutter_native_splash: ^2.4.5
+
+flutter_native_splash:
+  color: "#1c1c27"
+  image: assets/logo.jpg
+  branding: assets/logo.jpg
+  android: true
+  branding_mode: bottom
+  branding_bottom_padding: 24
+  android_gravity: center
+  android_12:
+    color: "#1c1c27"
+    image: assets/logo.jpg
+    branding: assets/logo.jpg
+    android: true
+    branding_mode: bottom
+    branding_bottom_padding: 24
+    android_gravity: center
+
 
 dev_dependencies:
   flutter_test:

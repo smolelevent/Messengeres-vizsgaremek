@@ -7,6 +7,7 @@ import 'package:chatex/main/sign_up.dart';
 import 'package:chatex/logic/auth.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'package:chatex/logic/toast_message.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 //import 'package:chatex/chat/chat_build_ui.dart';
 //import 'dart:developer';
 
@@ -19,14 +20,17 @@ import 'package:chatex/logic/toast_message.dart';
 //TODO: phpMyAdmin id-k sorrendje rendezése
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Preferences.init();
+  FlutterNativeSplash.remove();
   runApp(MaterialApp(
     home: LoginUI(),
     //home: ChatUI(),
     //home: LanguageSetting(),
   ));
 }
+
 
 class LoginUI extends StatefulWidget {
   const LoginUI({
