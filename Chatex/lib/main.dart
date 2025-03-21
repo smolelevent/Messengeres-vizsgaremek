@@ -31,7 +31,6 @@ Future<void> main() async {
   ));
 }
 
-
 class LoginUI extends StatefulWidget {
   const LoginUI({
     super.key,
@@ -126,7 +125,7 @@ class _LoginUIState extends State<LoginUI> {
               _dropDownMenu(),
               const CircleAvatar(
                 radius: 60,
-                backgroundImage: AssetImage("assets/logo.jpg"),
+                backgroundImage: AssetImage("assets/logo/logo.jpg"),
               ),
               _emailAddressWidget(),
               _passwordWidget(),

@@ -50,16 +50,16 @@ dependencies:
 
 flutter_native_splash:
   color: "#1c1c27"
-  image: assets/logo.jpg
-  branding: assets/logo.jpg
+  image: assets/logo/logo.jpg
+  branding: assets/logo/branding.png
   android: true
   branding_mode: bottom
   branding_bottom_padding: 24
   android_gravity: center
   android_12:
     color: "#1c1c27"
-    image: assets/logo.jpg
-    branding: assets/logo.jpg
+    image: assets/logo/logo.jpg
+    branding: assets/logo/branding.png
     android: true
     branding_mode: bottom
     branding_bottom_padding: 24
@@ -96,6 +96,7 @@ flutter:
   assets:
     - assets/
     - assets/flags/
+    - assets/logo/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

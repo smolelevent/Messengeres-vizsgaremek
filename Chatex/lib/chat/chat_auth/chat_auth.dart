@@ -4,6 +4,7 @@ import 'dart:developer'; //log miatt
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:chatex/logic/toast_message.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoadedChatData extends StatefulWidget {
   const LoadedChatData({super.key});
@@ -87,8 +88,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
             itemBuilder: (context, index) {
               final friend = retrievedChatList[index];
               return ChatTile(
-                name: friend["friend_name"] ??
-                    "Ismeretlen név", //átírom hátha a retrievedChatListből alap: name lastMessage time profileImage
+                name: friend["friend_name"] ?? "Ismeretlen név",
                 lastMessage: friend["last_message"] ?? "Nincs üzenet",
                 time: friend["last_message_time"] ?? "nincs üzenet idő",
                 profileImage:
@@ -121,11 +121,34 @@ class ChatTile extends StatelessWidget {
     required this.onTap,
   });
 
+  Widget _buildProfileImage(String imageString) {
+    try {
+      if (imageString.startsWith("data:image/svg+xml;base64,")) {
+        final svgBytes = base64Decode(imageString.split(",")[1]);
+        return SvgPicture.memory(svgBytes,
+            width: 60, height: 60, fit: BoxFit.cover);
+      } else if (imageString.startsWith("data:image/")) {
+        final base64Data = imageString.split(",")[1];
+        return Image.memory(base64Decode(base64Data),
+            width: 60, height: 60, fit: BoxFit.cover);
+      } else if (imageString.startsWith("http")) {
+        return Image.network(imageString,
+            width: 60, height: 60, fit: BoxFit.cover);
+      } else {
+        return Image.asset("assets/logo.jpg",
+            width: 60, height: 60, fit: BoxFit.cover);
+      }
+    } catch (e) {
+      return Image.asset("assets/logo.jpg",
+          width: 60, height: 60, fit: BoxFit.cover);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
       color: Colors.black45,
-      margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 20.0),
+      margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 5.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       elevation: 5,
       child: ListTile(
@@ -133,15 +156,9 @@ class ChatTile extends StatelessWidget {
         leading: CircleAvatar(
           radius: 30,
           backgroundColor: Colors.grey[300],
-          backgroundImage:
-              (profileImage.isNotEmpty) ? AssetImage(profileImage) : null,
-          child: profileImage.isEmpty
-              ? Icon(
-                  Icons.person,
-                  size: 35,
-                  color: Colors.grey[600],
-                )
-              : null,
+          child: ClipOval(
+            child: _buildProfileImage(profileImage),
+          ),
         ),
         title: Text(
           name,
