@@ -222,7 +222,7 @@ class _FriendRequestsState extends State<FriendRequests> {
             height: 60,
             fit: BoxFit.cover,
           ),
-        ); //TODO: nem jelenik meg jól a .jpg
+        );
       } else if (profilePicture.startsWith("data:image/png;base64,") ||
           profilePicture.startsWith("data:image/jpeg;base64,") ||
           profilePicture.startsWith("data:image/jpg;base64,")) {
@@ -274,7 +274,7 @@ class _FriendRequestsState extends State<FriendRequests> {
   Widget _buildFriendRequestCard(dynamic request) {
     return Card(
       color: Colors.grey[800],
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       elevation: 5,
       child: ListTile(
         leading: _buildProfileImage(request["profile_picture"]),

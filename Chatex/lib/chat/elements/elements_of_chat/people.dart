@@ -186,8 +186,7 @@ class _PeopleState extends State<People> {
 
       if (response.statusCode == 200) {
         List<dynamic> results = json.decode(response.body);
-        String currentUsername =
-            Preferences.getUsername();
+        String currentUsername = Preferences.getUsername();
 
         // Saját felhasználó kizárása
         results = results
@@ -205,6 +204,7 @@ class _PeopleState extends State<People> {
     });
   }
 
+//TODO: lekezelni azt hogy már küldtél barát felkérést, ha barátod akkor ne legyen hozzáadás gomb
   Future<void> _sendFriendRequest(int friendId) async {
     int? userId = Preferences.getUserId();
     try {
@@ -367,8 +367,7 @@ class _PeopleState extends State<People> {
   }
 
   Widget _searchResultsWidget() {
-    String currentUsername =
-        Preferences.getUsername(); // Bejelentkezett felhasználó neve
+    String currentUsername = Preferences.getUsername();
 
     if (_userSearchResults.isEmpty) {
       return Center(
@@ -455,7 +454,7 @@ class _PeopleState extends State<People> {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.deepPurpleAccent),
                     onPressed: () =>
-                        _sendFriendRequest(friendId), // API hívás itt
+                        _sendFriendRequest(friendId),
                     child: Text(
                       Preferences.getPreferredLanguage() == "Magyar"
                           ? "Jelölés"
@@ -463,130 +462,10 @@ class _PeopleState extends State<People> {
                       style: TextStyle(color: Colors.white),
                     ),
                   )
-                : null, // Ha saját magát találja meg, ne legyen gomb
+                : null, //TODO: Ha saját magát találja meg, ne legyen gomb
           ),
         );
       },
     );
   }
-
-  // Widget _searchResultsWidget() {
-  //   //működik, régi
-  //   String currentUsername =
-  //       Preferences.getUsername(); // Bejelentkezett felhasználó neve
-
-  //   // Ellenőrizzük, hogy a keresési eredményben csak a felhasználó saját maga szerepel-e
-  //   bool onlySelfFound = _userSearchResults.length == 1 &&
-  //       _userSearchResults[0]["username"] == currentUsername;
-
-  //   if (_userSearchResults.isEmpty) {
-  //     return Center(
-  //       child: Text(
-  //         Preferences.getPreferredLanguage() == "Magyar"
-  //             ? "Nincs találat"
-  //             : "No results",
-  //         style: TextStyle(color: Colors.white70, fontSize: 18),
-  //       ),
-  //     );
-  //   } else if (onlySelfFound) {
-  //     // Ha csak saját maga szerepel az eredmények között, akkor kiírjuk az üzenetet
-  //     return Center(
-  //       child: Text(
-  //         Preferences.getPreferredLanguage() == "Magyar"
-  //             ? "Saját magadat nem jelölheted be!"
-  //             : "You cannot add yourself as a friend!",
-  //         textAlign: TextAlign.center,
-  //         style: TextStyle(
-  //           color: Colors.redAccent,
-  //           fontSize: 20,
-  //           fontWeight: FontWeight.bold,
-  //         ),
-  //       ),
-  //     );
-  //   } else {
-  //     // Ha más is szerepel a keresési eredmények között, akkor megjelenítjük a listát
-  //     return ListView.builder(
-  //       itemCount: _userSearchResults.length,
-  //       itemBuilder: (context, index) {
-  //         final user = _userSearchResults[index];
-  //         String? profilePicture = user["profile_picture"];
-  //         String username = user["username"];
-
-  //         // MIME előtag hozzáadása, ha nincs
-  //         if (profilePicture != null && profilePicture.isNotEmpty) {
-  //           if (!profilePicture.contains(",")) {
-  //             profilePicture = "data:image/svg+xml;base64,$profilePicture";
-  //           }
-  //         }
-
-  //         Widget profileImage;
-  //         if (profilePicture != null && profilePicture.isNotEmpty) {
-  //           if (profilePicture.startsWith("data:image/svg+xml;base64,")) {
-  //             final svgString =
-  //                 utf8.decode(base64Decode(profilePicture.split(",")[1]));
-  //             profileImage = SvgPicture.string(
-  //               svgString,
-  //               width: 60,
-  //               height: 60,
-  //               fit: BoxFit.cover,
-  //             );
-  //           } else if (profilePicture.startsWith("data:image/")) {
-  //             profileImage = Image.memory(
-  //               base64Decode(profilePicture.split(",")[1]),
-  //               width: 60,
-  //               height: 60,
-  //               fit: BoxFit.cover,
-  //             );
-  //           } else if (profilePicture.startsWith("http")) {
-  //             profileImage = Image.network(
-  //               profilePicture,
-  //               width: 60,
-  //               height: 60,
-  //               fit: BoxFit.cover,
-  //             );
-  //           } else {
-  //             profileImage = SvgPicture.asset(
-  //               "assets/default_avatar.svg",
-  //               width: 60,
-  //               height: 60,
-  //               fit: BoxFit.cover,
-  //             );
-  //           }
-  //         } else {
-  //           profileImage = SvgPicture.asset(
-  //             "assets/default_avatar.svg",
-  //             width: 60,
-  //             height: 60,
-  //             fit: BoxFit.cover,
-  //           );
-  //         }
-
-  //         return ListTile(
-  //           leading: CircleAvatar(
-  //             backgroundColor: Colors.grey[600],
-  //             radius: 30,
-  //             child: ClipOval(child: profileImage),
-  //           ),
-  //           title: Text(
-  //             username,
-  //             style: const TextStyle(color: Colors.white, fontSize: 20),
-  //           ),
-  //           trailing: username != currentUsername
-  //               ? ElevatedButton(
-  //                   style: ElevatedButton.styleFrom(
-  //                       backgroundColor: Colors.deepPurpleAccent),
-  //                   onPressed: () => _sendFriendRequest(user["id"]),
-  //                   child: Text(
-  //                     Preferences.getPreferredLanguage() == "Magyar"
-  //                         ? "Jelölés"
-  //                         : "Add",
-  //                     style: TextStyle(color: Colors.white),
-  //                   ),
-  //                 )
-  //               : null, // Ha saját magát találja meg, ne legyen gomb
-  //         );
-  //       },
-  //     );
-  //   }
-  // }
 }

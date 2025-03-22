@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'dart:convert'; //encode, decode
-import 'dart:developer'; //log miatt
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:chatex/logic/toast_message.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:chatex/logic/toast_message.dart';
+import 'package:chatex/logic/preferences.dart';
+import 'dart:convert';
+import 'dart:developer';
 
 class LoadedChatData extends StatefulWidget {
   const LoadedChatData({super.key});
@@ -12,10 +13,8 @@ class LoadedChatData extends StatefulWidget {
   LoadedChatDataState createState() => LoadedChatDataState();
 }
 
-//TODO: nem tölti be a pfp-ket a chatekre
 class LoadedChatDataState extends State<LoadedChatData> {
-  late Future<List<dynamic>> _chatList =
-      Future.value([]); // Üres lista, így nem lesz lateInitError
+  late Future<List<dynamic>> _chatList = Future.value([]);
 
   @override
   void initState() {
@@ -24,8 +23,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
   }
 
   Future<void> _getCorrectChatList() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    int? userId = prefs.getInt('id');
+    int? userId = Preferences.getUserId();
 
     if (userId == null) {
       log("Hiba: Nincs elmentve user_id");
@@ -47,11 +45,9 @@ class LoadedChatDataState extends State<LoadedChatData> {
       }, //TODO: ha nincs senki bejelentkezve akkor is ugyanazokat a chateket tölti be
     );
 
-    //log(response.statusCode.toString());
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
-      log(response.statusCode.toString());
       ToastMessages.showToastMessages(
         "Valami hiba, dögölj meg!",
         0.1,
@@ -72,7 +68,6 @@ class LoadedChatDataState extends State<LoadedChatData> {
       future: _chatList,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          //ha az adatokat még tölti
           return Center(
             child: CircularProgressIndicator(
               strokeWidth: 3,
@@ -155,16 +150,18 @@ class ChatTile extends StatelessWidget {
         contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         leading: CircleAvatar(
           radius: 30,
-          backgroundColor: Colors.grey[300],
+          backgroundColor: Colors.transparent,
           child: ClipOval(
             child: _buildProfileImage(profileImage),
           ),
         ),
-        title: Text(
+        title: AutoSizeText(
+          maxLines: 1,
           name,
           style: TextStyle(
-            fontSize: 18,
             color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
           ),
         ),
         subtitle: Text(
@@ -177,11 +174,15 @@ class ChatTile extends StatelessWidget {
           ),
         ),
         trailing: Text(
+          //TODO: stack használata hogy az idő ne foglaljon annyi helyet
           time,
-          style: TextStyle(fontSize: 12, color: Colors.grey[400]),
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.grey[400],
+          ),
         ),
         onTap: () {
-          print("dögölj meg");
+          //print("dögölj meg");
         },
       ),
     );

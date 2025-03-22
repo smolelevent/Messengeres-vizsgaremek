@@ -12268,3 +12268,531 @@ Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribut
 2025-03-21 23:13:09 0 [Note] InnoDB: Shutdown completed; log sequence number 31625708; transaction id 5026
 2025-03-21 23:13:09 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: Shutdown complete
 
+2025-03-22 12:11:38 0 [Note] Starting MariaDB 10.4.32-MariaDB source revision c4143f909528e3fab0677a28631d10389354c491 as process 4508
+2025-03-22 12:11:38 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2025-03-22 12:11:38 0 [Note] InnoDB: Uses event mutexes
+2025-03-22 12:11:38 0 [Note] InnoDB: Compressed tables use zlib 1.3
+2025-03-22 12:11:38 0 [Note] InnoDB: Number of pools: 1
+2025-03-22 12:11:38 0 [Note] InnoDB: Using SSE2 crc32 instructions
+2025-03-22 12:11:38 0 [Note] InnoDB: Initializing buffer pool, total size = 16M, instances = 1, chunk size = 16M
+2025-03-22 12:11:38 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-03-22 12:11:39 0 [Note] InnoDB: 128 out of 128 rollback segments are active.
+2025-03-22 12:11:39 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-03-22 12:11:39 0 [Note] InnoDB: Setting file 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-03-22 12:11:39 0 [Note] InnoDB: File 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size is now 12 MB.
+2025-03-22 12:11:39 0 [Note] InnoDB: Waiting for purge to start
+2025-03-22 12:11:39 0 [Note] InnoDB: 10.4.32 started; log sequence number 31625708; transaction id 5027
+2025-03-22 12:11:39 0 [Note] InnoDB: Loading buffer pool(s) from C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-22 12:11:39 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-03-22 12:11:43 0 [Note] Server socket created on IP: '::'.
+2025-03-22 12:11:43 0 [Note] InnoDB: Buffer pool(s) load completed at 250322 12:11:43
+2025-03-22 12:11:43 0 [Note] Reading of all Master_info entries succeeded
+2025-03-22 12:11:43 0 [Note] Added new Master_info '' to hash table
+2025-03-22 12:11:43 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: ready for connections.
+Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribution
+2025-03-22 14:17:40 0 [Note] Starting MariaDB 10.4.32-MariaDB source revision c4143f909528e3fab0677a28631d10389354c491 as process 4472
+2025-03-22 14:17:40 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2025-03-22 14:17:40 0 [Note] InnoDB: Uses event mutexes
+2025-03-22 14:17:40 0 [Note] InnoDB: Compressed tables use zlib 1.3
+2025-03-22 14:17:40 0 [Note] InnoDB: Number of pools: 1
+2025-03-22 14:17:40 0 [Note] InnoDB: Using SSE2 crc32 instructions
+2025-03-22 14:17:40 0 [Note] InnoDB: Initializing buffer pool, total size = 16M, instances = 1, chunk size = 16M
+2025-03-22 14:17:40 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-03-22 14:17:40 0 [Note] InnoDB: Starting crash recovery from checkpoint LSN=31625708
+2025-03-22 14:17:41 0 [Note] InnoDB: 128 out of 128 rollback segments are active.
+2025-03-22 14:17:41 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+2025-03-22 14:17:41 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-03-22 14:17:41 0 [Note] InnoDB: Setting file 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-03-22 14:17:41 0 [Note] InnoDB: File 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size is now 12 MB.
+2025-03-22 14:17:41 0 [Note] InnoDB: Waiting for purge to start
+2025-03-22 14:17:41 0 [Note] InnoDB: 10.4.32 started; log sequence number 31625717; transaction id 5027
+2025-03-22 14:17:41 0 [Note] InnoDB: Loading buffer pool(s) from C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-22 14:17:41 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-03-22 14:17:41 0 [Note] Server socket created on IP: '::'.
+2025-03-22 14:17:41 0 [Note] InnoDB: Buffer pool(s) load completed at 250322 14:17:41
+2025-03-22 14:17:41 0 [Note] Reading of all Master_info entries succeeded
+2025-03-22 14:17:41 0 [Note] Added new Master_info '' to hash table
+2025-03-22 14:17:41 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: ready for connections.
+Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribution
+2025-03-22 14:26:39 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:26:39 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:26:39 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:26:57 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:26:57 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:26:57 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:26:57 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:26:57 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:26:57 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:26:57 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:26:57 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:26:57 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:26:57 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:26:57 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:26:57 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:26:57 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:26:57 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:26:57 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:26:58 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:26:58 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:26:58 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:28:30 23 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:28:30 23 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:28:30 23 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:28:31 25 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:28:31 25 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:28:31 25 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:28:31 27 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:28:31 27 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:28:31 27 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:28:31 29 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:28:31 29 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:28:31 29 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:28:31 31 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:28:31 31 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:28:31 31 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:28:31 33 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:28:31 33 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:28:31 33 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 14:51:42 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe (initiated by: unknown): Normal shutdown
+2025-03-22 14:51:42 0 [Note] Event Scheduler: Purging the queue. 0 events
+2025-03-22 14:51:42 0 [Note] InnoDB: FTS optimize thread exiting.
+2025-03-22 14:51:42 0 [Note] InnoDB: Starting shutdown...
+2025-03-22 14:51:42 0 [Note] InnoDB: Dumping buffer pool(s) to C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-22 14:51:42 0 [Note] InnoDB: Instance 0, restricted to 250 pages due to innodb_buf_pool_dump_pct=25
+2025-03-22 14:51:42 0 [Note] InnoDB: Buffer pool(s) dump completed at 250322 14:51:42
+2025-03-22 14:51:43 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+2025-03-22 14:51:43 0 [Note] InnoDB: Shutdown completed; log sequence number 31626369; transaction id 5052
+2025-03-22 14:51:43 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: Shutdown complete
+
+2025-03-22 14:52:37 0 [Note] Starting MariaDB 10.4.32-MariaDB source revision c4143f909528e3fab0677a28631d10389354c491 as process 4696
+2025-03-22 14:52:37 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2025-03-22 14:52:37 0 [Note] InnoDB: Uses event mutexes
+2025-03-22 14:52:37 0 [Note] InnoDB: Compressed tables use zlib 1.3
+2025-03-22 14:52:37 0 [Note] InnoDB: Number of pools: 1
+2025-03-22 14:52:37 0 [Note] InnoDB: Using SSE2 crc32 instructions
+2025-03-22 14:52:37 0 [Note] InnoDB: Initializing buffer pool, total size = 16M, instances = 1, chunk size = 16M
+2025-03-22 14:52:37 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-03-22 14:52:38 0 [Note] InnoDB: 128 out of 128 rollback segments are active.
+2025-03-22 14:52:38 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-03-22 14:52:38 0 [Note] InnoDB: Setting file 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-03-22 14:52:38 0 [Note] InnoDB: File 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size is now 12 MB.
+2025-03-22 14:52:38 0 [Note] InnoDB: Waiting for purge to start
+2025-03-22 14:52:38 0 [Note] InnoDB: 10.4.32 started; log sequence number 31626369; transaction id 5053
+2025-03-22 14:52:38 0 [Note] InnoDB: Loading buffer pool(s) from C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-22 14:52:38 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-03-22 14:52:38 0 [Note] Server socket created on IP: '::'.
+2025-03-22 14:52:38 0 [Note] InnoDB: Buffer pool(s) load completed at 250322 14:52:38
+2025-03-22 14:52:38 0 [Note] Reading of all Master_info entries succeeded
+2025-03-22 14:52:38 0 [Note] Added new Master_info '' to hash table
+2025-03-22 14:52:38 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: ready for connections.
+Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribution
+2025-03-22 14:57:40 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe (initiated by: unknown): Normal shutdown
+2025-03-22 14:57:40 0 [Note] Event Scheduler: Purging the queue. 0 events
+2025-03-22 14:57:40 0 [Note] InnoDB: FTS optimize thread exiting.
+2025-03-22 14:57:44 0 [Note] InnoDB: Starting shutdown...
+2025-03-22 14:57:44 0 [Note] InnoDB: Dumping buffer pool(s) to C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-22 14:57:44 0 [Note] InnoDB: Instance 0, restricted to 250 pages due to innodb_buf_pool_dump_pct=25
+2025-03-22 14:57:44 0 [Note] InnoDB: Buffer pool(s) dump completed at 250322 14:57:44
+2025-03-22 14:57:45 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+2025-03-22 14:57:45 0 [Note] InnoDB: Shutdown completed; log sequence number 31626378; transaction id 5054
+2025-03-22 14:57:46 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: Shutdown complete
+
+2025-03-22 14:58:18 0 [Note] Starting MariaDB 10.4.32-MariaDB source revision c4143f909528e3fab0677a28631d10389354c491 as process 4844
+2025-03-22 14:58:18 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2025-03-22 14:58:18 0 [Note] InnoDB: Uses event mutexes
+2025-03-22 14:58:18 0 [Note] InnoDB: Compressed tables use zlib 1.3
+2025-03-22 14:58:18 0 [Note] InnoDB: Number of pools: 1
+2025-03-22 14:58:18 0 [Note] InnoDB: Using SSE2 crc32 instructions
+2025-03-22 14:58:18 0 [Note] InnoDB: Initializing buffer pool, total size = 16M, instances = 1, chunk size = 16M
+2025-03-22 14:58:18 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-03-22 14:58:18 0 [Note] InnoDB: 128 out of 128 rollback segments are active.
+2025-03-22 14:58:18 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-03-22 14:58:18 0 [Note] InnoDB: Setting file 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-03-22 14:58:18 0 [Note] InnoDB: File 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size is now 12 MB.
+2025-03-22 14:58:18 0 [Note] InnoDB: Waiting for purge to start
+2025-03-22 14:58:19 0 [Note] InnoDB: 10.4.32 started; log sequence number 31626378; transaction id 5053
+2025-03-22 14:58:19 0 [Note] InnoDB: Loading buffer pool(s) from C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-22 14:58:19 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-03-22 14:58:19 0 [Note] Server socket created on IP: '::'.
+2025-03-22 14:58:19 0 [Note] InnoDB: Buffer pool(s) load completed at 250322 14:58:19
+2025-03-22 14:58:19 0 [Note] Reading of all Master_info entries succeeded
+2025-03-22 14:58:19 0 [Note] Added new Master_info '' to hash table
+2025-03-22 14:58:19 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: ready for connections.
+Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribution
+2025-03-22 15:01:49 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe (initiated by: unknown): Normal shutdown
+2025-03-22 15:01:49 0 [Note] Event Scheduler: Purging the queue. 0 events
+2025-03-22 15:01:49 0 [Note] InnoDB: FTS optimize thread exiting.
+2025-03-22 15:01:49 0 [Note] InnoDB: Starting shutdown...
+2025-03-22 15:01:49 0 [Note] InnoDB: Dumping buffer pool(s) to C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-22 15:01:49 0 [Note] InnoDB: Instance 0, restricted to 250 pages due to innodb_buf_pool_dump_pct=25
+2025-03-22 15:01:49 0 [Note] InnoDB: Buffer pool(s) dump completed at 250322 15:01:49
+2025-03-22 15:01:50 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+2025-03-22 15:01:50 0 [Note] InnoDB: Shutdown completed; log sequence number 31626387; transaction id 5054
+2025-03-22 15:01:50 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: Shutdown complete
+
+2025-03-22 15:02:19 0 [Note] Starting MariaDB 10.4.32-MariaDB source revision c4143f909528e3fab0677a28631d10389354c491 as process 4716
+2025-03-22 15:02:19 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2025-03-22 15:02:19 0 [Note] InnoDB: Uses event mutexes
+2025-03-22 15:02:19 0 [Note] InnoDB: Compressed tables use zlib 1.3
+2025-03-22 15:02:19 0 [Note] InnoDB: Number of pools: 1
+2025-03-22 15:02:19 0 [Note] InnoDB: Using SSE2 crc32 instructions
+2025-03-22 15:02:19 0 [Note] InnoDB: Initializing buffer pool, total size = 16M, instances = 1, chunk size = 16M
+2025-03-22 15:02:19 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-03-22 15:02:19 0 [Note] InnoDB: 128 out of 128 rollback segments are active.
+2025-03-22 15:02:19 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-03-22 15:02:19 0 [Note] InnoDB: Setting file 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-03-22 15:02:19 0 [Note] InnoDB: File 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size is now 12 MB.
+2025-03-22 15:02:19 0 [Note] InnoDB: Waiting for purge to start
+2025-03-22 15:02:19 0 [Note] InnoDB: 10.4.32 started; log sequence number 31626387; transaction id 5053
+2025-03-22 15:02:19 0 [Note] InnoDB: Loading buffer pool(s) from C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-22 15:02:19 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-03-22 15:02:19 0 [Note] Server socket created on IP: '::'.
+2025-03-22 15:02:19 0 [Note] InnoDB: Buffer pool(s) load completed at 250322 15:02:19
+2025-03-22 15:02:19 0 [Note] Reading of all Master_info entries succeeded
+2025-03-22 15:02:19 0 [Note] Added new Master_info '' to hash table
+2025-03-22 15:02:19 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: ready for connections.
+Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribution
+2025-03-22 15:03:52 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe (initiated by: unknown): Normal shutdown
+2025-03-22 15:03:52 0 [Note] Event Scheduler: Purging the queue. 0 events
+2025-03-22 15:03:52 0 [Note] InnoDB: FTS optimize thread exiting.
+2025-03-22 15:03:52 0 [Note] InnoDB: Starting shutdown...
+2025-03-22 15:03:52 0 [Note] InnoDB: Dumping buffer pool(s) to C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-22 15:03:52 0 [Note] InnoDB: Instance 0, restricted to 250 pages due to innodb_buf_pool_dump_pct=25
+2025-03-22 15:03:52 0 [Note] InnoDB: Buffer pool(s) dump completed at 250322 15:03:52
+2025-03-22 15:03:53 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+2025-03-22 15:03:53 0 [Note] InnoDB: Shutdown completed; log sequence number 31626396; transaction id 5054
+2025-03-22 15:03:53 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: Shutdown complete
+
+2025-03-22 15:04:22 0 [Note] Starting MariaDB 10.4.32-MariaDB source revision c4143f909528e3fab0677a28631d10389354c491 as process 4640
+2025-03-22 15:04:22 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2025-03-22 15:04:22 0 [Note] InnoDB: Uses event mutexes
+2025-03-22 15:04:22 0 [Note] InnoDB: Compressed tables use zlib 1.3
+2025-03-22 15:04:22 0 [Note] InnoDB: Number of pools: 1
+2025-03-22 15:04:22 0 [Note] InnoDB: Using SSE2 crc32 instructions
+2025-03-22 15:04:22 0 [Note] InnoDB: Initializing buffer pool, total size = 16M, instances = 1, chunk size = 16M
+2025-03-22 15:04:22 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-03-22 15:04:23 0 [Note] InnoDB: 128 out of 128 rollback segments are active.
+2025-03-22 15:04:23 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-03-22 15:04:23 0 [Note] InnoDB: Setting file 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-03-22 15:04:23 0 [Note] InnoDB: File 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size is now 12 MB.
+2025-03-22 15:04:23 0 [Note] InnoDB: Waiting for purge to start
+2025-03-22 15:04:23 0 [Note] InnoDB: 10.4.32 started; log sequence number 31626396; transaction id 5053
+2025-03-22 15:04:23 0 [Note] InnoDB: Loading buffer pool(s) from C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-22 15:04:23 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-03-22 15:04:23 0 [Note] Server socket created on IP: '::'.
+2025-03-22 15:04:23 0 [Note] InnoDB: Buffer pool(s) load completed at 250322 15:04:23
+2025-03-22 15:04:23 0 [Note] Reading of all Master_info entries succeeded
+2025-03-22 15:04:23 0 [Note] Added new Master_info '' to hash table
+2025-03-22 15:04:23 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: ready for connections.
+Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribution
+2025-03-22 15:23:50 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe (initiated by: unknown): Normal shutdown
+2025-03-22 15:23:50 0 [Note] Event Scheduler: Purging the queue. 0 events
+2025-03-22 15:23:50 0 [Note] InnoDB: FTS optimize thread exiting.
+2025-03-22 15:23:50 0 [Note] InnoDB: Starting shutdown...
+2025-03-22 15:23:50 0 [Note] InnoDB: Dumping buffer pool(s) to C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-22 15:23:50 0 [Note] InnoDB: Instance 0, restricted to 250 pages due to innodb_buf_pool_dump_pct=25
+2025-03-22 15:23:50 0 [Note] InnoDB: Buffer pool(s) dump completed at 250322 15:23:50
+2025-03-22 15:23:51 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+2025-03-22 15:23:51 0 [Note] InnoDB: Shutdown completed; log sequence number 31626405; transaction id 5054
+2025-03-22 15:23:51 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: Shutdown complete
+
+2025-03-22 15:24:29 0 [Note] Starting MariaDB 10.4.32-MariaDB source revision c4143f909528e3fab0677a28631d10389354c491 as process 4572
+2025-03-22 15:24:29 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2025-03-22 15:24:29 0 [Note] InnoDB: Uses event mutexes
+2025-03-22 15:24:29 0 [Note] InnoDB: Compressed tables use zlib 1.3
+2025-03-22 15:24:29 0 [Note] InnoDB: Number of pools: 1
+2025-03-22 15:24:29 0 [Note] InnoDB: Using SSE2 crc32 instructions
+2025-03-22 15:24:29 0 [Note] InnoDB: Initializing buffer pool, total size = 16M, instances = 1, chunk size = 16M
+2025-03-22 15:24:29 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-03-22 15:24:30 0 [Note] InnoDB: 128 out of 128 rollback segments are active.
+2025-03-22 15:24:30 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-03-22 15:24:30 0 [Note] InnoDB: Setting file 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-03-22 15:24:30 0 [Note] InnoDB: File 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size is now 12 MB.
+2025-03-22 15:24:30 0 [Note] InnoDB: Waiting for purge to start
+2025-03-22 15:24:30 0 [Note] InnoDB: 10.4.32 started; log sequence number 31626405; transaction id 5053
+2025-03-22 15:24:30 0 [Note] InnoDB: Loading buffer pool(s) from C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-22 15:24:30 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-03-22 15:24:30 0 [Note] Server socket created on IP: '::'.
+2025-03-22 15:24:30 0 [Note] InnoDB: Buffer pool(s) load completed at 250322 15:24:30
+2025-03-22 15:24:30 0 [Note] Reading of all Master_info entries succeeded
+2025-03-22 15:24:30 0 [Note] Added new Master_info '' to hash table
+2025-03-22 15:24:30 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: ready for connections.
+Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribution
+2025-03-22 15:37:21 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:37:22 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:37:22 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:37:22 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:37:22 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:37:22 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:37:22 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:37:22 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:37:22 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:37:22 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:37:22 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:37:22 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:37:22 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:37:22 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:37:22 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:37:23 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:37:23 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:37:23 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:37:23 23 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:37:23 23 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:37:23 23 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:43 28 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:43 28 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:43 28 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:44 30 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:44 30 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:44 30 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:48 32 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:48 32 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:48 32 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:48 34 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:48 34 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:48 34 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:51 36 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:51 36 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:51 36 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:51 38 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:51 38 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:51 38 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:59 40 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:59 40 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:59 40 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:59 42 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:59 42 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:52:59 42 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:53:07 44 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:53:07 44 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:53:07 44 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:53:07 46 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:53:07 46 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:53:07 46 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:32 48 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:32 48 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:32 48 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:35 50 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:35 50 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:35 50 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:36 52 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:36 52 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:36 52 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:36 54 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:36 54 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:36 54 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:36 56 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:36 56 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:36 56 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:36 58 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:36 58 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:36 58 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:36 60 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:36 60 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:36 60 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:36 62 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:36 62 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:36 62 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:36 64 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:36 64 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 15:54:36 64 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:04:18 0 [Note] Starting MariaDB 10.4.32-MariaDB source revision c4143f909528e3fab0677a28631d10389354c491 as process 4644
+2025-03-22 16:04:18 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2025-03-22 16:04:18 0 [Note] InnoDB: Uses event mutexes
+2025-03-22 16:04:18 0 [Note] InnoDB: Compressed tables use zlib 1.3
+2025-03-22 16:04:18 0 [Note] InnoDB: Number of pools: 1
+2025-03-22 16:04:18 0 [Note] InnoDB: Using SSE2 crc32 instructions
+2025-03-22 16:04:18 0 [Note] InnoDB: Initializing buffer pool, total size = 16M, instances = 1, chunk size = 16M
+2025-03-22 16:04:18 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-03-22 16:04:18 0 [Note] InnoDB: Starting crash recovery from checkpoint LSN=31630406
+2025-03-22 16:04:19 0 [Note] InnoDB: 128 out of 128 rollback segments are active.
+2025-03-22 16:04:19 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+2025-03-22 16:04:19 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-03-22 16:04:19 0 [Note] InnoDB: Setting file 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-03-22 16:04:19 0 [Note] InnoDB: File 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size is now 12 MB.
+2025-03-22 16:04:19 0 [Note] InnoDB: Waiting for purge to start
+2025-03-22 16:04:19 0 [Note] InnoDB: 10.4.32 started; log sequence number 31630415; transaction id 5093
+2025-03-22 16:04:19 0 [Note] InnoDB: Loading buffer pool(s) from C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-22 16:04:19 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-03-22 16:04:19 0 [Note] Server socket created on IP: '::'.
+2025-03-22 16:04:19 0 [Note] InnoDB: Buffer pool(s) load completed at 250322 16:04:19
+2025-03-22 16:04:19 0 [Note] Reading of all Master_info entries succeeded
+2025-03-22 16:04:19 0 [Note] Added new Master_info '' to hash table
+2025-03-22 16:04:19 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: ready for connections.
+Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribution
+2025-03-22 16:06:10 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe (initiated by: unknown): Normal shutdown
+2025-03-22 16:06:10 0 [Note] Event Scheduler: Purging the queue. 0 events
+2025-03-22 16:06:10 0 [Note] InnoDB: FTS optimize thread exiting.
+2025-03-22 16:06:10 0 [Note] InnoDB: Starting shutdown...
+2025-03-22 16:06:10 0 [Note] InnoDB: Dumping buffer pool(s) to C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-22 16:06:10 0 [Note] InnoDB: Instance 0, restricted to 250 pages due to innodb_buf_pool_dump_pct=25
+2025-03-22 16:06:10 0 [Note] InnoDB: Buffer pool(s) dump completed at 250322 16:06:10
+2025-03-22 16:06:10 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+2025-03-22 16:06:10 0 [Note] InnoDB: Shutdown completed; log sequence number 31630433; transaction id 5094
+2025-03-22 16:06:10 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: Shutdown complete
+
+2025-03-22 16:07:49 0 [Note] Starting MariaDB 10.4.32-MariaDB source revision c4143f909528e3fab0677a28631d10389354c491 as process 4784
+2025-03-22 16:07:49 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2025-03-22 16:07:49 0 [Note] InnoDB: Uses event mutexes
+2025-03-22 16:07:49 0 [Note] InnoDB: Compressed tables use zlib 1.3
+2025-03-22 16:07:49 0 [Note] InnoDB: Number of pools: 1
+2025-03-22 16:07:49 0 [Note] InnoDB: Using SSE2 crc32 instructions
+2025-03-22 16:07:49 0 [Note] InnoDB: Initializing buffer pool, total size = 16M, instances = 1, chunk size = 16M
+2025-03-22 16:07:49 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-03-22 16:07:50 0 [Note] InnoDB: 128 out of 128 rollback segments are active.
+2025-03-22 16:07:50 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-03-22 16:07:50 0 [Note] InnoDB: Setting file 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-03-22 16:07:50 0 [Note] InnoDB: File 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size is now 12 MB.
+2025-03-22 16:07:50 0 [Note] InnoDB: Waiting for purge to start
+2025-03-22 16:07:50 0 [Note] InnoDB: 10.4.32 started; log sequence number 31630433; transaction id 5093
+2025-03-22 16:07:50 0 [Note] InnoDB: Loading buffer pool(s) from C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-22 16:07:50 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-03-22 16:07:50 0 [Note] Server socket created on IP: '::'.
+2025-03-22 16:07:50 0 [Note] InnoDB: Buffer pool(s) load completed at 250322 16:07:50
+2025-03-22 16:07:50 0 [Note] Reading of all Master_info entries succeeded
+2025-03-22 16:07:50 0 [Note] Added new Master_info '' to hash table
+2025-03-22 16:07:50 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: ready for connections.
+Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribution
+2025-03-22 16:17:48 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe (initiated by: unknown): Normal shutdown
+2025-03-22 16:17:48 0 [Note] InnoDB: FTS optimize thread exiting.
+2025-03-22 16:17:48 0 [Note] Event Scheduler: Purging the queue. 0 events
+2025-03-22 16:17:48 0 [Note] InnoDB: Starting shutdown...
+2025-03-22 16:17:48 0 [Note] InnoDB: Dumping buffer pool(s) to C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-22 16:17:48 0 [Note] InnoDB: Instance 0, restricted to 250 pages due to innodb_buf_pool_dump_pct=25
+2025-03-22 16:17:48 0 [Note] InnoDB: Buffer pool(s) dump completed at 250322 16:17:48
+2025-03-22 16:17:48 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+2025-03-22 16:17:48 0 [Note] InnoDB: Shutdown completed; log sequence number 31630442; transaction id 5094
+2025-03-22 16:17:48 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: Shutdown complete
+
+2025-03-22 16:18:21 0 [Note] Starting MariaDB 10.4.32-MariaDB source revision c4143f909528e3fab0677a28631d10389354c491 as process 4604
+2025-03-22 16:18:21 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2025-03-22 16:18:21 0 [Note] InnoDB: Uses event mutexes
+2025-03-22 16:18:21 0 [Note] InnoDB: Compressed tables use zlib 1.3
+2025-03-22 16:18:21 0 [Note] InnoDB: Number of pools: 1
+2025-03-22 16:18:21 0 [Note] InnoDB: Using SSE2 crc32 instructions
+2025-03-22 16:18:21 0 [Note] InnoDB: Initializing buffer pool, total size = 16M, instances = 1, chunk size = 16M
+2025-03-22 16:18:21 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-03-22 16:18:22 0 [Note] InnoDB: 128 out of 128 rollback segments are active.
+2025-03-22 16:18:22 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-03-22 16:18:22 0 [Note] InnoDB: Setting file 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-03-22 16:18:22 0 [Note] InnoDB: File 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size is now 12 MB.
+2025-03-22 16:18:22 0 [Note] InnoDB: Waiting for purge to start
+2025-03-22 16:18:22 0 [Note] InnoDB: 10.4.32 started; log sequence number 31630442; transaction id 5093
+2025-03-22 16:18:22 0 [Note] InnoDB: Loading buffer pool(s) from C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-22 16:18:22 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-03-22 16:18:22 0 [Note] Server socket created on IP: '::'.
+2025-03-22 16:18:22 0 [Note] InnoDB: Buffer pool(s) load completed at 250322 16:18:22
+2025-03-22 16:18:22 0 [Note] Reading of all Master_info entries succeeded
+2025-03-22 16:18:22 0 [Note] Added new Master_info '' to hash table
+2025-03-22 16:18:22 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: ready for connections.
+Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribution
+2025-03-22 16:33:30 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:30 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:30 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:31 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:31 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:31 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:31 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:31 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:31 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:31 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:31 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:31 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:31 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:31 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:31 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:31 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:31 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:31 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:32 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:32 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:32 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:32 23 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:32 23 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:33:32 23 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:18 30 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:18 30 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:18 30 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:19 32 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:19 32 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:19 32 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:19 34 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:19 34 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:19 34 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:19 36 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:19 36 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:19 36 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:19 38 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:19 38 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:19 38 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:21 40 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:21 40 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:21 40 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:21 42 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:21 42 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:21 42 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:48 49 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:48 49 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:48 49 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:48 51 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:48 51 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:48 51 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:51 53 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:51 53 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:51 53 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:51 55 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:51 55 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:47:51 55 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:49:05 57 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:49:05 57 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:49:05 57 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:49:05 59 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:49:05 59 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:49:05 59 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:49:12 61 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:49:12 61 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:49:12 61 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:49:12 63 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:49:12 63 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:49:12 63 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:49:49 65 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:49:49 65 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:49:49 65 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:49:49 67 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:49:49 67 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 16:49:49 67 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:00:24 87 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:00:24 87 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:00:24 87 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:00:24 89 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:00:24 89 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:00:24 89 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:00:32 91 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:00:32 91 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:00:32 91 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:00:32 93 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:00:32 93 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:00:32 93 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:00:36 95 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:00:36 95 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:00:36 95 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:00:36 97 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:00:36 97 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:00:36 97 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:02:45 99 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:02:45 99 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:02:45 99 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:02:48 101 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:02:48 101 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:02:48 101 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-03-22 17:16:58 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe (initiated by: unknown): Normal shutdown
+2025-03-22 17:16:58 0 [Note] Event Scheduler: Purging the queue. 0 events
+2025-03-22 17:16:58 0 [Note] InnoDB: FTS optimize thread exiting.
+2025-03-22 17:16:58 0 [Note] InnoDB: Starting shutdown...
+2025-03-22 17:16:58 0 [Note] InnoDB: Dumping buffer pool(s) to C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-03-22 17:16:58 0 [Note] InnoDB: Instance 0, restricted to 250 pages due to innodb_buf_pool_dump_pct=25
+2025-03-22 17:16:58 0 [Note] InnoDB: Buffer pool(s) dump completed at 250322 17:16:58
+2025-03-22 17:16:59 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+2025-03-22 17:16:59 0 [Note] InnoDB: Shutdown completed; log sequence number 31654656; transaction id 5164
+2025-03-22 17:16:59 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: Shutdown complete
+

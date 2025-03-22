@@ -13,10 +13,9 @@ if (!isset($data["user_id"]) || !isset($data["friend_id"])) {
     exit;
 }
 
-$user_id = intval($data["user_id"]); // Jelenlegi felhasználó ID-ja
+$user_id = intval($data["user_id"]);
 $friend_id = intval($data["friend_id"]); // Akinek küldeni szeretné a jelölést
 
-// Nem küldhetünk magunknak barátkérést!
 if ($user_id === $friend_id) {
     echo json_encode(["success" => false, "message" => "Saját magadat nem jelölheted be!"]);
     exit;

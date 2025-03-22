@@ -5,7 +5,7 @@ import 'package:chatex/chat/elements/elements_of_chat/people.dart';
 import 'package:chatex/chat/elements/elements_of_chat/groups.dart';
 import 'package:chatex/chat/elements/elements_of_chat/settings.dart';
 import 'package:sidebarx/sidebarx.dart';
-import 'package:chatex/chat/chat_auth/chat_auth.dart';
+import 'package:chatex/chat/chat_load.dart';
 import 'package:chatex/logic/preferences.dart';
 
 class ChatUI extends StatefulWidget {

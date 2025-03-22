@@ -8,10 +8,6 @@ import 'package:chatex/logic/auth.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-//import 'package:chatex/chat/chat_build_ui.dart';
-//import 'dart:developer';
-
-//TODO: alkalmazás belépéskor ne a Flutter logo legyen
 
 //TODO: ha nyelvek angol és regisztráció akkor utána magyart állít be
 
@@ -26,8 +22,6 @@ Future<void> main() async {
   FlutterNativeSplash.remove();
   runApp(MaterialApp(
     home: LoginUI(),
-    //home: ChatUI(),
-    //home: LanguageSetting(),
   ));
 }
 
@@ -99,7 +93,7 @@ class _LoginUIState extends State<LoginUI> {
     super.dispose();
   }
 
-  @override //FlutterToast
+  @override //FlutterToast-hoz kell hogy mindenhol megtudjon jelenni
   void didChangeDependencies() {
     super.didChangeDependencies();
     ToastMessages.init(context);
