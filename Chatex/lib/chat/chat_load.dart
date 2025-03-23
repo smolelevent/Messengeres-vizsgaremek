@@ -26,9 +26,10 @@ class LoadedChatDataState extends State<LoadedChatData> {
     int? userId = Preferences.getUserId();
 
     if (userId == null) {
-      log("Hiba: Nincs elmentve user_id");
+      log("Hiba: A felhasználó nincs bejelentkezve");
       return;
     }
+
     setState(() {
       _chatList = fetchChatListFromDatabase(userId);
     });

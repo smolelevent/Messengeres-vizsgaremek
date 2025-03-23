@@ -23,8 +23,6 @@ class _AccountSettingState extends State<AccountSetting> {
   final FocusNode _usernameFocusNode = FocusNode();
   bool _isUsernameFocused = false;
 
-  //final _formKey = GlobalKey<FormBuilderState>();
-
   File? _selectedImage;
   String? _profilePicture;
 
@@ -254,8 +252,13 @@ class _AccountSettingState extends State<AccountSetting> {
     try {
       if (_profilePicture!.startsWith("data:image/svg+xml;base64,")) {
         final svgBytes = base64Decode(_profilePicture!.split(",")[1]);
-        return ClipOval(
-          child: SvgPicture.memory(svgBytes, width: 60, height: 60),
+        return Padding(
+          padding: const EdgeInsets.only(right: 30),
+          child: CircleAvatar(
+            radius: 60,
+            backgroundColor: Colors.transparent,
+            child: SvgPicture.memory(svgBytes, width: 120, height: 120),
+          ),
         );
       } else if (_profilePicture!.startsWith("data:image/png;base64,") ||
           _profilePicture!.startsWith("data:image/jpeg;base64,") ||
@@ -279,10 +282,13 @@ class _AccountSettingState extends State<AccountSetting> {
   }
 
   Widget _defaultAvatar() {
-    return CircleAvatar(
-      radius: 60,
-      backgroundColor: Colors.grey[600],
-      child: const Icon(Icons.person, size: 50, color: Colors.white),
+    return Padding(
+      padding: const EdgeInsets.only(right: 30),
+      child: CircleAvatar(
+        radius: 60,
+        backgroundColor: Colors.grey[600],
+        child: const Icon(Icons.person, size: 50, color: Colors.white),
+      ),
     );
   }
 
@@ -469,267 +475,3 @@ class _AccountSettingState extends State<AccountSetting> {
     );
   }
 }
-
-// import 'package:flutter/material.dart';
-// import 'package:flutter_form_builder/flutter_form_builder.dart';
-// import 'package:form_builder_validators/form_builder_validators.dart';
-// import 'package:image_picker/image_picker.dart';
-// import 'dart:convert';
-// import 'dart:io';
-// import 'dart:developer';
-
-// import 'package:chatex/logic/toast_message.dart';
-// import 'package:chatex/logic/preferences.dart';
-// import 'package:http/http.dart' as http;
-
-// class AccountSetting extends StatefulWidget {
-//   const AccountSetting({super.key});
-
-//   @override
-//   State<AccountSetting> createState() => _AccountSettingState();
-// }
-
-// class _AccountSettingState extends State<AccountSetting> {
-//   final TextEditingController _usernameController = TextEditingController();
-//   final FocusNode _usernameFocusNode = FocusNode();
-//   final _formKey = GlobalKey<FormBuilderState>();
-
-//   File? _selectedImage;
-//   String? _profilePicture;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _loadUserData();
-//   }
-
-//   @override
-//   void dispose() {
-//     _usernameController.dispose();
-//     _usernameFocusNode.dispose();
-//     super.dispose();
-//   }
-
-//   Future<void> _loadUserData() async {
-//     String? profilePic = Preferences.getProfilePicture();
-//     setState(() {
-//       _profilePicture = profilePic;
-//     });
-//   }
-
-//   Future<void> _pickProfilePicture() async {
-//     final pickedFile =
-//         await ImagePicker().pickImage(source: ImageSource.gallery);
-
-//     if (pickedFile != null) {
-//       File imageFile = File(pickedFile.path);
-//       List<int> imageAsBytes = await imageFile.readAsBytes();
-//       String base64Image = base64Encode(imageAsBytes);
-
-//       setState(() {
-//         _selectedImage = imageFile;
-//         _profilePicture = "data:image/png;base64,$base64Image";
-//       });
-
-//       ToastMessages.showToastMessages(
-//         "Kép kiválasztva!",
-//         0.2,
-//         Colors.orange,
-//         Icons.image,
-//         Colors.black,
-//         const Duration(seconds: 2),
-//         context,
-//       );
-//     }
-//   }
-
-//   Future<void> _updateProfilePicture() async {
-//     if (_selectedImage == null) {
-//       ToastMessages.showToastMessages(
-//         "Nincs kiválasztott kép!",
-//         0.2,
-//         Colors.redAccent,
-//         Icons.error,
-//         Colors.black,
-//         const Duration(seconds: 2),
-//         context,
-//       );
-//       return;
-//     }
-
-//     try {
-//       final response = await http.post(
-//         Uri.parse(
-//             "http://10.0.2.2/ChatexProject/chatex_phps/settings/update_profile_picture.php"),
-//         body: jsonEncode({"profile_picture": _profilePicture}),
-//         headers: {"Content-Type": "application/json"},
-//       );
-
-//       final responseData = json.decode(response.body);
-//       if (responseData["status"] == "success") {
-//         ToastMessages.showToastMessages(
-//           "Profilkép frissítve!",
-//           0.2,
-//           Colors.green,
-//           Icons.check,
-//           Colors.black,
-//           const Duration(seconds: 2),
-//           context,
-//         );
-
-//         await Preferences.setProfilePicture(_profilePicture!);
-//       } else {
-//         ToastMessages.showToastMessages(
-//           "Hiba történt!",
-//           0.2,
-//           Colors.redAccent,
-//           Icons.error,
-//           Colors.black,
-//           const Duration(seconds: 2),
-//           context,
-//         );
-//       }
-//     } catch (e) {
-//       log(e.toString());
-//     }
-//   }
-
-//   Future<void> _updateUsername() async {
-//     if (_usernameController.text.isEmpty) {
-//       ToastMessages.showToastMessages(
-//         "A név nem lehet üres!",
-//         0.2,
-//         Colors.redAccent,
-//         Icons.error,
-//         Colors.black,
-//         const Duration(seconds: 2),
-//         context,
-//       );
-//       return;
-//     }
-
-//     try {
-//       final response = await http.post(
-//         Uri.parse(
-//             "http://10.0.2.2/ChatexProject/chatex_phps/settings/update_username.php"),
-//         body: jsonEncode({"username": _usernameController.text}),
-//         headers: {"Content-Type": "application/json"},
-//       );
-
-//       final responseData = json.decode(response.body);
-//       if (responseData["status"] == "success") {
-//         ToastMessages.showToastMessages(
-//           "Felhasználónév frissítve!",
-//           0.2,
-//           Colors.green,
-//           Icons.check,
-//           Colors.black,
-//           const Duration(seconds: 2),
-//           context,
-//         );
-
-//         await Preferences.setUsername(_usernameController.text);
-//       } else {
-//         ToastMessages.showToastMessages(
-//           "Hiba történt!",
-//           0.2,
-//           Colors.redAccent,
-//           Icons.error,
-//           Colors.black,
-//           const Duration(seconds: 2),
-//           context,
-//         );
-//       }
-//     } catch (e) {
-//       log(e.toString());
-//     }
-//   }
-
-//   Widget _buildCategoryTitle(String title) {
-//     return Padding(
-//       padding: const EdgeInsets.symmetric(vertical: 10),
-//       child: Text(
-//         title,
-//         style: const TextStyle(
-//           color: Colors.white,
-//           fontSize: 18,
-//           fontWeight: FontWeight.bold,
-//           letterSpacing: 1,
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget _buildProfileImage() {
-//     if (_profilePicture == null || _profilePicture!.isEmpty) {
-//       return CircleAvatar(
-//           radius: 60,
-//           backgroundColor: Colors.grey[600],
-//           child: const Icon(Icons.person, size: 50, color: Colors.white));
-//     }
-
-//     try {
-//       final imageAsBytes = base64Decode(_profilePicture!.split(",")[1]);
-//       return CircleAvatar(
-//           radius: 60, backgroundImage: MemoryImage(imageAsBytes));
-//     } catch (e) {
-//       return CircleAvatar(
-//           radius: 60,
-//           backgroundColor: Colors.grey[600],
-//           child: const Icon(Icons.person, size: 50, color: Colors.white));
-//     }
-//   }
-
-//   Widget _buildUsernameField() {
-//     return FormBuilderTextField(
-//       name: "username",
-//       focusNode: _usernameFocusNode,
-//       controller: _usernameController,
-//       keyboardType: TextInputType.name,
-//       style: const TextStyle(color: Colors.white, fontSize: 20.0),
-//       decoration: InputDecoration(
-//         contentPadding:
-//             const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-//         hintText: "Felhasználónév",
-//         enabledBorder: const UnderlineInputBorder(
-//             borderSide: BorderSide(color: Colors.white, width: 2.5)),
-//         focusedBorder: const UnderlineInputBorder(
-//             borderSide: BorderSide(color: Colors.deepPurpleAccent, width: 2.5)),
-//       ),
-//     );
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.grey[850],
-//       appBar: AppBar(
-//         title: const Text("Fiók beállítások"),
-//         backgroundColor: Colors.deepPurpleAccent,
-//         centerTitle: true,
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.symmetric(horizontal: 16),
-//         child: ListView(
-//           children: [
-//             _buildCategoryTitle("Fiókadatok"),
-//             Row(children: [
-//               GestureDetector(
-//                   onTap: _pickProfilePicture, child: _buildProfileImage())
-//             ]),
-//             _buildCategoryTitle("Módosítások"),
-//             _buildUsernameField(),
-//             const SizedBox(height: 20),
-//             ElevatedButton(
-//                 onPressed: _updateProfilePicture,
-//                 child: const Text("Profilkép módosítása")),
-//             const SizedBox(height: 10),
-//             ElevatedButton(
-//                 onPressed: _updateUsername,
-//                 child: const Text("Felhasználónév módosítása")),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

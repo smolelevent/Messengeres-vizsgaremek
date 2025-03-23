@@ -52,7 +52,7 @@ class _ChatUIState extends State<ChatUI> {
       case 3:
         return const Settings();
       default:
-        return const Text("CHAT");
+        return LoadedChatData();
     }
   }
 
@@ -69,8 +69,9 @@ class _ChatUIState extends State<ChatUI> {
                 elevation: 5,
               ),
               drawer: ChatSidebar(
-                  onSelectPage: _setScreen,
-                  sidebarXController: _sidebarController),
+                onSelectPage: _setScreen,
+                sidebarXController: _sidebarController,
+              ),
               body: _getScreen(),
               bottomNavigationBar: BottomNavbarForChat(
                 selectedIndex: _widgetFromSidebar ? -1 : _selectedIndex,

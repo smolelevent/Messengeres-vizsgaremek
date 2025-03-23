@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:chatex/chat/elements/elements_of_people/friend_requests.dart';
-import 'package:chatex/logic/toast_message.dart';
-import 'package:chatex/logic/preferences.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:http/http.dart' as http;
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:chatex/chat/elements/elements_of_people/friend_requests.dart';
+import 'package:chatex/logic/toast_message.dart';
+import 'package:chatex/logic/preferences.dart';
 import 'dart:convert';
-import 'dart:async'; // Debounce-hoz
-//import 'dart:developer';
+import 'dart:async';
+
+//TODO: a barátot is egyből le frissíteni, ismét jelölés ha már nem barátok stb..., send_friend_request.php átnézése, amint accepted akkor törlés a friend_request táblából stb...
 
 class People extends StatefulWidget {
   const People({super.key});
@@ -24,10 +26,12 @@ class _PeopleState extends State<People> {
 
   final _formKey = GlobalKey<FormBuilderState>();
 
-  List<dynamic> _userSearchResults = []; // A keresési eredmények listája
-  Timer? _timer; // Debounce időzítő a keresési lekérésekhez
+  List<dynamic> _userSearchResults = [];
+  Timer? _timer;
 
   int _friendRequestCount = 0;
+
+  final Map<int, String> _friendStatusMap = {};
 
   @override
   void initState() {
@@ -48,27 +52,51 @@ class _PeopleState extends State<People> {
     super.dispose();
   }
 
-  Future<void> _loadFriendRequestCount() async {
-    int? userId = Preferences.getUserId();
-
-    final response = await http.post(
-      Uri.parse(
-          "http://10.0.2.2/ChatexProject/chatex_phps/friends/get_friend_request_count.php"),
-      body: jsonEncode({"user_id": userId}),
-      headers: {"Content-Type": "application/json"},
+//TODO: appbar nem lehet mert duplán jelenne meg
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[850],
+      body: FormBuilder(
+        key: _formKey,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 70,
+              child: ListView(
+                children: [
+                  _buildFriendRequestsCard(
+                    Icons.people_alt,
+                    Colors.white,
+                    Preferences.getPreferredLanguage() == "Magyar"
+                        ? "Barát jelölések"
+                        : "Friend requests",
+                    () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const FriendRequests(),
+                        ),
+                      );
+                      _loadFriendRequestCount();
+                    },
+                  ),
+                ],
+              ),
+            ),
+            _userSearchInputWidget(),
+            const SizedBox(height: 10),
+            Expanded(
+              flex: 2,
+              child: _searchResultsWidget(),
+            ),
+          ],
+        ),
+      ),
     );
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      if (data["success"]) {
-        setState(() {
-          _friendRequestCount = data["count"];
-        });
-      }
-    }
   }
 
-  Widget _buildSettingCard(
+  Widget _buildFriendRequestsCard(
       IconData icon, Color iconColor, String title, VoidCallback onTap) {
     return Card(
       color: Colors.grey[800],
@@ -121,154 +149,23 @@ class _PeopleState extends State<People> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[850],
-      body: FormBuilder(
-        //TODO: appbar nem lehet mert duplán jelenne meg
-        key: _formKey,
-        child: Column(
-          children: [
-            SizedBox(
-              height: 70,
-              child: ListView(
-                children: [
-                  _buildSettingCard(
-                    Icons.people_alt,
-                    Colors.white,
-                    Preferences.getPreferredLanguage() == "Magyar"
-                        ? "Barát jelölések"
-                        : "Friend requests",
-                    () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const FriendRequests(),
-                        ),
-                      );
-                      _loadFriendRequestCount();
-                    },
-                  ),
-                ],
-              ),
-            ),
-            _userSearchInputWidget(),
-            const SizedBox(height: 10),
-            Expanded(
-              flex: 2,
-              child: _searchResultsWidget(),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _searchUsers(String query) {
-    if (_timer?.isActive ?? false) _timer?.cancel();
-
-    _timer = Timer(const Duration(milliseconds: 500), () async {
-      if (query.isEmpty || query.length < 3) {
-        setState(() {
-          _userSearchResults =
-              []; // Ha törlik a keresést, ürítjük az eredményeket
-        });
-        return;
-      }
-
-      final response = await http.post(
-        Uri.parse(
-            "http://10.0.2.2/ChatexProject/chatex_phps/friends/search_users.php"),
-        body: jsonEncode({"query": query}),
-        headers: {"Content-Type": "application/json"},
-      );
-
-      if (response.statusCode == 200) {
-        List<dynamic> results = json.decode(response.body);
-        String currentUsername = Preferences.getUsername();
-
-        // Saját felhasználó kizárása
-        results = results
-            .where((user) => user["username"] != currentUsername)
-            .toList();
-
-        setState(() {
-          _userSearchResults = results;
-        });
-      } else {
-        setState(() {
-          _userSearchResults = [];
-        });
-      }
-    });
-  }
-
-//TODO: lekezelni azt hogy már küldtél barát felkérést, ha barátod akkor ne legyen hozzáadás gomb
-  Future<void> _sendFriendRequest(int friendId) async {
+  Future<void> _loadFriendRequestCount() async {
     int? userId = Preferences.getUserId();
-    try {
-      final response = await http.post(
-        Uri.parse(
-            "http://10.0.2.2/ChatexProject/chatex_phps/friends/send_friend_request.php"),
-        body: jsonEncode({
-          "user_id": userId,
-          "friend_id": friendId,
-        }),
-        headers: {"Content-Type": "application/json"},
-      );
 
+    final response = await http.post(
+      Uri.parse(
+          "http://10.0.2.2/ChatexProject/chatex_phps/friends/get_friend_request_count.php"),
+      body: jsonEncode({"user_id": userId}),
+      headers: {"Content-Type": "application/json"},
+    );
+
+    if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-
-      if (data["message"] == "Barátjelölés elküldve!") {
-        ToastMessages.showToastMessages(
-          Preferences.getPreferredLanguage() == "Magyar"
-              ? "Barátjelölés elküldve!"
-              : "Friend request sent!",
-          0.2,
-          Colors.green,
-          Icons.check,
-          Colors.black,
-          const Duration(seconds: 2),
-          context,
-        );
-      } else if (data["message"] == "Hiba történt a barátjelölés során!") {
-        ToastMessages.showToastMessages(
-          Preferences.getPreferredLanguage() == "Magyar"
-              ? "Hiba történt a barátjelölés során!"
-              : "Error occurred while sending the friend request!",
-          0.2,
-          Colors.redAccent,
-          Icons.error,
-          Colors.black,
-          const Duration(seconds: 2),
-          context,
-        );
-      } else if (data["message"] == "Már küldtél barátjelölést!") {
-        ToastMessages.showToastMessages(
-          Preferences.getPreferredLanguage() == "Magyar"
-              ? "Már küldtél barátjelölést!"
-              : "You have already sent a friend request!",
-          0.2,
-          Colors.redAccent,
-          Icons.error,
-          Colors.black,
-          const Duration(seconds: 2),
-          context,
-        );
+      if (data["success"]) {
+        setState(() {
+          _friendRequestCount = data["count"];
+        });
       }
-    } catch (e) {
-      ToastMessages.showToastMessages(
-        Preferences.getPreferredLanguage() == "Magyar"
-            ? "Kapcsolati hiba!"
-            : "Connection error!",
-        0.2,
-        Colors.redAccent,
-        Icons.error,
-        Colors.black,
-        const Duration(seconds: 2),
-        context,
-      );
     }
   }
 
@@ -295,10 +192,11 @@ class _PeopleState extends State<People> {
             checkNullOrEmpty: false,
           ),
           FormBuilderValidators.required(
-              errorText: Preferences.getPreferredLanguage() == "Magyar"
-                  ? "A felhasználónév nem lehet üres!"
-                  : "The username cannot be empty!",
-              checkNullOrEmpty: false),
+            errorText: Preferences.getPreferredLanguage() == "Magyar"
+                ? "A felhasználónév nem lehet üres!"
+                : "The username cannot be empty!",
+            checkNullOrEmpty: false,
+          ),
         ]),
         focusNode: _userSearchFocusNode,
         controller: _userSearchController,
@@ -308,7 +206,7 @@ class _PeopleState extends State<People> {
               query.length < 3 ||
               query.length > 20) {
             setState(() {
-              _userSearchResults = []; // Törléskor alapállapotba kerül
+              _userSearchResults = [];
             });
           } else {
             _searchUsers(query);
@@ -340,7 +238,7 @@ class _PeopleState extends State<People> {
                   onPressed: () {
                     _userSearchController.clear();
                     setState(() {
-                      _userSearchResults = []; // Az eredményeket törli
+                      _userSearchResults = [];
                     });
                   },
                 )
@@ -366,16 +264,82 @@ class _PeopleState extends State<People> {
     );
   }
 
-  Widget _searchResultsWidget() {
-    String currentUsername = Preferences.getUsername();
+  void _searchUsers(String query) {
+    if (_timer?.isActive ?? false) _timer?.cancel();
 
+    _timer = Timer(
+      const Duration(milliseconds: 500),
+      () async {
+        if (query.isEmpty || query.length < 3) {
+          setState(() {
+            _userSearchResults = [];
+          });
+          return;
+        }
+
+        final response = await http.post(
+          Uri.parse(
+              "http://10.0.2.2/ChatexProject/chatex_phps/friends/search_users.php"),
+          body: jsonEncode({"query": query}),
+          headers: {"Content-Type": "application/json"},
+        );
+
+        if (response.statusCode == 200) {
+          List<dynamic> results = json.decode(response.body);
+          String currentUsername = Preferences.getUsername();
+
+          // Saját felhasználó kizárása
+          results = results.where((user) {
+            return user["username"] != currentUsername;
+          }).toList();
+
+          setState(() {
+            _userSearchResults = results;
+          });
+        } else {
+          setState(() {
+            _userSearchResults = [];
+          });
+        }
+      },
+    );
+  }
+
+  Future<String> _checkFriendStatus(int friendId) async {
+    if (_friendStatusMap.containsKey(friendId)) {
+      return _friendStatusMap[friendId]!;
+    }
+
+    int? userId = Preferences.getUserId();
+    final response = await http.post(
+      Uri.parse(
+          "http://10.0.2.2/ChatexProject/chatex_phps/friends/check_friend_status.php"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
+        "user_id": userId,
+        "friend_id": friendId,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(response.body);
+      String status = responseData["message"];
+      _friendStatusMap[friendId] = status;
+      return status;
+    } else {
+      _friendStatusMap[friendId] = "error";
+      return "error";
+    }
+  }
+
+  Widget _searchResultsWidget() {
     if (_userSearchResults.isEmpty) {
       return Center(
         child: Text(
           Preferences.getPreferredLanguage() == "Magyar"
               ? "Nincs találat"
               : "No results",
-          style: TextStyle(color: Colors.white70, fontSize: 18),
+          style: TextStyle(color: Colors.white, fontSize: 18),
         ),
       );
     }
@@ -384,16 +348,9 @@ class _PeopleState extends State<People> {
       itemCount: _userSearchResults.length,
       itemBuilder: (context, index) {
         final user = _userSearchResults[index];
+        int friendId = user["id"];
         String? profilePicture = user["profile_picture"];
         String username = user["username"];
-        int friendId = user["id"]; // A keresési találat user ID-ja
-
-        // MIME előtag hozzáadása, ha nincs
-        if (profilePicture != null && profilePicture.isNotEmpty) {
-          if (!profilePicture.contains(",")) {
-            profilePicture = "data:image/svg+xml;base64,$profilePicture";
-          }
-        }
 
         Widget profileImage;
         if (profilePicture != null && profilePicture.isNotEmpty) {
@@ -404,68 +361,144 @@ class _PeopleState extends State<People> {
               svgString,
               width: 60,
               height: 60,
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             );
           } else if (profilePicture.startsWith("data:image/")) {
             profileImage = Image.memory(
               base64Decode(profilePicture.split(",")[1]),
               width: 60,
               height: 60,
-              fit: BoxFit.cover,
-            );
-          } else if (profilePicture.startsWith("http")) {
-            profileImage = Image.network(
-              profilePicture,
-              width: 60,
-              height: 60,
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             );
           } else {
-            profileImage = SvgPicture.asset(
-              "assets/default_avatar.svg",
-              width: 60,
-              height: 60,
-              fit: BoxFit.cover,
-            );
+            profileImage = Icon(Icons.person);
           }
         } else {
-          profileImage = SvgPicture.asset(
-            "assets/default_avatar.svg",
-            width: 60,
-            height: 60,
-            fit: BoxFit.cover,
-          );
+          profileImage = Icon(Icons.person);
         }
 
         return Padding(
           padding: const EdgeInsets.only(bottom: 10),
           child: ListTile(
-            leading: CircleAvatar(
-              backgroundColor: Colors.grey[600],
-              radius: 30,
-              child: ClipOval(child: profileImage),
-            ),
-            title: Text(
-              username,
-              style: const TextStyle(color: Colors.white, fontSize: 20),
-            ),
-            trailing: username != currentUsername
-                ? ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepPurpleAccent),
-                    onPressed: () =>
-                        _sendFriendRequest(friendId),
-                    child: Text(
+              leading: ClipOval(child: profileImage),
+              title: AutoSizeText(
+                maxLines: 1,
+                username,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
+              trailing: FutureBuilder(
+                future: _checkFriendStatus(friendId),
+                builder: (context, snapshot) {
+                  final status = snapshot.data.toString();
+
+                  if (status == "already_friends") {
+                    return Text(
                       Preferences.getPreferredLanguage() == "Magyar"
-                          ? "Jelölés"
-                          : "Add",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )
-                : null, //TODO: Ha saját magát találja meg, ne legyen gomb
-          ),
+                          ? "Barát"
+                          : "Friend",
+                      style: const TextStyle(
+                          color: Colors.greenAccent, fontSize: 14),
+                    );
+                  } else if (status == "pending_request") {
+                    return Text(
+                      Preferences.getPreferredLanguage() == "Magyar"
+                          ? "Függőben"
+                          : "Pending",
+                      style: const TextStyle(
+                          color: Colors.orangeAccent, fontSize: 14),
+                    );
+                  } else {
+                    return ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.deepPurpleAccent,
+                      ),
+                      onPressed: () => _sendFriendRequest(friendId),
+                      child: Text(
+                        Preferences.getPreferredLanguage() == "Magyar"
+                            ? "Jelölés"
+                            : "Add",
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    );
+                  }
+                },
+              )),
         );
       },
     );
+  }
+
+  Future<void> _sendFriendRequest(int friendId) async {
+    int? userId = Preferences.getUserId();
+    try {
+      final response = await http.post(
+        Uri.parse(
+            "http://10.0.2.2/ChatexProject/chatex_phps/friends/send_friend_request.php"),
+        body: jsonEncode({
+          "user_id": userId,
+          "friend_id": friendId,
+        }),
+        headers: {"Content-Type": "application/json"},
+      );
+
+      final responseData = jsonDecode(response.body);
+
+      if (responseData["message"] == "Barátjelölés elküldve!") {
+        setState(() {
+          _friendStatusMap[friendId] = "pending_request";
+        });
+        ToastMessages.showToastMessages(
+          Preferences.getPreferredLanguage() == "Magyar"
+              ? "Barátjelölés elküldve!"
+              : "Friend request sent!",
+          0.2,
+          Colors.green,
+          Icons.check,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
+      } else if (responseData["message"] ==
+          "Hiba történt a barátjelölés során!") {
+        ToastMessages.showToastMessages(
+          Preferences.getPreferredLanguage() == "Magyar"
+              ? "Hiba történt a barátjelölés során!"
+              : "Error occurred while sending the friend request!",
+          0.2,
+          Colors.redAccent,
+          Icons.error,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
+      } else if (responseData["message"] == "Már küldtél barátjelölést!") {
+        ToastMessages.showToastMessages(
+          Preferences.getPreferredLanguage() == "Magyar"
+              ? "Már küldtél barátjelölést!"
+              : "You have already sent a friend request!",
+          0.2,
+          Colors.redAccent,
+          Icons.error,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
+      }
+    } catch (e) {
+      ToastMessages.showToastMessages(
+        Preferences.getPreferredLanguage() == "Magyar"
+            ? "Kapcsolati hiba!"
+            : "Connection error!",
+        0.2,
+        Colors.redAccent,
+        Icons.error,
+        Colors.black,
+        const Duration(seconds: 2),
+        context,
+      );
+    }
   }
 }

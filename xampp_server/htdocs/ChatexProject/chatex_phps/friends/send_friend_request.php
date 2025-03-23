@@ -16,46 +16,31 @@ if (!isset($data["user_id"]) || !isset($data["friend_id"])) {
 $user_id = intval($data["user_id"]);
 $friend_id = intval($data["friend_id"]); // Akinek küldeni szeretné a jelölést
 
-if ($user_id === $friend_id) {
-    echo json_encode(["success" => false, "message" => "Saját magadat nem jelölheted be!"]);
-    exit;
-}
+// // Ellenőrizzük, hogy már barátok-e
+// $query = "SELECT * FROM friends WHERE (user_id = ? AND friend_id = ?) OR (user_id = ? AND friend_id = ?)";
+// $stmt = $conn->prepare($query);
+// $stmt->bind_param("iiii", $user_id, $friend_id, $friend_id, $user_id);
+// $stmt->execute();
+// $friendResult = $stmt->get_result();
 
-// Ellenőrizzük, hogy létezik-e mindkét felhasználó a `users` táblában
-$query = "SELECT id FROM users WHERE id IN (?, ?)";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("ii", $user_id, $friend_id);
-$stmt->execute();
-$stmt->store_result();
+// if ($friendResult->num_rows > 0) { //TODO: ezt lekezelni!!
+//     echo json_encode(["success" => false, "message" => "Már barátok vagytok!"]);
+//     exit;
+// } else {
+//     echo json_encode(["success" => true, "message" => "Lehet barátkérést küldeni!"]);
+// }
 
-if ($stmt->num_rows < 2) {
-    echo json_encode(["success" => false, "message" => "Felhasználó nem található!"]);
-    exit;
-}
+// // Ellenőrizzük, hogy van-e már függőben lévő kérelem
+// $query = "SELECT * FROM friend_requests WHERE ((sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?)) AND status = 'pending'";
+// $stmt = $conn->prepare($query);
+// $stmt->bind_param("iiii", $user_id, $friend_id, $friend_id, $user_id);
+// $stmt->execute();
+// $requestResult = $stmt->get_result();
 
-// Ellenőrizzük, hogy már barátok-e
-$query = "SELECT * FROM friends WHERE (user_id = ? AND friend_id = ?) OR (user_id = ? AND friend_id = ?)";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("iiii", $user_id, $friend_id, $friend_id, $user_id);
-$stmt->execute();
-$stmt->store_result();
-
-if ($stmt->num_rows > 0) {
-    echo json_encode(["success" => false, "message" => "Már barátok vagytok!"]);
-    exit;
-}
-
-// Ellenőrizzük, hogy van-e már függőben lévő kérelem
-$query = "SELECT * FROM friend_requests WHERE sender_id = ? AND receiver_id = ? AND status = 'pending'";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("ii", $user_id, $friend_id);
-$stmt->execute();
-$stmt->store_result();
-
-if ($stmt->num_rows > 0) {
-    echo json_encode(["success" => false, "message" => "Már küldtél barátjelölést!"]);
-    exit;
-}
+// if ($requestResult->num_rows > 0) {
+//     echo json_encode(["success" => false, "message" => "Már küldtél barátjelölést!"]);
+//     exit;
+// }
 
 // Barátjelölés mentése a `friend_requests` táblába (pending státusz)
 $query = "INSERT INTO friend_requests (sender_id, receiver_id, status, created_at) VALUES (?, ?, 'pending', NOW())";
@@ -70,6 +55,8 @@ if ($stmt->execute()) {
 } else {
     echo json_encode(["success" => false, "message" => "Hiba történt a barátjelölés során!"]);
 }
+
+//echo json_encode(["success" => true, "message" => "Lehet barátkérést küldeni!"]);
 
 $stmt->close();
 $conn->close();

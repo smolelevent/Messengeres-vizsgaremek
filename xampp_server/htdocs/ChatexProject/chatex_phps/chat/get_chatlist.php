@@ -8,38 +8,25 @@ include __DIR__ . "/../db.php";
 
 $userData = json_decode(file_get_contents("php://input"), true);
 
-if ($userData === null) {
-    echo json_encode(["message" => "Hibás JSON formátum!"]);
-    http_response_code(400);
-    exit();
-}
+// if ($userData === null) {
+//     echo json_encode(["message" => "Hibás JSON formátum!"]);
+//     http_response_code(400);
+//     exit();
+// }
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(["message" => "Helytelen HTTP metódus, csak POST engedélyezett."]);
-    exit();
-}
+// if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+//     http_response_code(405);
+//     echo json_encode(["message" => "Helytelen HTTP metódus, csak POST engedélyezett."]);
+//     exit();
+// }
 
-// Ellenőrizzük, hogy van-e user_id
 if (!isset($userData['id'])) {
     http_response_code(400);
     echo json_encode(["error" => "Hiányzó user id!"]);
     exit();
 }
 
-// $checkStmt = $conn->prepare("SELECT id FROM users WHERE users.id = ?");
-// $checkStmt->bind_param("i", $userData['id']);
-// $checkStmt->execute();
-// $checkStmt->store_result();
-
-// if ($checkStmt->num_rows > 0) {
-//     http_response_code(409); // Konfliktus
-//     echo json_encode(["message" => "A megadott id nem egyezik egy adatbázisban lévő értékkel sem!"]);
-//     exit();
-// }
-// json_encode(["hiba"]);
-
-$user_id = intval($userData['id']); // Azonosító szám formátumba alakítása
+$user_id = intval($userData['id']); // Azonosító, szám formátumba alakítása
 
 $query = "
     SELECT 
@@ -82,11 +69,6 @@ while ($row = $result->fetch_assoc()) {
     $chatList[] = $row;
 }
 
-// Lekérdezés lezárása
 $stmt->close();
 
-// JSON válasz visszaadása
 echo json_encode($chatList);
-
-// Adatbáziskapcsolat lezárása (opcionális, mert XAMPP bezárja a kapcsolatot)
-$conn->close();

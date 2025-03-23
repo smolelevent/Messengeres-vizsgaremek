@@ -157,7 +157,6 @@ class _LoginUIState extends State<LoginUI> {
         dropdownMenuEntries: [
           DropdownMenuEntry(
             style: TextButton.styleFrom(
-              //választó részben lévő nyelv stílusa
               foregroundColor: Colors.white,
               textStyle: const TextStyle(
                 fontSize: 15.0,
@@ -170,7 +169,6 @@ class _LoginUIState extends State<LoginUI> {
           ),
           DropdownMenuEntry(
             style: TextButton.styleFrom(
-              //választó részben lévő nyelv stílusa
               foregroundColor: Colors.white,
               textStyle: const TextStyle(
                 fontSize: 15.0,
@@ -198,19 +196,16 @@ class _LoginUIState extends State<LoginUI> {
             fontSize: 20.0,
           ),
           enabledBorder: const OutlineInputBorder(
-            //állandó border
             borderSide: BorderSide(color: Colors.deepPurpleAccent, width: 2.5),
           ),
         ),
         textStyle: const TextStyle(
-          //kiválasztott nyelv stílusa
           color: Colors.white,
           fontSize: 15.0,
           fontWeight: FontWeight.w500,
           letterSpacing: 1,
         ),
         menuStyle: MenuStyle(
-          //választó rész
           backgroundColor: WidgetStatePropertyAll(Colors.deepPurpleAccent),
           elevation: WidgetStatePropertyAll(5),
         ),
@@ -244,12 +239,10 @@ class _LoginUIState extends State<LoginUI> {
         controller: _emailController,
         keyboardType: TextInputType.emailAddress,
         style: const TextStyle(
-          //szöveg stílusa
           color: Colors.white,
           fontSize: 20.0,
         ),
         decoration: InputDecoration(
-          //padding hozzáadása a mezőhöz
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           hintText: _isEmailFocused
@@ -263,14 +256,12 @@ class _LoginUIState extends State<LoginUI> {
                   : "Email address"
               : null,
           enabledBorder: const UnderlineInputBorder(
-            //állandó szín a mező alsó csíkjának
             borderSide: BorderSide(
               color: Colors.white,
               width: 2.5,
             ),
           ),
           focusedBorder: const UnderlineInputBorder(
-            //fókuszra lila lesz a mező alsó csíkja
             borderSide: BorderSide(
               color: Colors.deepPurpleAccent,
               width: 2.5,
@@ -346,13 +337,11 @@ class _LoginUIState extends State<LoginUI> {
         controller: _passwordController,
         obscureText: _isPasswordNotVisible,
         style: const TextStyle(
-          //szöveg stílusa
           color: Colors.white,
           fontSize: 20.0,
         ),
         decoration: InputDecoration(
           suffixIcon: IconButton(
-            //szem ikon változása
             icon: Icon(
               _isPasswordNotVisible ? Icons.visibility_off : Icons.visibility,
             ),
@@ -568,16 +557,3 @@ class _LoginUIState extends State<LoginUI> {
     );
   }
 }
-/*
-           │Entrance hidden by
-           │Bricks and rubble
-       ▂▃▂▅▇▅▅▇▄▃
-    ┳  ║       ║▔▔▔▔▔▔▔
-    │  ╚╗     ╔╝
-    │   ║     ║   │
-   6ft  ╚╗   ╔╝   │
-    │====o   ╚════│═════╗
-    │   │║@    ▇▅▆▇▆▅▅█ ║
-    ┷   │╚│═════════════╝
-Air vent│ │Fan
-*/
