@@ -24,12 +24,12 @@ class _FriendRequestsState extends State<FriendRequests> {
     _fetchFriendRequests();
   }
 
-//TODO: amikor jön bejövő barátkérés akkor annak az illetőnek ne tudj küldeni barátkérést
+//TODO: megcsinálni az adatbázist, összekötni a people.dart logikájával, már generált kódot ehez a darthoz a gpt a context.pop-ot, de még nem néztem meg, meg hogy működik a people.dart-ba az instant frissítés ha nem akkor ignore LEGFRISSEBB TODO
   Future<void> _fetchFriendRequests() async {
     try {
       final response = await http.post(
         Uri.parse(
-            'http://10.0.2.2/ChatexProject/chatex_phps/friends/get_requests.php'),
+            'http://10.0.2.2/ChatexProject/chatex_phps/friends/get/get_requests.php'),
         body: jsonEncode({
           "user_id": Preferences.getUserId(),
         }),
@@ -65,7 +65,7 @@ class _FriendRequestsState extends State<FriendRequests> {
     try {
       final response = await http.post(
         Uri.parse(
-            'http://10.0.2.2/ChatexProject/chatex_phps/friends/accept_request.php'),
+            'http://10.0.2.2/ChatexProject/chatex_phps/friends/set/accept_request.php'),
         body: jsonEncode({'request_id': requestId}),
         headers: {"Content-Type": "application/json"},
       );
@@ -117,7 +117,7 @@ class _FriendRequestsState extends State<FriendRequests> {
     try {
       final response = await http.post(
         Uri.parse(
-            'http://10.0.2.2/ChatexProject/chatex_phps/friends/decline_request.php'),
+            'http://10.0.2.2/ChatexProject/chatex_phps/friends/set/decline_request.php'),
         body: jsonEncode({'request_id': requestId}),
         headers: {"Content-Type": "application/json"},
       );

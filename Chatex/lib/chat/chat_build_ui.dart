@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:sidebarx/sidebarx.dart';
+import 'package:chatex/chat/chat_load.dart';
+import 'package:chatex/logic/preferences.dart';
 import 'package:chatex/chat/elements/elements_of_chat/sidebar.dart';
 import 'package:chatex/chat/elements/elements_of_chat/bottom_nav_bar.dart';
 import 'package:chatex/chat/elements/elements_of_chat/people.dart';
 import 'package:chatex/chat/elements/elements_of_chat/groups.dart';
 import 'package:chatex/chat/elements/elements_of_chat/settings.dart';
-import 'package:sidebarx/sidebarx.dart';
-import 'package:chatex/chat/chat_load.dart';
-import 'package:chatex/logic/preferences.dart';
 
 class ChatUI extends StatefulWidget {
   const ChatUI({super.key});
@@ -59,27 +59,27 @@ class _ChatUIState extends State<ChatUI> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<String>(
-        valueListenable: Preferences.languageNotifier,
-        builder: (context, value, child) {
-          return SafeArea(
-            child: Scaffold(
-              backgroundColor: Colors.grey[850],
-              appBar: AppBar(
-                backgroundColor: Colors.deepPurpleAccent,
-                elevation: 5,
-              ),
-              drawer: ChatSidebar(
-                onSelectPage: _setScreen,
-                sidebarXController: _sidebarController,
-              ),
-              body: _getScreen(),
-              bottomNavigationBar: BottomNavbarForChat(
-                selectedIndex: _widgetFromSidebar ? -1 : _selectedIndex,
-                onItemTapped: (index) =>
-                    _setScreen(index, isSidebarPage: false),
-              ),
+      valueListenable: Preferences.languageNotifier,
+      builder: (context, value, child) {
+        return SafeArea(
+          child: Scaffold(
+            backgroundColor: Colors.grey[850],
+            appBar: AppBar(
+              backgroundColor: Colors.deepPurpleAccent,
+              elevation: 5,
             ),
-          );
-        });
+            drawer: ChatSidebar(
+              onSelectPage: _setScreen,
+              sidebarXController: _sidebarController,
+            ),
+            body: _getScreen(),
+            bottomNavigationBar: BottomNavbarForChat(
+              selectedIndex: _widgetFromSidebar ? -1 : _selectedIndex,
+              onItemTapped: (index) => _setScreen(index, isSidebarPage: false),
+            ),
+          ),
+        );
+      },
+    );
   }
 }

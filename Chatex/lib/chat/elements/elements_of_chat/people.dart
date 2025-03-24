@@ -10,7 +10,7 @@ import 'package:chatex/logic/preferences.dart';
 import 'dart:convert';
 import 'dart:async';
 
-//TODO: a barátot is egyből le frissíteni, ismét jelölés ha már nem barátok stb..., send_friend_request.php átnézése, amint accepted akkor törlés a friend_request táblából stb...
+//TODO: a barátot is egyből le frissíteni, ismét jelölés ha már nem barátok stb..., amint accepted akkor törlés a friend_request táblából stb...
 
 class People extends StatefulWidget {
   const People({super.key});
@@ -154,7 +154,7 @@ class _PeopleState extends State<People> {
 
     final response = await http.post(
       Uri.parse(
-          "http://10.0.2.2/ChatexProject/chatex_phps/friends/get_friend_request_count.php"),
+          "http://10.0.2.2/ChatexProject/chatex_phps/friends/get/get_friend_request_count.php"),
       body: jsonEncode({"user_id": userId}),
       headers: {"Content-Type": "application/json"},
     );
@@ -279,7 +279,7 @@ class _PeopleState extends State<People> {
 
         final response = await http.post(
           Uri.parse(
-              "http://10.0.2.2/ChatexProject/chatex_phps/friends/search_users.php"),
+              "http://10.0.2.2/ChatexProject/chatex_phps/friends/get/search_users.php"),
           body: jsonEncode({"query": query}),
           headers: {"Content-Type": "application/json"},
         );
@@ -313,7 +313,7 @@ class _PeopleState extends State<People> {
     int? userId = Preferences.getUserId();
     final response = await http.post(
       Uri.parse(
-          "http://10.0.2.2/ChatexProject/chatex_phps/friends/check_friend_status.php"),
+          "http://10.0.2.2/ChatexProject/chatex_phps/friends/get/check_friend_status.php"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
         "user_id": userId,
@@ -436,7 +436,7 @@ class _PeopleState extends State<People> {
     try {
       final response = await http.post(
         Uri.parse(
-            "http://10.0.2.2/ChatexProject/chatex_phps/friends/send_friend_request.php"),
+            "http://10.0.2.2/ChatexProject/chatex_phps/friends/set/send_friend_request.php"),
         body: jsonEncode({
           "user_id": userId,
           "friend_id": friendId,
@@ -450,6 +450,8 @@ class _PeopleState extends State<People> {
         setState(() {
           _friendStatusMap[friendId] = "pending_request";
         });
+        _searchUsers(_userSearchController.text);
+
         ToastMessages.showToastMessages(
           Preferences.getPreferredLanguage() == "Magyar"
               ? "Barátjelölés elküldve!"

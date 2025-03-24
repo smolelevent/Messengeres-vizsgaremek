@@ -8,18 +8,6 @@ include __DIR__ . "/../db.php";
 
 $userData = json_decode(file_get_contents("php://input"), true);
 
-// if ($userData === null) {
-//     echo json_encode(["message" => "Hibás JSON formátum!"]);
-//     http_response_code(400);
-//     exit();
-// }
-
-// if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-//     http_response_code(405);
-//     echo json_encode(["message" => "Helytelen HTTP metódus, csak POST engedélyezett."]);
-//     exit();
-// }
-
 if (!isset($userData['id'])) {
     http_response_code(400);
     echo json_encode(["error" => "Hiányzó user id!"]);
