@@ -70,12 +70,12 @@ class _BottomNavbarForChatState extends State<BottomNavbarForChat> {
               Icon(
                 icon,
                 size: 30,
-                color: isSelected ? Colors.deepPurple[400] : Colors.white,
+                color: isSelected ? Colors.deepPurpleAccent : Colors.white,
               ),
               Text(
                 label,
                 style: TextStyle(
-                  color: isSelected ? Colors.deepPurple[400] : Colors.white,
+                  color: isSelected ? Colors.deepPurpleAccent : Colors.white,
                   fontSize: 15,
                   letterSpacing: 0.5,
                 ),

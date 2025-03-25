@@ -121,9 +121,10 @@ class _SettingsState extends State<Settings> {
       backgroundColor: Colors.grey[850],
       body: Column(
         children: [
-          const SizedBox(height: 15),
-          _buildSearchField(),
-          const SizedBox(height: 15),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 15),
+            child: _buildSearchField(),
+          ),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 16),

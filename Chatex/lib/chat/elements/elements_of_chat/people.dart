@@ -10,8 +10,6 @@ import 'package:chatex/logic/preferences.dart';
 import 'dart:convert';
 import 'dart:async';
 
-//TODO: a barátot is egyből le frissíteni, ismét jelölés ha már nem barátok stb..., amint accepted akkor törlés a friend_request táblából stb...
-
 class People extends StatefulWidget {
   const People({super.key});
 

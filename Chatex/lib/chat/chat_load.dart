@@ -41,9 +41,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
     final response = await http.post(
       chatFetchUrl,
       body: jsonEncode({"id": userId}),
-      headers: {
-        "Content-Type": "application/json"
-      }, //TODO: ha nincs senki bejelentkezve akkor is ugyanazokat a chateket tölti be
+      headers: {"Content-Type": "application/json"},
     );
 
     if (response.statusCode == 200) {
@@ -65,38 +63,52 @@ class LoadedChatDataState extends State<LoadedChatData> {
 //TODO: nincs chat akkor ne egy üres képernyő legyen
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<dynamic>>(
-      future: _chatList,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(
-              strokeWidth: 3,
-              color: Colors.deepPurpleAccent,
-            ),
-          );
-        } else if (snapshot.hasError) {
-          return Center(child: Text("Hiba történt az adatok betöltésekor"));
-        } else {
-          final retrievedChatList = snapshot.data!;
-          return ListView.builder(
-            itemCount: retrievedChatList.length,
-            itemBuilder: (context, index) {
-              final friend = retrievedChatList[index];
-              return ChatTile(
-                name: friend["friend_name"] ?? "Ismeretlen név",
-                lastMessage: friend["last_message"] ?? "Nincs üzenet",
-                time: friend["last_message_time"] ?? "nincs üzenet idő",
-                profileImage:
-                    friend["friend_profile_picture"] ?? "assets/logo.jpg",
-                onTap: () {
-                  log("Megnyitva: ${friend["friend_name"]}");
-                },
-              );
-            },
-          );
-        }
-      },
+    return Scaffold(
+      backgroundColor: Colors.grey[850],
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.deepPurpleAccent,
+        child: Icon(
+          Icons.add,
+          size: 30,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          log("");
+        },
+      ),
+      body: FutureBuilder<List<dynamic>>(
+        future: _chatList,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(
+                strokeWidth: 3,
+                color: Colors.deepPurpleAccent,
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return Center(child: Text("Hiba történt az adatok betöltésekor"));
+          } else {
+            final retrievedChatList = snapshot.data!;
+            return ListView.builder(
+              itemCount: retrievedChatList.length,
+              itemBuilder: (context, index) {
+                final friend = retrievedChatList[index];
+                return ChatTile(
+                  name: friend["friend_name"] ?? "Ismeretlen név",
+                  lastMessage: friend["last_message"] ?? "Nincs üzenet",
+                  time: friend["last_message_time"] ?? "nincs üzenet idő",
+                  profileImage:
+                      friend["friend_profile_picture"] ?? "assets/logo.jpg",
+                  onTap: () {
+                    log("Megnyitva: ${friend["friend_name"]}");
+                  },
+                );
+              },
+            );
+          }
+        },
+      ),
     );
   }
 }
