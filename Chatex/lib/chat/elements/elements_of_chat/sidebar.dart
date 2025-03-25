@@ -48,7 +48,6 @@ class _ChatSidebarState extends State<ChatSidebar> {
         // Base64 kódolt PNG/JPG
         final imageBytes = base64Decode(_profileImageUrl!.split(",")[1]);
         return CircleAvatar(
-          //TODO: azért nem jó mert alapból azt keresi hogy van e előtag de nincs
           radius: 60,
           backgroundColor: Colors.grey[600],
           backgroundImage: MemoryImage(imageBytes),
@@ -147,6 +146,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
               },
             ),
             SidebarXItem(
+              //TODO: showDialog a kijelentkezés megerősítéséhez
               label: Preferences.getPreferredLanguage() == "Magyar"
                   ? "Kijelentkezés"
                   : "Logout",

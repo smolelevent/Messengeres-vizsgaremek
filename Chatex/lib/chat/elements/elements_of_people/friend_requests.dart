@@ -24,7 +24,6 @@ class _FriendRequestsState extends State<FriendRequests> {
     _fetchFriendRequests();
   }
 
-//TODO: megcsinálni az adatbázist, összekötni a people.dart logikájával, már generált kódot ehez a darthoz a gpt a context.pop-ot, de még nem néztem meg, meg hogy működik a people.dart-ba az instant frissítés ha nem akkor ignore LEGFRISSEBB TODO
   Future<void> _fetchFriendRequests() async {
     try {
       final response = await http.post(
@@ -98,6 +97,10 @@ class _FriendRequestsState extends State<FriendRequests> {
           context,
         );
       }
+
+      if (_friendRequests.isEmpty) {
+        Navigator.pop(context);
+      }
     } catch (e) {
       ToastMessages.showToastMessages(
         Preferences.getPreferredLanguage() == "Magyar"
@@ -149,6 +152,10 @@ class _FriendRequestsState extends State<FriendRequests> {
           const Duration(seconds: 2),
           context,
         );
+      }
+
+      if (_friendRequests.isEmpty) {
+        Navigator.pop(context);
       }
     } catch (e) {
       ToastMessages.showToastMessages(

@@ -94,7 +94,7 @@ yield _gettext("Open new phpMyAdmin window");
                 yield "    <div id=\"pma_demo\" class=\"d-print-none\">
       ";
                 // line 25
-                $___internal_parse_34_ = ('' === $tmp = \Twig\Extension\CoreExtension::captureOutput((function () use (&$context, $macros, $blocks) {
+                $___internal_parse_33_ = ('' === $tmp = \Twig\Extension\CoreExtension::captureOutput((function () use (&$context, $macros, $blocks) {
                     // line 26
                     yield "        <a href=\"";
                     yield PhpMyAdmin\Url::getFromRoute("/");
@@ -143,7 +143,7 @@ yield _gettext("Git information missing!");
                     return; yield '';
                 })())) ? '' : new Markup($tmp, $this->env->getCharset());
                 // line 25
-                yield $this->env->getFilter('notice')->getCallable()($___internal_parse_34_);
+                yield $this->env->getFilter('notice')->getCallable()($___internal_parse_33_);
                 // line 39
                 yield "    </div>
   ";
