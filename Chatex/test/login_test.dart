@@ -18,8 +18,8 @@ void main() {
   });
 
   testWidgets('Login with incorrect credentials shows toast message',
-      (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(
+      ( tester) async { //WidgetTester volt a tipusa
+    await tester.pumpWidget(const MaterialApp(
       home: app.LoginUI(),
     ));
     await tester.pumpAndSettle();

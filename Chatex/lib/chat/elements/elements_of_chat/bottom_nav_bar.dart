@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:chatex/logic/preferences.dart';
 
 class BottomNavbarForChat extends StatefulWidget {
-  final int selectedIndex;
-  final Function(int) onItemTapped;
-
   const BottomNavbarForChat({
     super.key,
     required this.selectedIndex,
     required this.onItemTapped,
   });
+  
+  final int selectedIndex;
+  final Function(int) onItemTapped;
 
   @override
   State<BottomNavbarForChat> createState() => _BottomNavbarForChatState();
@@ -37,7 +37,7 @@ class _BottomNavbarForChatState extends State<BottomNavbarForChat> {
                       ? "Chatek"
                       : "Chats",
                   0,
-                  Key("chatNavBar"), // Unique key for the Chats tab
+                  const Key("chatNavBar"), // Unique key for the Chats tab
                 ),
                 _bottomAppBarItem(
                   Icons.person,
@@ -45,7 +45,7 @@ class _BottomNavbarForChatState extends State<BottomNavbarForChat> {
                       ? "Ismerősök"
                       : "Friends",
                   1,
-                  Key("friendsNavBar"), // Unique key for the Friends tab
+                  const Key("friendsNavBar"), // Unique key for the Friends tab
                 ),
               ],
             ),

@@ -47,7 +47,7 @@ class _AccountSettingState extends State<AccountSetting> {
 
   Future<void> _loadUserData() async {
     //String? username = Preferences.getUsername();
-    String? profilePic = Preferences.getProfilePicture();
+    final String? profilePic = Preferences.getProfilePicture();
 
     setState(() {
       //_usernameController.text = username;
@@ -59,9 +59,9 @@ class _AccountSettingState extends State<AccountSetting> {
     final pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      File imageFile = File(pickedFile.path);
-      List<int> imageAsBytes = await imageFile.readAsBytes();
-      String base64Image = base64Encode(imageAsBytes);
+      final File imageFile = File(pickedFile.path);
+      final List<int> imageAsBytes = await imageFile.readAsBytes();
+      final String base64Image = base64Encode(imageAsBytes);
       String mimeType;
 
       if (pickedFile.path.endsWith(".svg")) {
@@ -225,7 +225,7 @@ class _AccountSettingState extends State<AccountSetting> {
     }
   }
 
-  _buildAppbar() {
+  PreferredSizeWidget _buildAppbar() {
     return AppBar(
       title: Text(
         Preferences.getPreferredLanguage() == "Magyar"
@@ -357,12 +357,12 @@ class _AccountSettingState extends State<AccountSetting> {
             fontWeight: FontWeight.bold,
             fontSize: 20.0,
           ),
-          helperStyle: TextStyle(
+          helperStyle: const TextStyle(
             color: Colors.white,
             fontSize: 15.0,
             letterSpacing: 1.0,
           ),
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
             color: Colors.white,
             fontSize: 20.0,
             letterSpacing: 1.0,
@@ -374,7 +374,7 @@ class _AccountSettingState extends State<AccountSetting> {
 
   Widget _buildCategoryTitle(String title) {
     return Padding(
-      padding: EdgeInsets.only(top: 10, bottom: 5),
+      padding: const EdgeInsets.only(top: 10, bottom: 5),
       child: Text(
         title,
         style: const TextStyle(
@@ -440,7 +440,7 @@ class _AccountSettingState extends State<AccountSetting> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   _buildCategoryTitle("Fiók adatainak módosítása:"),
                   _buildDivider(),
                   _buildUserDataText(

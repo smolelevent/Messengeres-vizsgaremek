@@ -16,11 +16,12 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 //TODO: phpMyAdmin id-k sorrendje rendezése
 
 Future<void> main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  final WidgetsBinding widgetsBinding =
+      WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Preferences.init();
   FlutterNativeSplash.remove();
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: LoginUI(),
   ));
 }
@@ -143,13 +144,14 @@ class _LoginUIState extends State<LoginUI> {
   Widget _dropDownMenu() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
-      child: DropdownMenu(
+      child: DropdownMenu<String>(
         requestFocusOnTap: false,
         label: _selectedLanguage == "Magyar"
             ? const Text("Nyelvek")
             : const Text("Languages"),
         initialSelection: _selectedLanguage,
-        onSelected: (String? newValue) {
+        onSelected: (newValue) {
+          //String? a típusa
           setState(() {
             _selectedLanguage = newValue!;
           });
@@ -205,7 +207,7 @@ class _LoginUIState extends State<LoginUI> {
           fontWeight: FontWeight.w500,
           letterSpacing: 1,
         ),
-        menuStyle: MenuStyle(
+        menuStyle: const MenuStyle(
           backgroundColor: WidgetStatePropertyAll(Colors.deepPurpleAccent),
           elevation: WidgetStatePropertyAll(5),
         ),
@@ -273,12 +275,12 @@ class _LoginUIState extends State<LoginUI> {
             fontWeight: FontWeight.bold,
             fontSize: 20.0,
           ),
-          helperStyle: TextStyle(
+          helperStyle: const TextStyle(
             color: Colors.white,
             fontSize: 15.0,
             letterSpacing: 1.0,
           ),
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
             color: Colors.white,
             fontSize: 20.0,
             letterSpacing: 1.0,
@@ -381,12 +383,12 @@ class _LoginUIState extends State<LoginUI> {
             fontWeight: FontWeight.bold,
             fontSize: 20.0,
           ),
-          helperStyle: TextStyle(
+          helperStyle: const TextStyle(
             color: Colors.white,
             fontSize: 15.0,
             letterSpacing: 1.0,
           ),
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
             color: Colors.white,
             fontSize: 20.0,
             letterSpacing: 1.0,

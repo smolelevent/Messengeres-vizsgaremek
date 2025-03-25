@@ -61,8 +61,8 @@ class AuthService {
         await Future.delayed(const Duration(seconds: 2));
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => LoginUI(),
+          MaterialPageRoute( //BuildContext volt a típusa
+            builder: (context) => const LoginUI(),
           ),
         );
       } else if (responseData["message"] ==
@@ -155,8 +155,8 @@ class AuthService {
         await Future.delayed(const Duration(seconds: 2));
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => ChatUI(),
+          MaterialPageRoute( //BuildContext volt
+            builder: ( context) => const ChatUI(),
           ),
         );
       } else if (responseData['message'] == 'Hibás email vagy jelszó!') {
@@ -202,8 +202,10 @@ class AuthService {
   Future<void> logOut({required context}) async {
     await Future.delayed(const Duration(seconds: 1)); //TODO: kell loading
     if (context.mounted) {
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (BuildContext context) => LoginUI()));
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute( //BuildContext volt
+              builder: ( context) => const LoginUI()));
     }
   }
 
@@ -238,8 +240,8 @@ class AuthService {
         await Future.delayed(const Duration(seconds: 2));
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => LoginUI(),
+          MaterialPageRoute( //BuildContext volt
+            builder: ( context) => const LoginUI(),
           ),
         );
       } else if (responseData["message"] ==

@@ -4,8 +4,10 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 class SignUp extends StatefulWidget {
-  final String language;
   const SignUp({super.key, required this.language});
+  
+  final String language;
+  
 
   @override
   State<SignUp> createState() => _SignUpState();
@@ -136,30 +138,30 @@ class _SignUpState extends State<SignUp> {
                 height: 25,
               ),
               _usernameWidget(
-                Key("userName")
+                const Key("userName")
               ),
               const SizedBox(
                 height: 10,
               ),
               _emailAddressWidget(
-                Key("emailAddress")
+                const Key("emailAddress")
               ),
               const SizedBox(
                 height: 10,
               ),
               _passwordWidget(
-                Key("passWord")
+                const Key("passWord")
               ),
               const SizedBox(
                 height: 10,
               ),
               _passwordConfirmWidget(
-                Key("passWordConfirm")
+                const Key("passWordConfirm")
               ),
               const SizedBox(
                 height: 25,
               ),
-              _signUpWidget(context, Key("signUp")),
+              _signUpWidget(context, const Key("signUp")),
               _chatexWidget(),
             ],
           ),
@@ -233,12 +235,12 @@ class _SignUpState extends State<SignUp> {
             fontWeight: FontWeight.bold,
             fontSize: 20.0,
           ),
-          helperStyle: TextStyle(
+          helperStyle: const TextStyle(
             color: Colors.white,
             fontSize: 15.0,
             letterSpacing: 1.0,
           ),
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
             color: Colors.white,
             fontSize: 20.0,
             letterSpacing: 1.0,
@@ -310,12 +312,12 @@ class _SignUpState extends State<SignUp> {
             fontWeight: FontWeight.bold,
             fontSize: 20.0,
           ),
-          helperStyle: TextStyle(
+          helperStyle: const TextStyle(
             color: Colors.white,
             fontSize: 15.0,
             letterSpacing: 1.0,
           ),
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
             color: Colors.white,
             fontSize: 20.0,
             letterSpacing: 1.0,
@@ -421,12 +423,12 @@ class _SignUpState extends State<SignUp> {
             fontWeight: FontWeight.bold,
             fontSize: 20.0,
           ),
-          helperStyle: TextStyle(
+          helperStyle: const TextStyle(
             color: Colors.white,
             fontSize: 15.0,
             letterSpacing: 1.0,
           ),
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
             color: Colors.white,
             fontSize: 20.0,
             letterSpacing: 1.0,
@@ -502,7 +504,7 @@ class _SignUpState extends State<SignUp> {
             fontWeight: FontWeight.bold,
             fontSize: 20.0,
           ),
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
             color: Colors.white,
             fontSize: 20.0,
             letterSpacing: 1.0,

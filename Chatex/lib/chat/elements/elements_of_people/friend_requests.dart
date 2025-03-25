@@ -24,6 +24,7 @@ class _FriendRequestsState extends State<FriendRequests> {
     _fetchFriendRequests();
   }
 
+//TODO: exceptiont ad amikor túl gyorsan lépek ki és sidebar vagy idk
   Future<void> _fetchFriendRequests() async {
     try {
       final response = await http.post(
@@ -321,7 +322,7 @@ class _FriendRequestsState extends State<FriendRequests> {
     );
   }
 
-  _buildAppbar() {
+  PreferredSizeWidget _buildAppbar() {
     return AppBar(
       title: Text(
         Preferences.getPreferredLanguage() == "Magyar"

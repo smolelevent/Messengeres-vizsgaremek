@@ -9,7 +9,7 @@
 # packages, and plugins designed to encourage good coding practices.
 analyzer:
   errors:
-    use_build_context_synchronously: ignore
+    use_build_context_synchronously: ignore #ezt én adtam hozzá
 include: package:flutter_lints/flutter.yaml
 
 linter:
@@ -23,7 +23,17 @@ linter:
   # or a specific dart file by using the `// ignore: name_of_lint` and
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
-  rules:
+  rules: #én sadtam hozzá, tiszta kód elvei
+    always_declare_return_types: true
+    prefer_const_constructors: true
+    prefer_final_locals: true
+    avoid_print: true
+    prefer_const_literals_to_create_immutables: true
+    sort_constructors_first: true
+    unnecessary_this: true
+    avoid_unnecessary_containers: true
+    use_key_in_widget_constructors: true
+    avoid_types_on_closure_parameters: true
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
 

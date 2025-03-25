@@ -4,8 +4,10 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
-  final String language;
   const ForgotPasswordPage({super.key, required this.language});
+  
+  final String language;
+  
 
   @override
   State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
@@ -71,7 +73,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 25.0,
                   ),
                   Padding(
@@ -81,13 +83,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           ? "A jelszó helyreállításához\nadja meg az e-mail címét!"
                           : "To reset your password\nenter your email address!",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20.0,
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 25.0,
                   ),
                   _emailAddressFieldWidget(),
@@ -172,12 +174,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             fontWeight: FontWeight.bold,
             fontSize: 20.0,
           ),
-          helperStyle: TextStyle(
+          helperStyle: const TextStyle(
             color: Colors.white,
             fontSize: 15.0,
             letterSpacing: 1.0,
           ),
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
             color: Colors.white,
             fontSize: 20.0,
             letterSpacing: 1.0,

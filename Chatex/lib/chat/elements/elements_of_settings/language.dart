@@ -48,7 +48,7 @@ class _LanguageSettingState extends State<LanguageSetting> {
     );
   }
 
-  _buildAppbar() {
+  PreferredSizeWidget _buildAppbar() {
     return AppBar(
       title: Text(
         Preferences.getPreferredLanguage() == "Magyar"

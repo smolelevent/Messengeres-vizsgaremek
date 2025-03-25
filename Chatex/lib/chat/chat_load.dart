@@ -23,7 +23,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
   }
 
   Future<void> _getCorrectChatList() async {
-    int? userId = Preferences.getUserId();
+    final int? userId = Preferences.getUserId();
 
     if (userId == null) {
       log("Hiba: A felhasználó nincs bejelentkezve");
@@ -65,30 +65,22 @@ class LoadedChatDataState extends State<LoadedChatData> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[850],
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.deepPurpleAccent,
-        child: Icon(
-          Icons.add,
-          size: 30,
-          color: Colors.white,
-        ),
-        onPressed: () {
-          log("");
-        },
-      ),
       body: FutureBuilder<List<dynamic>>(
         future: _chatList,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(
                 strokeWidth: 3,
                 color: Colors.deepPurpleAccent,
               ),
             );
-          } else if (snapshot.hasError) {
-            return Center(child: Text("Hiba történt az adatok betöltésekor"));
-          } else {
+          }
+          // else if (snapshot.hasError) {
+          //   return const Center(
+          //       child: Text("Hiba történt az adatok betöltésekor"));
+          // }
+          else {
             final retrievedChatList = snapshot.data!;
             return ListView.builder(
               itemCount: retrievedChatList.length,
@@ -99,7 +91,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
                   lastMessage: friend["last_message"] ?? "Nincs üzenet",
                   time: friend["last_message_time"] ?? "nincs üzenet idő",
                   profileImage:
-                      friend["friend_profile_picture"] ?? "assets/logo.jpg",
+                      friend["friend_profile_picture"],
                   onTap: () {
                     log("Megnyitva: ${friend["friend_name"]}");
                   },
@@ -114,12 +106,6 @@ class LoadedChatDataState extends State<LoadedChatData> {
 }
 
 class ChatTile extends StatelessWidget {
-  final String name;
-  final String lastMessage;
-  final String time;
-  final String profileImage;
-  final VoidCallback onTap;
-
   const ChatTile({
     super.key,
     required this.name,
@@ -129,26 +115,40 @@ class ChatTile extends StatelessWidget {
     required this.onTap,
   });
 
+  final String name;
+  final String lastMessage;
+  final String time;
+  final String profileImage;
+  final VoidCallback onTap;
+
   Widget _buildProfileImage(String imageString) {
     try {
       if (imageString.startsWith("data:image/svg+xml;base64,")) {
         final svgBytes = base64Decode(imageString.split(",")[1]);
         return SvgPicture.memory(svgBytes,
-            width: 60, height: 60, fit: BoxFit.cover);
+            width: 60, height: 60, fit: BoxFit.fill);
       } else if (imageString.startsWith("data:image/")) {
         final base64Data = imageString.split(",")[1];
         return Image.memory(base64Decode(base64Data),
-            width: 60, height: 60, fit: BoxFit.cover);
-      } else if (imageString.startsWith("http")) {
-        return Image.network(imageString,
-            width: 60, height: 60, fit: BoxFit.cover);
-      } else {
-        return Image.asset("assets/logo.jpg",
-            width: 60, height: 60, fit: BoxFit.cover);
+            width: 60, height: 60, fit: BoxFit.fill);
+      }
+      // else if (imageString.startsWith("http")) {
+      //   return Image.network(imageString,
+      //       width: 60, height: 60, fit: BoxFit.cover);
+      // }
+      else {
+        return const CircleAvatar(
+          backgroundColor: Colors.transparent,
+          radius: 60,
+          child: Icon(Icons.person),
+        );
       }
     } catch (e) {
-      return Image.asset("assets/logo.jpg",
-          width: 60, height: 60, fit: BoxFit.cover);
+      return const CircleAvatar(
+        backgroundColor: Colors.transparent,
+        radius: 60,
+        child: Icon(Icons.person),
+      );
     }
   }
 
@@ -156,11 +156,12 @@ class ChatTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: Colors.black45,
-      margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 5.0),
+      margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 5.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       elevation: 5,
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         leading: CircleAvatar(
           radius: 30,
           backgroundColor: Colors.transparent,
@@ -171,7 +172,7 @@ class ChatTile extends StatelessWidget {
         title: AutoSizeText(
           maxLines: 1,
           name,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -195,7 +196,7 @@ class ChatTile extends StatelessWidget {
           ),
         ),
         onTap: () {
-          //print("dögölj meg");
+          //TODO: chat
         },
       ),
     );

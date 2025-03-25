@@ -12,7 +12,7 @@ class _GroupsState extends State<Groups> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Text("message requests"),
+        body: const Text("message requests"),
         backgroundColor: Colors.grey[850],
       ),
     );

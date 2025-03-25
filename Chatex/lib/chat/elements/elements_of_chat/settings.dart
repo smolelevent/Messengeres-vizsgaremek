@@ -122,7 +122,7 @@ class _SettingsState extends State<Settings> {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 15),
+            padding: const EdgeInsets.symmetric(vertical: 15),
             child: _buildSearchField(),
           ),
           Expanded(
@@ -191,11 +191,11 @@ class _SettingsState extends State<Settings> {
           prefixIcon: const Icon(Icons.search, color: Colors.white, size: 28),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(color: Colors.deepPurpleAccent, width: 2.5),
+            borderSide: const BorderSide(color: Colors.deepPurpleAccent, width: 2.5),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(color: Colors.white70, width: 2.5),
+            borderSide: const BorderSide(color: Colors.white70, width: 2.5),
           ),
         ),
       ),

@@ -100,7 +100,7 @@ class _PeopleState extends State<People> {
       color: Colors.grey[800],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       elevation: 5,
-      margin: EdgeInsets.only(left: 20, right: 20, top: 10),
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
       child: ListTile(
         leading: Icon(icon, color: iconColor),
         title: Text(
@@ -148,7 +148,7 @@ class _PeopleState extends State<People> {
   }
 
   Future<void> _loadFriendRequestCount() async {
-    int? userId = Preferences.getUserId();
+    final int? userId = Preferences.getUserId();
 
     final response = await http.post(
       Uri.parse(
@@ -171,7 +171,7 @@ class _PeopleState extends State<People> {
     return Container(
       margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
       child: FormBuilderTextField(
-        key: (Key("userName")),
+        key: (const Key("userName")),
         name: "username",
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: FormBuilderValidators.compose([
@@ -247,12 +247,12 @@ class _PeopleState extends State<People> {
             fontWeight: FontWeight.bold,
             fontSize: 20.0,
           ),
-          helperStyle: TextStyle(
+          helperStyle: const TextStyle(
             color: Colors.white,
             fontSize: 15.0,
             letterSpacing: 1.0,
           ),
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
             color: Colors.white,
             fontSize: 20.0,
             letterSpacing: 1.0,
@@ -284,7 +284,7 @@ class _PeopleState extends State<People> {
 
         if (response.statusCode == 200) {
           List<dynamic> results = json.decode(response.body);
-          String currentUsername = Preferences.getUsername();
+          final String currentUsername = Preferences.getUsername();
 
           // Saját felhasználó kizárása
           results = results.where((user) {
@@ -308,7 +308,7 @@ class _PeopleState extends State<People> {
       return _friendStatusMap[friendId]!;
     }
 
-    int? userId = Preferences.getUserId();
+    final int? userId = Preferences.getUserId();
     final response = await http.post(
       Uri.parse(
           "http://10.0.2.2/ChatexProject/chatex_phps/friends/get/check_friend_status.php"),
@@ -321,7 +321,7 @@ class _PeopleState extends State<People> {
 
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
-      String status = responseData["message"];
+      final String status = responseData["message"];
       _friendStatusMap[friendId] = status;
       return status;
     } else {
@@ -337,7 +337,7 @@ class _PeopleState extends State<People> {
           Preferences.getPreferredLanguage() == "Magyar"
               ? "Nincs találat"
               : "No results",
-          style: TextStyle(color: Colors.white, fontSize: 18),
+          style: const TextStyle(color: Colors.white, fontSize: 18),
         ),
       );
     }
@@ -346,9 +346,9 @@ class _PeopleState extends State<People> {
       itemCount: _userSearchResults.length,
       itemBuilder: (context, index) {
         final user = _userSearchResults[index];
-        int friendId = user["id"];
-        String? profilePicture = user["profile_picture"];
-        String username = user["username"];
+        final int friendId = user["id"];
+        final String? profilePicture = user["profile_picture"];
+        final String username = user["username"];
 
         Widget profileImage;
         if (profilePicture != null && profilePicture.isNotEmpty) {
@@ -369,10 +369,10 @@ class _PeopleState extends State<People> {
               fit: BoxFit.fill,
             );
           } else {
-            profileImage = Icon(Icons.person);
+            profileImage = const Icon(Icons.person);
           }
         } else {
-          profileImage = Icon(Icons.person);
+          profileImage = const Icon(Icons.person);
         }
 
         return Padding(
@@ -430,7 +430,7 @@ class _PeopleState extends State<People> {
   }
 
   Future<void> _sendFriendRequest(int friendId) async {
-    int? userId = Preferences.getUserId();
+    final int? userId = Preferences.getUserId();
     try {
       final response = await http.post(
         Uri.parse(

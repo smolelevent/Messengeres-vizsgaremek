@@ -7,7 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:chatex/chat/elements/elements_of_chat/people.dart' as app;
 
 void main() {
-  testWidgets('FindValaki test', (WidgetTester tester) async {
+  testWidgets('FindValaki test', ( tester) async { //WidgetTester a tipusa
     int selectedIndex = 1;
     void onItemTapped(int index) {
       selectedIndex = index;
@@ -19,7 +19,7 @@ void main() {
         home: Scaffold(
           body: Column(
             children: [
-              Expanded(
+              const Expanded(
                 child: app.People(), // Include the People widget
               ),
               app.BottomNavbarForChat(
@@ -39,7 +39,7 @@ void main() {
     debugPrint(tester.allWidgets.toStringDeep());
 
     // Try finding the Friends tab
-    final friendsTab = find.byKey(Key('friendsNavBar'));
+    final friendsTab = find.byKey(const Key('friendsNavBar'));
     expect(friendsTab, findsOneWidget,
         reason: 'The friendsNavBar key is missing in the widget tree.');
 
@@ -48,8 +48,8 @@ void main() {
     await tester.pumpAndSettle();
 
     // Verify that the search field exists
-    await tester.ensureVisible(find.byKey(Key('userName')));
-    final userNameField = find.byKey(Key('userName'));
+    await tester.ensureVisible(find.byKey(const Key('userName')));
+    final userNameField = find.byKey(const Key('userName'));
     expect(userNameField, findsOneWidget);
 
     // Enter search text

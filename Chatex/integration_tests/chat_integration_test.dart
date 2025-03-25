@@ -10,17 +10,17 @@ import 'package:chatex/chat/elements/elements_of_chat/bottom_nav_bar.dart'
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  group("Main test", () {
-    testWidgets('Login test', (WidgetTester tester) async {
+  group("Main test", () { //WidgetTester a típusa
+    testWidgets('Login test', (tester) async {
       // Initialize the app with the LoginUI
 
-      await tester.pumpWidget(MaterialApp(home: app.LoginUI()));
+      await tester.pumpWidget(const MaterialApp(home: app.LoginUI()));
       await tester.pumpAndSettle();
 
       // Find the email and password text fields
-      final emailField = find.byKey(Key('email'));
-      final passwordField = find.byKey(Key('password'));
-      final loginButton = find.byKey(Key('logIn'));
+      final emailField = find.byKey(const Key('email'));
+      final passwordField = find.byKey(const Key('password'));
+      final loginButton = find.byKey(const Key('logIn'));
 
       // Enter text into the email and password fields
       await tester.enterText(emailField, 'ocsi2005levente@gmail.com');
@@ -36,8 +36,8 @@ void main() {
       expect(find.byType(app.ChatUI), findsOneWidget);
     });
 
-    group("Add people test", () {
-      testWidgets('FindValaki test', (WidgetTester tester) async {
+    group("Add people test", () { //WidgetTester a típusa
+      testWidgets('FindValaki test', (tester) async {
         int selectedIndex = 1;
         void onItemTapped(int index) {
           selectedIndex = index;
@@ -48,7 +48,7 @@ void main() {
             home: Scaffold(
               body: Column(
                 children: [
-                  Expanded(
+                  const Expanded(
                     child: app.People(), // Include the People widget
                   ),
                   app.BottomNavbarForChat(
@@ -64,19 +64,19 @@ void main() {
         await tester.pumpAndSettle();
 
         // Tap the Friends tab
-        final friendsTab = find.byKey(Key('friendsNavBar'));
+        final friendsTab = find.byKey(const Key('friendsNavBar'));
         expect(friendsTab, findsOneWidget);
         await tester.tap(friendsTab);
         await tester.pumpAndSettle();
 
         // Enter text into the search field
-        final userNameField = find.byKey(Key('userName'));
+        final userNameField = find.byKey(const Key('userName'));
         expect(userNameField, findsOneWidget);
         await tester.enterText(userNameField, 'valaki2');
         await tester.pumpAndSettle();
 
         // Tap the Add Friend button
-        final addFriendButton = find.byKey(Key('addFriend'));
+        final addFriendButton = find.byKey(const Key('addFriend'));
         expect(addFriendButton, findsOneWidget);
         await tester.tap(addFriendButton);
         await tester.pumpAndSettle();

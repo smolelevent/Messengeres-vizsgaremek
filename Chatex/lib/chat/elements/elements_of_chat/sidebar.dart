@@ -7,14 +7,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:developer';
 
 class ChatSidebar extends StatefulWidget {
-  final SidebarXController sidebarXController;
-  final Function(int, {bool isSidebarPage}) onSelectPage;
-
   const ChatSidebar({
     super.key,
     required this.onSelectPage,
     required this.sidebarXController,
   });
+
+  final SidebarXController sidebarXController;
+  final Function(int, {bool isSidebarPage}) onSelectPage;
 
   @override
   State<ChatSidebar> createState() => _ChatSidebarState();
@@ -29,7 +29,39 @@ class _ChatSidebarState extends State<ChatSidebar> {
     super.initState();
   }
 
-  Widget _buildProfileImage() {
+// Widget _buildProfileImage(String imageString) {
+//     try {
+//       if (imageString.startsWith("data:image/svg+xml;base64,")) {
+//         final svgBytes = base64Decode(imageString.split(",")[1]);
+//         return SvgPicture.memory(svgBytes,
+//             width: 60, height: 60, fit: BoxFit.fill);
+//       } else if (imageString.startsWith("data:image/")) {
+//         final base64Data = imageString.split(",")[1];
+//         return Image.memory(base64Decode(base64Data),
+//             width: 60, height: 60, fit: BoxFit.fill);
+//       }
+//       // else if (imageString.startsWith("http")) {
+//       //   return Image.network(imageString,
+//       //       width: 60, height: 60, fit: BoxFit.cover);
+//       // }
+//       else {
+//         return const CircleAvatar(
+//           backgroundColor: Colors.transparent,
+//           radius: 60,
+//           child: Icon(Icons.person),
+//         );
+//       }
+//     } catch (e) {
+//       return const CircleAvatar(
+//         backgroundColor: Colors.transparent,
+//         radius: 60,
+//         child: Icon(Icons.person),
+//       );
+//     }
+//   }
+
+
+  Widget _buildProfileImage() { //TODO: átírni a _buildProfileImage-eket
     if (_profileImageUrl == null || _profileImageUrl!.isEmpty) {
       return _defaultAvatar();
     }
@@ -66,7 +98,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
     return CircleAvatar(
       radius: 60,
       backgroundColor: Colors.grey[600],
-      child: Icon(Icons.person, size: 40, color: Colors.white),
+      child: const Icon(Icons.person, size: 40, color: Colors.white),
     );
   }
 
@@ -82,10 +114,10 @@ class _ChatSidebarState extends State<ChatSidebar> {
             return Column(
               children: [
                 _buildProfileImage(),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text(
                   _username,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                     letterSpacing: 1,
@@ -118,7 +150,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
             SidebarXItem(
               label: locale == "Magyar" ? 'Csoportok' : 'Groups',
               iconBuilder: (context, isSelected) {
-                return Icon(
+                return const Icon(
                   Icons.group,
                   color: Colors.yellow,
                 );
@@ -134,7 +166,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
             SidebarXItem(
               label: locale == "Magyar" ? 'Beállítások' : 'Settings',
               iconBuilder: (context, isSelected) {
-                return Icon(
+                return const Icon(
                   Icons.settings,
                   color: Colors.blue,
                 );
@@ -151,7 +183,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
                   ? "Kijelentkezés"
                   : "Logout",
               iconBuilder: (context, isSelected) {
-                return Icon(
+                return const Icon(
                   Icons.logout,
                   color: Colors.red,
                 );
@@ -163,37 +195,37 @@ class _ChatSidebarState extends State<ChatSidebar> {
           ],
           theme: SidebarXTheme(
             width: 250,
-            padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-            textStyle: TextStyle(
+            padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
+            textStyle: const TextStyle(
               color: Colors.white,
               fontSize: 15,
               fontWeight: FontWeight.w500,
               letterSpacing: 1,
             ),
-            selectedTextStyle: TextStyle(
+            selectedTextStyle: const TextStyle(
               color: Colors.white,
               fontSize: 15,
               fontWeight: FontWeight.w500,
               letterSpacing: 1,
             ),
-            itemTextPadding: EdgeInsets.symmetric(horizontal: 20),
-            selectedItemTextPadding: EdgeInsets.symmetric(horizontal: 20),
+            itemTextPadding: const EdgeInsets.symmetric(horizontal: 20),
+            selectedItemTextPadding: const EdgeInsets.symmetric(horizontal: 20),
             selectedItemDecoration: BoxDecoration(
               color: Colors.grey[800],
               borderRadius: BorderRadius.circular(10),
             ),
             decoration: BoxDecoration(
               color: Colors.grey[850],
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(20),
                 bottomRight: Radius.circular(20),
               ),
             ),
-            iconTheme: IconThemeData(
+            iconTheme: const IconThemeData(
               color: Colors.white,
               size: 25,
             ),
-            selectedIconTheme: IconThemeData(
+            selectedIconTheme: const IconThemeData(
               color: Colors.white,
               size: 25,
             ),
