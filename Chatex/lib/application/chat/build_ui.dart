@@ -71,8 +71,7 @@ class _ChatUIState extends State<ChatUI> {
                       IconButton(
                         icon: const Icon(Icons.add_comment),
                         color: Colors.white,
-                        tooltip:
-                            "Új chat indítása", //TODO: tooltip még jó lehet
+                        tooltip: "Új chat indítása",
                         onPressed: () {
                           Navigator.push(
                             context,
