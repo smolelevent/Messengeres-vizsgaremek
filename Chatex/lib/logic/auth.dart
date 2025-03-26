@@ -1,4 +1,4 @@
-import 'package:chatex/chat/chat_build_ui.dart';
+import 'package:chatex/application/chat/build_ui.dart';
 import 'package:chatex/main.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
@@ -61,7 +61,8 @@ class AuthService {
         await Future.delayed(const Duration(seconds: 2));
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute( //BuildContext volt a típusa
+          MaterialPageRoute(
+            //BuildContext volt a típusa
             builder: (context) => const LoginUI(),
           ),
         );
@@ -155,8 +156,9 @@ class AuthService {
         await Future.delayed(const Duration(seconds: 2));
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute( //BuildContext volt
-            builder: ( context) => const ChatUI(),
+          MaterialPageRoute(
+            //BuildContext volt
+            builder: (context) => const ChatUI(),
           ),
         );
       } else if (responseData['message'] == 'Hibás email vagy jelszó!') {
@@ -204,8 +206,9 @@ class AuthService {
     if (context.mounted) {
       Navigator.pushReplacement(
           context,
-          MaterialPageRoute( //BuildContext volt
-              builder: ( context) => const LoginUI()));
+          MaterialPageRoute(
+              //BuildContext volt
+              builder: (context) => const LoginUI()));
     }
   }
 
@@ -240,8 +243,9 @@ class AuthService {
         await Future.delayed(const Duration(seconds: 2));
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute( //BuildContext volt
-            builder: ( context) => const LoginUI(),
+          MaterialPageRoute(
+            //BuildContext volt
+            builder: (context) => const LoginUI(),
           ),
         );
       } else if (responseData["message"] ==

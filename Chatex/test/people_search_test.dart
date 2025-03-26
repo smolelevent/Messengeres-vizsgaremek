@@ -1,13 +1,15 @@
-import 'package:chatex/chat/elements/elements_of_chat/bottom_nav_bar.dart'
+import 'package:chatex/application/elements/elements_of_chat/bottom_nav_bar.dart'
     as app;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 //import 'package:chatex/main.dart' as app;
 //import 'package:chatex/chat/chat_build_ui.dart' as app;
-import 'package:chatex/chat/elements/elements_of_chat/people.dart' as app;
+import 'package:chatex/application/elements/elements_of_chat/people.dart'
+    as app;
 
 void main() {
-  testWidgets('FindValaki test', ( tester) async { //WidgetTester a tipusa
+  testWidgets('FindValaki test', (tester) async {
+    //WidgetTester a tipusa
     int selectedIndex = 1;
     void onItemTapped(int index) {
       selectedIndex = index;

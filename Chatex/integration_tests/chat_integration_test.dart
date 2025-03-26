@@ -1,16 +1,18 @@
-import 'package:chatex/chat/elements/elements_of_chat/people.dart' as app;
+import 'package:chatex/application/elements/elements_of_chat/people.dart'
+    as app;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:chatex/main.dart' as app;
-import 'package:chatex/chat/chat_build_ui.dart' as app;
-import 'package:chatex/chat/elements/elements_of_chat/bottom_nav_bar.dart'
+import 'package:chatex/application/chat/build_ui.dart' as app;
+import 'package:chatex/application/elements/elements_of_chat/bottom_nav_bar.dart'
     as app;
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  group("Main test", () { //WidgetTester a típusa
+  group("Main test", () {
+    //WidgetTester a típusa
     testWidgets('Login test', (tester) async {
       // Initialize the app with the LoginUI
 
@@ -36,7 +38,8 @@ void main() {
       expect(find.byType(app.ChatUI), findsOneWidget);
     });
 
-    group("Add people test", () { //WidgetTester a típusa
+    group("Add people test", () {
+      //WidgetTester a típusa
       testWidgets('FindValaki test', (tester) async {
         int selectedIndex = 1;
         void onItemTapped(int index) {
