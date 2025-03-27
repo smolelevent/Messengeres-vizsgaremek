@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'package:chatex/logic/preferences.dart';
@@ -24,12 +24,13 @@ class LoadedChatDataState extends State<LoadedChatData> {
   }
 
   Future<void> _getCorrectChatList() async {
-    final int? userId = Preferences.getUserId();
+    final int userId = Preferences.getUserId()!;
 
-    if (userId == null) {
-      log("Hiba: A felhasználó nincs bejelentkezve");
-      return;
-    }
+//final int? userId = Preferences.getUserId();
+    // if (userId == null) {
+    //   log("Hiba: A felhasználó nincs bejelentkezve");
+    //   return;
+    // }
 
     setState(() {
       _chatList = fetchChatListFromDatabase(userId);
@@ -37,30 +38,48 @@ class LoadedChatDataState extends State<LoadedChatData> {
   }
 
   Future<List<dynamic>> fetchChatListFromDatabase(int userId) async {
-    final Uri chatFetchUrl = Uri.parse(
-        "http://10.0.2.2/ChatexProject/chatex_phps/chat/get/get_chatlist.php");
-    final response = await http.post(
-      chatFetchUrl,
-      body: jsonEncode({"id": userId}),
-      headers: {"Content-Type": "application/json"},
-    );
+    try {
+      final Uri chatFetchUrl = Uri.parse(
+          "http://10.0.2.2/ChatexProject/chatex_phps/chat/get/get_chatlist.php");
+      final response = await http.post(
+        chatFetchUrl,
+        body: jsonEncode({"id": userId}),
+        headers: {"Content-Type": "application/json"},
+      );
 
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        ToastMessages.showToastMessages(
+          Preferences.getPreferredLanguage() == "Magyar"
+              ? "Nem sikerült betölteni a chat listát!"
+              : "Couldn't load the chat list!",
+          0.3,
+          Colors.redAccent,
+          Icons.error,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
+        return [];
+      }
+    } catch (e) {
       ToastMessages.showToastMessages(
-        "Valami hiba, dögölj meg!",
-        0.1,
-        Colors.red,
-        Icons.error_outline,
+        Preferences.getPreferredLanguage() == "Magyar"
+            ? "Kapcsolati hiba!"
+            : "Connection error!",
+        0.3,
+        Colors.redAccent,
+        Icons.error,
         Colors.black,
         const Duration(seconds: 2),
         context,
       );
-      throw Exception("Nem sikerült betölteni a chatlistát");
+      return [];
     }
   }
 
+//TODO: ha nincs php akkor ne exception legyen
 //TODO: nincs chat akkor ne egy üres képernyő legyen
   @override
   Widget build(BuildContext context) {
@@ -76,14 +95,40 @@ class LoadedChatDataState extends State<LoadedChatData> {
                 color: Colors.deepPurpleAccent,
               ),
             );
-          }
-          // else if (snapshot.hasError) {
-          //   return const Center(
-          //       child: Text("Hiba történt az adatok betöltésekor"));
-          // }
-          else {
-            final retrievedChatList =
-                snapshot.data!; //TODO: ha nincs php akkor ne exception legyen
+          } else {
+            final retrievedChatList = snapshot.data ?? [];
+            if (retrievedChatList.isEmpty) {
+              return Center(
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 20,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: Preferences.getPreferredLanguage() == "Magyar"
+                            ? "Még nincs egyetlen csevegésed sem.\nKezdj el egyet a "
+                            : "You don't have any chats yet.\nStart one clicking on the ",
+                      ),
+                      const WidgetSpan(
+                        child: Icon(
+                          Icons.add_comment,
+                          size: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                      TextSpan(
+                        text: Preferences.getPreferredLanguage() == "Magyar"
+                            ? " ikonra kattintva!"
+                            : " icon!",
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
             return ListView.builder(
               itemCount: retrievedChatList.length,
               itemBuilder: (context, index) {

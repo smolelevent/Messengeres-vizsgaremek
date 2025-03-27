@@ -332,7 +332,9 @@ class _FriendRequestsState extends State<FriendRequests> {
             : "Friend Requests",
       ),
       backgroundColor: Colors.deepPurpleAccent,
-      elevation: 5,
+      foregroundColor: Colors.white,
+      shadowColor: Colors.deepPurpleAccent,
+      elevation: 10,
       centerTitle: true,
       titleTextStyle: const TextStyle(
         color: Colors.white,

@@ -5,9 +5,8 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key, required this.language});
-  
+
   final String language;
-  
 
   @override
   State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
@@ -60,7 +59,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         backgroundColor: Colors.grey[850],
         appBar: AppBar(
           backgroundColor: Colors.deepPurpleAccent,
-          elevation: 5,
+          foregroundColor: Colors.white,
+          shadowColor: Colors.deepPurpleAccent,
+          elevation: 10,
         ),
         body: Stack(
           children: [

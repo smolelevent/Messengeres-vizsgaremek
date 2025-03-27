@@ -233,7 +233,9 @@ class _AccountSettingState extends State<AccountSetting> {
             : "Account details",
       ),
       backgroundColor: Colors.deepPurpleAccent,
-      elevation: 5,
+      foregroundColor: Colors.white,
+      shadowColor: Colors.deepPurpleAccent,
+      elevation: 10,
       centerTitle: true,
       titleTextStyle: const TextStyle(
         color: Colors.white,

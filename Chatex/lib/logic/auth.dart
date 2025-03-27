@@ -145,7 +145,7 @@ class AuthService {
         await Preferences.setToken(token);
         ToastMessages.showToastMessages(
           language == "Magyar" ? "Sikeres bejelentkezés!" : "Successful login!",
-          0.2,
+          0.22,
           Colors.green,
           Icons.check,
           Colors.black,

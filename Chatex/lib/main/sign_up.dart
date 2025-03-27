@@ -5,9 +5,8 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key, required this.language});
-  
+
   final String language;
-  
 
   @override
   State<SignUp> createState() => _SignUpState();
@@ -111,7 +110,9 @@ class _SignUpState extends State<SignUp> {
         backgroundColor: Colors.grey[850],
         appBar: AppBar(
           backgroundColor: Colors.deepPurpleAccent,
-          elevation: 5,
+          foregroundColor: Colors.white,
+          shadowColor: Colors.deepPurpleAccent,
+          elevation: 10,
         ),
         body: FormBuilder(
           key: _formKey,
@@ -137,27 +138,19 @@ class _SignUpState extends State<SignUp> {
               const SizedBox(
                 height: 25,
               ),
-              _usernameWidget(
-                const Key("userName")
-              ),
+              _usernameWidget(const Key("userName")),
               const SizedBox(
                 height: 10,
               ),
-              _emailAddressWidget(
-                const Key("emailAddress")
-              ),
+              _emailAddressWidget(const Key("emailAddress")),
               const SizedBox(
                 height: 10,
               ),
-              _passwordWidget(
-                const Key("passWord")
-              ),
+              _passwordWidget(const Key("passWord")),
               const SizedBox(
                 height: 10,
               ),
-              _passwordConfirmWidget(
-                const Key("passWordConfirm")
-              ),
+              _passwordConfirmWidget(const Key("passWordConfirm")),
               const SizedBox(
                 height: 25,
               ),

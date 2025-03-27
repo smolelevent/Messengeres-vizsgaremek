@@ -7,7 +7,7 @@ class BottomNavbarForChat extends StatefulWidget {
     required this.selectedIndex,
     required this.onItemTapped,
   });
-  
+
   final int selectedIndex;
   final Function(int) onItemTapped;
 

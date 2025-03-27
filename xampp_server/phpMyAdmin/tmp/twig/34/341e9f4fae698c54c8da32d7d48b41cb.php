@@ -366,6 +366,6 @@ yield _gettext("Delete version");
 
     public function getSourceContext()
     {
-        return new Source("", "table/tracking/main.twig", "C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\table\\tracking\\main.twig");
+        return new Source("", "table/tracking/main.twig", "C:\\Users\\user\\Desktop\\vizsgahoz szukseges\\Messengeres-vizsgaremek\\xampp_server\\phpMyAdmin\\templates\\table\\tracking\\main.twig");
     }
 }

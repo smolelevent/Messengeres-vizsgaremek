@@ -56,7 +56,9 @@ class _LanguageSettingState extends State<LanguageSetting> {
             : "Languages",
       ),
       backgroundColor: Colors.deepPurpleAccent,
-      elevation: 5,
+      foregroundColor: Colors.white,
+      shadowColor: Colors.deepPurpleAccent,
+      elevation: 10,
       centerTitle: true,
       titleTextStyle: const TextStyle(
         color: Colors.white,

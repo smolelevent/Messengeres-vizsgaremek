@@ -65,7 +65,9 @@ class _ChatUIState extends State<ChatUI> {
             backgroundColor: Colors.grey[850],
             appBar: AppBar(
               backgroundColor: Colors.deepPurpleAccent,
-              elevation: 5,
+              foregroundColor: Colors.white,
+              shadowColor: Colors.deepPurpleAccent,
+              elevation: 10,
               actions: _selectedIndex == 0
                   ? [
                       IconButton(

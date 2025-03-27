@@ -235,7 +235,9 @@ class _StartChatState extends State<StartChat> {
             : "Start chat",
       ),
       backgroundColor: Colors.deepPurpleAccent,
-      elevation: 5,
+      foregroundColor: Colors.white,
+      shadowColor: Colors.deepPurpleAccent,
+      elevation: 10,
       centerTitle: true,
       titleTextStyle: const TextStyle(
         color: Colors.white,
