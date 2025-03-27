@@ -4,59 +4,57 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-include __DIR__ . "/../../db.php";
+require_once __DIR__ . "/../../db.php";
 
-$userData = json_decode(file_get_contents("php://input"), true);
+$data = json_decode(file_get_contents("php://input"), true);
 
-if (!isset($userData['id'])) {
+if (!isset($data["user_id"])) {
     http_response_code(400);
-    echo json_encode(["error" => "Hiányzó user id!"]);
-    exit();
+    echo json_encode(["error" => "Hiányzó user azonosító!"]);
+    exit;
 }
 
-$user_id = intval($userData['id']); // Azonosító, szám formátumba alakítása
+$user_id = intval($data["user_id"]);
 
+// Lekérdezzük az összes chatet, ahol a felhasználó tag, és hozzávesszük a legutolsó üzenetet
 $query = "
     SELECT 
-        u.id AS friend_id,
-        u.username AS friend_name,
-        u.profile_picture AS friend_profile_picture,
-        m.message_text AS last_message,
-        m.sent_at AS last_message_time
-    FROM messages m
-    JOIN users u ON 
-        (m.sender_id = u.id AND m.receiver_id = ?) 
-        OR (m.receiver_id = u.id AND m.sender_id = ?)
-    WHERE m.sent_at = (
-        SELECT MAX(m2.sent_at) 
-        FROM messages m2 
-        WHERE (m2.sender_id = m.sender_id AND m2.receiver_id = m.receiver_id) 
-        OR (m2.sender_id = m.receiver_id AND m2.receiver_id = m.sender_id)
-    )
-    GROUP BY u.id
-    ORDER BY last_message_time DESC";
+        c.chat_id,
+        c.is_group,
+        (
+            SELECT m.message_text
+            FROM messages m
+            WHERE m.chat_id = c.chat_id
+            ORDER BY m.sent_at DESC
+            LIMIT 1
+        ) AS last_message,
+        (
+            SELECT m.sent_at
+            FROM messages m
+            WHERE m.chat_id = c.chat_id
+            ORDER BY m.sent_at DESC
+            LIMIT 1
+        ) AS last_message_time,
+        GROUP_CONCAT(u.username SEPARATOR ', ') AS friend_name,
+        GROUP_CONCAT(u.profile_picture SEPARATOR ', ') AS friend_profile_picture
+    FROM chats c
+    INNER JOIN chat_members cm ON cm.chat_id = c.chat_id
+    INNER JOIN chat_members other_cm ON other_cm.chat_id = c.chat_id AND other_cm.user_id != ?
+    INNER JOIN users u ON u.id = other_cm.user_id
+    WHERE cm.user_id = ?
+    GROUP BY c.chat_id
+    ORDER BY last_message_time DESC
+";
 
-// Előkészített lekérdezés (Prepared Statement)
 $stmt = $conn->prepare($query);
-
-if (!$stmt) {
-    http_response_code(500);
-    echo json_encode(["error" => "Lekérdezés előkészítési hiba: " . $conn->error]);
-    exit();
-}
-
-// Paraméterek kötése és végrehajtás
 $stmt->bind_param("ii", $user_id, $user_id);
 $stmt->execute();
-
-// Eredmény lekérése
 $result = $stmt->get_result();
+
 $chatList = [];
 
 while ($row = $result->fetch_assoc()) {
     $chatList[] = $row;
 }
-
-$stmt->close();
 
 echo json_encode($chatList);

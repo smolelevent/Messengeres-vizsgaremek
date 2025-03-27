@@ -109,7 +109,7 @@ class _LoginUIState extends State<LoginUI> {
         body: FormBuilder(
           key: _formKey,
           onChanged: () {
-            _validateActiveField();
+            //_validateActiveField();
             _checkLogInFieldsValidation();
           },
           child: Column(

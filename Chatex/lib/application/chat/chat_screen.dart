@@ -24,7 +24,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
       _messageController.addListener(() {
         setState(() {
-          //_isInputFocused = _messageController.text.isNotEmpty;
           _isWriting = _messageController.text.trim().isNotEmpty;
           _isInputFocused = _isWriting;
         });
