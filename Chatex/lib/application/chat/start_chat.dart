@@ -87,21 +87,106 @@ class _StartChatState extends State<StartChat> {
     });
   }
 
-  void _startChat() {
+  //TODO: Először a chat_screen.dart hogy megírjuk a chat felületet, majd ide visszatérni és összekötni a logikát vele
+  // TODO: chat létrehozás logika (pl. POST PHP-ra), majd átirányítás
+
+  // void _startChat() {
+  //   if (_selectedFriendIds.isEmpty) return;
+  //   try {
+  //     final Uri startChatUrl = Uri.parse(
+  //         "http://10.0.2.2/ChatexProject/chatex_phps/chat/set/start_chat.php");
+  //   } catch (e) {
+  //     ToastMessages.showToastMessages(
+  //       Preferences.getPreferredLanguage() == "Magyar"
+  //           ? "Kapcsolati hiba!"
+  //           : "Connection error!",
+  //       0.2,
+  //       Colors.redAccent,
+  //       Icons.error,
+  //       Colors.black,
+  //       const Duration(seconds: 2),
+  //       context,
+  //     );
+  //   }
+  //   ToastMessages.showToastMessages(
+  //     Preferences.getPreferredLanguage() == "Magyar"
+  //         ? "Chat létrehozva ${_selectedFriendIds.length} személlyel!"
+  //         : "Chat created with ${_selectedFriendIds.length} people",
+  //     0.2,
+  //     Colors.green,
+  //     Icons.check,
+  //     Colors.black,
+  //     const Duration(seconds: 2),
+  //     context,
+  //   );
+  // }
+
+  void _startChat() async {
     if (_selectedFriendIds.isEmpty) return;
-//TODO: Először a chat_screen.dart hogy megírjuk a chat felületet, majd ide visszatérni és összekötni a logikát vele
-    // TODO: chat létrehozás logika (pl. POST PHP-ra), majd átirányítás
-    ToastMessages.showToastMessages(
-      Preferences.getPreferredLanguage() == "Magyar"
-          ? "Chat létrehozva ${_selectedFriendIds.length} személlyel!"
-          : "Chat created with ${_selectedFriendIds.length} people",
-      0.2,
-      Colors.green,
-      Icons.check,
-      Colors.black,
-      const Duration(seconds: 2),
-      context,
-    );
+
+    try {
+      final int? senderId = Preferences.getUserId();
+      if (senderId == null) return;
+
+      final List<int> receiverIds = _selectedFriendIds.toList();
+      final isGroup = receiverIds.length > 1;
+
+      final response = await http.post(
+        Uri.parse(
+            "http://10.0.2.2/ChatexProject/chatex_phps/chat/set/start_chat.php"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "sender_id": senderId,
+          "receiver_ids": receiverIds,
+          if (isGroup) "group_name": "Új csoport",
+          if (isGroup) "group_profile_picture": null,
+        }),
+      );
+
+      final responseData = jsonDecode(response.body);
+
+      if (response.statusCode == 200 && responseData["success"] == true) {
+        //final int chatId = data["chat_id"];
+        // 🔁 Navigálj át a chat képernyőre, ha akarod:
+        // Navigator.push(...)
+        Navigator.pop(context);
+        ToastMessages.showToastMessages(
+          Preferences.getPreferredLanguage() == "Magyar"
+              ? (isGroup ? "Csoport létrehozva!" : "Chat létrehozva!")
+              : (isGroup ? "Group created!" : "Chat created!"),
+          0.2,
+          Colors.green,
+          Icons.check,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
+      } else {
+        ToastMessages.showToastMessages(
+          Preferences.getPreferredLanguage() == "Magyar"
+              ? "Nem sikerült létrehozni a chatet!"
+              : "Failed to create chat!",
+          0.2,
+          Colors.redAccent,
+          Icons.error,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
+      }
+    } catch (e) {
+      ToastMessages.showToastMessages(
+        Preferences.getPreferredLanguage() == "Magyar"
+            ? "Kapcsolati hiba!"
+            : "Connection error!",
+        0.2,
+        Colors.redAccent,
+        Icons.error,
+        Colors.black,
+        const Duration(seconds: 2),
+        context,
+      );
+    }
   }
 
   @override
