@@ -61,13 +61,13 @@ class _LoginUIState extends State<LoginUI> {
     });
   }
 
-  void _validateActiveField() {
-    if (_emailFocusNode.hasFocus) {
-      _formKey.currentState?.fields['email']?.validate();
-    } else if (_passwordFocusNode.hasFocus) {
-      _formKey.currentState?.fields['password']?.validate();
-    }
-  }
+  // void _validateActiveField() {
+  //   if (_emailFocusNode.hasFocus) {
+  //     _formKey.currentState?.fields['email']?.validate();
+  //   } else if (_passwordFocusNode.hasFocus) {
+  //     _formKey.currentState?.fields['password']?.validate();
+  //   }
+  // }
 
   @override
   void initState() {
