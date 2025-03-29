@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-//import 'package:device_preview/device_preview.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:http/http.dart' as http;
+//import 'package:device_preview/device_preview.dart'; //TODO: device_preview
 import 'package:chatex/main/reset_password.dart';
 import 'package:chatex/main/sign_up.dart';
+import 'package:chatex/application/chat/build_ui.dart';
 import 'package:chatex/logic/auth.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'package:chatex/logic/toast_message.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'dart:convert';
+import 'dart:developer';
 
 //TODO: ha nyelvek angol és regisztráció akkor utána magyart állít be
 
@@ -21,9 +25,40 @@ Future<void> main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Preferences.init();
   FlutterNativeSplash.remove();
-  runApp(const MaterialApp(
-    home: LoginUI(),
+
+  final isLoggedIn = await tryAutoLogin();
+
+  runApp(MaterialApp(
+    home: isLoggedIn ? const ChatUI() : const LoginUI(),
   ));
+}
+
+Future<bool> tryAutoLogin() async {
+  final token = Preferences.getToken();
+
+  try {
+    final response = await http.post(
+      Uri.parse(
+          "http://10.0.2.2/ChatexProject/chatex_phps/auth/validate_token.php"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"token": token}),
+    );
+
+    final responseData = jsonDecode(response.body);
+    if (response.statusCode == 200 && responseData["success"] == true) {
+      Preferences.setUserId(responseData["id"]);
+      Preferences.setPreferredLanguage(responseData["preferred_lang"]);
+      Preferences.setProfilePicture(responseData["profile_picture"]);
+      Preferences.setUsername(responseData["username"]);
+      Preferences.setEmail(responseData["email"]);
+      Preferences.setPasswordHash("password_hash");
+      return true;
+    }
+  } catch (e) {
+    log("Hiba a token validálásakor (kapcsolati hiba!): ${e.toString()}");
+  }
+
+  return false;
 }
 
 class LoginUI extends StatefulWidget {
@@ -146,9 +181,9 @@ class _LoginUIState extends State<LoginUI> {
       padding: const EdgeInsets.only(bottom: 20),
       child: DropdownMenu<String>(
         requestFocusOnTap: false,
-        label: _selectedLanguage == "Magyar"
-            ? const Text("Nyelvek")
-            : const Text("Languages"),
+        label: Text(
+          _selectedLanguage == "Magyar" ? "Nyelvek" : "Languages",
+        ),
         initialSelection: _selectedLanguage,
         onSelected: (newValue) {
           //String? a típusa
@@ -418,33 +453,22 @@ class _LoginUIState extends State<LoginUI> {
                   : () async {
                       if (_formKey.currentState!.saveAndValidate()) {
                         await AuthService().logIn(
-                            email: _emailController,
-                            password: _passwordController,
-                            context: context,
-                            language: _selectedLanguage);
+                          email: _emailController,
+                          password: _passwordController,
+                          context: context,
+                          language: _selectedLanguage,
+                        );
                       }
                     },
-              child: _selectedLanguage == "Magyar"
-                  ? Text(
-                      "Bejelentkezés",
-                      style: TextStyle(
-                        fontSize:
-                            20 * MediaQuery.of(context).textScaler.scale(1.0),
-                        height: 3.0,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1,
-                      ),
-                    )
-                  : Text(
-                      "Log in",
-                      style: TextStyle(
-                        fontSize:
-                            20 * MediaQuery.of(context).textScaler.scale(1.0),
-                        height: 3.0,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1,
-                      ),
-                    ),
+              child: Text(
+                _selectedLanguage == "Magyar" ? "Bejelentkezés" : "Login",
+                style: TextStyle(
+                  fontSize: 20 * MediaQuery.of(context).textScaler.scale(1.0),
+                  height: 3.0,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1,
+                ),
+              ),
             ),
           ),
         ),
@@ -456,10 +480,13 @@ class _LoginUIState extends State<LoginUI> {
     return TextButton(
       onPressed: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    ForgotPasswordPage(language: _selectedLanguage)));
+          context,
+          MaterialPageRoute(
+            builder: (context) => ForgotPasswordPage(
+              language: _selectedLanguage,
+            ),
+          ),
+        );
       },
       style: TextButton.styleFrom(
         foregroundColor: Colors.white,
@@ -469,13 +496,11 @@ class _LoginUIState extends State<LoginUI> {
           letterSpacing: 1,
         ),
       ),
-      child: _selectedLanguage == "Magyar"
-          ? const Text(
-              "Elfelejtett jelszó",
-            )
-          : const Text(
-              "Forgot password",
-            ),
+      child: Text(
+        _selectedLanguage == "Magyar"
+            ? "Elfelejtett jelszó"
+            : "Forgot password",
+      ),
     );
   }
 
@@ -497,38 +522,32 @@ class _LoginUIState extends State<LoginUI> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                SignUp(language: _selectedLanguage)));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SignUp(
+                          language: _selectedLanguage,
+                        ),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurpleAccent,
                     foregroundColor: Colors.white,
                     elevation: 5,
                   ),
-                  child: _selectedLanguage == "Magyar"
-                      ? Text(
-                          "Új fiók létrehozása",
-                          style: TextStyle(
-                            fontSize: 20 *
-                                MediaQuery.of(context).textScaler.scale(1.0),
-                            //minden eszközön elvileg ugyanakkora lesz (px helyett dp)
-                            height: 3.0,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1,
-                          ),
-                        )
-                      : Text(
-                          "Create new account",
-                          style: TextStyle(
-                            fontSize: 20 *
-                                MediaQuery.of(context).textScaler.scale(1.0),
-                            height: 3.0,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1,
-                          ),
-                        ),
+                  child: Text(
+                    _selectedLanguage == "Magyar"
+                        ? "Új fiók létrehozása"
+                        : "Create a new account",
+                    style: TextStyle(
+                      fontSize:
+                          20 * MediaQuery.of(context).textScaler.scale(1.0),
+                      //minden eszközön elvileg ugyanakkora lesz (px helyett dp)
+                      height: 3.0,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1,
+                    ),
+                  ),
                 ),
               ),
             ),

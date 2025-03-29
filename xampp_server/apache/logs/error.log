@@ -1667,3 +1667,79 @@
 [Fri Mar 28 11:47:08.721098 2025] [mpm_winnt:notice] [pid 7772:tid 452] AH00422: Parent: Received shutdown signal -- Shutting down the server.
 [Fri Mar 28 11:47:10.730745 2025] [mpm_winnt:notice] [pid 2628:tid 448] AH00364: Child: All worker threads have exited.
 [Fri Mar 28 11:47:10.777406 2025] [mpm_winnt:notice] [pid 7772:tid 452] AH00430: Parent: Child process 2628 exited successfully.
+[Fri Mar 28 21:07:23.587024 2025] [ssl:warn] [pid 12068:tid 452] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Fri Mar 28 21:07:23.619306 2025] [ssl:warn] [pid 12068:tid 452] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Fri Mar 28 21:07:23.650933 2025] [mpm_winnt:notice] [pid 12068:tid 452] AH00455: Apache/2.4.58 (Win64) OpenSSL/3.1.3 PHP/8.2.12 configured -- resuming normal operations
+[Fri Mar 28 21:07:23.650933 2025] [mpm_winnt:notice] [pid 12068:tid 452] AH00456: Apache Lounge VS17 Server built: Oct 18 2023 13:03:18
+[Fri Mar 28 21:07:23.650933 2025] [core:notice] [pid 12068:tid 452] AH00094: Command line: 'C:\\Users\\Levi\\Desktop\\szakmai\\dualis\\13.d\\git repok\\messengeres-vizsgaremek\\xampp_server\\apache\\bin\\httpd.exe -d C:/Users/Levi/Desktop/Szakmai/dualis/13.d/Git repok/Messengeres-vizsgaremek/xampp_server/apache'
+[Fri Mar 28 21:07:23.653551 2025] [mpm_winnt:notice] [pid 12068:tid 452] AH00418: Parent: Created child process 2172
+[Fri Mar 28 21:07:23.921440 2025] [ssl:warn] [pid 2172:tid 468] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Fri Mar 28 21:07:23.951846 2025] [ssl:warn] [pid 2172:tid 468] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Fri Mar 28 21:07:23.981887 2025] [mpm_winnt:notice] [pid 2172:tid 468] AH00354: Child: Starting 150 worker threads.
+[Fri Mar 28 22:27:42.883590 2025] [ssl:warn] [pid 3920:tid 440] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Fri Mar 28 22:27:42.930846 2025] [core:warn] [pid 3920:tid 440] AH00098: pid file C:/Users/Levi/Desktop/Szakmai/dualis/13.d/Git repok/Messengeres-vizsgaremek/xampp_server/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Fri Mar 28 22:27:42.930846 2025] [ssl:warn] [pid 3920:tid 440] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Fri Mar 28 22:27:43.511180 2025] [mpm_winnt:notice] [pid 3920:tid 440] AH00455: Apache/2.4.58 (Win64) OpenSSL/3.1.3 PHP/8.2.12 configured -- resuming normal operations
+[Fri Mar 28 22:27:43.511180 2025] [mpm_winnt:notice] [pid 3920:tid 440] AH00456: Apache Lounge VS17 Server built: Oct 18 2023 13:03:18
+[Fri Mar 28 22:27:43.511180 2025] [core:notice] [pid 3920:tid 440] AH00094: Command line: 'C:\\Users\\Levi\\Desktop\\szakmai\\dualis\\13.d\\git repok\\messengeres-vizsgaremek\\xampp_server\\apache\\bin\\httpd.exe -d C:/Users/Levi/Desktop/Szakmai/dualis/13.d/Git repok/Messengeres-vizsgaremek/xampp_server/apache'
+[Fri Mar 28 22:27:43.511180 2025] [mpm_winnt:notice] [pid 3920:tid 440] AH00418: Parent: Created child process 6632
+[Fri Mar 28 22:27:43.856028 2025] [ssl:warn] [pid 6632:tid 484] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Fri Mar 28 22:27:43.887271 2025] [ssl:warn] [pid 6632:tid 484] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Fri Mar 28 22:27:43.918902 2025] [mpm_winnt:notice] [pid 6632:tid 484] AH00354: Child: Starting 150 worker threads.
+[Fri Mar 28 23:05:59.043519 2025] [php:error] [pid 6632:tid 1924] [client 127.0.0.1:52883] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'group_name' cannot be null in C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\htdocs\\ChatexProject\\chatex_phps\\chat\\set\\start_chat.php:58\nStack trace:\n#0 C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\htdocs\\ChatexProject\\chatex_phps\\chat\\set\\start_chat.php(58): mysqli_stmt->execute()\n#1 {main}\n  thrown in C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\htdocs\\ChatexProject\\chatex_phps\\chat\\set\\start_chat.php on line 58
+[Fri Mar 28 23:07:29.686233 2025] [php:error] [pid 6632:tid 1900] [client ::1:53010] PHP Fatal error:  Uncaught mysqli_sql_exception: Column 'group_name' cannot be null in C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\htdocs\\ChatexProject\\chatex_phps\\chat\\set\\start_chat.php:58\nStack trace:\n#0 C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\htdocs\\ChatexProject\\chatex_phps\\chat\\set\\start_chat.php(58): mysqli_stmt->execute()\n#1 {main}\n  thrown in C:\\Users\\Levi\\Desktop\\Szakmai\\dualis\\13.d\\Git repok\\Messengeres-vizsgaremek\\xampp_server\\htdocs\\ChatexProject\\chatex_phps\\chat\\set\\start_chat.php on line 58
+[Fri Mar 28 23:28:54.850338 2025] [mpm_winnt:notice] [pid 3920:tid 440] AH00422: Parent: Received shutdown signal -- Shutting down the server.
+[Fri Mar 28 23:28:56.862815 2025] [mpm_winnt:notice] [pid 6632:tid 484] AH00364: Child: All worker threads have exited.
+[Fri Mar 28 23:28:56.939653 2025] [mpm_winnt:notice] [pid 3920:tid 440] AH00430: Parent: Child process 6632 exited successfully.
+[Sat Mar 29 11:39:59.812984 2025] [ssl:warn] [pid 4088:tid 452] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Sat Mar 29 11:39:59.922725 2025] [ssl:warn] [pid 4088:tid 452] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Sat Mar 29 11:40:00.346066 2025] [mpm_winnt:notice] [pid 4088:tid 452] AH00455: Apache/2.4.58 (Win64) OpenSSL/3.1.3 PHP/8.2.12 configured -- resuming normal operations
+[Sat Mar 29 11:40:00.346066 2025] [mpm_winnt:notice] [pid 4088:tid 452] AH00456: Apache Lounge VS17 Server built: Oct 18 2023 13:03:18
+[Sat Mar 29 11:40:00.346066 2025] [core:notice] [pid 4088:tid 452] AH00094: Command line: 'C:\\Users\\Levi\\Desktop\\szakmai\\dualis\\13.d\\git repok\\messengeres-vizsgaremek\\xampp_server\\apache\\bin\\httpd.exe -d C:/Users/Levi/Desktop/Szakmai/dualis/13.d/Git repok/Messengeres-vizsgaremek/xampp_server/apache'
+[Sat Mar 29 11:40:00.346066 2025] [mpm_winnt:notice] [pid 4088:tid 452] AH00418: Parent: Created child process 7536
+[Sat Mar 29 11:40:00.722043 2025] [ssl:warn] [pid 7536:tid 488] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Sat Mar 29 11:40:00.753285 2025] [ssl:warn] [pid 7536:tid 488] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Sat Mar 29 11:40:00.784917 2025] [mpm_winnt:notice] [pid 7536:tid 488] AH00354: Child: Starting 150 worker threads.
+[Sat Mar 29 20:53:25.073844 2025] [ssl:warn] [pid 3952:tid 424] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Sat Mar 29 20:53:25.121097 2025] [core:warn] [pid 3952:tid 424] AH00098: pid file C:/Users/Levi/Desktop/Szakmai/dualis/13.d/Git repok/Messengeres-vizsgaremek/xampp_server/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Sat Mar 29 20:53:25.136748 2025] [ssl:warn] [pid 3952:tid 424] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Sat Mar 29 20:53:25.622935 2025] [mpm_winnt:notice] [pid 3952:tid 424] AH00455: Apache/2.4.58 (Win64) OpenSSL/3.1.3 PHP/8.2.12 configured -- resuming normal operations
+[Sat Mar 29 20:53:25.622935 2025] [mpm_winnt:notice] [pid 3952:tid 424] AH00456: Apache Lounge VS17 Server built: Oct 18 2023 13:03:18
+[Sat Mar 29 20:53:25.622935 2025] [core:notice] [pid 3952:tid 424] AH00094: Command line: 'C:\\Users\\Levi\\Desktop\\szakmai\\dualis\\13.d\\git repok\\messengeres-vizsgaremek\\xampp_server\\apache\\bin\\httpd.exe -d C:/Users/Levi/Desktop/Szakmai/dualis/13.d/Git repok/Messengeres-vizsgaremek/xampp_server/apache'
+[Sat Mar 29 20:53:25.622935 2025] [mpm_winnt:notice] [pid 3952:tid 424] AH00418: Parent: Created child process 6340
+[Sat Mar 29 20:53:25.920930 2025] [ssl:warn] [pid 6340:tid 468] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Sat Mar 29 20:53:25.952175 2025] [ssl:warn] [pid 6340:tid 468] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Sat Mar 29 20:53:26.061916 2025] [mpm_winnt:notice] [pid 6340:tid 468] AH00354: Child: Starting 150 worker threads.
+[Sat Mar 29 21:56:01.045514 2025] [ssl:warn] [pid 3784:tid 168] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Sat Mar 29 21:56:01.108002 2025] [core:warn] [pid 3784:tid 168] AH00098: pid file C:/Users/Levi/Desktop/Szakmai/dualis/13.d/Git repok/Messengeres-vizsgaremek/xampp_server/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Sat Mar 29 21:56:01.108002 2025] [ssl:warn] [pid 3784:tid 168] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Sat Mar 29 21:56:01.688361 2025] [mpm_winnt:notice] [pid 3784:tid 168] AH00455: Apache/2.4.58 (Win64) OpenSSL/3.1.3 PHP/8.2.12 configured -- resuming normal operations
+[Sat Mar 29 21:56:01.688361 2025] [mpm_winnt:notice] [pid 3784:tid 168] AH00456: Apache Lounge VS17 Server built: Oct 18 2023 13:03:18
+[Sat Mar 29 21:56:01.688361 2025] [core:notice] [pid 3784:tid 168] AH00094: Command line: 'C:\\Users\\Levi\\Desktop\\szakmai\\dualis\\13.d\\git repok\\messengeres-vizsgaremek\\xampp_server\\apache\\bin\\httpd.exe -d C:/Users/Levi/Desktop/Szakmai/dualis/13.d/Git repok/Messengeres-vizsgaremek/xampp_server/apache'
+[Sat Mar 29 21:56:01.688361 2025] [mpm_winnt:notice] [pid 3784:tid 168] AH00418: Parent: Created child process 6376
+[Sat Mar 29 21:56:02.096074 2025] [ssl:warn] [pid 6376:tid 468] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Sat Mar 29 21:56:02.134353 2025] [ssl:warn] [pid 6376:tid 468] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Sat Mar 29 21:56:02.158982 2025] [mpm_winnt:notice] [pid 6376:tid 468] AH00354: Child: Starting 150 worker threads.
+[Sat Mar 29 22:01:55.022594 2025] [ssl:warn] [pid 3948:tid 424] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Sat Mar 29 22:01:55.085473 2025] [core:warn] [pid 3948:tid 424] AH00098: pid file C:/Users/Levi/Desktop/Szakmai/dualis/13.d/Git repok/Messengeres-vizsgaremek/xampp_server/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Sat Mar 29 22:01:55.085473 2025] [ssl:warn] [pid 3948:tid 424] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Sat Mar 29 22:01:55.445825 2025] [mpm_winnt:notice] [pid 3948:tid 424] AH00455: Apache/2.4.58 (Win64) OpenSSL/3.1.3 PHP/8.2.12 configured -- resuming normal operations
+[Sat Mar 29 22:01:55.445825 2025] [mpm_winnt:notice] [pid 3948:tid 424] AH00456: Apache Lounge VS17 Server built: Oct 18 2023 13:03:18
+[Sat Mar 29 22:01:55.445825 2025] [core:notice] [pid 3948:tid 424] AH00094: Command line: 'C:\\Users\\Levi\\Desktop\\szakmai\\dualis\\13.d\\git repok\\messengeres-vizsgaremek\\xampp_server\\apache\\bin\\httpd.exe -d C:/Users/Levi/Desktop/Szakmai/dualis/13.d/Git repok/Messengeres-vizsgaremek/xampp_server/apache'
+[Sat Mar 29 22:01:55.445825 2025] [mpm_winnt:notice] [pid 3948:tid 424] AH00418: Parent: Created child process 6588
+[Sat Mar 29 22:01:55.790672 2025] [ssl:warn] [pid 6588:tid 468] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Sat Mar 29 22:01:55.806293 2025] [ssl:warn] [pid 6588:tid 468] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Sat Mar 29 22:01:55.853546 2025] [mpm_winnt:notice] [pid 6588:tid 468] AH00354: Child: Starting 150 worker threads.
+[Sat Mar 29 22:19:23.688801 2025] [ssl:warn] [pid 3832:tid 180] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Sat Mar 29 22:19:23.735665 2025] [core:warn] [pid 3832:tid 180] AH00098: pid file C:/Users/Levi/Desktop/Szakmai/dualis/13.d/Git repok/Messengeres-vizsgaremek/xampp_server/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Sat Mar 29 22:19:23.735665 2025] [ssl:warn] [pid 3832:tid 180] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Sat Mar 29 22:19:24.018024 2025] [mpm_winnt:notice] [pid 3832:tid 180] AH00455: Apache/2.4.58 (Win64) OpenSSL/3.1.3 PHP/8.2.12 configured -- resuming normal operations
+[Sat Mar 29 22:19:24.018024 2025] [mpm_winnt:notice] [pid 3832:tid 180] AH00456: Apache Lounge VS17 Server built: Oct 18 2023 13:03:18
+[Sat Mar 29 22:19:24.018024 2025] [core:notice] [pid 3832:tid 180] AH00094: Command line: 'C:\\Users\\Levi\\Desktop\\szakmai\\dualis\\13.d\\git repok\\messengeres-vizsgaremek\\xampp_server\\apache\\bin\\httpd.exe -d C:/Users/Levi/Desktop/Szakmai/dualis/13.d/Git repok/Messengeres-vizsgaremek/xampp_server/apache'
+[Sat Mar 29 22:19:24.018024 2025] [mpm_winnt:notice] [pid 3832:tid 180] AH00418: Parent: Created child process 6380
+[Sat Mar 29 22:19:24.378885 2025] [ssl:warn] [pid 6380:tid 476] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Sat Mar 29 22:19:24.410127 2025] [ssl:warn] [pid 6380:tid 476] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Sat Mar 29 22:19:24.441370 2025] [mpm_winnt:notice] [pid 6380:tid 476] AH00354: Child: Starting 150 worker threads.
+[Sat Mar 29 23:36:31.278106 2025] [mpm_winnt:notice] [pid 3832:tid 180] AH00422: Parent: Received shutdown signal -- Shutting down the server.
+[Sat Mar 29 23:36:33.326713 2025] [mpm_winnt:notice] [pid 6380:tid 476] AH00364: Child: All worker threads have exited.
+[Sat Mar 29 23:36:33.404226 2025] [mpm_winnt:notice] [pid 3832:tid 180] AH00430: Parent: Child process 6380 exited successfully.

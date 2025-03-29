@@ -1,5 +1,5 @@
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Preferences {
   static SharedPreferences? _prefs;
@@ -25,7 +25,6 @@ class Preferences {
     await _prefs?.setString('jwt_token', token);
   }
 
-  // Felhasználó ID beállítása
   static Future<void> setUserId(int id) async {
     await _prefs?.setInt('id', id);
   }
@@ -56,7 +55,6 @@ class Preferences {
     return _prefs?.getString('jwt_token') ?? '';
   }
 
-  // Felhasználó ID lekérése
   static int? getUserId() {
     return _prefs?.getInt('id');
   }
@@ -74,7 +72,6 @@ class Preferences {
   }
 
 //Egyéb ----------------------------------------------------
-  // Adatok törlése (például kijelentkezéskor)
   static Future<void> clearPreferences() async {
     await _prefs?.clear();
   }

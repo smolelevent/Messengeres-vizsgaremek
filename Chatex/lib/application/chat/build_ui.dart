@@ -68,22 +68,42 @@ class _ChatUIState extends State<ChatUI> {
               foregroundColor: Colors.white,
               shadowColor: Colors.deepPurpleAccent,
               elevation: 10,
-              actions: _selectedIndex == 0
-                  ? [
-                      IconButton(
-                        icon: const Icon(Icons.add_comment),
-                        color: Colors.white,
-                        tooltip: "Új chat indítása",
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const StartChat()),
-                          );
-                        },
-                      ),
-                    ]
-                  : null,
+              actions: () {
+                if (_selectedIndex == 0) {
+                  return [
+                    IconButton(
+                      icon: const Icon(Icons.add_comment),
+                      color: Colors.white,
+                      tooltip: Preferences.getPreferredLanguage() == "Magyar"
+                          ? "Új chat készítése"
+                          : "Create a new chat",
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const StartChat(),
+                          ),
+                        );
+                      },
+                    ),
+                  ];
+                } else if (_selectedIndex == 2) {
+                  return [
+                    IconButton(
+                      icon: const Icon(Icons.group_add_rounded),
+                      color: Colors.white,
+                      tooltip: Preferences.getPreferredLanguage() == "Magyar"
+                          ? "Új csoport készítése"
+                          : "Create a new group",
+                      onPressed: () {
+                        // TODO: Új csoport létrehozás logika
+                      },
+                    ),
+                  ];
+                } else {
+                  return null;
+                }
+              }(),
             ),
             drawer: ChatSidebar(
               onSelectPage: _setScreen,

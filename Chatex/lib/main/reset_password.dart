@@ -137,12 +137,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         controller: _emailController,
         keyboardType: TextInputType.emailAddress,
         style: const TextStyle(
-          //szöveg stílusa
           color: Colors.white,
           fontSize: 20.0,
         ),
         decoration: InputDecoration(
-          //padding hozzáadása a mezőhöz
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           hintText: _isEmailFocused
@@ -156,14 +154,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   : "Email address"
               : null,
           enabledBorder: const UnderlineInputBorder(
-            //állandó szín a mező alsó csíkjának
             borderSide: BorderSide(
               color: Colors.white,
               width: 2.5,
             ),
           ),
           focusedBorder: const UnderlineInputBorder(
-            //fókuszra lila lesz a mező alsó csíkja
             borderSide: BorderSide(
               color: Colors.deepPurpleAccent,
               width: 2.5,
