@@ -146,8 +146,8 @@ class _ChatSidebarState extends State<ChatSidebar> {
               label: locale == "Magyar" ? 'Csoportok' : 'Groups',
               iconBuilder: (context, isSelected) {
                 return const Icon(
-                  Icons.group,
-                  color: Colors.yellow,
+                  Icons.groups,
+                  color: Colors.blue,
                 );
               },
               onTap: () {

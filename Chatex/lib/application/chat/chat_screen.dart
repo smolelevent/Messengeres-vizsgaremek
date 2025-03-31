@@ -1,8 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:chatex/logic/preferences.dart';
+import 'dart:convert';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+  const ChatScreen({
+    super.key,
+    //required this.chatId,
+    required this.chatName,
+    required this.profileImage,
+    //required this.isGroup,
+    this.isOnline = false,
+    required this.lastSeen,
+  });
+
+  //final int chatId;
+  final String chatName;
+  final String profileImage;
+  //final bool isGroup;
+  final bool
+      isOnline; //TODO: frissítés kijelentkezéskor, lekezelni ha online (buborékok zöld, szürke), valósidőbe való átvitel
+  final String lastSeen;
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -29,6 +47,39 @@ class _ChatScreenState extends State<ChatScreen> {
         });
       });
     });
+  }
+
+  String formatLastSeen(String lastSeenString) {
+    try {
+      final lastSeen = DateTime.parse(lastSeenString).toLocal();
+      final now = DateTime.now();
+      final difference = now.difference(lastSeen);
+
+      if (difference.inMinutes < 1) {
+        return Preferences.getPreferredLanguage() == "Magyar"
+            ? "Épp most"
+            : "Just now";
+      } else if (difference.inMinutes < 60) {
+        return Preferences.getPreferredLanguage() == "Magyar"
+            ? "${difference.inMinutes} perce"
+            : "${difference.inMinutes} minute(s) ago";
+      } else if (difference.inHours < 24) {
+        return Preferences.getPreferredLanguage() == "Magyar"
+            ? "${difference.inHours} órája"
+            : "${difference.inHours} hour(s) ago";
+      } else {
+        // Dátum: ÉÉÉÉ.HH.NN ÓÓ:PP
+        final formattedDate =
+            "${lastSeen.year}.${lastSeen.month.toString().padLeft(2, '0')}.${lastSeen.day.toString().padLeft(2, '0')} "
+            "${lastSeen.hour.toString().padLeft(2, '0')}:${lastSeen.minute.toString().padLeft(2, '0')}";
+
+        return formattedDate;
+      }
+    } catch (_) {
+      return Preferences.getPreferredLanguage() == "Magyar"
+          ? "Ismeretlen"
+          : "Unknown";
+    }
   }
 
   @override
@@ -81,26 +132,60 @@ class _ChatScreenState extends State<ChatScreen> {
         leadingWidth: 55,
         title: Row(
           children: [
-            const CircleAvatar(
-              backgroundColor: Colors.deepPurpleAccent,
-              radius: 24,
+            ClipOval(
+              child: Builder(
+                builder: (context) {
+                  final image = widget.profileImage;
+                  if (image.startsWith("data:image/svg+xml;base64,")) {
+                    final svgBase64 = image.split(',')[1];
+                    final svgBytes = base64Decode(svgBase64);
+                    return SvgPicture.memory(
+                      svgBytes,
+                      width: 48,
+                      height: 48,
+                      fit: BoxFit.fill,
+                    );
+                  } else if (image.startsWith("data:image/")) {
+                    final base64Data = image.split(',')[1];
+                    return Image.memory(
+                      base64Decode(base64Data),
+                      width: 48,
+                      height: 48,
+                      fit: BoxFit.fill,
+                    );
+                  } else {
+                    return Container(
+                      width: 48,
+                      height: 48,
+                      color: Colors.transparent,
+                      child: const Icon(Icons.person, color: Colors.white),
+                    );
+                  }
+                },
+              ),
             ),
             const SizedBox(width: 10),
-            const Expanded(
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Felhasználónévdddddd", //kifér 20 karakter
-                    style: TextStyle(
+                    widget.chatName,
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                       color: Colors.white,
                     ),
                   ),
                   Text(
-                    "Elérhetődddddddddddd",
-                    style: TextStyle(
+                    widget.isOnline
+                        ? (Preferences.getPreferredLanguage() == "Magyar"
+                            ? "Elérhető"
+                            : "Online")
+                        : (Preferences.getPreferredLanguage() == "Magyar"
+                            ? "Utoljára elérhető: ${formatLastSeen(widget.lastSeen)}" //TODO: chaten valósidőbe kezelni az adatokat, last seen, online, üzenet stb...
+                            : "Last seen: ${formatLastSeen(widget.lastSeen)}"),
+                    style: const TextStyle(
                       fontSize: 14,
                       color: Colors.grey,
                     ),
@@ -113,7 +198,9 @@ class _ChatScreenState extends State<ChatScreen> {
               hunTooltip: "Információ a felhasználóról",
               engTooltip: "User Information",
               icon: Icons.info,
-              onPressed: () {},
+              onPressed: () {
+                //TODO: felhasználó információi
+              },
             ),
           ],
         ),
@@ -198,10 +285,10 @@ class _ChatScreenState extends State<ChatScreen> {
               onPressed: () {
                 if (_isWriting) {
                   // Küldés logika itt
-                  print("Küldés: ${_messageController.text}");
+                  //print("Küldés: ${_messageController.text}");
                   _messageController.clear();
                 } else {
-                  print("Like vagy emoji gomb megnyomva");
+                  //print("Like vagy emoji gomb megnyomva");
                 }
               },
             ),

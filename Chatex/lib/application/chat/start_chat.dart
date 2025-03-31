@@ -1,3 +1,4 @@
+import 'package:chatex/application/chat/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,7 +21,6 @@ class _StartChatState extends State<StartChat> {
   String _searchQuery = "";
   //TODO: minden keresés a programban legyen olyan hogy az első karakter az feleljen meg az eredmény első karakterjével
   List<dynamic> _friends = [];
-  final Set<int> _selectedFriendIds = {};
   bool _isLoading = true;
 
   @override
@@ -52,9 +52,9 @@ class _StartChatState extends State<StartChat> {
         setState(() => _isLoading = false);
         ToastMessages.showToastMessages(
           Preferences.getPreferredLanguage() == "Magyar"
-              ? "Nem sikerült betölteni a barátokat!"
-              : "Couldn't load the friend list!",
-          0.3,
+              ? "Nem sikerült betölteni a barátaid!"
+              : "Couldn't load your friends!",
+          0.1,
           Colors.redAccent,
           Icons.error,
           Colors.black,
@@ -67,119 +67,7 @@ class _StartChatState extends State<StartChat> {
         Preferences.getPreferredLanguage() == "Magyar"
             ? "Kapcsolati hiba!"
             : "Connection error!",
-        0.3,
-        Colors.redAccent,
-        Icons.error,
-        Colors.black,
-        const Duration(seconds: 2),
-        context,
-      );
-    }
-  }
-
-  void _toggleSelection(int friendId) {
-    setState(() {
-      if (_selectedFriendIds.contains(friendId)) {
-        _selectedFriendIds.remove(friendId);
-      } else {
-        _selectedFriendIds.add(friendId);
-      }
-    });
-  }
-
-  //TODO: Először a chat_screen.dart hogy megírjuk a chat felületet, majd ide visszatérni és összekötni a logikát vele
-  // TODO: chat létrehozás logika (pl. POST PHP-ra), majd átirányítás
-
-  // void _startChat() {
-  //   if (_selectedFriendIds.isEmpty) return;
-  //   try {
-  //     final Uri startChatUrl = Uri.parse(
-  //         "http://10.0.2.2/ChatexProject/chatex_phps/chat/set/start_chat.php");
-  //   } catch (e) {
-  //     ToastMessages.showToastMessages(
-  //       Preferences.getPreferredLanguage() == "Magyar"
-  //           ? "Kapcsolati hiba!"
-  //           : "Connection error!",
-  //       0.2,
-  //       Colors.redAccent,
-  //       Icons.error,
-  //       Colors.black,
-  //       const Duration(seconds: 2),
-  //       context,
-  //     );
-  //   }
-  //   ToastMessages.showToastMessages(
-  //     Preferences.getPreferredLanguage() == "Magyar"
-  //         ? "Chat létrehozva ${_selectedFriendIds.length} személlyel!"
-  //         : "Chat created with ${_selectedFriendIds.length} people",
-  //     0.2,
-  //     Colors.green,
-  //     Icons.check,
-  //     Colors.black,
-  //     const Duration(seconds: 2),
-  //     context,
-  //   );
-  // }
-
-  void _startChat() async {
-    if (_selectedFriendIds.isEmpty) return;
-
-    try {
-      final int? senderId = Preferences.getUserId();
-      if (senderId == null) return;
-
-      final List<int> receiverIds = _selectedFriendIds.toList();
-      final isGroup = receiverIds.length > 1;
-
-      final response = await http.post(
-        Uri.parse(
-            "http://10.0.2.2/ChatexProject/chatex_phps/chat/set/start_chat.php"),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({
-          "sender_id": senderId,
-          "receiver_ids": receiverIds,
-          if (isGroup) "group_name": "Új csoport",
-          if (isGroup) "group_profile_picture": null,
-        }),
-      );
-
-      final responseData = jsonDecode(response.body);
-
-      if (response.statusCode == 200 && responseData["success"] == true) {
-        //final int chatId = data["chat_id"];
-        // 🔁 Navigálj át a chat képernyőre, ha akarod:
-        // Navigator.push(...)
-        Navigator.pop(context);
-        ToastMessages.showToastMessages(
-          Preferences.getPreferredLanguage() == "Magyar"
-              ? (isGroup ? "Csoport létrehozva!" : "Chat létrehozva!")
-              : (isGroup ? "Group created!" : "Chat created!"),
-          0.2,
-          Colors.green,
-          Icons.check,
-          Colors.black,
-          const Duration(seconds: 2),
-          context,
-        );
-      } else {
-        ToastMessages.showToastMessages(
-          Preferences.getPreferredLanguage() == "Magyar"
-              ? "Nem sikerült létrehozni a chatet!"
-              : "Failed to create chat!",
-          0.2,
-          Colors.redAccent,
-          Icons.error,
-          Colors.black,
-          const Duration(seconds: 2),
-          context,
-        );
-      }
-    } catch (e) {
-      ToastMessages.showToastMessages(
-        Preferences.getPreferredLanguage() == "Magyar"
-            ? "Kapcsolati hiba!"
-            : "Connection error!",
-        0.2,
+        0.1,
         Colors.redAccent,
         Icons.error,
         Colors.black,
@@ -208,37 +96,19 @@ class _StartChatState extends State<StartChat> {
                           color: Colors.deepPurpleAccent))
                   : _buildFriendList(),
             ),
-          ],
+          ], //TODO: le kezelni hogy ne legyen duplikált chat, készítéskor a chatre vigyen
         ),
-        bottomNavigationBar: _selectedFriendIds.isNotEmpty
-            ? Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurpleAccent,
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                  ),
-                  onPressed: _startChat,
-                  icon: const Icon(Icons.chat_bubble_outline,
-                      color: Colors.white),
-                  label: Text(
-                    Preferences.getPreferredLanguage() == "Magyar"
-                        ? "Chat létrehozása"
-                        : "Start Chat",
-                    style: const TextStyle(color: Colors.white, fontSize: 18),
-                  ),
-                ),
-              )
-            : const SizedBox.shrink(),
       ),
     );
   }
 
   Widget _buildFriendList() {
-    final filtered = _friends.where((friend) {
-      final username = (friend["username"] as String).toLowerCase();
-      return username.contains(_searchQuery.toLowerCase());
-    }).toList();
+    final filtered = _friends.where(
+      (friend) {
+        final username = (friend["username"] as String).toLowerCase();
+        return username.contains(_searchQuery.toLowerCase());
+      },
+    ).toList();
 
     if (filtered.isEmpty) {
       return Center(
@@ -300,16 +170,81 @@ class _StartChatState extends State<StartChat> {
               username,
               style: const TextStyle(color: Colors.white, fontSize: 18),
             ),
-            trailing: Checkbox(
-              value: _selectedFriendIds.contains(friendId),
-              onChanged: (_) => _toggleSelection(friendId),
-              activeColor: Colors.deepPurpleAccent,
-            ),
-            onTap: () => _toggleSelection(friendId),
+            onTap: () => _startChatWith(friendId),
           ),
         );
       },
     );
+  }
+
+  void _startChatWith(int friendId) async {
+    try {
+      final int? senderId = Preferences.getUserId();
+      if (senderId == null) return;
+
+      final response = await http.post(
+        Uri.parse(
+            "http://10.0.2.2/ChatexProject/chatex_phps/chat/set/start_chat.php"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "sender_id": senderId,
+          "receiver_ids": [friendId],
+        }),
+      );
+
+      final responseData = jsonDecode(response.body);
+
+      if (responseData["message"] == "Chat létrehozva!") {
+        ToastMessages.showToastMessages(
+          Preferences.getPreferredLanguage() == "Magyar"
+              ? "Chat létrehozva!"
+              : "Chat created!",
+          0.2,
+          Colors.green,
+          Icons.check,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChatScreen(
+              chatName: responseData["friend_name"],
+              profileImage: responseData["friend_profile_picture"] ?? "",
+              lastSeen: "",
+              // ha később is_online mezőt is visszaadnál a PHP-ban:
+              //isOnline: responseData["is_online"] ?? false, //TODO: isOnline
+            ),
+          ),
+        ); //TODO: miután bedob a chatbe és vissza nyíl akkor jelenjen meg a chat
+      } else if (responseData["message"] == "Már létezik a chat!") {
+        ToastMessages.showToastMessages(
+          Preferences.getPreferredLanguage() ==
+                  "Magyar" //TODO: ha már létezik akkor ki kell venni a listából
+              ? "Már létezik chated ezzel a felhasználóval!"
+              : "The chat with this user already exist!",
+          0.1,
+          Colors.redAccent,
+          Icons.error,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
+      }
+    } catch (e) {
+      ToastMessages.showToastMessages(
+        Preferences.getPreferredLanguage() == "Magyar"
+            ? "Kapcsolati hiba!"
+            : "Connection error!",
+        0.1,
+        Colors.redAccent,
+        Icons.error,
+        Colors.black,
+        const Duration(seconds: 2),
+        context,
+      );
+    }
   }
 
   PreferredSizeWidget _buildAppbar() {

@@ -4,12 +4,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 class ToastMessages {
   static final FToast _fToastInstance = FToast();
 
-  /// Inicializálás, ezt csak egyszer kell meghívni!
+  // Inicializálás, ezt csak egyszer kell meghívni!
   static void init(BuildContext context) {
     _fToastInstance.init(context);
   }
 
-  /// Toast üzenet megjelenítése
   static void showToastMessages(
     String message,
     double whereToPercentage,

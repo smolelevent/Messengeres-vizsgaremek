@@ -16,7 +16,6 @@
 
 // $user_id = intval($data["user_id"]);
 
-// // Lekérdezzük az összes chatet, ahol a felhasználó tag, és hozzávesszük a legutolsó üzenetet
 // $query = "
 //     SELECT 
 //         c.chat_id,
@@ -41,7 +40,7 @@
 //     INNER JOIN chat_members cm ON cm.chat_id = c.chat_id
 //     INNER JOIN chat_members other_cm ON other_cm.chat_id = c.chat_id AND other_cm.user_id != ?
 //     INNER JOIN users u ON u.id = other_cm.user_id
-//     WHERE cm.user_id = ?
+//     WHERE cm.user_id = ? AND c.is_group = 0
 //     GROUP BY c.chat_id
 //     ORDER BY last_message_time DESC
 // ";
@@ -57,8 +56,7 @@
 //     $chatList[] = $row;
 // }
 
-// echo json_encode($chatList);
-
+// echo json_encode($chatList); mentés
 
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Origin: *");
@@ -81,8 +79,10 @@ $query = "
     SELECT 
         c.chat_id,
         c.is_group,
-        c.group_name,
-        c.group_profile_picture,
+        u.username AS friend_name,
+        u.profile_picture AS friend_profile_picture,
+        u.last_seen AS friend_last_seen,
+
         (
             SELECT m.message_text
             FROM messages m
@@ -90,21 +90,22 @@ $query = "
             ORDER BY m.sent_at DESC
             LIMIT 1
         ) AS last_message,
+
         (
             SELECT m.sent_at
             FROM messages m
             WHERE m.chat_id = c.chat_id
             ORDER BY m.sent_at DESC
             LIMIT 1
-        ) AS last_message_time,
-        GROUP_CONCAT(u.username SEPARATOR ', ') AS friend_name,
-        GROUP_CONCAT(u.profile_picture SEPARATOR ', ') AS friend_profile_picture
+        ) AS last_message_time
+
     FROM chats c
     INNER JOIN chat_members cm ON cm.chat_id = c.chat_id
-    INNER JOIN chat_members other_cm ON other_cm.chat_id = c.chat_id AND other_cm.user_id != ?
+    INNER JOIN chat_members other_cm 
+        ON other_cm.chat_id = c.chat_id AND other_cm.user_id != ?
     INNER JOIN users u ON u.id = other_cm.user_id
-    WHERE cm.user_id = ?
-    GROUP BY c.chat_id
+
+    WHERE cm.user_id = ? AND c.is_group = 0
     ORDER BY last_message_time DESC
 ";
 

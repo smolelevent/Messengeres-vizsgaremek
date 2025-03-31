@@ -1,12 +1,11 @@
-import 'package:chatex/application/chat/build_ui.dart';
-import 'package:chatex/main.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:chatex/application/chat/build_ui.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'package:chatex/logic/preferences.dart';
-//import '../utils/toast_service.dart';
+import 'package:chatex/main.dart';
+import 'dart:developer';
+import 'dart:convert';
 
 class AuthService {
   // static const String serverUrl = //TODO: megoldani hogy rendes telefonon fusson
@@ -133,6 +132,7 @@ class AuthService {
         final username = responseData['username'];
         final email = responseData['email'];
         final passwordHash = responseData['password_hash'];
+        final token = responseData['token'];
 
         await Preferences.setUserId(userId);
         await Preferences.setPreferredLanguage(preferredlang);
@@ -140,8 +140,6 @@ class AuthService {
         await Preferences.setUsername(username);
         await Preferences.setEmail(email);
         await Preferences.setPasswordHash(passwordHash);
-
-        final token = responseData['token']; //TODO: kezdeni vele valamit
         await Preferences.setToken(token);
         ToastMessages.showToastMessages(
           language == "Magyar" ? "Sikeres bejelentkezés!" : "Successful login!",
@@ -201,14 +199,16 @@ class AuthService {
   }
 
 //logOut logika --------------------------------------------------------------
-  Future<void> logOut({required context}) async {
-    await Future.delayed(const Duration(seconds: 1)); //TODO: kell loading
+  Future<void> logOut({required BuildContext context}) async {
+    await Future.delayed(
+        const Duration(seconds: 2)); //TODO: biztosan hogy ezt akarod?
+    await Preferences.clearPreferences();
+
     if (context.mounted) {
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              //BuildContext volt
-              builder: (context) => const LoginUI()));
+        context,
+        MaterialPageRoute(builder: (context) => const LoginUI()),
+      );
     }
   }
 
