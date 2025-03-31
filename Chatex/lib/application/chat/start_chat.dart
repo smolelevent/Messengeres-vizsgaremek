@@ -213,6 +213,7 @@ class _StartChatState extends State<StartChat> {
               chatName: responseData["friend_name"],
               profileImage: responseData["friend_profile_picture"] ?? "",
               lastSeen: "",
+              isOnline: 1, //töltők ezek csak
               // ha később is_online mezőt is visszaadnál a PHP-ban:
               //isOnline: responseData["is_online"] ?? false, //TODO: isOnline
             ),

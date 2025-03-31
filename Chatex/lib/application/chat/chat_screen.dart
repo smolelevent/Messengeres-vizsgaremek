@@ -10,7 +10,7 @@ class ChatScreen extends StatefulWidget {
     required this.chatName,
     required this.profileImage,
     //required this.isGroup,
-    this.isOnline = false,
+    required this.isOnline,
     required this.lastSeen,
   });
 
@@ -18,9 +18,9 @@ class ChatScreen extends StatefulWidget {
   final String chatName;
   final String profileImage;
   //final bool isGroup;
-  final bool
-      isOnline; //TODO: frissítés kijelentkezéskor, lekezelni ha online (buborékok zöld, szürke), valósidőbe való átvitel
+  final int isOnline;
   final String lastSeen;
+//TODO: frissítés kijelentkezéskor, lekezelni ha online (buborékok zöld, szürke), valósidőbe való átvitel
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -77,8 +77,8 @@ class _ChatScreenState extends State<ChatScreen> {
       }
     } catch (_) {
       return Preferences.getPreferredLanguage() == "Magyar"
-          ? "Ismeretlen"
-          : "Unknown";
+          ? "Hiba!"
+          : "Error!";
     }
   }
 
@@ -114,6 +114,72 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
+  Widget _buildProfileImage(String imageString, int isOnline) {
+    Widget imageWidget;
+
+    if (imageString.startsWith("data:image/svg+xml;base64,")) {
+      final svgBytes = base64Decode(imageString.split(",")[1]);
+      imageWidget = SvgPicture.memory(
+        svgBytes,
+        width: 48,
+        height: 48,
+        fit: BoxFit.fill,
+      );
+    } else if (imageString.startsWith("data:image/")) {
+      final base64Data = base64Decode(imageString.split(",")[1]);
+      imageWidget = Image.memory(
+        base64Data,
+        width: 48,
+        height: 48,
+        fit: BoxFit.fill,
+      );
+    } else {
+      imageWidget = const Icon(
+        Icons.person,
+        size: 40,
+        color: Colors.white,
+      );
+    }
+
+    return SizedBox(
+      width: 56,
+      height: 56,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          // Profilkép körbe foglalva
+          const Positioned.fill(
+            child: CircleAvatar(
+              backgroundColor: Colors.grey,
+              radius: 28,
+            ),
+          ),
+          Positioned.fill(
+            child: ClipOval(child: imageWidget),
+          ),
+
+          // Státuszkör – kilóg kissé //TODO: holnap innen folyt köv ezt átalakítani
+          Positioned(
+            bottom: -2,
+            right: -2,
+            child: Container(
+              width: 14,
+              height: 14,
+              decoration: BoxDecoration(
+                color: isOnline == 1 ? Colors.green : Colors.grey,
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.black,
+                  width: 2,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   PreferredSizeWidget _buildAppBar() {
     return PreferredSize(
       preferredSize: const Size.fromHeight(60),
@@ -132,38 +198,39 @@ class _ChatScreenState extends State<ChatScreen> {
         leadingWidth: 55,
         title: Row(
           children: [
-            ClipOval(
-              child: Builder(
-                builder: (context) {
-                  final image = widget.profileImage;
-                  if (image.startsWith("data:image/svg+xml;base64,")) {
-                    final svgBase64 = image.split(',')[1];
-                    final svgBytes = base64Decode(svgBase64);
-                    return SvgPicture.memory(
-                      svgBytes,
-                      width: 48,
-                      height: 48,
-                      fit: BoxFit.fill,
-                    );
-                  } else if (image.startsWith("data:image/")) {
-                    final base64Data = image.split(',')[1];
-                    return Image.memory(
-                      base64Decode(base64Data),
-                      width: 48,
-                      height: 48,
-                      fit: BoxFit.fill,
-                    );
-                  } else {
-                    return Container(
-                      width: 48,
-                      height: 48,
-                      color: Colors.transparent,
-                      child: const Icon(Icons.person, color: Colors.white),
-                    );
-                  }
-                },
-              ),
-            ),
+            _buildProfileImage(widget.profileImage, widget.isOnline),
+            // ClipOval(
+            //   child: Builder(
+            //     builder: (context) {
+            //       final image = widget.profileImage;
+            //       if (image.startsWith("data:image/svg+xml;base64,")) {
+            //         final svgBase64 = image.split(',')[1];
+            //         final svgBytes = base64Decode(svgBase64);
+            //         return SvgPicture.memory(
+            //           svgBytes,
+            //           width: 48,
+            //           height: 48,
+            //           fit: BoxFit.fill,
+            //         );
+            //       } else if (image.startsWith("data:image/")) {
+            //         final base64Data = image.split(',')[1];
+            //         return Image.memory(
+            //           base64Decode(base64Data),
+            //           width: 48,
+            //           height: 48,
+            //           fit: BoxFit.fill,
+            //         );
+            //       } else {
+            //         return Container(
+            //           width: 48,
+            //           height: 48,
+            //           color: Colors.transparent,
+            //           child: const Icon(Icons.person, color: Colors.white),
+            //         );
+            //       }
+            //     },
+            //   ),
+            // ),
             const SizedBox(width: 10),
             Expanded(
               child: Column(
@@ -178,7 +245,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                   Text(
-                    widget.isOnline
+                    widget.isOnline == 1
                         ? (Preferences.getPreferredLanguage() == "Magyar"
                             ? "Elérhető"
                             : "Online")

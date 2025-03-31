@@ -1,13 +1,12 @@
-import 'package:chatex/application/chat/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:chatex/application/chat/chat_screen.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'package:chatex/logic/preferences.dart';
-//import 'package:chatex/application/chat/chat_screen.dart';
 import 'dart:convert';
-import 'dart:developer';
+//import 'dart:developer';
 
 class LoadedChatData extends StatefulWidget {
   const LoadedChatData({super.key});
@@ -126,7 +125,6 @@ class LoadedChatDataState extends State<LoadedChatData> {
               ),
             );
           }
-
           return ListView.builder(
             itemCount: chatList.length,
             itemBuilder: (context, index) {
@@ -134,15 +132,14 @@ class LoadedChatDataState extends State<LoadedChatData> {
 
               return ChatTile(
                 chatName: chat["friend_name"],
-                lastMessage: chat["last_message"] ??
-                        Preferences.getPreferredLanguage() == "Magyar"
-                    ? "Nincs még üzenet"
-                    : "No message yet",
-                time: chat["last_message_time"] ?? "",
                 profileImage: chat["friend_profile_picture"] ?? "",
+                lastMessage: chat["last_message"] ??
+                    (Preferences.getPreferredLanguage() == "Magyar"
+                        ? "Nincs még üzenet"
+                        : "No message yet"),
+                time: chat["last_message_time"] ?? "",
+                isOnline: chat["is_online"],
                 onTap: () {
-                  log("Megnyitva: ${chat["friend_name"]}");
-
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -150,6 +147,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
                         chatName: chat["friend_name"],
                         profileImage: chat["friend_profile_picture"] ?? "",
                         lastSeen: chat["friend_last_seen"],
+                        isOnline: chat["is_online"],
                       ),
                     ),
                   );
@@ -172,6 +170,7 @@ class ChatTile extends StatelessWidget {
     required this.time,
     required this.profileImage,
     required this.onTap,
+    required this.isOnline,
   });
 
   final String chatName;
@@ -179,46 +178,98 @@ class ChatTile extends StatelessWidget {
   final String time;
   final String profileImage;
   final VoidCallback onTap;
+  final int isOnline;
 
-  Widget _buildProfileImage(String imageString) {
-    try {
-      if (imageString.startsWith("data:image/svg+xml;base64,")) {
-        final svgBytes = base64Decode(imageString.split(",")[1]);
-        return SvgPicture.memory(
-          svgBytes,
-          width: 60,
-          height: 60,
-          fit: BoxFit.fill,
-        );
-      } else if (imageString.startsWith("data:image/")) {
-        final base64Data = base64Decode(imageString.split(",")[1]);
-        return Image.memory(
-          base64Data,
-          width: 60,
-          height: 60,
-          fit: BoxFit.fill,
-        );
-      } else {
-        return const CircleAvatar(
-          backgroundColor: Colors.transparent,
-          radius: 30,
-          child: Icon(
-            Icons.person,
-            size: 50,
-            color: Colors.white,
+  Widget _buildProfileImage(String imageString, int isOnline) {
+    Widget imageWidget;
+
+    if (imageString.startsWith("data:image/svg+xml;base64,")) {
+      final svgBytes = base64Decode(imageString.split(",")[1]);
+      imageWidget = SvgPicture.memory(
+        svgBytes,
+        width: 60,
+        height: 60,
+        fit: BoxFit.fill,
+      );
+    } else if (imageString.startsWith("data:image/")) {
+      final base64Data = base64Decode(imageString.split(",")[1]);
+      imageWidget = Image.memory(
+        base64Data,
+        width: 60,
+        height: 60,
+        fit: BoxFit.fill,
+      );
+    } else {
+      imageWidget = const Icon(
+        Icons.person,
+        size: 40,
+        color: Colors.white,
+      );
+    }
+
+//eltávolítása exception-t ad
+    return SizedBox(
+      width: 66,
+      height: 66,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Positioned(
+            top: 0,
+            child: CircleAvatar(
+              radius: 30,
+              backgroundColor: Colors.grey[800],
+              child: ClipOval(child: imageWidget),
+            ),
           ),
-        );
+          Positioned(
+            bottom: -6,
+            right: 10,
+            child: Container(
+              width: 16,
+              height: 16,
+              decoration: BoxDecoration(
+                color: isOnline == 1 ? Colors.green : Colors.grey,
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.black,
+                  width: 2.5,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String formatMessageTime(String timestamp) {
+    try {
+      final dateTime = DateTime.parse(timestamp).toLocal();
+      final now = DateTime.now();
+      final difference = now.difference(dateTime);
+
+      if (difference.inMinutes < 1) {
+        return Preferences.getPreferredLanguage() == "Magyar"
+            ? "Épp most"
+            : "Just now";
+      } else if (difference.inMinutes < 60) {
+        return Preferences.getPreferredLanguage() == "Magyar"
+            ? "${difference.inMinutes} perce"
+            : "${difference.inMinutes} minute(s) ago";
+      } else if (difference.inHours < 24 && now.day == dateTime.day) {
+        return "${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";
+      } else if (difference.inHours < 48 && now.day - dateTime.day == 1) {
+        return Preferences.getPreferredLanguage() == "Magyar"
+            ? "Tegnap"
+            : "Yesterday";
+      } else {
+        return "${dateTime.month.toString().padLeft(2, '0')}.${dateTime.day.toString().padLeft(2, '0')} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";
       }
     } catch (e) {
-      return const CircleAvatar(
-        backgroundColor: Colors.transparent,
-        radius: 30,
-        child: Icon(
-          Icons.person,
-          size: 50,
-          color: Colors.white,
-        ),
-      );
+      return Preferences.getPreferredLanguage() == "Magyar"
+          ? "Hiba!"
+          : "Error!";
     }
   }
 
@@ -232,7 +283,7 @@ class ChatTile extends StatelessWidget {
       child: ListTile(
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        leading: ClipOval(child: _buildProfileImage(profileImage)),
+        leading: _buildProfileImage(profileImage, isOnline),
         title: AutoSizeText(
           maxLines: 1,
           chatName,
@@ -243,6 +294,7 @@ class ChatTile extends StatelessWidget {
           ),
         ),
         subtitle: Text(
+          //TODO: új üzenetkor fehér szöveg, piros karika számmal, ehez is_read kell
           lastMessage,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
@@ -252,11 +304,14 @@ class ChatTile extends StatelessWidget {
           ),
         ),
         trailing: Text(
-          //TODO: stack használata hogy az idő ne foglaljon annyi helyet
-          time,
+          formatMessageTime(time),
           style: TextStyle(
             fontSize: 12,
-            color: Colors.grey[400],
+            color: (formatMessageTime(time).contains("Hiba!") ||
+                    formatMessageTime(time).contains("Error!"))
+                ? Colors.red
+                : Colors.grey[400],
+            //TODO: hibák pirossal jelenjenek meg MINDENHOL!
           ),
         ),
         onTap: onTap,
