@@ -14,12 +14,11 @@ $userData = json_decode(file_get_contents("php://input"), true);
 $email = trim($userData['email']);
 $password = trim($userData['password']);
 
-$stmt = $conn->prepare("SELECT id, preferred_lang, profile_picture, username, email, password_hash FROM users WHERE email = ?");
+$stmt = $conn->prepare("SELECT id, preferred_lang, profile_picture, username, email, password_hash, status FROM users WHERE email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 
 $result = $stmt->get_result();
-
 $user = $result->fetch_assoc();
 
 if (!$user || !password_verify($password, $user["password_hash"])) {
@@ -27,8 +26,6 @@ if (!$user || !password_verify($password, $user["password_hash"])) {
     echo json_encode(["message" => "Hibás email vagy jelszó!"]);
     exit();
 }
-
-$conn->query("UPDATE users SET is_online = 1, last_seen = NOW() WHERE id = " . intval($user['id']));
 
 // JWT token létrehozása
 $issued_at = time();
@@ -41,7 +38,8 @@ $payload = [
     "profile_picture" => $user["profile_picture"],
     "username" => $user["username"],
     "email" => $user["email"],
-    "password_hash" => $user["password_hash"]
+    "password_hash" => $user["password_hash"],
+    "status" => $user["status"]
 ];
 
 $secret_key = "chatex";
@@ -58,7 +56,8 @@ echo json_encode([
     "profile_picture" => trim($user["profile_picture"], "'\""),
     "username" => $user["username"],
     "email" => $user["email"],
-    "password_hash" => $user["password_hash"]
+    "password_hash" => $user["password_hash"],
+    "status" => $user["status"]
 ]);
 
 $stmt->close();

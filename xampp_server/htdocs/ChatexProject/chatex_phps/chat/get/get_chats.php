@@ -82,7 +82,7 @@ $query = "
         u.username AS friend_name,
         u.profile_picture AS friend_profile_picture,
         u.last_seen AS friend_last_seen,
-        u.is_online,
+        u.status,
         (
             SELECT m.message_text
             FROM messages m

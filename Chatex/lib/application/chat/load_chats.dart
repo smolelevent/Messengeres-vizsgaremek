@@ -138,7 +138,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
                         ? "Nincs még üzenet"
                         : "No message yet"),
                 time: chat["last_message_time"] ?? "",
-                isOnline: chat["is_online"],
+                isOnline: chat["status"],
                 onTap: () {
                   Navigator.push(
                     context,
@@ -147,7 +147,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
                         chatName: chat["friend_name"],
                         profileImage: chat["friend_profile_picture"] ?? "",
                         lastSeen: chat["friend_last_seen"],
-                        isOnline: chat["is_online"],
+                        isOnline: chat["status"],
                       ),
                     ),
                   );
@@ -178,9 +178,9 @@ class ChatTile extends StatelessWidget {
   final String time;
   final String profileImage;
   final VoidCallback onTap;
-  final int isOnline;
+  final String isOnline;
 
-  Widget _buildProfileImage(String imageString, int isOnline) {
+  Widget _buildProfileImage(String imageString, String isOnline) {
     Widget imageWidget;
 
     if (imageString.startsWith("data:image/svg+xml;base64,")) {
@@ -226,10 +226,10 @@ class ChatTile extends StatelessWidget {
             bottom: -6,
             right: 10,
             child: Container(
-              width: 16,
-              height: 16,
+              width: 15,
+              height: 15,
               decoration: BoxDecoration(
-                color: isOnline == 1 ? Colors.green : Colors.grey,
+                color: isOnline == "online" ? Colors.green : Colors.grey,
                 shape: BoxShape.circle,
                 border: Border.all(
                   color: Colors.black,

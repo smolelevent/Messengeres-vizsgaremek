@@ -41,9 +41,19 @@ class Preferences {
     await _prefs?.setString("profile_picture", profilePicture);
   }
 
+  // static Future<void> setOnlineStatus(int online) async {
+  //   await _prefs?.setInt("is_online", online);
+  // }
+
+  static Future<void> setStatus(String status) async {
+    await _prefs?.setString("status", status);
+  }
+
 //Getterek ----------------------------------------------------
   static String getPreferredLanguage() {
-    languageNotifier.value = _prefs?.getString('preferred_lang') ?? 'Magyar';
+    Future.microtask(() {
+      languageNotifier.value = _prefs?.getString('preferred_lang') ?? 'Magyar';
+    });
     return _prefs?.getString('preferred_lang') ?? 'Magyar';
   }
 
@@ -68,7 +78,15 @@ class Preferences {
   }
 
   static String? getProfilePicture() {
-    return _prefs?.getString("profile_picture");
+    return _prefs?.getString('profile_picture');
+  }
+
+  // static int? getOnlineStatus() {
+  //   return _prefs?.getInt('is_online');
+  // }
+
+  static String? getOnlineStatus() {
+    return _prefs?.getString('status');
   }
 
 //Egyéb ----------------------------------------------------

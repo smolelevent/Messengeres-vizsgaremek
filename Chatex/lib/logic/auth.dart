@@ -133,6 +133,7 @@ class AuthService {
         final email = responseData['email'];
         final passwordHash = responseData['password_hash'];
         final token = responseData['token'];
+        final status = responseData['status'];
 
         await Preferences.setUserId(userId);
         await Preferences.setPreferredLanguage(preferredlang);
@@ -141,6 +142,7 @@ class AuthService {
         await Preferences.setEmail(email);
         await Preferences.setPasswordHash(passwordHash);
         await Preferences.setToken(token);
+        await Preferences.setStatus(status);
         ToastMessages.showToastMessages(
           language == "Magyar" ? "Sikeres bejelentkezés!" : "Successful login!",
           0.22,
@@ -200,14 +202,42 @@ class AuthService {
 
 //logOut logika --------------------------------------------------------------
   Future<void> logOut({required BuildContext context}) async {
-    await Future.delayed(
-        const Duration(seconds: 2)); //TODO: biztosan hogy ezt akarod?
-    await Preferences.clearPreferences();
+    final userId = Preferences.getUserId();
 
-    if (context.mounted) {
-      Navigator.pushReplacement(
+    try {
+      final Uri logoutUrl = Uri.parse(
+          'http://10.0.2.2/ChatexProject/chatex_phps/auth/logout.php');
+      final response = await http.post(
+        logoutUrl,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"user_id": userId}),
+      );
+
+      final responseData = json.decode(response.body);
+
+      if (responseData["success"] == true) {
+        await Future.delayed(const Duration(seconds: 2));
+        //TODO: biztosan hogy ezt akarod?
+        await Preferences.clearPreferences();
+
+        if (context.mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginUI()),
+          );
+        }
+      }
+    } catch (e) {
+      ToastMessages.showToastMessages(
+        Preferences.getPreferredLanguage() == "Magyar"
+            ? "Kapcsolati hiba!"
+            : "Connection error!",
+        0.2,
+        Colors.redAccent,
+        Icons.error,
+        Colors.black,
+        const Duration(seconds: 2),
         context,
-        MaterialPageRoute(builder: (context) => const LoginUI()),
       );
     }
   }

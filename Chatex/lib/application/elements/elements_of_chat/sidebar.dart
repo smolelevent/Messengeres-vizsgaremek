@@ -24,6 +24,7 @@ class ChatSidebar extends StatefulWidget {
 class _ChatSidebarState extends State<ChatSidebar> {
   final String _username = Preferences.getUsername();
   final String? _profileImageUrl = Preferences.getProfilePicture();
+  final String? _isOnline = Preferences.getOnlineStatus();
 
   @override
   void initState() {
@@ -31,52 +32,30 @@ class _ChatSidebarState extends State<ChatSidebar> {
   }
 
   Widget _buildProfileImage() {
-    if (_profileImageUrl == null || _profileImageUrl!.isEmpty) {
-      return _defaultAvatar();
-    }
-
-    try {
-      if (_profileImageUrl!.startsWith("data:image/svg+xml;base64,")) {
-        final svgString =
-            utf8.decode(base64Decode(_profileImageUrl!.split(",")[1]));
-        return ClipOval(
-          child: SvgPicture.string(
-            svgString,
-            width: 120,
-            height: 120,
-            fit: BoxFit.fill,
-          ),
-        );
-      } else if (_profileImageUrl!.startsWith("data:image/")) {
-        final imageBytes = base64Decode(_profileImageUrl!.split(",")[1]);
-        return ClipOval(
-          child: Image.memory(
-            imageBytes,
-            width: 120, //(width, height)*2 = radius
-            height: 120,
-            fit: BoxFit.fill,
-          ),
-        );
-      } else {
-        ToastMessages.showToastMessages(
-          Preferences.getPreferredLanguage() == "Magyar"
-              ? "Ismeretlen MIME-típus a profilképnél!"
-              : "An unknown MIME type has been detected!",
-          0.2,
-          Colors.redAccent,
-          Icons.error,
-          Colors.black,
-          const Duration(seconds: 2),
-          context,
-        );
-        log("An unknown MIME type has been detected: $_profileImageUrl");
-        return _defaultAvatar();
-      }
-    } catch (e) {
+    //TODO: az ismétlődő kódokat egy külön dart-ba kell bevínni
+    Widget imageWidget;
+    if (_profileImageUrl!.startsWith("data:image/svg+xml;base64,")) {
+      final svgString =
+          utf8.decode(base64Decode(_profileImageUrl!.split(",")[1]));
+      imageWidget = SvgPicture.string(
+        svgString,
+        width: 120,
+        height: 120,
+        fit: BoxFit.fill,
+      );
+    } else if (_profileImageUrl!.startsWith("data:image/")) {
+      final imageBytes = base64Decode(_profileImageUrl!.split(",")[1]);
+      imageWidget = Image.memory(
+        imageBytes,
+        width: 120, //(width, height)*2 = radius
+        height: 120,
+        fit: BoxFit.fill,
+      );
+    } else {
       ToastMessages.showToastMessages(
         Preferences.getPreferredLanguage() == "Magyar"
-            ? "Hiba a kép dekódolásakor!"
-            : "Error in picture decoding!",
+            ? "Ismeretlen MIME-típus a profilképnél!"
+            : "An unknown MIME type has been detected!",
         0.2,
         Colors.redAccent,
         Icons.error,
@@ -84,16 +63,50 @@ class _ChatSidebarState extends State<ChatSidebar> {
         const Duration(seconds: 2),
         context,
       );
-      log("Error in picture decoding: $e");
-      return _defaultAvatar();
+      log("An unknown MIME type has been detected: $_profileImageUrl");
+      imageWidget = CircleAvatar(
+        radius: 60,
+        backgroundColor: Colors.grey[600],
+        child: const Icon(Icons.person, size: 40, color: Colors.white),
+      );
     }
-  }
 
-  Widget _defaultAvatar() {
-    return CircleAvatar(
-      radius: 60,
-      backgroundColor: Colors.grey[600],
-      child: const Icon(Icons.person, size: 40, color: Colors.white),
+    return SizedBox(
+      width: 120,
+      height: 120,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Positioned(
+            top: 0,
+            child: CircleAvatar(
+              radius: 60,
+              backgroundColor: Colors.grey[800],
+              child: ClipOval(
+                child: imageWidget,
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: -1,
+            right: 15,
+            child: Container(
+              width: 25,
+              height: 25,
+              decoration: BoxDecoration(
+                color: (_isOnline ?? "").toLowerCase() == "online"
+                    ? Colors.green
+                    : Colors.grey,
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.black,
+                  width: 3,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
