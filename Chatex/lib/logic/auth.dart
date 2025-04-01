@@ -8,11 +8,6 @@ import 'dart:developer';
 import 'dart:convert';
 
 class AuthService {
-  // static const String serverUrl = //TODO: megoldani hogy rendes telefonon fusson
-  //     bool.fromEnvironment('dart.vm.product') // Éles build esetén
-  //         ? 'http://10.0.2.2' // Éles szerver
-  //         : 'http://10.0.2.2'; // Fejlesztési szerver (emulátor)
-
 //register logika --------------------------------------------------------------
   Future<void> register({
     required TextEditingController username,
@@ -37,14 +32,14 @@ class AuthService {
       final responseData = jsonDecode(response.body);
 
       if (responseData["message"] == "Sikeres regisztráció!") {
-        final username = responseData['username'];
-        final email = responseData['email'];
-        final passwordHash = responseData['password_hash'];
+        //final username = responseData['username'];
+        //final email = responseData['email'];
+        //final passwordHash = responseData['password_hash'];
         final preferredlang = responseData['preferred_lang'];
 
-        await Preferences.setUsername(username);
-        await Preferences.setEmail(email);
-        await Preferences.setPasswordHash(passwordHash);
+        //await Preferences.setUsername(username);
+        //await Preferences.setEmail(email);
+        //await Preferences.setPasswordHash(passwordHash);
         await Preferences.setPreferredLanguage(preferredlang);
         ToastMessages.showToastMessages(
           language == "Magyar"
@@ -61,7 +56,6 @@ class AuthService {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            //BuildContext volt a típusa
             builder: (context) => const LoginUI(),
           ),
         );
@@ -157,7 +151,6 @@ class AuthService {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            //BuildContext volt
             builder: (context) => const ChatUI(),
           ),
         );
@@ -217,9 +210,7 @@ class AuthService {
 
       if (responseData["success"] == true) {
         await Future.delayed(const Duration(seconds: 2));
-        //TODO: biztosan hogy ezt akarod?
-        await Preferences.clearPreferences();
-
+        await Preferences.clearPreferences(); //TODO: NEM SZABAD
         if (context.mounted) {
           Navigator.pushReplacement(
             context,
@@ -274,7 +265,6 @@ class AuthService {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            //BuildContext volt
             builder: (context) => const LoginUI(),
           ),
         );

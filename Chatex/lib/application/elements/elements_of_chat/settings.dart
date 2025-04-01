@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:chatex/application/elements/elements_of_settings/language.dart';
-import 'package:chatex/logic/preferences.dart';
 import 'package:chatex/application/elements/elements_of_settings/account.dart';
+import 'package:chatex/logic/preferences.dart';
+import 'dart:developer';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -62,7 +63,7 @@ class _SettingsState extends State<Settings> {
             "subtitle":
                 Preferences.getPreferredLanguage() == "Magyar" ? "Be" : "On",
             "icon": Icons.notifications,
-            "onTap": () => print("értesítés"),
+            "onTap": () => log("értesítés"),
           },
         ],
       },
@@ -89,7 +90,7 @@ class _SettingsState extends State<Settings> {
                 : "Change password",
             "subtitle": "",
             "icon": Icons.password,
-            "onTap": () => print("jelszó"),
+            "onTap": () => log("jelszó"),
           },
         ],
       },

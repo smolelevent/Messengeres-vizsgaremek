@@ -6,18 +6,14 @@ import 'dart:convert';
 class ChatScreen extends StatefulWidget {
   const ChatScreen({
     super.key,
-    //required this.chatId,
     required this.chatName,
     required this.profileImage,
-    //required this.isGroup,
     required this.isOnline,
     required this.lastSeen,
   });
 
-  //final int chatId;
   final String chatName;
   final String profileImage;
-  //final bool isGroup;
   final String isOnline;
   final String lastSeen;
 //TODO: frissítés kijelentkezéskor, lekezelni ha online (buborékok zöld, szürke), valósidőbe való átvitel

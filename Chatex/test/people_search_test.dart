@@ -2,8 +2,6 @@ import 'package:chatex/application/elements/elements_of_chat/bottom_nav_bar.dart
     as app;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-//import 'package:chatex/main.dart' as app;
-//import 'package:chatex/chat/chat_build_ui.dart' as app;
 import 'package:chatex/application/elements/elements_of_chat/people.dart'
     as app;
 
@@ -22,7 +20,7 @@ void main() {
           body: Column(
             children: [
               const Expanded(
-                child: app.People(), 
+                child: app.People(),
               ),
               app.BottomNavbarForChat(
                 selectedIndex: selectedIndex,
@@ -54,10 +52,4 @@ void main() {
     await tester.enterText(userNameField, 'valaki2');
     await tester.pumpAndSettle();
   });
-}
-
-extension on Iterable<Widget> {
-  String? toStringDeep() {
-    return null;
-  }
 }

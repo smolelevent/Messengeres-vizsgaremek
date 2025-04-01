@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:chatex/logic/auth.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:chatex/logic/auth.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key, required this.language});
@@ -22,17 +22,20 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   bool _isPasswordResetButtonDisabled = true;
 
   void _checkPasswordResetFieldValidation() {
-    final isEmailValid =
-        _formKey.currentState?.fields['email']?.isValid ?? false;
-    setState(() {
-      _isPasswordResetButtonDisabled = !(isEmailValid);
-    });
-  }
+    final currentState = _formKey.currentState;
+    if (currentState == null) return;
 
-  void _validateEmailAddressField() {
-    if (_emailFocusNode.hasFocus) {
-      _formKey.currentState?.fields['email']?.validate();
-    }
+    // Explicit validálás (ez frissíti is a mezőket vizuálisan!)
+    final isValid = currentState.validate(focusOnInvalid: false);
+
+    // Lekérjük a mezők értékeit
+    final emailValue = currentState.fields['email']?.value?.trim() ?? '';
+
+    final allFilled = emailValue.isNotEmpty;
+
+    setState(() {
+      _isPasswordResetButtonDisabled = !(isValid && allFilled);
+    });
   }
 
   @override
@@ -62,13 +65,22 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           foregroundColor: Colors.white,
           shadowColor: Colors.deepPurpleAccent,
           elevation: 10,
+          centerTitle: true,
+          title: Text(widget.language == "Magyar"
+              ? "Jelszó helyreállítás"
+              : "Reset password"),
+          titleTextStyle: const TextStyle(
+            color: Colors.white,
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1,
+          ),
         ),
         body: Stack(
           children: [
             FormBuilder(
               key: _formKey,
               onChanged: () {
-                _validateEmailAddressField();
                 _checkPasswordResetFieldValidation();
               },
               child: Column(
@@ -121,7 +133,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.email(
               regex: RegExp(
-                  r"^[a-zA-z0-9.!#$°&'*+-/=?^_'{|}~]+@[a-zA-Z0-9]+\.[a-zA-z]+",
+                  r"^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
                   unicode: true),
               errorText: widget.language == "Magyar"
                   ? "Az email cím érvénytelen!"

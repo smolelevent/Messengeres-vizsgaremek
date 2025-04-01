@@ -41,10 +41,6 @@ class Preferences {
     await _prefs?.setString("profile_picture", profilePicture);
   }
 
-  // static Future<void> setOnlineStatus(int online) async {
-  //   await _prefs?.setInt("is_online", online);
-  // }
-
   static Future<void> setStatus(String status) async {
     await _prefs?.setString("status", status);
   }
@@ -81,11 +77,7 @@ class Preferences {
     return _prefs?.getString('profile_picture');
   }
 
-  // static int? getOnlineStatus() {
-  //   return _prefs?.getInt('is_online');
-  // }
-
-  static String? getOnlineStatus() {
+  static String? getStatus() {
     return _prefs?.getString('status');
   }
 

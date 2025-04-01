@@ -6,9 +6,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 require_once __DIR__ . "/../db.php";
 
-//formátum stb. ellenőrzés mert ha pl.: szimuláljuk az adatokat tudjuk hol a hiba, jelszó visszaállító email küldése!
-
-function normalizeEmail($email)
+function normalizeEmail($email) //TODO: letesztelni hogy működik e egyáltalán
 {
     // Gmail esetén: a pontokat és a + utáni részt eltávolítjuk
     if (strpos($email, '@gmail.com') !== false) {
@@ -22,7 +20,6 @@ function normalizeEmail($email)
 
 $userData = json_decode(file_get_contents("php://input"), true);
 
-// Adatok kinyerése
 $username = trim($userData['username']);
 $email = normalizeEmail(trim($userData['email']));
 $password = trim($userData['password']);
@@ -36,7 +33,6 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit();
 }
 
-// Ellenőrizzük, hogy az email cím már létezik-e az adatbázisban
 $checkStmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
 $checkStmt->bind_param("s", $email);
 $checkStmt->execute();
@@ -48,7 +44,6 @@ if ($checkStmt->num_rows > 0) {
     exit();
 }
 
-// Felhasználó beszúrása az adatbázisba stmt = STATEMENT (állítás)
 $stmt = $conn->prepare("INSERT INTO users (preferred_lang, username, email, password_hash, created_at) VALUES (?, ?, ?, ?, NOW())");
 if ($stmt === false) {
     http_response_code(500); // Belső szerverhiba
@@ -58,7 +53,6 @@ if ($stmt === false) {
 
 $stmt->bind_param("ssss", $language, $username, $email, $password_hash);
 
-// Lekérdezés végrehajtása és válasz küldése
 if ($stmt->execute()) {
     http_response_code(201); // Erőforrás létrehozva
     echo json_encode([

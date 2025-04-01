@@ -24,12 +24,14 @@ class ChatSidebar extends StatefulWidget {
 class _ChatSidebarState extends State<ChatSidebar> {
   final String _username = Preferences.getUsername();
   final String? _profileImageUrl = Preferences.getProfilePicture();
-  final String? _isOnline = Preferences.getOnlineStatus();
+  final String? _status = Preferences.getStatus();
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  String _selectedLanguage = Preferences.getPreferredLanguage();
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
 
   Widget _buildProfileImage() {
     //TODO: az ismétlődő kódokat egy külön dart-ba kell bevínni
@@ -94,7 +96,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
               width: 25,
               height: 25,
               decoration: BoxDecoration(
-                color: (_isOnline ?? "").toLowerCase() == "online"
+                color: (_status ?? "").toLowerCase() == "online"
                     ? Colors.green
                     : Colors.grey,
                 shape: BoxShape.circle,
@@ -106,6 +108,74 @@ class _ChatSidebarState extends State<ChatSidebar> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildDropdownMenu() {
+    //TODO: folyt köv, átalakítás azért jobb ezt újra használni mert majd össze lehet vonni egy külön .dart-ba, divider legyen lekeríkett, EZ KÉSZ UTÁNA CHAT DE TÉNYLEG!!!!!!!!!!!!!!!
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20, top: 20),
+      child: DropdownMenu<String>(
+        label: Text(
+          _selectedLanguage == "Magyar" ? "Státusz" : "Status",
+        ),
+        onSelected: (newValue) {},
+        dropdownMenuEntries: [
+          DropdownMenuEntry(
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white,
+              textStyle: const TextStyle(
+                fontSize: 15.0,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 1,
+              ),
+            ),
+            value: "online",
+            label: "Online",
+          ),
+          DropdownMenuEntry(
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white,
+              textStyle: const TextStyle(
+                fontSize: 15.0,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 1,
+              ),
+            ),
+            value: "offline",
+            label: "Offline",
+          ),
+        ],
+        trailingIcon: const Icon(
+          Icons.arrow_drop_down,
+          color: Colors.white,
+        ),
+        selectedTrailingIcon: const Icon(
+          Icons.arrow_drop_up,
+          color: Colors.deepPurpleAccent,
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          labelStyle: TextStyle(
+            color: Colors.grey[600],
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.bold,
+            fontSize: 20.0,
+          ),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.deepPurpleAccent, width: 2.5),
+          ),
+        ),
+        textStyle: const TextStyle(
+          color: Colors.white,
+          fontSize: 15.0,
+          fontWeight: FontWeight.w500,
+          letterSpacing: 1,
+        ),
+        menuStyle: const MenuStyle(
+          backgroundColor: WidgetStatePropertyAll(Colors.deepPurpleAccent),
+          elevation: WidgetStatePropertyAll(5),
+        ),
       ),
     );
   }
@@ -122,12 +192,14 @@ class _ChatSidebarState extends State<ChatSidebar> {
             return Column(
               children: [
                 _buildProfileImage(),
+                _buildDropdownMenu(),
                 const SizedBox(height: 20),
                 Text(
                   _username,
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
                     letterSpacing: 1,
                     wordSpacing: 2,
                   ),
@@ -135,18 +207,19 @@ class _ChatSidebarState extends State<ChatSidebar> {
               ],
             );
           },
-          headerDivider: Divider(
+          headerDivider: const Divider(
             height: 50,
-            thickness: 2,
-            color: Colors.deepPurple[400],
+            thickness: 5,
+            color: Colors.deepPurpleAccent,
           ),
           items: [
             SidebarXItem(
               label: locale == "Magyar" ? 'Chatek' : 'Chats',
               iconBuilder: (context, isSelected) {
-                return Icon(
+                return const Icon(
                   Icons.chat,
-                  color: Colors.deepPurple[400],
+                  color: Colors.deepPurpleAccent,
+                  size: 30,
                 );
               },
               onTap: () {
@@ -160,7 +233,8 @@ class _ChatSidebarState extends State<ChatSidebar> {
               iconBuilder: (context, isSelected) {
                 return const Icon(
                   Icons.groups,
-                  color: Colors.blue,
+                  color: Colors.lightBlue,
+                  size: 30,
                 );
               },
               onTap: () {
@@ -176,7 +250,8 @@ class _ChatSidebarState extends State<ChatSidebar> {
               iconBuilder: (context, isSelected) {
                 return const Icon(
                   Icons.settings,
-                  color: Colors.blue,
+                  color: Colors.teal,
+                  size: 30,
                 );
               },
               onTap: () {
@@ -193,7 +268,8 @@ class _ChatSidebarState extends State<ChatSidebar> {
               iconBuilder: (context, isSelected) {
                 return const Icon(
                   Icons.logout,
-                  color: Colors.red,
+                  color: Colors.redAccent,
+                  size: 30,
                 );
               },
               onTap: () async {
@@ -206,13 +282,13 @@ class _ChatSidebarState extends State<ChatSidebar> {
             padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
             textStyle: const TextStyle(
               color: Colors.white,
-              fontSize: 15,
+              fontSize: 18,
               fontWeight: FontWeight.w500,
               letterSpacing: 1,
             ),
             selectedTextStyle: const TextStyle(
               color: Colors.white,
-              fontSize: 15,
+              fontSize: 18,
               fontWeight: FontWeight.w500,
               letterSpacing: 1,
             ),
@@ -220,7 +296,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
             selectedItemTextPadding: const EdgeInsets.symmetric(horizontal: 20),
             selectedItemDecoration: BoxDecoration(
               color: Colors.grey[800],
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(15),
             ),
             decoration: BoxDecoration(
               color: Colors.grey[850],
@@ -229,14 +305,14 @@ class _ChatSidebarState extends State<ChatSidebar> {
                 bottomRight: Radius.circular(20),
               ),
             ),
-            iconTheme: const IconThemeData(
-              color: Colors.white,
-              size: 25,
-            ),
-            selectedIconTheme: const IconThemeData(
-              color: Colors.white,
-              size: 25,
-            ),
+            // iconTheme: const IconThemeData(
+            //   color: Colors.white,
+            //   size: 25,
+            // ),
+            // selectedIconTheme: const IconThemeData(
+            //   color: Colors.white,
+            //   size: 25,
+            // ),
           ),
         );
       },

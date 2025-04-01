@@ -25,7 +25,8 @@ class _LanguageSettingState extends State<LanguageSetting> {
   }
 
   Future<void> _saveLanguage(String language) async {
-    await Preferences.setPreferredLanguage(language);
+    await Preferences.setPreferredLanguage(
+        language); //TODO: olyan logika ami kijelentkezéskor elmenti a beállításokos preferenceket, mert clear-eljük a preferenceket
     setState(() {
       _selectedLanguage = language;
     });
@@ -78,7 +79,7 @@ class _LanguageSettingState extends State<LanguageSetting> {
       child: ListTile(
         leading: SvgPicture.asset(
           flagPath,
-          width: 60, // Beállíthatod a megfelelő méretet
+          width: 60,
           height: 60,
         ),
         title: Text(

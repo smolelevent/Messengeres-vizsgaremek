@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:http/http.dart' as http;
 //import 'package:device_preview/device_preview.dart'; //TODO: device_preview
 import 'package:chatex/main/reset_password.dart';
 import 'package:chatex/main/sign_up.dart';
 import 'package:chatex/application/chat/build_ui.dart';
-import 'package:chatex/logic/auth.dart';
-import 'package:chatex/logic/preferences.dart';
 import 'package:chatex/logic/toast_message.dart';
+import 'package:chatex/logic/preferences.dart';
+import 'package:chatex/logic/auth.dart';
 import 'dart:convert';
 import 'dart:developer';
-
-//TODO: ha nyelvek angol és regisztráció akkor utána magyart állít be
-
-//TODO: nincs adat akkor is lila a bejelentkezés gomb
 
 //TODO: phpMyAdmin id-k sorrendje rendezése
 
@@ -86,24 +82,6 @@ class _LoginUIState extends State<LoginUI> {
 
   String _selectedLanguage = Preferences.getPreferredLanguage();
 
-  void _checkLogInFieldsValidation() {
-    final isEmailValid =
-        _formKey.currentState?.fields['email']?.isValid ?? false;
-    final isPasswordValid =
-        _formKey.currentState?.fields['password']?.isValid ?? false;
-    setState(() {
-      _isLogInDisabled = !(isEmailValid && isPasswordValid);
-    });
-  }
-
-  // void _validateActiveField() {
-  //   if (_emailFocusNode.hasFocus) {
-  //     _formKey.currentState?.fields['email']?.validate();
-  //   } else if (_passwordFocusNode.hasFocus) {
-  //     _formKey.currentState?.fields['password']?.validate();
-  //   }
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -135,45 +113,22 @@ class _LoginUIState extends State<LoginUI> {
     ToastMessages.init(context);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.grey[850],
-        body: FormBuilder(
-          key: _formKey,
-          onChanged: () {
-            //_validateActiveField();
-            _checkLogInFieldsValidation();
-          },
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 25.0,
-              ),
-              _dropDownMenu(),
-              const CircleAvatar(
-                radius: 60,
-                backgroundImage: AssetImage("assets/logo/logo.jpg"),
-              ),
-              _emailAddressWidget(),
-              _passwordWidget(),
-              const SizedBox(
-                height: 10.0,
-              ),
-              _logInWidget(),
-              const SizedBox(
-                height: 5.0,
-              ),
-              _forgotPasswordWidget(),
-              _registrationWidget(),
-              _chatexWidget(),
-            ],
-          ),
-        ),
-      ),
-    );
+  void _checkLogInFieldsValidation() {
+    final currentState = _formKey.currentState;
+    if (currentState == null) return;
+
+    // Explicit validálás (ez frissíti is a mezőket vizuálisan!)
+    final isValid = currentState.validate(focusOnInvalid: false);
+
+    // Lekérjük a mezők értékeit
+    final emailValue = currentState.fields['email']?.value?.trim() ?? '';
+    final passwordValue = currentState.fields['password']?.value?.trim() ?? '';
+
+    final allFilled = emailValue.isNotEmpty && passwordValue.isNotEmpty;
+
+    setState(() {
+      _isLogInDisabled = !(isValid && allFilled);
+    });
   }
 
   Widget _dropDownMenu() {
@@ -186,7 +141,6 @@ class _LoginUIState extends State<LoginUI> {
         ),
         initialSelection: _selectedLanguage,
         onSelected: (newValue) {
-          //String? a típusa
           setState(() {
             _selectedLanguage = newValue!;
           });
@@ -250,6 +204,55 @@ class _LoginUIState extends State<LoginUI> {
     );
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.grey[850],
+        body: FormBuilder(
+          key: _formKey,
+          onChanged: () {
+            _checkLogInFieldsValidation();
+          },
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 25.0,
+              ),
+              _dropDownMenu(),
+              const CircleAvatar(
+                radius: 60,
+                backgroundImage: AssetImage("assets/logo/logo.jpg"),
+              ),
+              Expanded(
+                flex: 1,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _emailAddressWidget(),
+                      _passwordWidget(),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
+                      _logInWidget(),
+                      const SizedBox(
+                        height: 5.0,
+                      ),
+                      _forgotPasswordWidget(),
+                    ],
+                  ),
+                ),
+              ),
+              _registrationWidget(),
+              _chatexWidget(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _emailAddressWidget() {
     return Container(
       margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
@@ -260,7 +263,7 @@ class _LoginUIState extends State<LoginUI> {
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.email(
               regex: RegExp(
-                  r"^[a-zA-z0-9.!#$°&'*+-/=?^_'{|}~]+@[a-zA-Z0-9]+\.[a-zA-z]+",
+                  r"^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
                   unicode: true),
               errorText: _selectedLanguage == "Magyar"
                   ? "Az email cím érvénytelen!"
