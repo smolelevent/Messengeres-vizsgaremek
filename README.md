@@ -1,3 +1,4 @@
 # Messengeres-vizsgaremek
 
-ts pmo
+Chatex chat applikáció #betterThanMessenger
+(Mi komoly programozók vagyunk!)
