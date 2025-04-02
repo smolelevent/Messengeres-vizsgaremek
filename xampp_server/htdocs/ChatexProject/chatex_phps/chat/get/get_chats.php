@@ -24,6 +24,7 @@ $query = "
         u.profile_picture AS friend_profile_picture,
         u.last_seen AS friend_last_seen,
         u.status,
+        u.signed_in,
         (
             SELECT m.message_text
             FROM messages m

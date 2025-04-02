@@ -20,10 +20,19 @@ $query = "
     FROM friends f
     JOIN users u ON u.id = f.friend_id
     WHERE f.user_id = ?
+      AND NOT EXISTS (
+        SELECT 1
+        FROM chats c
+        JOIN chat_members cm1 ON cm1.chat_id = c.chat_id
+        JOIN chat_members cm2 ON cm2.chat_id = c.chat_id
+        WHERE c.is_group = 0
+          AND cm1.user_id = ?
+          AND cm2.user_id = f.friend_id
+      )
 ";
 
 $stmt = $conn->prepare($query);
-$stmt->bind_param("i", $user_id);
+$stmt->bind_param("ii", $user_id, $user_id); // kétszer ugyanazt az ID-t használjuk
 $stmt->execute();
 
 $result = $stmt->get_result();

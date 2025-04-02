@@ -11,21 +11,22 @@ class ToastMessages {
 
   static void showToastMessages(
     String message,
-    double whereToPercentage,
+    double verticalPercentage,
     Color bgColor,
     IconData icon,
     Color iconColor,
     Duration duration,
-    BuildContext context,
-    //   {
-    //   double? left,
-    //   double? right,
-    //   bool center = true, // új paraméter, alapértelmezett középre
-    // }
-  ) {
+    BuildContext context, {
+    double? leftPercentage,
+    double? rightPercentage,
+    bool center = true,
+  }) {
     if (!context.mounted) return;
     final fToast = FToast();
     fToast.init(context);
+
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
 
     _fToastInstance.showToast(
       child: Container(
@@ -45,15 +46,17 @@ class ToastMessages {
       ),
       toastDuration: duration,
       positionedToastBuilder: (context, child, gravity) {
-        final screenHeight = MediaQuery.of(context).size.height;
         return Positioned(
-          bottom: screenHeight * whereToPercentage,
-          // left: center ? null : (left ?? 20),
-          // right: center ? null : (right ?? 20),
-          // child: center ? Center(child: child) : child,
-          left: 0,
-          right: 0,
-          child: Center(child: child),
+          bottom: screenHeight * verticalPercentage,
+          left: center
+              ? 0
+              : (leftPercentage != null ? screenWidth * leftPercentage : null),
+          right: center
+              ? 0
+              : (rightPercentage != null
+                  ? screenWidth * rightPercentage
+                  : null),
+          child: center ? Center(child: child) : child,
         );
       },
     );

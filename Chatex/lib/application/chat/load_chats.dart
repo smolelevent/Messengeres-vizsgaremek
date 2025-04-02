@@ -139,6 +139,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
                         : "No message yet"),
                 time: chat["last_message_time"] ?? "",
                 isOnline: chat["status"],
+                signedIn: chat["signed_in"],
                 onTap: () {
                   Navigator.push(
                     context,
@@ -148,6 +149,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
                         profileImage: chat["friend_profile_picture"] ?? "",
                         lastSeen: chat["friend_last_seen"],
                         isOnline: chat["status"],
+                        signedIn: chat["signed_in"],
                       ),
                     ),
                   );
@@ -171,6 +173,7 @@ class ChatTile extends StatelessWidget {
     required this.profileImage,
     required this.onTap,
     required this.isOnline,
+    required this.signedIn,
   });
 
   final String chatName;
@@ -179,8 +182,9 @@ class ChatTile extends StatelessWidget {
   final String profileImage;
   final VoidCallback onTap;
   final String isOnline;
+  final int signedIn;
 
-  Widget _buildProfileImage(String imageString, String isOnline) {
+  Widget _buildProfileImage(String imageString, String isOnline, int signedIn) {
     Widget imageWidget;
 
     if (imageString.startsWith("data:image/svg+xml;base64,")) {
@@ -207,8 +211,8 @@ class ChatTile extends StatelessWidget {
       );
     }
 
-//eltávolítása exception-t ad
     return SizedBox(
+      //eltávolítása exception-t ad
       width: 66,
       height: 66,
       child: Stack(
@@ -229,7 +233,9 @@ class ChatTile extends StatelessWidget {
               width: 15,
               height: 15,
               decoration: BoxDecoration(
-                color: isOnline == "online" ? Colors.green : Colors.grey,
+                color: isOnline == "online" && signedIn == 1
+                    ? Colors.green
+                    : Colors.grey,
                 shape: BoxShape.circle,
                 border: Border.all(
                   color: Colors.black,
@@ -267,9 +273,7 @@ class ChatTile extends StatelessWidget {
         return "${dateTime.month.toString().padLeft(2, '0')}.${dateTime.day.toString().padLeft(2, '0')} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";
       }
     } catch (e) {
-      return Preferences.getPreferredLanguage() == "Magyar"
-          ? "Hiba!"
-          : "Error!";
+      return "";
     }
   }
 
@@ -283,7 +287,7 @@ class ChatTile extends StatelessWidget {
       child: ListTile(
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        leading: _buildProfileImage(profileImage, isOnline),
+        leading: _buildProfileImage(profileImage, isOnline, signedIn),
         title: AutoSizeText(
           maxLines: 1,
           chatName,
@@ -307,10 +311,7 @@ class ChatTile extends StatelessWidget {
           formatMessageTime(time),
           style: TextStyle(
             fontSize: 12,
-            color: (formatMessageTime(time).contains("Hiba!") ||
-                    formatMessageTime(time).contains("Error!"))
-                ? Colors.red
-                : Colors.grey[400],
+            color: Colors.grey[400],
             //TODO: hibák pirossal jelenjenek meg MINDENHOL!
           ),
         ),

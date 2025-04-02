@@ -1,8 +1,8 @@
-import 'package:chatex/application/chat/chat_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:chatex/application/chat/chat_screen.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'dart:convert';
@@ -19,7 +19,6 @@ class _StartChatState extends State<StartChat> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
   String _searchQuery = "";
-  //TODO: minden keresés a programban legyen olyan hogy az első karakter az feleljen meg az eredmény első karakterjével
   List<dynamic> _friends = [];
   bool _isLoading = true;
 
@@ -93,20 +92,23 @@ class _StartChatState extends State<StartChat> {
               child: _isLoading
                   ? const Center(
                       child: CircularProgressIndicator(
-                          color: Colors.deepPurpleAccent))
+                        color: Colors.deepPurpleAccent,
+                      ),
+                    )
                   : _buildFriendList(),
             ),
-          ], //TODO: le kezelni hogy ne legyen duplikált chat, készítéskor a chatre vigyen
+          ],
         ),
       ),
     );
   }
 
+//TODO: készítéskor a chatre vigyen
   Widget _buildFriendList() {
     final filtered = _friends.where(
       (friend) {
         final username = (friend["username"] as String).toLowerCase();
-        return username.contains(_searchQuery.toLowerCase());
+        return username.startsWith(_searchQuery.toLowerCase());
       },
     ).toList();
 
@@ -150,14 +152,14 @@ class _StartChatState extends State<StartChat> {
           } else {
             profileImage = CircleAvatar(
               radius: 30,
-              backgroundColor: Colors.grey[600],
+              backgroundColor: Colors.grey[800],
               child: const Icon(Icons.person, size: 40, color: Colors.white),
             );
           }
         } else {
           profileImage = CircleAvatar(
             radius: 30,
-            backgroundColor: Colors.grey[600],
+            backgroundColor: Colors.grey[800],
             child: const Icon(Icons.person, size: 40, color: Colors.white),
           );
         }
@@ -180,7 +182,6 @@ class _StartChatState extends State<StartChat> {
   void _startChatWith(int friendId) async {
     try {
       final int? senderId = Preferences.getUserId();
-      if (senderId == null) return;
 
       final response = await http.post(
         Uri.parse(
@@ -188,7 +189,7 @@ class _StartChatState extends State<StartChat> {
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
           "sender_id": senderId,
-          "receiver_ids": [friendId],
+          "receiver_id": friendId,
         }),
       );
 
@@ -212,17 +213,16 @@ class _StartChatState extends State<StartChat> {
             builder: (context) => ChatScreen(
               chatName: responseData["friend_name"],
               profileImage: responseData["friend_profile_picture"] ?? "",
-              lastSeen: "",
-              isOnline: "online", //töltők ezek csak
-              // ha később is_online mezőt is visszaadnál a PHP-ban:
-              //isOnline: responseData["is_online"] ?? false, //TODO: isOnline
+              lastSeen: responseData["last_seen"],
+              isOnline: responseData["status"],
+              signedIn: responseData["signed_in"],
             ),
           ),
         ); //TODO: miután bedob a chatbe és vissza nyíl akkor jelenjen meg a chat
       } else if (responseData["message"] == "Már létezik a chat!") {
         ToastMessages.showToastMessages(
           Preferences.getPreferredLanguage() ==
-                  "Magyar" //TODO: ha már létezik akkor ki kell venni a listából
+                  "Magyar" //TODO: ha már létezik akkor ki kell venni a listából, folyt köv innét!!
               ? "Már létezik chated ezzel a felhasználóval!"
               : "The chat with this user already exist!",
           0.1,

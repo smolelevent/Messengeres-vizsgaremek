@@ -210,7 +210,7 @@ class AuthService {
 
       if (responseData["success"] == true) {
         await Future.delayed(const Duration(seconds: 2));
-        await Preferences.clearPreferences(); //TODO: NEM SZABAD
+        await Preferences.clearPreferences();
         if (context.mounted) {
           Navigator.pushReplacement(
             context,

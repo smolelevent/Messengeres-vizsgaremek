@@ -10,13 +10,15 @@ class ChatScreen extends StatefulWidget {
     required this.profileImage,
     required this.isOnline,
     required this.lastSeen,
+    required this.signedIn,
   });
 
   final String chatName;
   final String profileImage;
   final String isOnline;
   final String lastSeen;
-//TODO: frissítés kijelentkezéskor, lekezelni ha online (buborékok zöld, szürke), valósidőbe való átvitel
+  final int signedIn;
+//TODO: valósidőbe való átvitel
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -110,7 +112,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Widget _buildProfileImage(String imageString, String isOnline) {
+  Widget _buildProfileImage(String imageString, String isOnline, int signedIn) {
     Widget imageWidget;
 
     if (imageString.startsWith("data:image/svg+xml;base64,")) {
@@ -160,7 +162,9 @@ class _ChatScreenState extends State<ChatScreen> {
               width: 16,
               height: 16,
               decoration: BoxDecoration(
-                color: isOnline == "online" ? Colors.green : Colors.grey,
+                color: isOnline == "online" && signedIn == 1
+                    ? Colors.green
+                    : Colors.grey,
                 shape: BoxShape.circle,
                 border: Border.all(
                   color: Colors.black,
@@ -192,7 +196,8 @@ class _ChatScreenState extends State<ChatScreen> {
         leadingWidth: 55,
         title: Row(
           children: [
-            _buildProfileImage(widget.profileImage, widget.isOnline),
+            _buildProfileImage(
+                widget.profileImage, widget.isOnline, widget.signedIn),
             const SizedBox(width: 10),
             Expanded(
               child: Column(
@@ -207,7 +212,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                   Text(
-                    widget.isOnline == "online"
+                    widget.isOnline == "online" && widget.signedIn == 1
                         ? (Preferences.getPreferredLanguage() == "Magyar"
                             ? "Elérhető"
                             : "Online")

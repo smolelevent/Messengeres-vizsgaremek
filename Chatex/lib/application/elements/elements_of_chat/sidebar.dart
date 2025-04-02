@@ -65,6 +65,9 @@ class _ChatSidebarState extends State<ChatSidebar> {
           Colors.black,
           const Duration(seconds: 2),
           context,
+          center: true,
+          rightPercentage: 0,
+          leftPercentage: 0,
         );
       });
       imageWidget = CircleAvatar(
@@ -117,7 +120,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
     );
   }
 
-//TODO: folyt köv, átalakítás azért jobb ezt újra használni mert majd össze lehet vonni egy külön .dart-ba, divider legyen lekeríkett, EZ KÉSZ UTÁNA CHAT DE TÉNYLEG!!!!!!!!!!!!!!!
+//TODO: folyt köv, divider legyen lekeríkett, EZ KÉSZ UTÁNA CHAT DE TÉNYLEG!!!!!!!!!!!!!!!
   Widget _buildDropdownMenu() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20, top: 20),
@@ -161,6 +164,9 @@ class _ChatSidebarState extends State<ChatSidebar> {
                 Colors.black,
                 const Duration(seconds: 2),
                 context,
+                center: false,
+                rightPercentage: 0.3,
+                leftPercentage: 0,
               );
             } else {
               ToastMessages.showToastMessages(
@@ -173,6 +179,9 @@ class _ChatSidebarState extends State<ChatSidebar> {
                 Colors.black,
                 const Duration(seconds: 2),
                 context,
+                center: true,
+                rightPercentage: 0,
+                leftPercentage: 0,
               );
             }
           } catch (e) {
@@ -186,6 +195,9 @@ class _ChatSidebarState extends State<ChatSidebar> {
               Colors.black,
               const Duration(seconds: 2),
               context,
+              center: false,
+              rightPercentage: 0.3,
+              leftPercentage: 0,
             );
           }
         },
@@ -200,11 +212,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
               ),
             ),
             value: "online",
-            label: "Online",
-            leadingIcon: const Icon(
-              Icons.circle,
-              color: Colors.green,
-            ),
+            label: "🟢 Online",
           ),
           DropdownMenuEntry(
             style: TextButton.styleFrom(
@@ -216,11 +224,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
               ),
             ),
             value: "offline",
-            label: "Offline",
-            leadingIcon: Icon(
-              Icons.circle,
-              color: Colors.grey[500],
-            ),
+            label: "⚫ Offline",
           ),
         ],
         trailingIcon: const Icon(
@@ -383,14 +387,6 @@ class _ChatSidebarState extends State<ChatSidebar> {
                 bottomRight: Radius.circular(20),
               ),
             ),
-            // iconTheme: const IconThemeData(
-            //   color: Colors.white,
-            //   size: 25,
-            // ),
-            // selectedIconTheme: const IconThemeData(
-            //   color: Colors.white,
-            //   size: 25,
-            // ),
           ),
         );
       },
