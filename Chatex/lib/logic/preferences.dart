@@ -78,7 +78,7 @@ class Preferences {
   }
 
   static String? getStatus() {
-    return _prefs?.getString('status');
+    return _prefs?.getString('status') ?? 'offline';
   }
 
 //Egyéb ----------------------------------------------------

@@ -17,6 +17,11 @@ class ToastMessages {
     Color iconColor,
     Duration duration,
     BuildContext context,
+    //   {
+    //   double? left,
+    //   double? right,
+    //   bool center = true, // új paraméter, alapértelmezett középre
+    // }
   ) {
     if (!context.mounted) return;
     final fToast = FToast();
@@ -43,6 +48,9 @@ class ToastMessages {
         final screenHeight = MediaQuery.of(context).size.height;
         return Positioned(
           bottom: screenHeight * whereToPercentage,
+          // left: center ? null : (left ?? 20),
+          // right: center ? null : (right ?? 20),
+          // child: center ? Center(child: child) : child,
           left: 0,
           right: 0,
           child: Center(child: child),

@@ -159,7 +159,7 @@ class AuthService {
           language == "Magyar"
               ? "Hibás email vagy jelszó!"
               : "Incorrect email or password!",
-          0.2,
+          0.22,
           Colors.redAccent,
           Icons.error,
           Colors.black,
@@ -171,7 +171,7 @@ class AuthService {
           language == "Magyar"
               ? "Hiba kód: ${response.statusCode}"
               : "Error code: ${response.statusCode}",
-          0.2,
+          0.22,
           Colors.redAccent,
           Icons.error,
           Colors.black,
@@ -182,7 +182,7 @@ class AuthService {
     } catch (e) {
       ToastMessages.showToastMessages(
         language == "Magyar" ? "Kapcsolati hiba!" : "Connection error!",
-        0.2,
+        0.22,
         Colors.redAccent,
         Icons.error,
         Colors.black,

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:http/http.dart' as http;
 import 'package:chatex/logic/auth.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'dart:convert';
-import 'dart:developer';
+//import 'dart:developer';
 
 class ChatSidebar extends StatefulWidget {
   const ChatSidebar({
@@ -24,14 +25,13 @@ class ChatSidebar extends StatefulWidget {
 class _ChatSidebarState extends State<ChatSidebar> {
   final String _username = Preferences.getUsername();
   final String? _profileImageUrl = Preferences.getProfilePicture();
-  final String? _status = Preferences.getStatus();
+  String? _selectedStatus = Preferences.getStatus() ?? "offline";
 
-  String _selectedLanguage = Preferences.getPreferredLanguage();
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    _selectedStatus;
+  }
 
   Widget _buildProfileImage() {
     //TODO: az ismétlődő kódokat egy külön dart-ba kell bevínni
@@ -54,22 +54,27 @@ class _ChatSidebarState extends State<ChatSidebar> {
         fit: BoxFit.fill,
       );
     } else {
-      ToastMessages.showToastMessages(
-        Preferences.getPreferredLanguage() == "Magyar"
-            ? "Ismeretlen MIME-típus a profilképnél!"
-            : "An unknown MIME type has been detected!",
-        0.2,
-        Colors.redAccent,
-        Icons.error,
-        Colors.black,
-        const Duration(seconds: 2),
-        context,
-      );
-      log("An unknown MIME type has been detected: $_profileImageUrl");
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ToastMessages.showToastMessages(
+          Preferences.getPreferredLanguage() == "Magyar"
+              ? "Ismeretlen MIME-típus a profilképnél!"
+              : "An unknown MIME type has been detected!",
+          0.2,
+          Colors.redAccent,
+          Icons.error,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
+      });
       imageWidget = CircleAvatar(
         radius: 60,
         backgroundColor: Colors.grey[600],
-        child: const Icon(Icons.person, size: 40, color: Colors.white),
+        child: const Icon(
+          Icons.person,
+          size: 80,
+          color: Colors.white,
+        ),
       );
     }
 
@@ -96,7 +101,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
               width: 25,
               height: 25,
               decoration: BoxDecoration(
-                color: (_status ?? "").toLowerCase() == "online"
+                color: (_selectedStatus ?? "offline").toLowerCase() == "online"
                     ? Colors.green
                     : Colors.grey,
                 shape: BoxShape.circle,
@@ -112,15 +117,78 @@ class _ChatSidebarState extends State<ChatSidebar> {
     );
   }
 
+//TODO: folyt köv, átalakítás azért jobb ezt újra használni mert majd össze lehet vonni egy külön .dart-ba, divider legyen lekeríkett, EZ KÉSZ UTÁNA CHAT DE TÉNYLEG!!!!!!!!!!!!!!!
   Widget _buildDropdownMenu() {
-    //TODO: folyt köv, átalakítás azért jobb ezt újra használni mert majd össze lehet vonni egy külön .dart-ba, divider legyen lekeríkett, EZ KÉSZ UTÁNA CHAT DE TÉNYLEG!!!!!!!!!!!!!!!
     return Padding(
       padding: const EdgeInsets.only(bottom: 20, top: 20),
       child: DropdownMenu<String>(
+        initialSelection: _selectedStatus,
         label: Text(
-          _selectedLanguage == "Magyar" ? "Státusz" : "Status",
+          Preferences.getPreferredLanguage() == "Magyar" ? "Státusz" : "Status",
         ),
-        onSelected: (newValue) {},
+        onSelected: (newValue) async {
+          if (newValue != _selectedStatus) {
+            setState(() {
+              _selectedStatus = newValue;
+            });
+          }
+
+          final userId = Preferences.getUserId();
+          try {
+            final updateStatusUri = Uri.parse(
+                "http://10.0.2.2/ChatexProject/chatex_phps/auth/update_status.php");
+
+            final response = await http.post(
+              updateStatusUri,
+              headers: {"Content-Type": "application/json"},
+              body: jsonEncode({
+                "user_id": userId,
+                "status": newValue,
+              }),
+            );
+
+            final responseData = jsonDecode(response.body);
+            if (responseData["message"] == "Státusz frissítve!" &&
+                newValue != null) {
+              await Preferences.setStatus(newValue);
+              ToastMessages.showToastMessages(
+                Preferences.getPreferredLanguage() == "Magyar"
+                    ? "Sikeres változtatás!"
+                    : "Successful change!",
+                0.3,
+                Colors.green,
+                Icons.check,
+                Colors.black,
+                const Duration(seconds: 2),
+                context,
+              );
+            } else {
+              ToastMessages.showToastMessages(
+                Preferences.getPreferredLanguage() == "Magyar"
+                    ? "A változtatás nem sikerült!"
+                    : "The change didn't happened!",
+                0.3,
+                Colors.redAccent,
+                Icons.error,
+                Colors.black,
+                const Duration(seconds: 2),
+                context,
+              );
+            }
+          } catch (e) {
+            ToastMessages.showToastMessages(
+              Preferences.getPreferredLanguage() == "Magyar"
+                  ? "Kapcsolati hiba!"
+                  : "Connection error!",
+              0.3,
+              Colors.redAccent,
+              Icons.error,
+              Colors.black,
+              const Duration(seconds: 2),
+              context,
+            );
+          }
+        },
         dropdownMenuEntries: [
           DropdownMenuEntry(
             style: TextButton.styleFrom(
@@ -133,6 +201,10 @@ class _ChatSidebarState extends State<ChatSidebar> {
             ),
             value: "online",
             label: "Online",
+            leadingIcon: const Icon(
+              Icons.circle,
+              color: Colors.green,
+            ),
           ),
           DropdownMenuEntry(
             style: TextButton.styleFrom(
@@ -145,6 +217,10 @@ class _ChatSidebarState extends State<ChatSidebar> {
             ),
             value: "offline",
             label: "Offline",
+            leadingIcon: Icon(
+              Icons.circle,
+              color: Colors.grey[500],
+            ),
           ),
         ],
         trailingIcon: const Icon(
@@ -157,10 +233,11 @@ class _ChatSidebarState extends State<ChatSidebar> {
         ),
         inputDecorationTheme: InputDecorationTheme(
           labelStyle: TextStyle(
-            color: Colors.grey[600],
+            color: Colors.grey[500],
             fontStyle: FontStyle.italic,
             fontWeight: FontWeight.bold,
-            fontSize: 20.0,
+            fontSize: 17.0,
+            letterSpacing: 1,
           ),
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.deepPurpleAccent, width: 2.5),
@@ -172,9 +249,10 @@ class _ChatSidebarState extends State<ChatSidebar> {
           fontWeight: FontWeight.w500,
           letterSpacing: 1,
         ),
-        menuStyle: const MenuStyle(
-          backgroundColor: WidgetStatePropertyAll(Colors.deepPurpleAccent),
-          elevation: WidgetStatePropertyAll(5),
+        menuStyle: MenuStyle(
+          backgroundColor: WidgetStatePropertyAll(Colors.grey[900]),
+          shadowColor: const WidgetStatePropertyAll(Colors.deepPurpleAccent),
+          elevation: const WidgetStatePropertyAll(10),
         ),
       ),
     );
@@ -192,7 +270,6 @@ class _ChatSidebarState extends State<ChatSidebar> {
             return Column(
               children: [
                 _buildProfileImage(),
-                _buildDropdownMenu(),
                 const SizedBox(height: 20),
                 Text(
                   _username,
@@ -204,6 +281,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
                     wordSpacing: 2,
                   ),
                 ),
+                _buildDropdownMenu(),
               ],
             );
           },

@@ -16,7 +16,7 @@ if (!isset($data["user_id"])) {
 
 $userId = intval($data["user_id"]);
 
-$query = "UPDATE users SET status = 'offline', last_seen = NOW() WHERE id = ?";
+$query = "UPDATE users SET signed_in = 0, last_seen = NOW() WHERE id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $userId);
 

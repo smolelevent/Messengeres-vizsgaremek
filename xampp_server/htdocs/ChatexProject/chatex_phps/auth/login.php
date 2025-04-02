@@ -14,7 +14,7 @@ $userData = json_decode(file_get_contents("php://input"), true);
 $email = trim($userData['email']);
 $password = trim($userData['password']);
 
-$stmt = $conn->prepare("SELECT id, preferred_lang, profile_picture, username, email, password_hash, status FROM users WHERE email = ?");
+$stmt = $conn->prepare("SELECT id, preferred_lang, profile_picture, username, email, password_hash, status, signed_in FROM users WHERE email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 
@@ -26,6 +26,17 @@ if (!$user || !password_verify($password, $user["password_hash"])) {
     echo json_encode(["message" => "Hibás email vagy jelszó!"]);
     exit();
 }
+
+// Bejelentkezés sikeres => frissítjük a signed_in mezőt, de a status-t nem
+$conn->query("UPDATE users SET signed_in = 1, last_seen = NOW() WHERE id = " . intval($user['id']));
+
+// Újra lekérjük a frissített adatokat
+$stmt = $conn->prepare("SELECT id, preferred_lang, profile_picture, username, email, password_hash, status, signed_in FROM users WHERE email = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+
 
 // JWT token létrehozása
 $issued_at = time();
@@ -39,7 +50,8 @@ $payload = [
     "username" => $user["username"],
     "email" => $user["email"],
     "password_hash" => $user["password_hash"],
-    "status" => $user["status"]
+    "status" => $user["status"],
+    "signed_in" => $user["signed_in"]
 ];
 
 $secret_key = "chatex";
@@ -57,7 +69,8 @@ echo json_encode([
     "username" => $user["username"],
     "email" => $user["email"],
     "password_hash" => $user["password_hash"],
-    "status" => $user["status"]
+    "status" => $user["status"],
+    "signed_in" => $user["signed_in"]
 ]);
 
 $stmt->close();
