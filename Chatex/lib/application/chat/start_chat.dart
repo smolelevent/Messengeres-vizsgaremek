@@ -103,7 +103,6 @@ class _StartChatState extends State<StartChat> {
     );
   }
 
-//TODO: készítéskor a chatre vigyen
   Widget _buildFriendList() {
     final filtered = _friends.where(
       (friend) {
@@ -219,11 +218,10 @@ class _StartChatState extends State<StartChat> {
               chatId: responseData["chat_id"],
             ),
           ),
-        ); //TODO: miután bedob a chatbe és vissza nyíl akkor jelenjen meg a chat
+        ); //TODO: miután bedob a chatbe és vissza nyíl akkor jelenjen meg a chat - aka valós időbe
       } else if (responseData["message"] == "Már létezik a chat!") {
         ToastMessages.showToastMessages(
-          Preferences.getPreferredLanguage() ==
-                  "Magyar" //TODO: ha már létezik akkor ki kell venni a listából, folyt köv innét!!
+          Preferences.getPreferredLanguage() == "Magyar"
               ? "Már létezik chated ezzel a felhasználóval!"
               : "The chat with this user already exist!",
           0.1,
