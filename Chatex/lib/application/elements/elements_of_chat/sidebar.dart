@@ -120,7 +120,6 @@ class _ChatSidebarState extends State<ChatSidebar> {
     );
   }
 
-//TODO: EZ KÉSZ UTÁNA CHAT DE TÉNYLEG!!!!!!!!!!!!!!!
   Widget _buildDropdownMenu() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20, top: 20),

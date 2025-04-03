@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'dart:convert';
+import 'dart:developer';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({
@@ -35,13 +36,13 @@ class _ChatScreenState extends State<ChatScreen> {
   bool _isWriting = false;
 
   late WebSocketChannel _channel;
-
-  List<Map> _messages = <Map>[];
+  List<Map<String, dynamic>> _messages = <Map<String, dynamic>>[];
 
   @override
   void initState() {
     super.initState();
     _loadMessages();
+    _connectToWebSocket();
     _inputFocusNode.addListener(() {
       setState(() {
         _isInputFocused = _inputFocusNode.hasFocus;
@@ -54,19 +55,6 @@ class _ChatScreenState extends State<ChatScreen> {
         _isInputFocused = _isWriting;
       });
     });
-
-    _channel = WebSocketChannel.connect(
-      Uri.parse("ws://10.0.2.2:8080"),
-    );
-
-    _channel.stream.listen((message) {
-      final data = jsonDecode(message);
-      if (data['chat_id'] == widget.chatId) {
-        setState(() {
-          _messages.add(data);
-        });
-      }
-    });
   }
 
   @override
@@ -75,6 +63,75 @@ class _ChatScreenState extends State<ChatScreen> {
     _messageController.dispose();
     _inputFocusNode.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadMessages() async {
+    final response = await http.post(
+      Uri.parse(
+          "http://10.0.2.2/ChatexProject/chatex_phps/chat/get/get_messages.php"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"chat_id": widget.chatId}),
+    );
+
+    final responseData = jsonDecode(response.body);
+    log("ResponseData: ${response.body}");
+
+    if (response.statusCode == 200) {
+      final List<Map<String, dynamic>> messagesFromResponse =
+          List<Map<String, dynamic>>.from(responseData["messages"]);
+
+      if (responseData["messages"] is List) {
+        log("Üzenetlista típusa jó, elemszám: ${responseData["messages"].length}");
+      } else {
+        log("Nem lista: ${responseData["messages"].runtimeType}");
+      }
+
+      setState(() {
+        _messages = messagesFromResponse;
+      });
+    }
+  }
+
+  void _connectToWebSocket() {
+    _channel = WebSocketChannel.connect(
+      Uri.parse("ws://10.0.2.2:8080"),
+    );
+
+    _channel.stream.listen((message) {
+      final decoded = jsonDecode(message);
+      final data = Map<String, dynamic>.from(decoded);
+
+      log("jó");
+
+      if (data['chat_id'] == widget.chatId) {
+        setState(() {
+          _messages.add(data);
+        });
+      }
+    });
+  }
+
+  void _sendMessage() {
+    if (_messageController.text.trim().isEmpty) return;
+
+    final message = {
+      "sender_id": Preferences.getUserId(),
+      "chat_id": widget.chatId,
+      "message":
+          _messageController.text.trim(), //egyenlőre trimmeljük lehet nem kell
+    };
+
+    _channel.sink.add(jsonEncode(message));
+
+    // Azonnali megjelenítés saját felületen
+    setState(() {
+      _messages.add({
+        "sender_id": Preferences.getUserId(),
+        "message": _messageController.text.trim(),
+        "timestamp": DateTime.now().toIso8601String(),
+      } as Map<String, dynamic>);
+      _messageController.clear();
+    });
   }
 
   String formatLastSeen(String lastSeenString) {
@@ -110,45 +167,7 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  void _sendMessage() {
-    if (_messageController.text.trim().isEmpty) return;
-
-    final message = {
-      "sender_id": Preferences.getUserId(),
-      "chat_id": widget.chatId,
-      "message": _messageController.text.trim(),
-    };
-
-    _channel.sink.add(jsonEncode(message));
-
-    // Azonnali megjelenítés saját felületen
-    setState(() {
-      _messages.add({
-        "sender_id": Preferences.getUserId(),
-        "message": _messageController.text.trim(),
-        "timestamp": DateTime.now().toIso8601String(),
-      });
-      _messageController.clear();
-    });
-  }
-
-  Future<void> _loadMessages() async {
-    final response = await http.post(
-      Uri.parse(
-          "http://10.0.2.2/ChatexProject/chatex_phps/chat/get/get_messages.php"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({"chat_id": widget.chatId}),
-    );
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      setState(() {
-        _messages = data[
-            "messages"]; //exception: _TypeError (type 'List<dynamic>' is not a subtype of type 'List<Map<dynamic, dynamic>>')
-      });
-    }
-  }
-
+//TODO: nincs chat előzmény, folytonossá tenni a load_chats.dart-ot, people.dart-ot
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -158,19 +177,32 @@ class _ChatScreenState extends State<ChatScreen> {
         body: Column(
           children: [
             Expanded(
-              child: ListView.builder(
-                itemCount: _messages.length,
-                itemBuilder: (context, index) {
-                  final msg = _messages[index];
-                  final isSender = msg['sender_id'] == Preferences.getUserId();
+              child: _messages.isEmpty
+                  ? Center(
+                      child: Text(
+                        Preferences.getPreferredLanguage() == "Magyar"
+                            ? "Ez a beszélgetés még üres."
+                            : "This chat is empty.",
+                        style: const TextStyle(
+                          color: Colors.white60,
+                          fontSize: 16,
+                        ),
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: _messages.length,
+                      itemBuilder: (context, index) {
+                        final message = _messages[index];
+                        final isSender =
+                            message['sender_id'] == Preferences.getUserId();
 
-                  return ChatBubble(
-                    message: msg['message'],
-                    timestamp: formatLastSeen(msg['timestamp']),
-                    isSender: isSender,
-                  );
-                },
-              ),
+                        return ChatBubble(
+                          message: message['message'] ?? "",
+                          timestamp: formatLastSeen(message['timestamp'] ?? ""),
+                          isSender: isSender,
+                        );
+                      },
+                    ),
             ),
           ],
         ),
@@ -469,3 +501,59 @@ class ChatBubble extends StatelessWidget {
     );
   }
 }
+
+// class ChatBubble2 extends StatefulWidget {
+//   const ChatBubble2({
+//     super.key,
+//     required this.message,
+//     required this.isSender,
+//     required this.timestamp,
+//   });
+
+//   final String message;
+//   final bool isSender;
+//   final String timestamp;
+
+//   @override
+//   State<ChatBubble2> createState() => _ChatBubble2State();
+// }
+
+// class _ChatBubble2State extends State<ChatBubble2> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       crossAxisAlignment:
+//           widget.isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+//       children: [
+//         Padding(
+//           padding: const EdgeInsets.symmetric(horizontal: 10),
+//           child: Text(
+//             widget.timestamp,
+//             style: TextStyle(
+//               fontSize: 12,
+//               color: Colors.grey[600],
+//             ),
+//           ),
+//         ),
+//         Align(
+//           alignment:
+//               widget.isSender ? Alignment.centerRight : Alignment.centerLeft,
+//           child: Container(
+//             margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+//             padding: const EdgeInsets.all(10),
+//             decoration: BoxDecoration(
+//               color: widget.isSender ? Colors.blueAccent : Colors.grey[300],
+//               borderRadius: BorderRadius.circular(15),
+//             ),
+//             child: Text(
+//               widget.message,
+//               style: TextStyle(
+//                 color: widget.isSender ? Colors.white : Colors.black87,
+//               ),
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
