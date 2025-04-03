@@ -216,6 +216,7 @@ class _StartChatState extends State<StartChat> {
               lastSeen: responseData["last_seen"],
               isOnline: responseData["status"],
               signedIn: responseData["signed_in"],
+              chatId: responseData["chat_id"],
             ),
           ),
         ); //TODO: miután bedob a chatbe és vissza nyíl akkor jelenjen meg a chat

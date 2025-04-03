@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'dart:convert';
 
@@ -11,6 +13,7 @@ class ChatScreen extends StatefulWidget {
     required this.isOnline,
     required this.lastSeen,
     required this.signedIn,
+    required this.chatId,
   });
 
   final String chatName;
@@ -18,6 +21,7 @@ class ChatScreen extends StatefulWidget {
   final String isOnline;
   final String lastSeen;
   final int signedIn;
+  final int chatId;
 //TODO: valósidőbe való átvitel
 
   @override
@@ -30,21 +34,47 @@ class _ChatScreenState extends State<ChatScreen> {
   bool _isInputFocused = false;
   bool _isWriting = false;
 
+  late WebSocketChannel _channel;
+
+  List<Map> _messages = <Map>[];
+
   @override
   void initState() {
     super.initState();
+    _loadMessages();
     _inputFocusNode.addListener(() {
       setState(() {
         _isInputFocused = _inputFocusNode.hasFocus;
       });
+    });
 
-      _messageController.addListener(() {
-        setState(() {
-          _isWriting = _messageController.text.trim().isNotEmpty;
-          _isInputFocused = _isWriting;
-        });
+    _messageController.addListener(() {
+      setState(() {
+        _isWriting = _messageController.text.trim().isNotEmpty;
+        _isInputFocused = _isWriting;
       });
     });
+
+    _channel = WebSocketChannel.connect(
+      Uri.parse("ws://10.0.2.2:8080"),
+    );
+
+    _channel.stream.listen((message) {
+      final data = jsonDecode(message);
+      if (data['chat_id'] == widget.chatId) {
+        setState(() {
+          _messages.add(data);
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _channel.sink.close();
+    _messageController.dispose();
+    _inputFocusNode.dispose();
+    super.dispose();
   }
 
   String formatLastSeen(String lastSeenString) {
@@ -80,12 +110,70 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  void _sendMessage() {
+    if (_messageController.text.trim().isEmpty) return;
+
+    final message = {
+      "sender_id": Preferences.getUserId(),
+      "chat_id": widget.chatId,
+      "message": _messageController.text.trim(),
+    };
+
+    _channel.sink.add(jsonEncode(message));
+
+    // Azonnali megjelenítés saját felületen
+    setState(() {
+      _messages.add({
+        "sender_id": Preferences.getUserId(),
+        "message": _messageController.text.trim(),
+        "timestamp": DateTime.now().toIso8601String(),
+      });
+      _messageController.clear();
+    });
+  }
+
+  Future<void> _loadMessages() async {
+    final response = await http.post(
+      Uri.parse(
+          "http://10.0.2.2/ChatexProject/chatex_phps/chat/get/get_messages.php"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"chat_id": widget.chatId}),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      setState(() {
+        _messages = data[
+            "messages"]; //exception: _TypeError (type 'List<dynamic>' is not a subtype of type 'List<Map<dynamic, dynamic>>')
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey[850],
         appBar: _buildAppBar(),
+        body: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: _messages.length,
+                itemBuilder: (context, index) {
+                  final msg = _messages[index];
+                  final isSender = msg['sender_id'] == Preferences.getUserId();
+
+                  return ChatBubble(
+                    message: msg['message'],
+                    timestamp: formatLastSeen(msg['timestamp']),
+                    isSender: isSender,
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
         bottomSheet: _buildBottomBar(),
       ),
     );
@@ -318,9 +406,7 @@ class _ChatScreenState extends State<ChatScreen> {
               icon: _isWriting ? Icons.send_rounded : Icons.thumb_up_rounded,
               onPressed: () {
                 if (_isWriting) {
-                  // Küldés logika itt
-                  //print("Küldés: ${_messageController.text}");
-                  _messageController.clear();
+                  _sendMessage();
                 } else {
                   //print("Like vagy emoji gomb megnyomva");
                 }
@@ -329,6 +415,57 @@ class _ChatScreenState extends State<ChatScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+//ChatBubble osztály kezdete -----------------------------------------------------------------------
+class ChatBubble extends StatelessWidget {
+  const ChatBubble({
+    super.key,
+    required this.message,
+    required this.isSender,
+    required this.timestamp,
+  });
+
+  final String message;
+  final bool isSender;
+  final String timestamp;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment:
+          isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Text(
+            timestamp,
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.grey[600],
+            ),
+          ),
+        ),
+        Align(
+          alignment: isSender ? Alignment.centerRight : Alignment.centerLeft,
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: isSender ? Colors.blueAccent : Colors.grey[300],
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Text(
+              message,
+              style: TextStyle(
+                color: isSender ? Colors.white : Colors.black87,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -414,7 +414,9 @@ class _PeopleState extends State<People> {
                           ? "Függőben"
                           : "Pending",
                       style: const TextStyle(
-                          color: Colors.orangeAccent, fontSize: 14),
+                        color: Colors.orange,
+                        fontSize: 14,
+                      ),
                     );
                   } else {
                     return ElevatedButton(

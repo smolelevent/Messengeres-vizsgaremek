@@ -150,6 +150,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
                         lastSeen: chat["friend_last_seen"],
                         isOnline: chat["status"],
                         signedIn: chat["signed_in"],
+                        chatId: chat["chat_id"],
                       ),
                     ),
                   );

@@ -120,7 +120,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
     );
   }
 
-//TODO: folyt köv, divider legyen lekeríkett, EZ KÉSZ UTÁNA CHAT DE TÉNYLEG!!!!!!!!!!!!!!!
+//TODO: EZ KÉSZ UTÁNA CHAT DE TÉNYLEG!!!!!!!!!!!!!!!
   Widget _buildDropdownMenu() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20, top: 20),
@@ -174,8 +174,8 @@ class _ChatSidebarState extends State<ChatSidebar> {
                     ? "A változtatás nem sikerült!"
                     : "The change didn't happened!",
                 0.3,
-                Colors.redAccent,
-                Icons.error,
+                Colors.orange,
+                Icons.warning_rounded,
                 Colors.black,
                 const Duration(seconds: 2),
                 context,
@@ -289,10 +289,17 @@ class _ChatSidebarState extends State<ChatSidebar> {
               ],
             );
           },
-          headerDivider: const Divider(
-            height: 50,
-            thickness: 5,
-            color: Colors.deepPurpleAccent,
+          headerDivider: Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: Center(
+              child: Container(
+                height: 5,
+                decoration: BoxDecoration(
+                  color: Colors.deepPurpleAccent,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+            ),
           ),
           items: [
             SidebarXItem(
