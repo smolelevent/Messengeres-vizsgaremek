@@ -74,34 +74,32 @@ class _ChatScreenState extends State<ChatScreen> {
     );
 
     final responseData = jsonDecode(response.body);
-    log("ResponseData: ${response.body}");
 
     if (response.statusCode == 200) {
       final List<Map<String, dynamic>> messagesFromResponse =
           List<Map<String, dynamic>>.from(responseData["messages"]);
 
-      if (responseData["messages"] is List) {
-        log("Üzenetlista típusa jó, elemszám: ${responseData["messages"].length}");
-      } else {
-        log("Nem lista: ${responseData["messages"].runtimeType}");
-      }
-
       setState(() {
         _messages = messagesFromResponse;
       });
+
+      log("_messages miután elmentette a responseData-t: ${_messages.toString()}");
     }
   }
 
   void _connectToWebSocket() {
+    //INDÍTÁS ELŐTT FUTTATNI KELL A PHP-T: xampp_server\htdocs\ChatexProject\chatex_phps> php server_run.php
     _channel = WebSocketChannel.connect(
       Uri.parse("ws://10.0.2.2:8080"),
     );
 
+    log("WebSocket connected"); //TODO: NEM TUDOM MEGNÉZNI MERT ELSEM INDUL A GECIS SZERVEETJ IRGROKDL,F.
+
     _channel.stream.listen((message) {
       final decoded = jsonDecode(message);
+      log("decoded: ${decoded.toString()}");
       final data = Map<String, dynamic>.from(decoded);
-
-      log("jó");
+      log("data: ${data.toString()}");
 
       if (data['chat_id'] == widget.chatId) {
         setState(() {
@@ -112,13 +110,13 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _sendMessage() {
-    if (_messageController.text.trim().isEmpty) return;
+    if (_messageController.text.isEmpty) return;
 
     final message = {
       "sender_id": Preferences.getUserId(),
       "chat_id": widget.chatId,
-      "message":
-          _messageController.text.trim(), //egyenlőre trimmeljük lehet nem kell
+      "message_text":
+          _messageController.text, //egyenlőre trimmeljük lehet nem kell
     };
 
     _channel.sink.add(jsonEncode(message));
@@ -127,8 +125,8 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {
       _messages.add({
         "sender_id": Preferences.getUserId(),
-        "message": _messageController.text.trim(),
-        "timestamp": DateTime.now().toIso8601String(),
+        "message_text": _messageController.text.trim(),
+        "sent_at": DateTime.now().toIso8601String(),
       } as Map<String, dynamic>);
       _messageController.clear();
     });
@@ -178,14 +176,18 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             Expanded(
               child: _messages.isEmpty
-                  ? Center(
-                      child: Text(
-                        Preferences.getPreferredLanguage() == "Magyar"
-                            ? "Ez a beszélgetés még üres."
-                            : "This chat is empty.",
-                        style: const TextStyle(
-                          color: Colors.white60,
-                          fontSize: 16,
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Text(
+                          Preferences.getPreferredLanguage() == "Magyar"
+                              ? "Ez a beszélgetés még üres."
+                              : "The chat is empty.",
+                          style: const TextStyle(
+                            color: Colors.white60,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                     )
@@ -195,10 +197,9 @@ class _ChatScreenState extends State<ChatScreen> {
                         final message = _messages[index];
                         final isSender =
                             message['sender_id'] == Preferences.getUserId();
-
                         return ChatBubble(
-                          message: message['message'] ?? "",
-                          timestamp: formatLastSeen(message['timestamp'] ?? ""),
+                          message: message['message_text'] ?? "",
+                          timestamp: formatLastSeen(message['sent_at'] ?? ""),
                           isSender: isSender,
                         );
                       },
@@ -470,30 +471,34 @@ class ChatBubble extends StatelessWidget {
       crossAxisAlignment:
           isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text(
-            timestamp,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey[600],
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              timestamp,
+              style: TextStyle(
+                fontSize: 15,
+                fontStyle: FontStyle.italic,
+                letterSpacing: 0.5,
+                color: Colors.grey[600],
+              ),
             ),
           ),
         ),
-        Align(
-          alignment: isSender ? Alignment.centerRight : Alignment.centerLeft,
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: isSender ? Colors.blueAccent : Colors.grey[300],
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Text(
-              message,
-              style: TextStyle(
-                color: isSender ? Colors.white : Colors.black87,
-              ),
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: isSender ? Colors.deepPurpleAccent : Colors.blueAccent,
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Text(
+            message,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              wordSpacing: 2,
+              letterSpacing: 1,
             ),
           ),
         ),
@@ -501,59 +506,3 @@ class ChatBubble extends StatelessWidget {
     );
   }
 }
-
-// class ChatBubble2 extends StatefulWidget {
-//   const ChatBubble2({
-//     super.key,
-//     required this.message,
-//     required this.isSender,
-//     required this.timestamp,
-//   });
-
-//   final String message;
-//   final bool isSender;
-//   final String timestamp;
-
-//   @override
-//   State<ChatBubble2> createState() => _ChatBubble2State();
-// }
-
-// class _ChatBubble2State extends State<ChatBubble2> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       crossAxisAlignment:
-//           widget.isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-//       children: [
-//         Padding(
-//           padding: const EdgeInsets.symmetric(horizontal: 10),
-//           child: Text(
-//             widget.timestamp,
-//             style: TextStyle(
-//               fontSize: 12,
-//               color: Colors.grey[600],
-//             ),
-//           ),
-//         ),
-//         Align(
-//           alignment:
-//               widget.isSender ? Alignment.centerRight : Alignment.centerLeft,
-//           child: Container(
-//             margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-//             padding: const EdgeInsets.all(10),
-//             decoration: BoxDecoration(
-//               color: widget.isSender ? Colors.blueAccent : Colors.grey[300],
-//               borderRadius: BorderRadius.circular(15),
-//             ),
-//             child: Text(
-//               widget.message,
-//               style: TextStyle(
-//                 color: widget.isSender ? Colors.white : Colors.black87,
-//               ),
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }

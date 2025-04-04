@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../db.php';
 $data = json_decode(file_get_contents("php://input"), true);
 $chatId = intval($data['chat_id']);
 
-$query = $conn->prepare("SELECT sender_id, message_text, sent_at FROM messages WHERE chat_id = ? ORDER BY sent_at ASC");
+$query = $conn->prepare("SELECT chat_id, sender_id, message_text, sent_at FROM messages WHERE chat_id = ? ORDER BY sent_at ASC");
 $query->bind_param("i", $chatId);
 $query->execute();
 $result = $query->get_result();
