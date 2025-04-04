@@ -31,6 +31,7 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   final FocusNode _inputFocusNode = FocusNode();
   bool _isInputFocused = false;
   bool _isWriting = false;
@@ -88,12 +89,15 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _connectToWebSocket() {
-    //INDÍTÁS ELŐTT FUTTATNI KELL A PHP-T: xampp_server\htdocs\ChatexProject\chatex_phps> php server_run.php
+    /*
+    INDÍTÁS ELŐTT FUTTATNI KELL A PHP-T: xampp_server\htdocs\ChatexProject\chatex_phps> php server_run.php,   
+    A terminálba Ctrl + Shift + C-t nyomva lehet írni read-only terminálba!
+    */
     _channel = WebSocketChannel.connect(
       Uri.parse("ws://10.0.2.2:8080"),
     );
 
-    log("WebSocket connected"); //TODO: NEM TUDOM MEGNÉZNI MERT ELSEM INDUL A GECIS SZERVEETJ IRGROKDL,F.
+    log("WebSocket connected");
 
     _channel.stream.listen((message) {
       final decoded = jsonDecode(message);
@@ -105,6 +109,7 @@ class _ChatScreenState extends State<ChatScreen> {
         setState(() {
           _messages.add(data);
         });
+        _scrollToBottom();
       }
     });
   }
@@ -116,19 +121,33 @@ class _ChatScreenState extends State<ChatScreen> {
       "sender_id": Preferences.getUserId(),
       "chat_id": widget.chatId,
       "message_text":
-          _messageController.text, //egyenlőre trimmeljük lehet nem kell
+          _messageController.text.trim(), //egyenlőre trimmeljük lehet nem kell
     };
 
     _channel.sink.add(jsonEncode(message));
 
-    // Azonnali megjelenítés saját felületen
+    //Azonnali megjelenítés saját felületen
     setState(() {
       _messages.add({
         "sender_id": Preferences.getUserId(),
         "message_text": _messageController.text.trim(),
         "sent_at": DateTime.now().toIso8601String(),
       } as Map<String, dynamic>);
-      _messageController.clear();
+    });
+    _scrollToBottom();
+
+    _messageController.clear();
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
     });
   }
 
@@ -150,12 +169,18 @@ class _ChatScreenState extends State<ChatScreen> {
         return Preferences.getPreferredLanguage() == "Magyar"
             ? "${difference.inHours} órája"
             : "${difference.inHours} hour(s) ago";
+      } else if (difference.inDays == 1) {
+        return Preferences.getPreferredLanguage() == "Magyar"
+            ? "Tegnap"
+            : "Yesterday";
+      } else if (difference.inDays == 2) {
+        return Preferences.getPreferredLanguage() == "Magyar"
+            ? "Tegnap előtt"
+            : "The day before yesterday";
       } else {
-        // Dátum: ÉÉÉÉ.HH.NN ÓÓ:PP
         final formattedDate =
             "${lastSeen.year}.${lastSeen.month.toString().padLeft(2, '0')}.${lastSeen.day.toString().padLeft(2, '0')} "
-            "${lastSeen.hour.toString().padLeft(2, '0')}:${lastSeen.minute.toString().padLeft(2, '0')}";
-
+            "${lastSeen.hour.toString().padLeft(2, '0')}:${lastSeen.minute.toString().padLeft(2, '0')}:${lastSeen.second.toString().padLeft(2, '0')}";
         return formattedDate;
       }
     } catch (_) {
@@ -192,15 +217,19 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                     )
                   : ListView.builder(
+                      controller: _scrollController,
+                      padding: const EdgeInsets.only(bottom: 80),
                       itemCount: _messages.length,
                       itemBuilder: (context, index) {
+                        log("a _messages hossza: ${_messages.length.toString()}");
                         final message = _messages[index];
                         final isSender =
                             message['sender_id'] == Preferences.getUserId();
                         return ChatBubble(
-                          message: message['message_text'] ?? "",
-                          timestamp: formatLastSeen(message['sent_at'] ?? ""),
+                          messageText: message['message_text'] ?? "",
+                          sentAt: formatLastSeen(message['sent_at'] ?? ""),
                           isSender: isSender,
+                          profileImage: isSender ? null : widget.profileImage,
                         );
                       },
                     ),
@@ -233,7 +262,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Widget _buildProfileImage(String imageString, String isOnline, int signedIn) {
+  Widget buildProfileImage(String imageString, String isOnline, int signedIn) {
     Widget imageWidget;
 
     if (imageString.startsWith("data:image/svg+xml;base64,")) {
@@ -317,7 +346,7 @@ class _ChatScreenState extends State<ChatScreen> {
         leadingWidth: 55,
         title: Row(
           children: [
-            _buildProfileImage(
+            buildProfileImage(
                 widget.profileImage, widget.isOnline, widget.signedIn),
             const SizedBox(width: 10),
             Expanded(
@@ -453,56 +482,180 @@ class _ChatScreenState extends State<ChatScreen> {
 }
 
 //ChatBubble osztály kezdete -----------------------------------------------------------------------
+// class ChatBubble extends StatelessWidget {
+//   const ChatBubble({
+//     super.key,
+//     required this.messageText,
+//     required this.isSender,
+//     required this.sentAt,
+//   });
+
+//   final String messageText;
+//   final bool isSender;
+//   final String sentAt;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       crossAxisAlignment:
+//           isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+//       children: [
+//         Center(
+//           child: Padding(
+//             padding: const EdgeInsets.symmetric(horizontal: 10),
+//             child: Text(
+//               sentAt,
+//               style: TextStyle(
+//                 fontSize: 15,
+//                 fontStyle: FontStyle.italic,
+//                 letterSpacing: 0.5,
+//                 color: Colors.grey[600],
+//               ),
+//             ),
+//           ),
+//         ),
+//         Container(
+//           margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+//           padding: const EdgeInsets.all(10),
+//           decoration: BoxDecoration(
+//             color: isSender ? Colors.deepPurpleAccent : Colors.blueAccent,
+//             borderRadius: BorderRadius.circular(15),
+//           ),
+//           child: Text(
+//             messageText,
+//             style: const TextStyle(
+//               color: Colors.white,
+//               fontSize: 16,
+//               wordSpacing: 0,
+//               letterSpacing: 1,
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
+
 class ChatBubble extends StatelessWidget {
   const ChatBubble({
     super.key,
-    required this.message,
+    required this.messageText,
     required this.isSender,
-    required this.timestamp,
+    required this.sentAt,
+    this.profileImage,
   });
 
-  final String message;
+  final String messageText;
   final bool isSender;
-  final String timestamp;
+  final String sentAt;
+  final String? profileImage;
+
+  Widget buildProfileImageFromString(String? imageString) {
+    if (imageString == null || imageString.isEmpty) {
+      return const CircleAvatar(
+        radius: 18,
+        backgroundColor: Colors.grey,
+        child: Icon(Icons.person, color: Colors.white),
+      );
+    }
+
+    try {
+      if (imageString.startsWith("data:image/svg+xml;base64,")) {
+        final svgBytes = base64Decode(imageString.split(",")[1]);
+        return CircleAvatar(
+          radius: 18,
+          backgroundColor: Colors.transparent,
+          child: SvgPicture.memory(svgBytes, width: 36, height: 36),
+        );
+      } else if (imageString.startsWith("data:image/")) {
+        final base64Data = base64Decode(imageString.split(",")[1]);
+        return CircleAvatar(
+          radius: 18,
+          backgroundImage: MemoryImage(base64Data),
+          backgroundColor: Colors.grey[800],
+        );
+      } else if (imageString.endsWith(".png") ||
+          imageString.endsWith(".jpg") ||
+          imageString.endsWith(".jpeg") ||
+          imageString.endsWith(".svg")) {
+        // Fájl név vagy URL eset
+        return CircleAvatar(
+          radius: 18,
+          backgroundImage: NetworkImage(imageString),
+          backgroundColor: Colors.grey[800],
+        );
+      }
+    } catch (_) {
+      // Ha valami hiba történik, fallback
+      return const CircleAvatar(
+        radius: 18,
+        backgroundColor: Colors.grey,
+        child: Icon(Icons.person, color: Colors.white),
+      );
+    }
+
+    // Fallback minden másra
+    return const CircleAvatar(
+      radius: 18,
+      backgroundColor: Colors.grey,
+      child: Icon(Icons.person, color: Colors.white),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment:
-          isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-      children: [
-        Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Text(
-              timestamp,
-              style: TextStyle(
-                fontSize: 15,
-                fontStyle: FontStyle.italic,
-                letterSpacing: 0.5,
-                color: Colors.grey[600],
-              ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment:
+            isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
+        children: [
+          // Profilkép csak akkor jelenik meg, ha a másik félről van szó
+          if (!isSender)
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: buildProfileImageFromString(profileImage),
+            ),
+          if (!isSender) const SizedBox(width: 8),
+
+          // Üzenet buborék
+          Flexible(
+            child: Column(
+              crossAxisAlignment:
+                  isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color:
+                        isSender ? Colors.deepPurpleAccent : Colors.blueAccent,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Text(
+                    messageText,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      wordSpacing: 0,
+                      letterSpacing: 1,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  sentAt,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.grey[500],
+                  ),
+                ),
+              ],
             ),
           ),
-        ),
-        Container(
-          margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: isSender ? Colors.deepPurpleAccent : Colors.blueAccent,
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: Text(
-            message,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              wordSpacing: 2,
-              letterSpacing: 1,
-            ),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
