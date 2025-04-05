@@ -20,6 +20,7 @@ $query = "
     SELECT 
         c.chat_id,
         c.is_group,
+        u.id AS friend_id,
         u.username AS friend_name,
         u.profile_picture AS friend_profile_picture,
         u.last_seen AS friend_last_seen,
@@ -43,8 +44,7 @@ $query = "
 
     FROM chats c
     INNER JOIN chat_members cm ON cm.chat_id = c.chat_id
-    INNER JOIN chat_members other_cm 
-        ON other_cm.chat_id = c.chat_id AND other_cm.user_id != ?
+    INNER JOIN chat_members other_cm ON other_cm.chat_id = c.chat_id AND other_cm.user_id != ?
     INNER JOIN users u ON u.id = other_cm.user_id
 
     WHERE cm.user_id = ? AND c.is_group = 0

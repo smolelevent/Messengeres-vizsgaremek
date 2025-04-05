@@ -210,6 +210,7 @@ class _StartChatState extends State<StartChat> {
           context,
           MaterialPageRoute(
             builder: (context) => ChatScreen(
+              receiverId: responseData["friend_id"],
               chatName: responseData["friend_name"],
               profileImage: responseData["friend_profile_picture"] ?? "",
               lastSeen: responseData["last_seen"],

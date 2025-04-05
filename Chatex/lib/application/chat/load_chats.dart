@@ -145,6 +145,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ChatScreen(
+                        receiverId: chat["friend_id"],
                         chatName: chat["friend_name"],
                         profileImage: chat["friend_profile_picture"] ?? "",
                         lastSeen: chat["friend_last_seen"],

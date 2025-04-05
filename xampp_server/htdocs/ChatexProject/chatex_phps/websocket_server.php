@@ -1,79 +1,4 @@
 <?php
-// require __DIR__ . '/vendor/autoload.php';
-// require __DIR__ . '/db.php';
-
-// use Ratchet\MessageComponentInterface;
-// use Ratchet\ConnectionInterface;
-
-// class ChatServer implements MessageComponentInterface
-// {
-//     protected $clients; //spl object storage
-//     private $db;
-
-//     public function __construct()
-//     {
-//         $this->clients = new \SplObjectStorage;
-//         $this->db = new mysqli("localhost", "root", "", "dbchatex");
-
-//         if ($this->db->connect_error) {
-//             echo "Adatbázis kapcsolódási hiba: " . $this->db->connect_error . "\n";
-//         } else {
-//             echo "Adatbázis kapcsolat létrejött.\n";
-//         }
-//     }
-
-//     public function onOpen(ConnectionInterface $conn)
-//     {
-//         $this->clients->attach($conn);
-//         echo "Új kapcsolat: {$conn->resourceId}\n";
-//     }
-
-//     public function onMessage(ConnectionInterface $from, $msg)
-//     {
-//         echo "Beérkezett üzenet: $msg\n";
-
-//         $data = json_decode($msg, true);
-
-//         if (!$data || !isset($data['chat_id'], $data['sender_id'], $data['message'])) {
-//             echo "Hibás adat!\n";
-//             return;
-//         }
-
-//         // Adatbázis mentés (ha kell)
-//         $chatId = intval($data['chat_id']);
-//         $senderId = intval($data['sender_id']);
-//         $messageText = $data['message'];
-
-//         global $conn;
-//         $stmt = $conn->prepare("INSERT INTO messages (chat_id, sender_id, message_text) VALUES (?, ?, ?)");
-//         $stmt->bind_param("iis", $chatId, $senderId, $messageText);
-//         $stmt->execute();
-//         $stmt->close();
-
-//         // Broadcast az összes clientnek
-//         foreach ($this->clients as $client) {
-//             $client->send(json_encode([
-//                 'chat_id' => $chatId,
-//                 'sender_id' => $senderId,
-//                 'message_text' => $messageText,
-//                 'sent_at' => date("c")  // ISO8601 időbélyeg
-//             ]));
-//         }
-//     }
-
-
-//     public function onClose(ConnectionInterface $conn)
-//     {
-//         $this->clients->detach($conn);
-//         echo "Kapcsolat lezárva: {$conn->resourceId}\n";
-//     }
-
-//     public function onError(ConnectionInterface $conn, \Exception $e)
-//     {
-//         $conn->close();
-//     }
-// } mentés
-
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/db.php';
 
@@ -91,73 +16,153 @@ class ChatServer implements MessageComponentInterface
         $this->db = new mysqli("localhost", "root", "", "dbchatex");
 
         if ($this->db->connect_error) {
-            echo "❌ DB Hiba: " . $this->db->connect_error . "\n";
+            echo "DB Hiba: " . $this->db->connect_error . "\n";
         } else {
-            echo "✅ DB kapcsolat létrejött\n";
+            echo "DB kapcsolat létrejött\n";
         }
     }
 
     public function onOpen(ConnectionInterface $conn)
     {
         $this->clients->attach($conn);
-        echo "🔗 Új kapcsolat: {$conn->resourceId}\n";
+        echo "Új kapcsolat: {$conn->resourceId}\n";
     }
 
     public function onMessage(ConnectionInterface $from, $msg)
     {
+        // echo "Üzenet: $msg\n";
+
+        // $data = json_decode($msg, true);
+        // if (!$data || !isset($data['chat_id'], $data['sender_id'], $data['receiver_id'], $data['message_text'])) {
+        //     echo "Hiányzó adat!\n";
+        //     return;
+        // }
+
+        // $chatId = intval($data['chat_id']);
+        // $senderId = intval($data['sender_id']);
+        // $receiverId = intval($data['receiver_id']);
+        // $messageText = trim($data['message_text']);
+
+
+        // //Mentés az adatbázisba
+        // $stmt = $this->db->prepare("INSERT INTO messages (chat_id, sender_id, receiver_id, message_text) VALUES (?, ?, ?, ?)");
+        // $stmt->bind_param("iiis", $chatId, $senderId, $receiverId, $messageText);
+        // $stmt->execute();
+
+        // $messageId = $this->db->insert_id;
+
+        // //Lekérjük a teljes adatot
+        // $query = $this->db->prepare("SELECT * FROM messages WHERE message_id = ?");
+        // $query->bind_param("i", $messageId);
+        // $query->execute();
+        // $result = $query->get_result();
+        // $messageData = $result->fetch_assoc();
+        // $query->close();
+
+        // if (!$messageData) {
+        //     echo "Nem található az imént beszúrt üzenet!\n";
+        //     return;
+        // }
+
+        // //Broadcast mindenkinek
+        // foreach ($this->clients as $client) {
+        //     $client->send(json_encode($messageData));
+        // }
+
+        // echo "Broadcast elküldve: " . json_encode($messageData) . "\n";
+
         echo "📩 Üzenet: $msg\n";
 
         $data = json_decode($msg, true);
-
-        if (!$data || !isset($data['chat_id'], $data['sender_id'], $data['message_text'])) {
-            echo "❌ Hiányzó adat!\n";
+        if (!$data) {
+            echo "❌ Hibás JSON adat!\n";
             return;
         }
 
-        $chatId = intval($data['chat_id']);
-        $senderId = intval($data['sender_id']);
-        $messageText = trim($data['message_text']);
+        // === TÍPUS SZERINTI FELDOLGOZÁS ===
+        $type = $data['type'] ?? 'message';
 
-        // 🗃️ Mentés az adatbázisba
-        $stmt = $this->db->prepare("
-            INSERT INTO messages (chat_id, sender_id, message_text)
-            VALUES (?, ?, ?)
-        ");
-        $stmt->bind_param("iis", $chatId, $senderId, $messageText);
-        $stmt->execute();
+        if ($type === 'message') {
+            // Új üzenet küldése
+            if (!isset($data['chat_id'], $data['sender_id'], $data['receiver_id'], $data['message_text'])) {
+                echo "❌ Hiányzó üzenet adatok!\n";
+                return;
+            }
 
-        $messageId = $this->db->insert_id;
+            $chatId = intval($data['chat_id']);
+            $senderId = intval($data['sender_id']);
+            $receiverId = intval($data['receiver_id']);
+            $messageText = trim($data['message_text']);
 
-        // 🔄 Lekérjük a teljes adatot
-        $query = $this->db->prepare("SELECT * FROM messages WHERE message_id = ?");
-        $query->bind_param("i", $messageId);
-        $query->execute();
-        $result = $query->get_result();
-        $messageData = $result->fetch_assoc();
-        $query->close();
+            // 📥 Beszúrás adatbázisba
+            $stmt = $this->db->prepare("INSERT INTO messages (chat_id, sender_id, receiver_id, message_text) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("iiis", $chatId, $senderId, $receiverId, $messageText);
+            $stmt->execute();
+            $messageId = $this->db->insert_id;
 
-        if (!$messageData) {
-            echo "❌ Nem található az imént beszúrt üzenet!\n";
-            return;
+            // 📤 Lekérés az új üzenetre
+            $query = $this->db->prepare("SELECT * FROM messages WHERE message_id = ?");
+            $query->bind_param("i", $messageId);
+            $query->execute();
+            $result = $query->get_result();
+            $messageData = $result->fetch_assoc();
+            $query->close();
+
+            if (!$messageData) {
+                echo "❌ Nem található az új üzenet!\n";
+                return;
+            }
+
+            // 🔊 Broadcast az összes kliensnek
+            foreach ($this->clients as $client) {
+                $client->send(json_encode($messageData));
+            }
+
+            echo "✅ Broadcast elküldve: " . json_encode($messageData) . "\n";
         }
 
-        // 🔊 Broadcast mindenkinek
-        foreach ($this->clients as $client) {
-            $client->send(json_encode($messageData));
-        }
+        // === Olvasási státusz frissítés ===
+        elseif ($type === 'read_status_update') {
+            if (!isset($data['chat_id'], $data['user_id'])) {
+                echo "❌ Hiányzó adatok a read_status_update-hez!\n";
+                return;
+            }
 
-        echo "✅ Broadcast elküldve: " . json_encode($messageData) . "\n";
+            $chatId = intval($data['chat_id']);
+            $userId = intval($data['user_id']); //azért ő a reciever_id mert a küldő a fogja látni azt hogy "Látta" vagy "Kézbesítve"
+
+            // ✅ is_read = 1 minden olyan üzenetre, amit a user kapott, de nem olvasott
+            $update = $this->db->prepare("UPDATE messages SET is_read = 1 WHERE chat_id = ? AND receiver_id = ? AND is_read = 0");
+            $update->bind_param("ii", $chatId, $userId);
+            $update->execute();
+
+            // 🔁 Lekérjük a frissített üzeneteket
+            $stmt = $this->db->prepare("SELECT * FROM messages WHERE chat_id = ? AND receiver_id = ? AND is_read = 1");
+            $stmt->bind_param("ii", $chatId, $userId);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            while ($row = $result->fetch_assoc()) {
+                foreach ($this->clients as $client) {
+                    $client->send(json_encode($row));
+                }
+            }
+
+            echo "📬 is_read frissítés broadcastolva ($chatId, user: $userId)\n";
+        } else {
+            echo "❓ Ismeretlen üzenet típus: $type\n";
+        }
     }
 
     public function onClose(ConnectionInterface $conn)
     {
         $this->clients->detach($conn);
-        echo "❎ Kapcsolat lezárva: {$conn->resourceId}\n";
+        echo "Kapcsolat lezárva: {$conn->resourceId}\n";
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e)
     {
-        echo "💥 Hiba: {$e->getMessage()}\n";
+        echo "Hiba: {$e->getMessage()}\n";
         $conn->close();
     }
 }

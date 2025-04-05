@@ -15,6 +15,7 @@ class ChatScreen extends StatefulWidget {
     required this.lastSeen,
     required this.signedIn,
     required this.chatId,
+    required this.receiverId,
   });
 
   final String chatName;
@@ -23,7 +24,7 @@ class ChatScreen extends StatefulWidget {
   final String lastSeen;
   final int signedIn;
   final int chatId;
-//TODO: valósidőbe való átvitel
+  final int receiverId;
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -44,6 +45,7 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
     _loadMessages();
     _connectToWebSocket();
+    _markMessagesAsRead();
     _inputFocusNode.addListener(() {
       setState(() {
         _isInputFocused = _inputFocusNode.hasFocus;
@@ -84,7 +86,7 @@ class _ChatScreenState extends State<ChatScreen> {
         _messages = messagesFromResponse;
       });
 
-      log("_messages miután elmentette a responseData-t: ${_messages.toString()}");
+      //log("_messages miután elmentette a responseData-t: ${_messages.toString()}");
     }
   }
 
@@ -99,47 +101,95 @@ class _ChatScreenState extends State<ChatScreen> {
 
     log("WebSocket connected");
 
+    // _channel.stream.listen((message) {
+    //   final decoded = jsonDecode(message);
+    //   log("decoded: ${decoded.toString()}");
+    //   final data = Map<String, dynamic>.from(decoded);
+    //   log("data: ${data.toString()}");
+
+    //   if (data['chat_id'] == widget.chatId) {
+    //     setState(() {
+    //       _messages.add(data);
+    //     });
+    //     _scrollToBottom();
+    //   }
+    // }); mentés
+
     _channel.stream.listen((message) {
+      //a szervertől érkező üzeneteket figyeli
       final decoded = jsonDecode(message);
-      log("decoded: ${decoded.toString()}");
+      //log("decoded: ${decoded.toString()}");
       final data = Map<String, dynamic>.from(decoded);
-      log("data: ${data.toString()}");
+      //log("data: ${data.toString()}");
 
       if (data['chat_id'] == widget.chatId) {
-        setState(() {
-          _messages.add(data);
-        });
+        final messageId = data['message_id'];
+
+        final index = _messages.indexWhere(
+          (msg) => msg['message_id'] == messageId,
+        );
+
+        if (index != -1) {
+          // Már létezik → csak frissítsd a státuszt
+          setState(() {
+            _messages[index] = data;
+          });
+        } else {
+          // Új üzenet → hozzáadjuk
+          setState(() {
+            _messages.add(data);
+          });
+        }
         _scrollToBottom();
       }
     });
   }
 
   void _sendMessage() {
-    if (_messageController.text.isEmpty) return;
-
     final message = {
       "sender_id": Preferences.getUserId(),
       "chat_id": widget.chatId,
       "message_text":
           _messageController.text.trim(), //egyenlőre trimmeljük lehet nem kell
+      "receiver_id": widget.receiverId,
     };
 
     _channel.sink.add(jsonEncode(message));
-
-    //Azonnali megjelenítés saját felületen
-    setState(() {
-      _messages.add({
-        "sender_id": Preferences.getUserId(),
-        "message_text": _messageController.text.trim(),
-        "sent_at": DateTime.now().toIso8601String(),
-      } as Map<String, dynamic>);
-    });
     _scrollToBottom();
-
     _messageController.clear();
   }
 
+  Future<void> _markMessagesAsRead() async {
+    try {
+      final response = await http.post(
+        Uri.parse(
+            "http://10.0.2.2/ChatexProject/chatex_phps/chat/set/mark_as_read.php"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "chat_id": widget.chatId,
+          "user_id": widget.receiverId,
+        }),
+      );
+
+      final responseData = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        log("Messages marked as read successfully: ${responseData.toString()}");
+        _channel.sink.add(jsonEncode({
+          "type": "read_status_update",
+          "chat_id": widget.chatId,
+          "user_id": Preferences.getUserId(),
+        }));
+      } else {
+        log("Failed to mark messages as read: ${responseData.toString()}");
+      }
+    } catch (e) {
+      log("Error marking messages as read: $e");
+    }
+  }
+
   void _scrollToBottom() {
+    //TODO: megnézni hogy működik!
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
@@ -229,6 +279,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           messageText: message['message_text'] ?? "",
                           sentAt: formatLastSeen(message['sent_at'] ?? ""),
                           isSender: isSender,
+                          isRead: message['is_read'] == 1,
                           profileImage: isSender ? null : widget.profileImage,
                         );
                       },
@@ -262,7 +313,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Widget buildProfileImage(String imageString, String isOnline, int signedIn) {
+  Widget _buildProfileImage(String imageString, String isOnline, int signedIn) {
     Widget imageWidget;
 
     if (imageString.startsWith("data:image/svg+xml;base64,")) {
@@ -346,7 +397,7 @@ class _ChatScreenState extends State<ChatScreen> {
         leadingWidth: 55,
         title: Row(
           children: [
-            buildProfileImage(
+            _buildProfileImage(
                 widget.profileImage, widget.isOnline, widget.signedIn),
             const SizedBox(width: 10),
             Expanded(
@@ -482,180 +533,242 @@ class _ChatScreenState extends State<ChatScreen> {
 }
 
 //ChatBubble osztály kezdete -----------------------------------------------------------------------
-// class ChatBubble extends StatelessWidget {
-//   const ChatBubble({
-//     super.key,
-//     required this.messageText,
-//     required this.isSender,
-//     required this.sentAt,
-//   });
-
-//   final String messageText;
-//   final bool isSender;
-//   final String sentAt;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       crossAxisAlignment:
-//           isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-//       children: [
-//         Center(
-//           child: Padding(
-//             padding: const EdgeInsets.symmetric(horizontal: 10),
-//             child: Text(
-//               sentAt,
-//               style: TextStyle(
-//                 fontSize: 15,
-//                 fontStyle: FontStyle.italic,
-//                 letterSpacing: 0.5,
-//                 color: Colors.grey[600],
-//               ),
-//             ),
-//           ),
-//         ),
-//         Container(
-//           margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-//           padding: const EdgeInsets.all(10),
-//           decoration: BoxDecoration(
-//             color: isSender ? Colors.deepPurpleAccent : Colors.blueAccent,
-//             borderRadius: BorderRadius.circular(15),
-//           ),
-//           child: Text(
-//             messageText,
-//             style: const TextStyle(
-//               color: Colors.white,
-//               fontSize: 16,
-//               wordSpacing: 0,
-//               letterSpacing: 1,
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
-class ChatBubble extends StatelessWidget {
+class ChatBubble extends StatefulWidget {
   const ChatBubble({
     super.key,
     required this.messageText,
     required this.isSender,
     required this.sentAt,
     this.profileImage,
+    this.isRead = false,
   });
 
   final String messageText;
   final bool isSender;
   final String sentAt;
   final String? profileImage;
+  final bool isRead;
 
-  Widget buildProfileImageFromString(String? imageString) {
+  @override
+  State<ChatBubble> createState() => _ChatBubbleState();
+}
+
+class _ChatBubbleState extends State<ChatBubble> {
+  bool _showDetails = false;
+
+  void _toggleDetails() {
+    setState(() {
+      _showDetails = !_showDetails;
+    });
+  }
+
+  Widget _buildProfileImage(String? imageString) {
     if (imageString == null || imageString.isEmpty) {
-      return const CircleAvatar(
-        radius: 18,
-        backgroundColor: Colors.grey,
-        child: Icon(Icons.person, color: Colors.white),
+      return const Icon(
+        Icons.person,
+        size: 36,
+        color: Colors.white,
       );
     }
 
-    try {
-      if (imageString.startsWith("data:image/svg+xml;base64,")) {
-        final svgBytes = base64Decode(imageString.split(",")[1]);
-        return CircleAvatar(
-          radius: 18,
-          backgroundColor: Colors.transparent,
-          child: SvgPicture.memory(svgBytes, width: 36, height: 36),
-        );
-      } else if (imageString.startsWith("data:image/")) {
-        final base64Data = base64Decode(imageString.split(",")[1]);
-        return CircleAvatar(
-          radius: 18,
-          backgroundImage: MemoryImage(base64Data),
-          backgroundColor: Colors.grey[800],
-        );
-      } else if (imageString.endsWith(".png") ||
-          imageString.endsWith(".jpg") ||
-          imageString.endsWith(".jpeg") ||
-          imageString.endsWith(".svg")) {
-        // Fájl név vagy URL eset
-        return CircleAvatar(
-          radius: 18,
-          backgroundImage: NetworkImage(imageString),
-          backgroundColor: Colors.grey[800],
-        );
-      }
-    } catch (_) {
-      // Ha valami hiba történik, fallback
-      return const CircleAvatar(
-        radius: 18,
-        backgroundColor: Colors.grey,
-        child: Icon(Icons.person, color: Colors.white),
+    if (imageString.startsWith("data:image/svg+xml;base64,")) {
+      final svgBytes = base64Decode(imageString.split(",")[1]);
+      return SvgPicture.memory(
+        svgBytes,
+        width: 36,
+        height: 36,
+        fit: BoxFit.fill,
+      );
+    } else if (imageString.startsWith("data:image/")) {
+      final base64Data = base64Decode(imageString.split(",")[1]);
+      return Image.memory(
+        base64Data,
+        width: 36,
+        height: 36,
+        fit: BoxFit.fill,
+      );
+    } else {
+      return const Icon(
+        Icons.person,
+        size: 36,
+        color: Colors.white,
       );
     }
-
-    // Fallback minden másra
-    return const CircleAvatar(
-      radius: 18,
-      backgroundColor: Colors.grey,
-      child: Icon(Icons.person, color: Colors.white),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment:
-            isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
-        children: [
-          // Profilkép csak akkor jelenik meg, ha a másik félről van szó
-          if (!isSender)
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: buildProfileImageFromString(profileImage),
-            ),
-          if (!isSender) const SizedBox(width: 8),
+    return GestureDetector(
+      onTap: _toggleDetails,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 5, right: 5, top: 20, bottom: 0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment
+              .center, //TODO: ide később visszatérni amikor már nem jelenik meg az üzenet küldésének az ideje csak megnyomásra,
+          mainAxisAlignment:
+              widget.isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
+          children: [
+            if (!widget.isSender)
+              ClipOval(child: _buildProfileImage(widget.profileImage)),
+            const SizedBox(width: 8),
 
-          // Üzenet buborék
-          Flexible(
-            child: Column(
-              crossAxisAlignment:
-                  isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color:
-                        isSender ? Colors.deepPurpleAccent : Colors.blueAccent,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Text(
-                    messageText,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      wordSpacing: 0,
-                      letterSpacing: 1,
+            // Üzenet buborék
+            Flexible(
+              child: Column(
+                crossAxisAlignment: widget.isSender
+                    ? CrossAxisAlignment.end
+                    : CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: widget.isSender
+                          ? Colors.deepPurpleAccent
+                          : Colors.blueAccent,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Text(
+                      widget.messageText,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        letterSpacing: 1,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  sentAt,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontStyle: FontStyle.italic,
-                    color: Colors.grey[500],
-                  ),
-                ),
-              ],
+                  if (_showDetails) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      widget.sentAt,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontStyle: FontStyle.italic,
+                        color: Colors.grey[500],
+                      ),
+                    ),
+                    if (widget.isSender)
+                      Text(
+                        widget.isRead
+                            ? "Látta"
+                            : "Kézbesítve", // vagy "Olvasatlan"
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontStyle: FontStyle.italic,
+                          color: widget.isRead
+                              ? Colors.greenAccent
+                              : Colors.grey[500],
+                        ),
+                      ),
+                  ]
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
+
+// class ChatBubble extends StatelessWidget {
+//   const ChatBubble({
+//     super.key,
+//     required this.messageText,
+//     required this.isSender,
+//     required this.sentAt,
+//     this.profileImage,
+//     this.isRead = false,
+//   });
+
+//   final String messageText;
+//   final bool isSender;
+//   final String sentAt;
+//   final String? profileImage;
+//   final bool isRead;
+
+//   Widget _buildProfileImage(String? imageString) {
+//     if (imageString == null || imageString.isEmpty) {
+//       return const Icon(
+//         Icons.person,
+//         size: 36,
+//         color: Colors.white,
+//       );
+//     }
+
+//     if (imageString.startsWith("data:image/svg+xml;base64,")) {
+//       final svgBytes = base64Decode(imageString.split(",")[1]);
+//       return SvgPicture.memory(
+//         svgBytes,
+//         width: 36,
+//         height: 36,
+//         fit: BoxFit.fill,
+//       );
+//     } else if (imageString.startsWith("data:image/")) {
+//       final base64Data = base64Decode(imageString.split(",")[1]);
+//       return Image.memory(
+//         base64Data,
+//         width: 36,
+//         height: 36,
+//         fit: BoxFit.fill,
+//       );
+//     } else {
+//       return const Icon(
+//         Icons.person,
+//         size: 36,
+//         color: Colors.white,
+//       );
+//     }
+//   }
+
+// //TODO: működik a chat de viszont 2szer jelenik meg a küldönek az üzenet, és minig frissül a pfp a php miatt
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.only(left: 5, right: 5, top: 20, bottom: 0),
+//       child: Row(
+//         crossAxisAlignment: CrossAxisAlignment
+//             .center, //TODO: ide később visszatérni amikor már nem jelenik meg az üzenet küldésének az ideje csak megnyomásra,
+//         mainAxisAlignment:
+//             isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
+//         children: [
+//           if (!isSender) ClipOval(child: _buildProfileImage(profileImage)),
+//           const SizedBox(width: 8),
+
+//           // Üzenet buborék
+//           Flexible(
+//             child: Column(
+//               crossAxisAlignment:
+//                   isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+//               children: [
+//                 Container(
+//                   padding: const EdgeInsets.all(10),
+//                   decoration: BoxDecoration(
+//                     color:
+//                         isSender ? Colors.deepPurpleAccent : Colors.blueAccent,
+//                     borderRadius: BorderRadius.circular(15),
+//                   ),
+//                   child: Text(
+//                     messageText,
+//                     style: const TextStyle(
+//                       color: Colors.white,
+//                       fontSize: 16,
+//                       letterSpacing: 1,
+//                     ),
+//                   ),
+//                 ),
+//                 Text(
+//                   sentAt,
+//                   style: TextStyle(
+//                     fontSize: 12,
+//                     fontStyle: FontStyle.italic,
+//                     color: Colors.grey[500],
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
