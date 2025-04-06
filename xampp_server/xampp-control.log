@@ -2004,3 +2004,63 @@
 23:50:50  [main] 	Deinitializing Modules
 23:50:50  [main] 	Deinitializing Control Panel
 
+10:57:30  [main] 	Initializing Control Panel
+10:57:30  [main] 	Windows Version:  Enterprise  64-bit
+10:57:30  [main] 	XAMPP Version: 8.2.12
+10:57:30  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+10:57:30  [main] 	Running with Administrator rights - good!
+10:57:30  [main] 	XAMPP Installation Directory: "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+10:57:30  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+10:57:30  [main] 	Checking for prerequisites
+10:57:30  [main] 	All prerequisites found
+10:57:30  [main] 	Initializing Modules
+10:57:30  [Apache] 	XAMPP Apache Service is already running on port 80
+10:57:30  [Apache] 	XAMPP Apache Service is already running on port 443
+10:57:30  [mysql] 	XAMPP MySQL Service is already running on port 3306
+10:57:30  [main] 	The Mercury module is disabled
+10:57:30  [main] 	The Tomcat module is disabled
+10:57:30  [main] 	Starting Check-Timer
+10:57:30  [main] 	Control Panel Ready
+22:45:48  [Apache] 	Status change detected: stopped
+22:45:48  [Apache] 	Error: Apache shutdown unexpectedly.
+22:45:48  [Apache] 	This may be due to a blocked port, missing dependencies, 
+22:45:48  [Apache] 	improper privileges, a crash, or a shutdown by another method.
+22:45:48  [Apache] 	Press the Logs button to view error logs and check
+22:45:48  [Apache] 	the Windows Event Viewer for more clues
+22:45:48  [Apache] 	If you need more help, copy and post this
+22:45:48  [Apache] 	entire log window on the forums
+22:45:51  [mysql] 	Status change detected: stopped
+22:45:51  [mysql] 	Error: MySQL shutdown unexpectedly.
+22:45:51  [mysql] 	This may be due to a blocked port, missing dependencies, 
+22:45:51  [mysql] 	improper privileges, a crash, or a shutdown by another method.
+22:45:51  [mysql] 	Press the Logs button to view error logs and check
+22:45:51  [mysql] 	the Windows Event Viewer for more clues
+22:45:51  [mysql] 	If you need more help, copy and post this
+22:45:51  [mysql] 	entire log window on the forums
+22:45:58  [main] 	Deinitializing Modules
+22:45:58  [main] 	Deinitializing Control Panel
+
+22:45:33  [main] 	Initializing Control Panel
+22:45:33  [main] 	Windows Version:  Enterprise  64-bit
+22:45:33  [main] 	XAMPP Version: 8.2.12
+22:45:33  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+22:45:33  [main] 	Running with Administrator rights - good!
+22:45:33  [main] 	XAMPP Installation Directory: "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+22:45:33  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+22:45:33  [main] 	Checking for prerequisites
+22:45:43  [main] 	All prerequisites found
+22:45:43  [main] 	Initializing Modules
+22:45:43  [Apache] 	XAMPP Apache Service is already running on port 80
+22:45:43  [Apache] 	XAMPP Apache Service is already running on port 443
+22:45:43  [mysql] 	XAMPP MySQL Service is already running on port 3306
+22:45:43  [main] 	The Mercury module is disabled
+22:45:43  [main] 	The Tomcat module is disabled
+22:45:43  [main] 	Starting Check-Timer
+22:45:43  [main] 	Control Panel Ready
+22:45:45  [Apache] 	Attempting to stop Apache service...
+22:45:48  [Apache] 	Status change detected: stopped
+22:45:50  [mysql] 	Attempting to stop MySQL service...
+22:45:51  [mysql] 	Status change detected: stopped
+22:45:59  [main] 	Deinitializing Modules
+22:45:59  [main] 	Deinitializing Control Panel
+
