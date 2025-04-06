@@ -30,47 +30,6 @@ class ChatServer implements MessageComponentInterface
 
     public function onMessage(ConnectionInterface $from, $msg)
     {
-        // echo "Üzenet: $msg\n";
-
-        // $data = json_decode($msg, true);
-        // if (!$data || !isset($data['chat_id'], $data['sender_id'], $data['receiver_id'], $data['message_text'])) {
-        //     echo "Hiányzó adat!\n";
-        //     return;
-        // }
-
-        // $chatId = intval($data['chat_id']);
-        // $senderId = intval($data['sender_id']);
-        // $receiverId = intval($data['receiver_id']);
-        // $messageText = trim($data['message_text']);
-
-
-        // //Mentés az adatbázisba
-        // $stmt = $this->db->prepare("INSERT INTO messages (chat_id, sender_id, receiver_id, message_text) VALUES (?, ?, ?, ?)");
-        // $stmt->bind_param("iiis", $chatId, $senderId, $receiverId, $messageText);
-        // $stmt->execute();
-
-        // $messageId = $this->db->insert_id;
-
-        // //Lekérjük a teljes adatot
-        // $query = $this->db->prepare("SELECT * FROM messages WHERE message_id = ?");
-        // $query->bind_param("i", $messageId);
-        // $query->execute();
-        // $result = $query->get_result();
-        // $messageData = $result->fetch_assoc();
-        // $query->close();
-
-        // if (!$messageData) {
-        //     echo "Nem található az imént beszúrt üzenet!\n";
-        //     return;
-        // }
-
-        // //Broadcast mindenkinek
-        // foreach ($this->clients as $client) {
-        //     $client->send(json_encode($messageData));
-        // }
-
-        // echo "Broadcast elküldve: " . json_encode($messageData) . "\n";
-
         echo "📩 Üzenet: $msg\n";
 
         $data = json_decode($msg, true);
@@ -113,9 +72,18 @@ class ChatServer implements MessageComponentInterface
                 return;
             }
 
-            // 🔊 Broadcast az összes kliensnek
+            // // 🔊 Broadcast az összes kliensnek
+            // foreach ($this->clients as $client) {
+            //     $client->send(json_encode($messageData));
+            // } mentés
+
+            $messageDataPayload = [
+                'type' => 'message',
+                'data' => $messageData
+            ];
+
             foreach ($this->clients as $client) {
-                $client->send(json_encode($messageData));
+                $client->send(json_encode($messageDataPayload));
             }
 
             echo "✅ Broadcast elküldve: " . json_encode($messageData) . "\n";
@@ -142,11 +110,22 @@ class ChatServer implements MessageComponentInterface
             $stmt->execute();
             $result = $stmt->get_result();
 
+            // while ($row = $result->fetch_assoc()) {
+            //     foreach ($this->clients as $client) {
+            //         $client->send(json_encode($row));
+            //     }
+            // } mentés
+
             while ($row = $result->fetch_assoc()) {
+                $messageReadPayload = [
+                    'type' => 'message_read',  // 👈 fontos!
+                    'data' => $row
+                ];
                 foreach ($this->clients as $client) {
-                    $client->send(json_encode($row));
+                    $client->send(json_encode($messageReadPayload));
                 }
             }
+
 
             echo "📬 is_read frissítés broadcastolva ($chatId, user: $userId)\n";
         } else {

@@ -35,7 +35,6 @@ $friendQuery->execute();
 $friendResult = $friendQuery->get_result();
 $friendData = $friendResult->fetch_assoc();
 
-//TODO: ne lehessen több chatet létrehozni ugyanazzal a felhasználóval
 echo json_encode([
     "success" => true,
     "message" => "Chat létrehozva!",

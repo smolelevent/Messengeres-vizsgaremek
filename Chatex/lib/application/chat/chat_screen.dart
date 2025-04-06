@@ -31,6 +31,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  //TODO: mindig frissül a pfp a php miatt, scroll megcsinálása, és az onTap property is az aljára vigyen
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   final FocusNode _inputFocusNode = FocusNode();
@@ -86,7 +87,7 @@ class _ChatScreenState extends State<ChatScreen> {
         _messages = messagesFromResponse;
       });
 
-      //log("_messages miután elmentette a responseData-t: ${_messages.toString()}");
+      _scrollToBottom();
     }
   }
 
@@ -99,48 +100,45 @@ class _ChatScreenState extends State<ChatScreen> {
       Uri.parse("ws://10.0.2.2:8080"),
     );
 
-    log("WebSocket connected");
-
-    // _channel.stream.listen((message) {
-    //   final decoded = jsonDecode(message);
-    //   log("decoded: ${decoded.toString()}");
-    //   final data = Map<String, dynamic>.from(decoded);
-    //   log("data: ${data.toString()}");
-
-    //   if (data['chat_id'] == widget.chatId) {
-    //     setState(() {
-    //       _messages.add(data);
-    //     });
-    //     _scrollToBottom();
-    //   }
-    // }); mentés
+    log("Chat screen webSocket connected");
 
     _channel.stream.listen((message) {
-      //a szervertől érkező üzeneteket figyeli
       final decoded = jsonDecode(message);
-      //log("decoded: ${decoded.toString()}");
-      final data = Map<String, dynamic>.from(decoded);
-      //log("data: ${data.toString()}");
 
-      if (data['chat_id'] == widget.chatId) {
-        final messageId = data['message_id'];
+      final type = decoded['type'] ?? 'message';
+      final data = decoded['data'] ?? decoded;
 
-        final index = _messages.indexWhere(
-          (msg) => msg['message_id'] == messageId,
-        );
+      if (data['chat_id'] != widget.chatId) return;
 
-        if (index != -1) {
-          // Már létezik → csak frissítsd a státuszt
-          setState(() {
-            _messages[index] = data;
-          });
-        } else {
-          // Új üzenet → hozzáadjuk
+      final messageId = data['message_id'];
+      final index =
+          _messages.indexWhere((msg) => msg['message_id'] == messageId);
+
+      if (type == 'message') {
+        if (index == -1) {
           setState(() {
             _messages.add(data);
           });
         }
+
+        final isForMe = data['receiver_id'] == Preferences.getUserId();
+        if (isForMe) {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            _channel.sink.add(jsonEncode({
+              "type": "read_status_update",
+              "chat_id": widget.chatId,
+              "user_id": Preferences.getUserId(),
+            }));
+          });
+        }
+
         _scrollToBottom();
+      } else if (type == 'message_read') {
+        if (index != -1) {
+          setState(() {
+            _messages[index] = data;
+          });
+        }
       }
     });
   }
@@ -189,7 +187,6 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _scrollToBottom() {
-    //TODO: megnézni hogy működik!
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
@@ -240,11 +237,12 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-//TODO: nincs chat előzmény, folytonossá tenni a load_chats.dart-ot, people.dart-ot
+//TODO: folytonossá tenni a people.dart-ot
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: true, //TODO: valami ilyesmi folyt köv
         backgroundColor: Colors.grey[850],
         appBar: _buildAppBar(),
         body: Column(
@@ -308,7 +306,7 @@ class _ChatScreenState extends State<ChatScreen> {
       icon: Icon(
         icon,
         size: 26,
-      ), //alap ikon méret 24
+      ),
       onPressed: onPressed,
     );
   }
@@ -379,6 +377,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
+//TODO: chaten valósidőbe kezelni az adatokat, last seen, online, üzenet stb...
   PreferredSizeWidget _buildAppBar() {
     return PreferredSize(
       preferredSize: const Size.fromHeight(60),
@@ -418,7 +417,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             ? "Elérhető"
                             : "Online")
                         : (Preferences.getPreferredLanguage() == "Magyar"
-                            ? "Utoljára elérhető: ${formatLastSeen(widget.lastSeen)}" //TODO: chaten valósidőbe kezelni az adatokat, last seen, online, üzenet stb...
+                            ? "Utoljára elérhető: ${formatLastSeen(widget.lastSeen)}"
                             : "Last seen: ${formatLastSeen(widget.lastSeen)}"),
                     style: const TextStyle(
                       fontSize: 14,
@@ -532,6 +531,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 }
 
+//TODO: ha a message több információit akarjuk látni akkor is menjen az aljára, ha elkezdünk gépelni mindent toljon fel!
 //ChatBubble osztály kezdete -----------------------------------------------------------------------
 class ChatBubble extends StatefulWidget {
   const ChatBubble({
@@ -603,23 +603,23 @@ class _ChatBubbleState extends State<ChatBubble> {
       child: Padding(
         padding: const EdgeInsets.only(left: 5, right: 5, top: 20, bottom: 0),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment
-              .center, //TODO: ide később visszatérni amikor már nem jelenik meg az üzenet küldésének az ideje csak megnyomásra,
           mainAxisAlignment:
               widget.isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (!widget.isSender)
               ClipOval(child: _buildProfileImage(widget.profileImage)),
             const SizedBox(width: 8),
-
-            // Üzenet buborék
-            Flexible(
-              child: Column(
-                crossAxisAlignment: widget.isSender
-                    ? CrossAxisAlignment.end
-                    : CrossAxisAlignment.start,
-                children: [
-                  Container(
+            Column(
+              crossAxisAlignment: widget.isSender
+                  ? CrossAxisAlignment.end
+                  : CrossAxisAlignment.start,
+              children: [
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * 0.5,
+                  ),
+                  child: Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: widget.isSender
@@ -636,32 +636,36 @@ class _ChatBubbleState extends State<ChatBubble> {
                       ),
                     ),
                   ),
-                  if (_showDetails) ...[
-                    const SizedBox(height: 4),
+                ),
+                if (_showDetails) ...[
+                  const SizedBox(height: 4),
+                  Text(
+                    widget.sentAt,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontStyle: FontStyle.italic,
+                      color: Colors.grey[500],
+                    ),
+                  ),
+                  if (widget.isSender)
                     Text(
-                      widget.sentAt,
+                      widget.isRead
+                          ? Preferences.getPreferredLanguage() == "Magyar"
+                              ? "Látta"
+                              : "Seen"
+                          : Preferences.getPreferredLanguage() == "Magyar"
+                              ? "Kézbesítve"
+                              : "Delivered",
                       style: TextStyle(
                         fontSize: 12,
                         fontStyle: FontStyle.italic,
-                        color: Colors.grey[500],
+                        color: widget.isRead
+                            ? Colors.greenAccent
+                            : Colors.grey[500],
                       ),
                     ),
-                    if (widget.isSender)
-                      Text(
-                        widget.isRead
-                            ? "Látta"
-                            : "Kézbesítve", // vagy "Olvasatlan"
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontStyle: FontStyle.italic,
-                          color: widget.isRead
-                              ? Colors.greenAccent
-                              : Colors.grey[500],
-                        ),
-                      ),
-                  ]
-                ],
-              ),
+                ]
+              ],
             ),
           ],
         ),
@@ -669,106 +673,3 @@ class _ChatBubbleState extends State<ChatBubble> {
     );
   }
 }
-
-// class ChatBubble extends StatelessWidget {
-//   const ChatBubble({
-//     super.key,
-//     required this.messageText,
-//     required this.isSender,
-//     required this.sentAt,
-//     this.profileImage,
-//     this.isRead = false,
-//   });
-
-//   final String messageText;
-//   final bool isSender;
-//   final String sentAt;
-//   final String? profileImage;
-//   final bool isRead;
-
-//   Widget _buildProfileImage(String? imageString) {
-//     if (imageString == null || imageString.isEmpty) {
-//       return const Icon(
-//         Icons.person,
-//         size: 36,
-//         color: Colors.white,
-//       );
-//     }
-
-//     if (imageString.startsWith("data:image/svg+xml;base64,")) {
-//       final svgBytes = base64Decode(imageString.split(",")[1]);
-//       return SvgPicture.memory(
-//         svgBytes,
-//         width: 36,
-//         height: 36,
-//         fit: BoxFit.fill,
-//       );
-//     } else if (imageString.startsWith("data:image/")) {
-//       final base64Data = base64Decode(imageString.split(",")[1]);
-//       return Image.memory(
-//         base64Data,
-//         width: 36,
-//         height: 36,
-//         fit: BoxFit.fill,
-//       );
-//     } else {
-//       return const Icon(
-//         Icons.person,
-//         size: 36,
-//         color: Colors.white,
-//       );
-//     }
-//   }
-
-// //TODO: működik a chat de viszont 2szer jelenik meg a küldönek az üzenet, és minig frissül a pfp a php miatt
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.only(left: 5, right: 5, top: 20, bottom: 0),
-//       child: Row(
-//         crossAxisAlignment: CrossAxisAlignment
-//             .center, //TODO: ide később visszatérni amikor már nem jelenik meg az üzenet küldésének az ideje csak megnyomásra,
-//         mainAxisAlignment:
-//             isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
-//         children: [
-//           if (!isSender) ClipOval(child: _buildProfileImage(profileImage)),
-//           const SizedBox(width: 8),
-
-//           // Üzenet buborék
-//           Flexible(
-//             child: Column(
-//               crossAxisAlignment:
-//                   isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-//               children: [
-//                 Container(
-//                   padding: const EdgeInsets.all(10),
-//                   decoration: BoxDecoration(
-//                     color:
-//                         isSender ? Colors.deepPurpleAccent : Colors.blueAccent,
-//                     borderRadius: BorderRadius.circular(15),
-//                   ),
-//                   child: Text(
-//                     messageText,
-//                     style: const TextStyle(
-//                       color: Colors.white,
-//                       fontSize: 16,
-//                       letterSpacing: 1,
-//                     ),
-//                   ),
-//                 ),
-//                 Text(
-//                   sentAt,
-//                   style: TextStyle(
-//                     fontSize: 12,
-//                     fontStyle: FontStyle.italic,
-//                     color: Colors.grey[500],
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }

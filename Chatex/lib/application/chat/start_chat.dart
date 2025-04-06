@@ -6,7 +6,6 @@ import 'package:chatex/application/chat/chat_screen.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'dart:convert';
-//import 'dart:developer';
 
 class StartChat extends StatefulWidget {
   const StartChat({super.key});
@@ -220,19 +219,20 @@ class _StartChatState extends State<StartChat> {
             ),
           ),
         ); //TODO: miután bedob a chatbe és vissza nyíl akkor jelenjen meg a chat - aka valós időbe
-      } else if (responseData["message"] == "Már létezik a chat!") {
-        ToastMessages.showToastMessages(
-          Preferences.getPreferredLanguage() == "Magyar"
-              ? "Már létezik chated ezzel a felhasználóval!"
-              : "The chat with this user already exist!",
-          0.1,
-          Colors.redAccent,
-          Icons.error,
-          Colors.black,
-          const Duration(seconds: 2),
-          context,
-        );
       }
+      // else if (responseData["message"] == "Már létezik a chat!") {
+      //   ToastMessages.showToastMessages(
+      //     Preferences.getPreferredLanguage() == "Magyar"
+      //         ? "Már létezik chated ezzel a felhasználóval!"
+      //         : "The chat with this user already exist!",
+      //     0.1,
+      //     Colors.redAccent,
+      //     Icons.error,
+      //     Colors.black,
+      //     const Duration(seconds: 2),
+      //     context,
+      //   );
+      // }
     } catch (e) {
       ToastMessages.showToastMessages(
         Preferences.getPreferredLanguage() == "Magyar"

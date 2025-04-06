@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:chatex/application/chat/chat_screen.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'dart:convert';
-//import 'dart:developer';
 
 class LoadedChatData extends StatefulWidget {
   const LoadedChatData({super.key});
@@ -18,10 +18,38 @@ class LoadedChatData extends StatefulWidget {
 class LoadedChatDataState extends State<LoadedChatData> {
   late Future<List<dynamic>> _chatList = Future.value([]);
 
+  late WebSocketChannel _channel;
+//TODO: chat betöltéskor az aljára kéne vigyen, overflowol a text
+  void _connectToWebSocket() {
+    _channel = WebSocketChannel.connect(
+      Uri.parse("ws://10.0.2.2:8080"),
+    );
+
+    _channel.stream.listen((message) {
+      final decoded = jsonDecode(message);
+      final type = decoded['type'] ?? 'message';
+      final data = decoded['data'] ?? decoded;
+
+      final int userId = Preferences.getUserId()!;
+
+      // Csak akkor frissítsen, ha a chat_id szerepel a listában
+      if (type == 'message' && data['receiver_id'] == userId) {
+        _getCorrectChatList(); // újrahívja a Future-t
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    _connectToWebSocket();
     _getCorrectChatList();
+  }
+
+  @override
+  void dispose() {
+    _channel.sink.close();
+    super.dispose();
   }
 
   Future<void> _getCorrectChatList() async {
@@ -140,8 +168,9 @@ class LoadedChatDataState extends State<LoadedChatData> {
                 time: chat["last_message_time"] ?? "",
                 isOnline: chat["status"],
                 signedIn: chat["signed_in"],
-                onTap: () {
-                  Navigator.push(
+                unreadCount: chat["unread_count"] ?? 0,
+                onTap: () async {
+                  await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => ChatScreen(
@@ -155,6 +184,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
                       ),
                     ),
                   );
+                  _getCorrectChatList();
                 },
               );
             },
@@ -176,6 +206,7 @@ class ChatTile extends StatelessWidget {
     required this.onTap,
     required this.isOnline,
     required this.signedIn,
+    required this.unreadCount,
   });
 
   final String chatName;
@@ -185,6 +216,7 @@ class ChatTile extends StatelessWidget {
   final VoidCallback onTap;
   final String isOnline;
   final int signedIn;
+  final int unreadCount;
 
   Widget _buildProfileImage(String imageString, String isOnline, int signedIn) {
     Widget imageWidget;
@@ -281,14 +313,21 @@ class ChatTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool hasUnread = unreadCount > 0;
+
     return Card(
       color: Colors.black45,
       margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 5.0),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+        side: hasUnread
+            ? const BorderSide(color: Colors.white, width: 2)
+            : BorderSide.none,
+      ),
       elevation: 5,
       child: ListTile(
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         leading: _buildProfileImage(profileImage, isOnline, signedIn),
         title: AutoSizeText(
           maxLines: 1,
@@ -299,26 +338,102 @@ class ChatTile extends StatelessWidget {
             fontSize: 20,
           ),
         ),
-        subtitle: Text(
-          //TODO: új üzenetkor fehér szöveg, piros karika számmal, ehez is_read kell
-          lastMessage,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.grey[400],
-          ),
+        //TODO: letesztelni az animációt! ismét átírni a dolgokat a status ikontól
+        subtitle: Row(
+          children: [
+            Expanded(
+              child: Text(
+                lastMessage,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: hasUnread ? Colors.white : Colors.grey[400],
+                ),
+              ),
+            ),
+            if (hasUnread)
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                transitionBuilder: (child, animation) => ScaleTransition(
+                  scale: animation,
+                  child: child,
+                ),
+                child: Container(
+                  key: ValueKey<int>(
+                    unreadCount,
+                  ),
+                  margin: const EdgeInsets.only(left: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Text(
+                    unreadCount.toString(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+          ],
         ),
         trailing: Text(
           formatMessageTime(time),
           style: TextStyle(
             fontSize: 12,
             color: Colors.grey[400],
-            //TODO: hibák pirossal jelenjenek meg MINDENHOL!
           ),
         ),
         onTap: onTap,
       ),
     );
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Card(
+  //     color: Colors.black45,
+  //     margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 5.0),
+  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+  //     elevation: 5,
+  //     child: ListTile(
+  //       contentPadding:
+  //           const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+  //       leading: _buildProfileImage(profileImage, isOnline, signedIn),
+  //       title: AutoSizeText(
+  //         maxLines: 1,
+  //         chatName,
+  //         style: const TextStyle(
+  //           color: Colors.white,
+  //           fontWeight: FontWeight.bold,
+  //           fontSize: 20,
+  //         ),
+  //       ),
+  //       subtitle: Text(
+  //         //TODO: új üzenetkor fehér szöveg, piros karika számmal, ehez is_read kell
+  //         lastMessage,
+  //         maxLines: 1,
+  //         overflow: TextOverflow.ellipsis,
+  //         style: TextStyle(
+  //           fontSize: 14,
+  //           color: Colors.grey[400],
+  //         ),
+  //       ),
+  //       trailing: Text(
+  //         formatMessageTime(time),
+  //         style: TextStyle(
+  //           fontSize: 12,
+  //           color: Colors.grey[400],
+  //           //TODO: hibák pirossal jelenjenek meg MINDENHOL!
+  //         ),
+  //       ),
+  //       onTap: onTap,
+  //     ),
+  //   );
+  // }
 }

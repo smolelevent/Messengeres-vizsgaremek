@@ -26,6 +26,7 @@ $query = "
         u.last_seen AS friend_last_seen,
         u.status,
         u.signed_in,
+
         (
             SELECT m.message_text
             FROM messages m
@@ -40,7 +41,15 @@ $query = "
             WHERE m.chat_id = c.chat_id
             ORDER BY m.sent_at DESC
             LIMIT 1
-        ) AS last_message_time
+        ) AS last_message_time,
+
+        (
+            SELECT COUNT(*)
+            FROM messages m
+            WHERE m.chat_id = c.chat_id
+              AND m.receiver_id = ?
+              AND m.is_read = 0
+        ) AS unread_count
 
     FROM chats c
     INNER JOIN chat_members cm ON cm.chat_id = c.chat_id
@@ -52,7 +61,7 @@ $query = "
 ";
 
 $stmt = $conn->prepare($query);
-$stmt->bind_param("ii", $user_id, $user_id);
+$stmt->bind_param("iii", $user_id, $user_id, $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
