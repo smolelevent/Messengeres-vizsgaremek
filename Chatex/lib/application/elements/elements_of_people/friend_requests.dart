@@ -24,7 +24,6 @@ class _FriendRequestsState extends State<FriendRequests> {
     _fetchFriendRequests();
   }
 
-//TODO: exceptiont ad amikor túl gyorsan lépek ki és sidebar vagy idk
   Future<void> _fetchFriendRequests() async {
     try {
       final response = await http.post(

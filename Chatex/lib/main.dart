@@ -15,6 +15,8 @@ import 'dart:developer';
 
 //TODO: phpMyAdmin id-k sorrendje rendezése
 
+//TODO: keyboard submit után automatikusan zárja be a billentyűzetet
+
 Future<void> main() async {
   final WidgetsBinding widgetsBinding =
       WidgetsFlutterBinding.ensureInitialized();

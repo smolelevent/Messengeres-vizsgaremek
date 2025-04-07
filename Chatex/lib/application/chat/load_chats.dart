@@ -19,7 +19,6 @@ class LoadedChatDataState extends State<LoadedChatData> {
   late Future<List<dynamic>> _chatList = Future.value([]);
 
   late WebSocketChannel _channel;
-//TODO: chat betöltéskor az aljára kéne vigyen, overflowol a text
   void _connectToWebSocket() {
     _channel = WebSocketChannel.connect(
       Uri.parse("ws://10.0.2.2:8080"),
@@ -338,7 +337,7 @@ class ChatTile extends StatelessWidget {
             fontSize: 20,
           ),
         ),
-        //TODO: letesztelni az animációt! ismét átírni a dolgokat a status ikontól
+        //TODO: letesztelni az animációt!
         subtitle: Row(
           children: [
             Expanded(
@@ -393,47 +392,4 @@ class ChatTile extends StatelessWidget {
       ),
     );
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Card(
-  //     color: Colors.black45,
-  //     margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 5.0),
-  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-  //     elevation: 5,
-  //     child: ListTile(
-  //       contentPadding:
-  //           const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-  //       leading: _buildProfileImage(profileImage, isOnline, signedIn),
-  //       title: AutoSizeText(
-  //         maxLines: 1,
-  //         chatName,
-  //         style: const TextStyle(
-  //           color: Colors.white,
-  //           fontWeight: FontWeight.bold,
-  //           fontSize: 20,
-  //         ),
-  //       ),
-  //       subtitle: Text(
-  //         //TODO: új üzenetkor fehér szöveg, piros karika számmal, ehez is_read kell
-  //         lastMessage,
-  //         maxLines: 1,
-  //         overflow: TextOverflow.ellipsis,
-  //         style: TextStyle(
-  //           fontSize: 14,
-  //           color: Colors.grey[400],
-  //         ),
-  //       ),
-  //       trailing: Text(
-  //         formatMessageTime(time),
-  //         style: TextStyle(
-  //           fontSize: 12,
-  //           color: Colors.grey[400],
-  //           //TODO: hibák pirossal jelenjenek meg MINDENHOL!
-  //         ),
-  //       ),
-  //       onTap: onTap,
-  //     ),
-  //   );
-  // }
 }

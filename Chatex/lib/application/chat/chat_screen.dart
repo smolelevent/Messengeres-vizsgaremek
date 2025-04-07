@@ -41,6 +41,8 @@ class _ChatScreenState extends State<ChatScreen> {
   late WebSocketChannel _channel;
   List<Map<String, dynamic>> _messages = <Map<String, dynamic>>[];
 
+  bool _showScrollToBottom = false;
+
   @override
   void initState() {
     super.initState();
@@ -59,6 +61,24 @@ class _ChatScreenState extends State<ChatScreen> {
         _isInputFocused = _isWriting;
       });
     });
+
+    _scrollController.addListener(() {
+      if (!_scrollController.hasClients) return;
+
+      final distanceFromBottom =
+          _scrollController.position.maxScrollExtent - _scrollController.offset;
+
+      // Ha eltávolodott a lista aljától egy bizonyos arányban, mutassuk a gombot
+      const thresholdRatio = 0.25; // az alsó 10%-át nézzük a listának
+      final shouldShow = distanceFromBottom >
+          _scrollController.position.maxScrollExtent * thresholdRatio;
+
+      if (_showScrollToBottom != shouldShow) {
+        setState(() {
+          _showScrollToBottom = shouldShow;
+        });
+      }
+    });
   }
 
   @override
@@ -66,6 +86,7 @@ class _ChatScreenState extends State<ChatScreen> {
     _channel.sink.close();
     _messageController.dispose();
     _inputFocusNode.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -93,7 +114,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void _connectToWebSocket() {
     /*
-    INDÍTÁS ELŐTT FUTTATNI KELL A PHP-T: xampp_server\htdocs\ChatexProject\chatex_phps> php server_run.php,   
+    INDÍTÁS ELŐTT FUTTATNI KELL A PHP-T: xampp_server\htdocs\ChatexProject\chatex_phps> php server_run.php,
     A terminálba Ctrl + Shift + C-t nyomva lehet írni read-only terminálba!
     */
     _channel = WebSocketChannel.connect(
@@ -242,49 +263,103 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        floatingActionButton: _showScrollToBottom
+            ? Padding(
+                padding: EdgeInsets.only(
+                  bottom:
+                      MediaQuery.of(context).viewInsets.bottom > 0 ? 65 : 65,
+                ),
+                child: FloatingActionButton(
+                  backgroundColor: Colors.grey[800],
+                  tooltip: Preferences.getPreferredLanguage() == "Magyar"
+                      ? "Ugrás az aljára"
+                      : "Scroll to bottom",
+                  elevation: 10,
+                  mini: true,
+                  shape: const CircleBorder(),
+                  onPressed: _scrollToBottom,
+                  child: const Icon(
+                    Icons.keyboard_double_arrow_down_rounded,
+                    color: Colors.white,
+                  ),
+                ),
+              )
+            : null,
+        floatingActionButtonLocation:
+            FloatingActionButtonLocation.miniCenterFloat,
         resizeToAvoidBottomInset: true, //TODO: valami ilyesmi folyt köv
         backgroundColor: Colors.grey[850],
         appBar: _buildAppBar(),
-        body: Column(
-          children: [
-            Expanded(
-              child: _messages.isEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Text(
-                          Preferences.getPreferredLanguage() == "Magyar"
-                              ? "Ez a beszélgetés még üres."
-                              : "The chat is empty.",
-                          style: const TextStyle(
-                            color: Colors.white60,
-                            fontSize: 20,
+        body: MediaQuery.removeViewInsets(
+          removeBottom: true,
+          context: context,
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  Expanded(
+                    child: _messages.isEmpty
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: Text(
+                                Preferences.getPreferredLanguage() == "Magyar"
+                                    ? "Ez a beszélgetés még üres."
+                                    : "The chat is empty.",
+                                style: const TextStyle(
+                                  color: Colors.white60,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                          )
+                        : ListView.builder(
+                            controller: _scrollController,
+                            padding: const EdgeInsets.only(bottom: 80),
+                            itemCount: _messages.length,
+                            itemBuilder: (context, index) {
+                              final message = _messages[index];
+                              final isSender = message['sender_id'] ==
+                                  Preferences.getUserId();
+                              return ChatBubble(
+                                messageText: message['message_text'] ?? "",
+                                sentAt:
+                                    formatLastSeen(message['sent_at'] ?? ""),
+                                isSender: isSender,
+                                isRead: message['is_read'] == 1,
+                                profileImage:
+                                    isSender ? null : widget.profileImage,
+                              );
+                            },
                           ),
-                        ),
-                      ),
-                    )
-                  : ListView.builder(
-                      controller: _scrollController,
-                      padding: const EdgeInsets.only(bottom: 80),
-                      itemCount: _messages.length,
-                      itemBuilder: (context, index) {
-                        log("a _messages hossza: ${_messages.length.toString()}");
-                        final message = _messages[index];
-                        final isSender =
-                            message['sender_id'] == Preferences.getUserId();
-                        return ChatBubble(
-                          messageText: message['message_text'] ?? "",
-                          sentAt: formatLastSeen(message['sent_at'] ?? ""),
-                          isSender: isSender,
-                          isRead: message['is_read'] == 1,
-                          profileImage: isSender ? null : widget.profileImage,
-                        );
-                      },
-                    ),
-            ),
-          ],
+                  ),
+                ],
+              ),
+              // if (_showScrollToBottom)
+              //   Positioned(
+              //     bottom: MediaQuery.of(context).viewInsets.bottom + 85,
+              //     left: MediaQuery.of(context).size.width / 2 -
+              //         24, // 24 = gomb fele (48 átmérő)
+              //     child: FloatingActionButton(
+              //       backgroundColor: Colors.grey[800],
+              //       tooltip: Preferences.getPreferredLanguage() == "Magyar"
+              //           ? "Ugrás az aljára"
+              //           : "Scroll to bottom",
+              //       elevation: 10,
+              //       mini: true,
+              //       shape: const CircleBorder(),
+              //       onPressed: _scrollToBottom,
+              //       child: const Icon(
+              //         Icons.keyboard_double_arrow_down_rounded,
+              //         color: Colors.white,
+              //       ),
+              //     ),
+              //   ),
+            ],
+          ),
         ),
+
         bottomSheet: _buildBottomBar(),
       ),
     );
@@ -605,7 +680,7 @@ class _ChatBubbleState extends State<ChatBubble> {
         child: Row(
           mainAxisAlignment:
               widget.isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             if (!widget.isSender)
               ClipOval(child: _buildProfileImage(widget.profileImage)),
