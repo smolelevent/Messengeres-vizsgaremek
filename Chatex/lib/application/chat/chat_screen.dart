@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({
@@ -42,6 +45,8 @@ class _ChatScreenState extends State<ChatScreen> {
   List<Map<String, dynamic>> _messages = <Map<String, dynamic>>[];
 
   bool _showScrollToBottom = false;
+
+  final List<PlatformFile> _attachedFiles = [];
 
   @override
   void initState() {
@@ -108,7 +113,7 @@ class _ChatScreenState extends State<ChatScreen> {
         _messages = messagesFromResponse;
       });
 
-      _scrollToBottom();
+      scrollToBottom();
     }
   }
 
@@ -117,11 +122,58 @@ class _ChatScreenState extends State<ChatScreen> {
     INDÍTÁS ELŐTT FUTTATNI KELL A PHP-T: xampp_server\htdocs\ChatexProject\chatex_phps> php server_run.php,
     A terminálba Ctrl + Shift + C-t nyomva lehet írni read-only terminálba!
     */
+
+    // _channel = WebSocketChannel.connect( mentés!
+    //   Uri.parse("ws://10.0.2.2:8080"),
+    // );
+
+    // log("Chat screen webSocket connected");
+
+    // _channel.stream.listen((message) {
+    //   final decoded = jsonDecode(message);
+
+    //   final type = decoded['type'] ?? 'message';
+    //   final data = decoded['data'] ?? decoded;
+
+    //   if (data['chat_id'] != widget.chatId) return;
+
+    //   final messageId = data['message_id'];
+    //   final index =
+    //       _messages.indexWhere((msg) => msg['message_id'] == messageId);
+
+    //   if (type == 'message') {
+    //     if (index == -1) {
+    //       setState(() {
+    //         _messages.add(data);
+    //       });
+    //     }
+
+    //     final isForMe = data['receiver_id'] == Preferences.getUserId();
+    //     if (isForMe) {
+    //       Future.delayed(const Duration(milliseconds: 500), () {
+    //         _channel.sink.add(jsonEncode({
+    //           "type": "read_status_update",
+    //           "chat_id": widget.chatId,
+    //           "user_id": Preferences.getUserId(),
+    //         }));
+    //       });
+    //     }
+
+    //     scrollToBottom();
+    //   } else if (type == 'message_read') {
+    //     if (index != -1) {
+    //       setState(() {
+    //         _messages[index] = data;
+    //       });
+    //     }
+    //   }
+    // });
+
     _channel = WebSocketChannel.connect(
       Uri.parse("ws://10.0.2.2:8080"),
     );
 
-    log("Chat screen webSocket connected");
+    log("Chat screen WebSocket connected");
 
     _channel.stream.listen((message) {
       final decoded = jsonDecode(message);
@@ -129,53 +181,149 @@ class _ChatScreenState extends State<ChatScreen> {
       final type = decoded['type'] ?? 'message';
       final data = decoded['data'] ?? decoded;
 
+      // Csak a jelenlegi chat üzenetei kellenek
       if (data['chat_id'] != widget.chatId) return;
 
       final messageId = data['message_id'];
       final index =
           _messages.indexWhere((msg) => msg['message_id'] == messageId);
 
-      if (type == 'message') {
-        if (index == -1) {
-          setState(() {
-            _messages.add(data);
-          });
-        }
+      switch (type) {
+        case 'message':
+        case 'file':
+        case 'image':
+          if (index == -1) {
+            setState(() {
+              _messages.add(data);
+            });
+          }
 
-        final isForMe = data['receiver_id'] == Preferences.getUserId();
-        if (isForMe) {
-          Future.delayed(const Duration(milliseconds: 500), () {
-            _channel.sink.add(jsonEncode({
-              "type": "read_status_update",
-              "chat_id": widget.chatId,
-              "user_id": Preferences.getUserId(),
-            }));
-          });
-        }
+          // Ha a szerver jelzi, hogy neked szól, küldd vissza a read_status-t
+          final isForMe = data['receiver_id'] == Preferences.getUserId();
+          if (isForMe) {
+            Future.delayed(const Duration(milliseconds: 500), () {
+              _channel.sink.add(jsonEncode({
+                "type": "read_status_update",
+                "chat_id": widget.chatId,
+                "user_id": Preferences.getUserId(),
+              }));
+            });
+          }
 
-        _scrollToBottom();
-      } else if (type == 'message_read') {
-        if (index != -1) {
-          setState(() {
-            _messages[index] = data;
-          });
-        }
+          scrollToBottom();
+          break;
+
+        case 'message_read':
+          if (index != -1) {
+            setState(() {
+              _messages[index] = data;
+            });
+          }
+          break;
+
+        default:
+          log("Ismeretlen websocket típus: $type");
       }
     });
   }
 
   void _sendMessage() {
     final message = {
-      "sender_id": Preferences.getUserId(),
+      "type": "message",
       "chat_id": widget.chatId,
+      "sender_id": Preferences.getUserId(),
       "message_text":
           _messageController.text.trim(), //egyenlőre trimmeljük lehet nem kell
-      "receiver_id": widget.receiverId,
     };
 
     _channel.sink.add(jsonEncode(message));
-    _scrollToBottom();
+    scrollToBottom();
     _messageController.clear();
+  }
+
+  void _sendFile() {
+    for (final file in _attachedFiles) {
+      final base64File = base64Encode(file.bytes!);
+      final message = {
+        "type": "file",
+        "chat_id": widget.chatId,
+        "sender_id": Preferences.getUserId(),
+        "file_name": file.name,
+        "file_extension": file.extension ?? "",
+        "message_file": base64File,
+        "message_text": _messageController.text.trim(),
+      };
+
+      _channel.sink.add(jsonEncode(message));
+    }
+
+    setState(() {
+      _attachedFiles.clear();
+      _messageController.clear();
+    });
+
+    scrollToBottom();
+  }
+
+  Future<void> _sendImageFromGallery() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: ImageSource.gallery);
+
+    if (picked != null) {
+      final bytes = await picked.readAsBytes();
+      final base64Image = base64Encode(bytes);
+
+      final message = {
+        "type": "image",
+        "chat_id": widget.chatId,
+        "sender_id": Preferences.getUserId(),
+        "receiver_id": widget.receiverId,
+        "file_name": picked.name,
+        "image_data": base64Image,
+        "message_text": _messageController.text.trim(),
+      };
+
+      _channel.sink.add(jsonEncode(message));
+
+      _messageController.clear();
+      scrollToBottom();
+    }
+  }
+
+  Future<void> _sendImageFromCamera() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: ImageSource.camera);
+
+    if (picked != null) {
+      final bytes = await picked.readAsBytes();
+      final base64Image = base64Encode(bytes);
+
+      final message = {
+        "type": "image",
+        "chat_id": widget.chatId,
+        "sender_id": Preferences.getUserId(),
+        "receiver_id": widget.receiverId,
+        "file_name": picked.name,
+        "image_data": base64Image,
+        "message_text": _messageController.text.trim(),
+      };
+
+      _channel.sink.add(jsonEncode(message));
+
+      _messageController.clear();
+      scrollToBottom();
+    }
+  }
+
+  void _handleSend() {
+    final hasText = _messageController.text.trim().isNotEmpty;
+    final hasFiles = _attachedFiles.isNotEmpty;
+
+    if (hasFiles) {
+      _sendFile(); // Ez lekezeli a fájlokat és törli őket
+    } else if (hasText) {
+      _sendMessage(); // Ez törli a beviteli mezőt
+    }
   }
 
   Future<void> _markMessagesAsRead() async {
@@ -207,7 +355,7 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  void _scrollToBottom() {
+  void scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
@@ -277,7 +425,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   elevation: 10,
                   mini: true,
                   shape: const CircleBorder(),
-                  onPressed: _scrollToBottom,
+                  onPressed: scrollToBottom,
                   child: const Icon(
                     Icons.keyboard_double_arrow_down_rounded,
                     color: Colors.white,
@@ -287,7 +435,7 @@ class _ChatScreenState extends State<ChatScreen> {
             : null,
         floatingActionButtonLocation:
             FloatingActionButtonLocation.miniCenterFloat,
-        resizeToAvoidBottomInset: true, //TODO: valami ilyesmi folyt köv
+        resizeToAvoidBottomInset: true,
         backgroundColor: Colors.grey[850],
         appBar: _buildAppBar(),
         body: MediaQuery.removeViewInsets(
@@ -322,6 +470,8 @@ class _ChatScreenState extends State<ChatScreen> {
                               final message = _messages[index];
                               final isSender = message['sender_id'] ==
                                   Preferences.getUserId();
+                              final isLast = index == _messages.length - 1;
+
                               return ChatBubble(
                                 messageText: message['message_text'] ?? "",
                                 sentAt:
@@ -330,36 +480,110 @@ class _ChatScreenState extends State<ChatScreen> {
                                 isRead: message['is_read'] == 1,
                                 profileImage:
                                     isSender ? null : widget.profileImage,
+                                onTapScrollToBottom: scrollToBottom,
+                                isLastMessage: isLast,
                               );
                             },
                           ),
                   ),
+                  if (_attachedFiles.isNotEmpty)
+                    Container(
+                      color: Colors.black87,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 6,
+                        horizontal: 8,
+                      ),
+                      margin: const EdgeInsets.only(
+                        bottom: 65,
+                      ), // kiemeli a bottomSheet fölé
+                      height: 80,
+                      // kisebb magasság, hogy ne takarja a chatet
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: _attachedFiles.length,
+                        itemBuilder: (context, index) {
+                          final file = _attachedFiles[index];
+                          final isImage =
+                              file.extension?.toLowerCase().startsWith("jp") ==
+                                      true ||
+                                  file.extension?.toLowerCase() == "png" ||
+                                  file.extension?.toLowerCase() == "gif" ||
+                                  file.extension?.toLowerCase() == "webp";
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                Container(
+                                  width: 75,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[900],
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                      color: Colors.deepPurpleAccent,
+                                    ),
+                                  ),
+                                  padding: const EdgeInsets.all(6),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      isImage
+                                          ? Image.memory(
+                                              file.bytes!,
+                                              width: 40,
+                                              height: 40,
+                                              fit: BoxFit.fill,
+                                            )
+                                          : const Icon(
+                                              Icons.insert_drive_file,
+                                              color: Colors.white,
+                                              size: 30,
+                                            ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        file.name,
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.center,
+                                        maxLines: 1,
+                                        style: const TextStyle(
+                                          fontSize: 9,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Positioned(
+                                  right: -4,
+                                  top: -4,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _attachedFiles.removeAt(index);
+                                      });
+                                    },
+                                    child: const CircleAvatar(
+                                      radius: 10,
+                                      backgroundColor: Colors.red,
+                                      child: Icon(
+                                        Icons.close,
+                                        size: 12,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                 ],
               ),
-              // if (_showScrollToBottom)
-              //   Positioned(
-              //     bottom: MediaQuery.of(context).viewInsets.bottom + 85,
-              //     left: MediaQuery.of(context).size.width / 2 -
-              //         24, // 24 = gomb fele (48 átmérő)
-              //     child: FloatingActionButton(
-              //       backgroundColor: Colors.grey[800],
-              //       tooltip: Preferences.getPreferredLanguage() == "Magyar"
-              //           ? "Ugrás az aljára"
-              //           : "Scroll to bottom",
-              //       elevation: 10,
-              //       mini: true,
-              //       shape: const CircleBorder(),
-              //       onPressed: _scrollToBottom,
-              //       child: const Icon(
-              //         Icons.keyboard_double_arrow_down_rounded,
-              //         color: Colors.white,
-              //       ),
-              //     ),
-              //   ),
             ],
           ),
         ),
-
         bottomSheet: _buildBottomBar(),
       ),
     );
@@ -547,7 +771,33 @@ class _ChatScreenState extends State<ChatScreen> {
                 hunTooltip: "Fájl feltöltése",
                 engTooltip: "File upload",
                 icon: Icons.file_upload_outlined,
-                onPressed: () {},
+                onPressed: () async {
+                  final result = await FilePicker.platform.pickFiles(
+                    withData: true,
+                    allowMultiple: true,
+                    withReadStream: false,
+                    type: FileType.custom,
+                    allowedExtensions: [
+                      'pdf',
+                      'doc',
+                      'docx',
+                      'xls',
+                      'xlsx',
+                      'ppt',
+                      'pptx',
+                      'zip',
+                      'rar',
+                      '7z'
+                    ],
+                  );
+
+                  if (result != null) {
+                    setState(() {
+                      _attachedFiles.addAll(result.files.takeWhile((file) =>
+                          file.size <= 100 * 1024 * 1024)); // max 100MB
+                    });
+                  }
+                },
               ),
               _buildIcon(
                 color: Colors.white,
@@ -591,13 +841,14 @@ class _ChatScreenState extends State<ChatScreen> {
               hunTooltip: _isWriting ? "Üzenet küldése" : "Emoji gomb",
               engTooltip: _isWriting ? "Send message" : "Emoji button",
               icon: _isWriting ? Icons.send_rounded : Icons.thumb_up_rounded,
-              onPressed: () {
-                if (_isWriting) {
-                  _sendMessage();
-                } else {
-                  //print("Like vagy emoji gomb megnyomva");
-                }
-              },
+              // onPressed: () { mentés
+              //   if (_isWriting) {
+              //     _sendMessage();
+              //   } else {
+              //     //print("Like vagy emoji gomb megnyomva");
+              //   }
+              // },
+              onPressed: _handleSend,
             ),
           ],
         ),
@@ -606,6 +857,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 }
 
+//TODO: számláló ami a 5000 karaktert számolja, és ha elérjük akkor nem enged tovább gépelni
 //TODO: ha a message több információit akarjuk látni akkor is menjen az aljára, ha elkezdünk gépelni mindent toljon fel!
 //ChatBubble osztály kezdete -----------------------------------------------------------------------
 class ChatBubble extends StatefulWidget {
@@ -616,6 +868,8 @@ class ChatBubble extends StatefulWidget {
     required this.sentAt,
     this.profileImage,
     this.isRead = false,
+    this.onTapScrollToBottom,
+    this.isLastMessage = false,
   });
 
   final String messageText;
@@ -623,6 +877,8 @@ class ChatBubble extends StatefulWidget {
   final String sentAt;
   final String? profileImage;
   final bool isRead;
+  final VoidCallback? onTapScrollToBottom;
+  final bool isLastMessage;
 
   @override
   State<ChatBubble> createState() => _ChatBubbleState();
@@ -635,6 +891,10 @@ class _ChatBubbleState extends State<ChatBubble> {
     setState(() {
       _showDetails = !_showDetails;
     });
+
+    if (widget.onTapScrollToBottom != null && widget.isLastMessage) {
+      widget.onTapScrollToBottom!();
+    }
   }
 
   Widget _buildProfileImage(String? imageString) {
@@ -680,7 +940,9 @@ class _ChatBubbleState extends State<ChatBubble> {
         child: Row(
           mainAxisAlignment:
               widget.isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: _showDetails
+              ? CrossAxisAlignment.start // hogy fent maradjon a kép
+              : CrossAxisAlignment.start,
           children: [
             if (!widget.isSender)
               ClipOval(child: _buildProfileImage(widget.profileImage)),

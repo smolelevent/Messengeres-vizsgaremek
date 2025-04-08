@@ -44,6 +44,8 @@ dependencies:
   shared_preferences: ^2.5.2
   #device_preview: ^1.2.0
   image_picker: ^1.1.2
+  file_picker: ^10.0.0
+  path_provider: ^2.1.5
   flutter_svg: ^2.0.17
   mocktail: ^1.0.4
   flutter_native_splash: ^2.4.5

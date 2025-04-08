@@ -2088,3 +2088,89 @@
 23:26:32  [main] 	Deinitializing Modules
 23:26:32  [main] 	Deinitializing Control Panel
 
+8:48:01  [main] 	Initializing Control Panel
+8:48:01  [main] 	Windows Version:  Enterprise  64-bit
+8:48:01  [main] 	XAMPP Version: 8.2.12
+8:48:01  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+8:48:01  [main] 	Running with Administrator rights - good!
+8:48:01  [main] 	XAMPP Installation Directory: "c:\users\user\desktop\vizsgahoz szukseges\messengeres-vizsgaremek\xampp_server\"
+8:48:01  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+8:48:01  [main] 	Checking for prerequisites
+8:48:02  [main] 	All prerequisites found
+8:48:02  [main] 	Initializing Modules
+8:48:02  [Apache] 	XAMPP Apache Service is already running on port 80
+8:48:02  [Apache] 	XAMPP Apache Service is already running on port 443
+8:48:02  [mysql] 	XAMPP MySQL Service is already running on port 3306
+8:48:02  [main] 	The Mercury module is disabled
+8:48:02  [main] 	The Tomcat module is disabled
+8:48:02  [main] 	Starting Check-Timer
+8:48:02  [main] 	Control Panel Ready
+8:49:42  [Apache] 	Status change detected: stopped
+8:49:42  [Apache] 	Error: Apache shutdown unexpectedly.
+8:49:42  [Apache] 	This may be due to a blocked port, missing dependencies, 
+8:49:42  [Apache] 	improper privileges, a crash, or a shutdown by another method.
+8:49:42  [Apache] 	Press the Logs button to view error logs and check
+8:49:42  [Apache] 	the Windows Event Viewer for more clues
+8:49:42  [Apache] 	If you need more help, copy and post this
+8:49:42  [Apache] 	entire log window on the forums
+8:49:44  [mysql] 	Status change detected: stopped
+8:49:44  [mysql] 	Error: MySQL shutdown unexpectedly.
+8:49:44  [mysql] 	This may be due to a blocked port, missing dependencies, 
+8:49:44  [mysql] 	improper privileges, a crash, or a shutdown by another method.
+8:49:44  [mysql] 	Press the Logs button to view error logs and check
+8:49:44  [mysql] 	the Windows Event Viewer for more clues
+8:49:44  [mysql] 	If you need more help, copy and post this
+8:49:44  [mysql] 	entire log window on the forums
+8:49:46  [mysql] 	Status change detected: running
+8:49:48  [Apache] 	Status change detected: running
+12:53:04  [Apache] 	Attempting to stop Apache service...
+12:53:06  [Apache] 	Status change detected: stopped
+12:53:07  [mysql] 	Attempting to stop MySQL service...
+12:53:09  [mysql] 	Status change detected: stopped
+12:53:12  [main] 	Deinitializing Modules
+12:53:12  [main] 	Deinitializing Control Panel
+
+8:49:37  [main] 	Initializing Control Panel
+8:49:37  [main] 	Windows Version:  Enterprise  64-bit
+8:49:37  [main] 	XAMPP Version: 8.2.12
+8:49:37  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+8:49:37  [main] 	Running with Administrator rights - good!
+8:49:37  [main] 	XAMPP Installation Directory: "c:\users\user\desktop\vizsgahoz szukseges\messengeres-vizsgaremek\xampp_server\"
+8:49:37  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+8:49:37  [main] 	Checking for prerequisites
+8:49:38  [main] 	All prerequisites found
+8:49:38  [main] 	Initializing Modules
+8:49:38  [Apache] 	XAMPP Apache Service is already running on port 80
+8:49:38  [Apache] 	XAMPP Apache Service is already running on port 443
+8:49:38  [mysql] 	XAMPP MySQL Service is already running on port 3306
+8:49:38  [main] 	The Mercury module is disabled
+8:49:38  [main] 	The Tomcat module is disabled
+8:49:38  [main] 	Starting Check-Timer
+8:49:38  [main] 	Control Panel Ready
+8:49:39  [Apache] 	Attempting to stop Apache service...
+8:49:42  [Apache] 	Status change detected: stopped
+8:49:43  [mysql] 	Attempting to stop MySQL service...
+8:49:44  [mysql] 	Status change detected: stopped
+8:49:45  [mysql] 	Attempting to start MySQL service...
+8:49:46  [mysql] 	Status change detected: running
+8:49:47  [Apache] 	Attempting to start Apache service...
+8:49:48  [Apache] 	Status change detected: running
+12:53:06  [Apache] 	Status change detected: stopped
+12:53:06  [Apache] 	Error: Apache shutdown unexpectedly.
+12:53:06  [Apache] 	This may be due to a blocked port, missing dependencies, 
+12:53:06  [Apache] 	improper privileges, a crash, or a shutdown by another method.
+12:53:06  [Apache] 	Press the Logs button to view error logs and check
+12:53:06  [Apache] 	the Windows Event Viewer for more clues
+12:53:06  [Apache] 	If you need more help, copy and post this
+12:53:06  [Apache] 	entire log window on the forums
+12:53:09  [mysql] 	Status change detected: stopped
+12:53:09  [mysql] 	Error: MySQL shutdown unexpectedly.
+12:53:09  [mysql] 	This may be due to a blocked port, missing dependencies, 
+12:53:09  [mysql] 	improper privileges, a crash, or a shutdown by another method.
+12:53:09  [mysql] 	Press the Logs button to view error logs and check
+12:53:09  [mysql] 	the Windows Event Viewer for more clues
+12:53:09  [mysql] 	If you need more help, copy and post this
+12:53:09  [mysql] 	entire log window on the forums
+12:53:14  [main] 	Deinitializing Modules
+12:53:14  [main] 	Deinitializing Control Panel
+
