@@ -124,20 +124,37 @@ class ChatServer implements MessageComponentInterface
 
     public function onMessage(ConnectionInterface $from, $msg)
     {
-        echo "📩 Üzenet: $msg\n";
+        if (!$this->db->ping()) { //debug
+            echo "🔄 Újrakapcsolódás az adatbázishoz...\n";
+            $this->db = new mysqli("localhost", "root", "", "dbchatex");
+            if ($this->db->connect_error) {
+                echo "❌ Újrakapcsolódási hiba: " . $this->db->connect_error . "\n";
+                return;
+            }
+        }
+
+        echo "Üzenet: $msg\n";
 
         $data = json_decode($msg, true);
         if (!$data) {
-            echo "❌ Hibás JSON adat!\n";
+            echo "Hibás JSON adat!\n";
             return;
         }
 
-        $type = $data['type'] ?? 'message';
+        // === TÍPUS SZERINTI FELDOLGOZÁS ===
+        $type = $data['message_type'] ?? 'text';
 
-        if ($type === 'message') {
+        if (!isset($data['message_type'])) {
+            echo "❌ Üzenetben nincs type!\n";
+            return;
+        }
+
+        echo $type . "\n";
+
+        if ($type === 'text') {
             // Szöveges üzenet
             if (!isset($data['chat_id'], $data['sender_id'], $data['receiver_id'], $data['message_text'])) {
-                echo "❌ Hiányzó adatok a szöveges üzenethez!\n";
+                echo "Hiányzó adatok a szöveges üzenethez!\n";
                 return;
             }
 
@@ -145,11 +162,15 @@ class ChatServer implements MessageComponentInterface
             $senderId = intval($data['sender_id']);
             $receiverId = intval($data['receiver_id']);
             $messageText = trim($data['message_text']);
-            $messageType = 'text';
+            $messageType = $data['message_type']; // 'text' típusú üzenet
 
             $stmt = $this->db->prepare("INSERT INTO messages (chat_id, sender_id, receiver_id, message_text, message_type) VALUES (?, ?, ?, ?, ?)");
             $stmt->bind_param("iiiss", $chatId, $senderId, $receiverId, $messageText, $messageType);
-            $stmt->execute();
+
+            if (!$stmt->execute()) {
+                echo "❌ INSERT hiba: " . $stmt->error . "\n";
+                return;
+            }
         } elseif ($type === 'file') {
             // Fájl üzenet
             if (!isset($data['chat_id'], $data['sender_id'], $data['receiver_id'], $data['file_name'], $data['message_file'])) {
@@ -160,16 +181,26 @@ class ChatServer implements MessageComponentInterface
             $chatId = intval($data['chat_id']);
             $senderId = intval($data['sender_id']);
             $receiverId = intval($data['receiver_id']);
-            $messageType = 'file';
+            $messageType =  $data['message_type'];
             $fileName = basename($data['file_name']);
             $fileContent = base64_decode($data['message_file']);
+            $messageText = trim($data['message_text'] ?? '');
+
+            if (strlen($fileContent) > 100 * 1024 * 1024) {
+                echo "❌ Fájl túl nagy (100MB+)!\n";
+                return;
+            }
 
             $uploadPath = __DIR__ . "/uploads/$fileName";
             file_put_contents($uploadPath, $fileContent);
 
-            $stmt = $this->db->prepare("INSERT INTO messages (chat_id, sender_id, receiver_id, message_type, message_file) VALUES (?, ?, ?, ?, ?)");
-            $stmt->bind_param("iiiss", $chatId, $senderId, $receiverId, $messageType, $fileName);
-            $stmt->execute();
+            $stmt = $this->db->prepare("INSERT INTO messages (chat_id, sender_id, receiver_id, message_type, message_file, message_text) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("iiisss", $chatId, $senderId, $receiverId, $messageType, $fileName, $messageText);
+
+            if (!$stmt->execute()) {
+                echo "❌ INSERT hiba: " . $stmt->error . "\n";
+                return;
+            }
         } elseif ($type === 'image') {
             // Kép üzenet
             if (!isset($data['chat_id'], $data['sender_id'], $data['receiver_id'], $data['file_name'], $data['image_data'])) {
@@ -180,7 +211,7 @@ class ChatServer implements MessageComponentInterface
             $chatId = intval($data['chat_id']);
             $senderId = intval($data['sender_id']);
             $receiverId = intval($data['receiver_id']);
-            $messageType = 'image';
+            $messageType = $data['message_type'];
             $fileName = basename($data['file_name']);
             $imageData = base64_decode($data['image_data']);
 
@@ -189,10 +220,14 @@ class ChatServer implements MessageComponentInterface
 
             $stmt = $this->db->prepare("INSERT INTO messages (chat_id, sender_id, receiver_id, message_type, message_file) VALUES (?, ?, ?, ?, ?)");
             $stmt->bind_param("iiiss", $chatId, $senderId, $receiverId, $messageType, $fileName);
-            $stmt->execute();
+
+            if (!$stmt->execute()) {
+                echo "❌ INSERT hiba: " . $stmt->error . "\n";
+                return;
+            }
         } elseif ($type === 'read_status_update') {
             if (!isset($data['chat_id'], $data['user_id'])) {
-                echo "❌ Hiányzó adatok a read_status_update-hez!\n";
+                echo "Hiányzó adatok a read_status_update-hez!\n";
                 return;
             }
 
@@ -202,6 +237,22 @@ class ChatServer implements MessageComponentInterface
             $update = $this->db->prepare("UPDATE messages SET is_read = 1 WHERE chat_id = ? AND receiver_id = ? AND is_read = 0");
             $update->bind_param("ii", $chatId, $userId);
             $update->execute();
+
+            // 🔁 Lekérjük a frissített üzeneteket
+            $stmt = $this->db->prepare("SELECT * FROM messages WHERE chat_id = ? AND receiver_id = ? AND is_read = 1");
+            $stmt->bind_param("ii", $chatId, $userId);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            while ($row = $result->fetch_assoc()) {
+                $messageReadPayload = [
+                    'message_type' => 'message_read',  // 👈 fontos!
+                    'data' => $row
+                ];
+                foreach ($this->clients as $client) {
+                    $client->send(json_encode($messageReadPayload));
+                }
+            }
         }
 
         // Lekérjük a legutolsó üzenetet újra
@@ -214,13 +265,22 @@ class ChatServer implements MessageComponentInterface
         $query->close();
 
         if (!$messageData) {
-            echo "❌ Nem található a beszúrt üzenet!\n";
+            //echo "Nem található a beszúrt üzenet!\n";
+            echo $messageData;
             return;
         }
 
-        $broadcastType = $messageData['message_type'] ?? 'message';
+        
+
+        $broadcastType = $messageData['message_type'] ?? 'text';
+
+        if ($broadcastType === 'file' || $broadcastType === 'image') {
+            $fileName = $messageData['message_file'];
+            $messageData['download_url'] = "http://10.0.2.2/ChatexProject/chatex_phps/uploads/$fileName";
+        }
+
         $payload = [
-            'type' => $broadcastType,
+            'message_type' => $broadcastType,
             'data' => $messageData,
         ];
 
@@ -228,9 +288,8 @@ class ChatServer implements MessageComponentInterface
             $client->send(json_encode($payload));
         }
 
-        echo "✅ Üzenet ($broadcastType) broadcastolva: " . json_encode($messageData) . "\n";
+        echo "Üzenet ($broadcastType) broadcastolva: " . json_encode($messageData) . "\n";
     }
-
 
 
     public function onClose(ConnectionInterface $conn)
