@@ -191,8 +191,19 @@ class ChatServer implements MessageComponentInterface
                 return;
             }
 
-            $uploadPath = __DIR__ . "/uploads/$fileName";
+            $uploadPath = __DIR__ . "/../uploads/files/$fileName"; // ✅ új helyre mentés
+            if (!file_exists(dirname($uploadPath))) {
+                mkdir(dirname($uploadPath), 0777, true);
+            }
             file_put_contents($uploadPath, $fileContent);
+
+            $downloadUrl = "http://10.0.2.2/ChatexProject/uploads/files/" . $fileName;
+
+
+            if (file_put_contents($uploadPath, $fileContent) === false) {
+                echo "❌ Nem sikerült menteni a fájlt: $uploadPath\n";
+                return;
+            }
 
             $stmt = $this->db->prepare("INSERT INTO messages (chat_id, sender_id, receiver_id, message_type, message_file, message_text) VALUES (?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("iiisss", $chatId, $senderId, $receiverId, $messageType, $fileName, $messageText);
@@ -215,8 +226,14 @@ class ChatServer implements MessageComponentInterface
             $fileName = basename($data['file_name']);
             $imageData = base64_decode($data['image_data']);
 
-            $uploadPath = __DIR__ . "/uploads/$fileName";
+            $uploadPath = __DIR__ . "/../uploads/media/$fileName"; // ✅ új helyre mentés
+            if (!file_exists(dirname($uploadPath))) {
+                mkdir(dirname($uploadPath), 0777, true);
+            }
             file_put_contents($uploadPath, $imageData);
+
+            $downloadUrl = "http://10.0.2.2/ChatexProject/uploads/media/" . $fileName;
+
 
             $stmt = $this->db->prepare("INSERT INTO messages (chat_id, sender_id, receiver_id, message_type, message_file) VALUES (?, ?, ?, ?, ?)");
             $stmt->bind_param("iiiss", $chatId, $senderId, $receiverId, $messageType, $fileName);
@@ -270,13 +287,13 @@ class ChatServer implements MessageComponentInterface
             return;
         }
 
-        
+
 
         $broadcastType = $messageData['message_type'] ?? 'text';
 
         if ($broadcastType === 'file' || $broadcastType === 'image') {
             $fileName = $messageData['message_file'];
-            $messageData['download_url'] = "http://10.0.2.2/ChatexProject/chatex_phps/uploads/$fileName";
+            $messageData['download_url'] = $downloadUrl;
         }
 
         $payload = [

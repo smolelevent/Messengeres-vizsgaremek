@@ -37,7 +37,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  //TODO: mindig frissül a pfp a php miatt, scroll megcsinálása, és az onTap property is az aljára vigyen
+  //TODO: mindig frissül a pfp a php miatt, scroll megcsinálása
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   final FocusNode _inputFocusNode = FocusNode();
@@ -396,17 +396,46 @@ class _ChatScreenState extends State<ChatScreen> {
         final message = _messages[index];
         final isSender = message['sender_id'] == Preferences.getUserId();
         final isLast = index == _messages.length - 1;
+        final messageType = message['message_type'];
 
-        // Később ide jöhet pl.: ImageBubble, FileBubble stb.
-        return MessageChatBubble(
-          messageText: message['message_text'] ?? "",
-          sentAt: formatLastSeen(message['sent_at'] ?? ""),
-          isSender: isSender,
-          isRead: message['is_read'] == 1,
-          profileImage: isSender ? null : widget.profileImage,
-          onTapScrollToBottom: scrollToBottom,
-          isLastMessage: isLast,
-        );
+        switch (messageType) {
+          case 'file':
+            return FileChatBubble(
+              messageText: message['message_text'] ?? "",
+              sentAt: formatLastSeen(message['sent_at'] ?? ""),
+              isSender: isSender,
+              isRead: message['is_read'] == 1,
+              profileImage: isSender ? null : widget.profileImage,
+              onTapScrollToBottom: scrollToBottom,
+              isLastMessage: isLast,
+              fileName: message['message_file'] ?? "",
+              downloadUrl: message['download_url'] ?? "",
+            );
+
+          // case 'image': TODO: ezt később
+          //   return ImageChatBubble(
+          //     imageUrl: message['message_file'] ?? "",
+          //     messageText: message['message_text'] ?? "",
+          //     sentAt: formatLastSeen(message['sent_at'] ?? ""),
+          //     isSender: isSender,
+          //     profileImage: isSender ? null : widget.profileImage,
+          //     isRead: message['is_read'] == 1,
+          //     onTapScrollToBottom: scrollToBottom,
+          //     isLastMessage: isLast,
+          //   );
+
+          case 'text':
+          default:
+            return MessageChatBubble(
+              messageText: message['message_text'] ?? "",
+              sentAt: formatLastSeen(message['sent_at'] ?? ""),
+              isSender: isSender,
+              isRead: message['is_read'] == 1,
+              profileImage: isSender ? null : widget.profileImage,
+              onTapScrollToBottom: scrollToBottom,
+              isLastMessage: isLast,
+            );
+        }
       },
     );
   }
@@ -502,7 +531,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-//TODO: folytonossá tenni a people.dart-ot
+//TODO: folytonossá tenni a people.dart-ot is
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -521,7 +550,6 @@ class _ChatScreenState extends State<ChatScreen> {
               Column(
                 children: [
                   Expanded(child: (_buildMessageList())),
-                  //ÚJ CUCC ---------------------------------------------
                   if (_attachedFiles.isNotEmpty) _buildFilePreviewBar(),
                 ],
               ),
@@ -904,7 +932,7 @@ class _MessageChatBubbleState extends State<MessageChatBubble> {
     return GestureDetector(
       onTap: _toggleDetails,
       child: Padding(
-        padding: const EdgeInsets.only(left: 5, right: 5, top: 20, bottom: 0),
+        padding: const EdgeInsets.only(left: 5, right: 5, top: 20),
         child: Row(
           mainAxisAlignment:
               widget.isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
@@ -920,25 +948,23 @@ class _MessageChatBubbleState extends State<MessageChatBubble> {
                   ? CrossAxisAlignment.end
                   : CrossAxisAlignment.start,
               children: [
-                ConstrainedBox(
+                Container(
                   constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width * 0.5,
                   ),
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: widget.isSender
-                          ? Colors.deepPurpleAccent
-                          : Colors.blueAccent,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Text(
-                      widget.messageText,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        letterSpacing: 1,
-                      ),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: widget.isSender
+                        ? Colors.deepPurpleAccent
+                        : Colors.blueAccent,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Text(
+                    widget.messageText,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      letterSpacing: 1,
                     ),
                   ),
                 ),
@@ -979,58 +1005,288 @@ class _MessageChatBubbleState extends State<MessageChatBubble> {
   }
 }
 
-class FileChatBubble extends StatelessWidget {
-  //TODO: innen folyt köv, megkérni chat gpt-t hogy hogyan tudjuk ezt implementálni a build methodba stb... kiegészíteni a MessageChatBubbleben lévő dolgokkal!!
+//FileChatBubble osztály kezdete -----------------------------------------------------------------------
+class FileChatBubble extends StatefulWidget {
   const FileChatBubble({
-    required this.isSender,
+    super.key,
     required this.fileName,
     required this.downloadUrl,
+    required this.isSender,
+    required this.sentAt,
     this.messageText,
-    super.key,
+    this.profileImage,
+    this.isRead = false,
+    this.onTapScrollToBottom,
+    this.isLastMessage = false,
   });
 
-  final bool isSender;
   final String fileName;
   final String downloadUrl;
   final String? messageText;
+  final bool isSender;
+  final String sentAt;
+  final String? profileImage;
+  final bool isRead;
+  final VoidCallback? onTapScrollToBottom;
+  final bool isLastMessage;
+
+  @override
+  State<FileChatBubble> createState() => _FileChatBubbleState();
+}
+
+class _FileChatBubbleState extends State<FileChatBubble> {
+  bool _showDetails = false;
+
+  void _toggleDetails() {
+    setState(() {
+      _showDetails = !_showDetails;
+    });
+
+    if (widget.onTapScrollToBottom != null && widget.isLastMessage) {
+      widget.onTapScrollToBottom!();
+    }
+  }
+
+  Widget _buildProfileImage(String? imageString) {
+    if (imageString == null || imageString.isEmpty) {
+      return const Icon(
+        Icons.person,
+        size: 36,
+        color: Colors.white,
+      );
+    }
+
+    if (imageString.startsWith("data:image/svg+xml;base64,")) {
+      final svgBytes = base64Decode(imageString.split(",")[1]);
+      return SvgPicture.memory(
+        svgBytes,
+        width: 36,
+        height: 36,
+        fit: BoxFit.fill,
+      );
+    } else if (imageString.startsWith("data:image/")) {
+      final base64Data = base64Decode(imageString.split(",")[1]);
+      return Image.memory(
+        base64Data,
+        width: 36,
+        height: 36,
+        fit: BoxFit.fill,
+      );
+    } else {
+      return const Icon(
+        Icons.person,
+        size: 36,
+        color: Colors.white,
+      );
+    }
+  }
+
+  Future<void> _downloadFile(BuildContext context) async {
+    try {
+      final uri = Uri.parse(widget.downloadUrl);
+      final response = await http.get(uri);
+
+      if (response.statusCode != 200) {
+        ToastMessages.showToastMessages(
+          Preferences.getPreferredLanguage() == "Magyar"
+              ? "Letöltési hiba!"
+              : "Download failed!",
+          0.4,
+          Colors.redAccent,
+          Icons.error,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
+        return;
+      }
+
+      final downloadsDir = await getDownloadsDirectory();
+      if (downloadsDir == null) {
+        throw Exception("Nem található letöltési mappa");
+      }
+
+      final filePath = "${downloadsDir.path}/${widget.fileName}";
+      final file = File(filePath);
+      await file.writeAsBytes(response.bodyBytes);
+
+      ToastMessages.showToastMessages(
+        Preferences.getPreferredLanguage() == "Magyar"
+            ? "Fájl sikeresen letöltve: ${widget.fileName}"
+            : "File downloaded: ${widget.fileName}",
+        0.4,
+        Colors.greenAccent,
+        Icons.download_done,
+        Colors.black,
+        const Duration(seconds: 2),
+        context,
+      );
+
+      OpenFile.open(filePath);
+    } catch (e) {
+      ToastMessages.showToastMessages(
+        Preferences.getPreferredLanguage() == "Magyar"
+            ? "Hiba a fájl letöltése közben!"
+            : "Error downloading file!",
+        0.4,
+        Colors.redAccent,
+        Icons.error,
+        Colors.black,
+        const Duration(seconds: 2),
+        context,
+      );
+    }
+  }
+
+  // Future<void> _downloadFile() async { régi szar
+  //   try {
+  //     final uri = Uri.parse(widget.downloadUrl);
+  //     final response = await http.get(uri);
+  //     final dir = await getDownloadsDirectory();
+
+  //     if (dir == null) {
+  //       ToastMessages.showToastMessages(
+  //         Preferences.getPreferredLanguage() == "Magyar"
+  //             ? "Letöltési mappa nem található!"
+  //             : "Download folder not found!",
+  //         0.4,
+  //         Colors.redAccent,
+  //         Icons.error,
+  //         Colors.black,
+  //         const Duration(seconds: 2),
+  //         context,
+  //       );
+
+  //       return;
+  //     }
+
+  //     final filePath = "${dir.path}/${widget.fileName}";
+  //     final file = File(filePath);
+  //     await file.writeAsBytes(response.bodyBytes);
+
+  //     await OpenFile.open(filePath);
+  //   } catch (e) {
+  //     ToastMessages.showToastMessages(
+  //       Preferences.getPreferredLanguage() == "Magyar"
+  //           ? "Hiba történt!"
+  //           : "An error occurred!",
+  //       0.4,
+  //       Colors.redAccent,
+  //       Icons.error,
+  //       Colors.black,
+  //       const Duration(seconds: 2),
+  //       context,
+  //     );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment:
-          isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
-      children: [
-        const Icon(Icons.insert_drive_file, color: Colors.white),
-        const SizedBox(width: 10),
-        Expanded(
-          child: Column(
-            crossAxisAlignment:
-                isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-            children: [
-              if (messageText != null && messageText!.isNotEmpty)
-                Text(
-                  messageText!,
-                  style: const TextStyle(color: Colors.white),
+    return GestureDetector(
+      onTap: _toggleDetails,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 5, right: 5, top: 20),
+        child: Row(
+          mainAxisAlignment:
+              widget.isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
+          crossAxisAlignment: _showDetails
+              ? CrossAxisAlignment.start
+              : CrossAxisAlignment.start,
+          children: [
+            if (!widget.isSender)
+              ClipOval(child: _buildProfileImage(widget.profileImage)),
+            const SizedBox(width: 8),
+            Column(
+              crossAxisAlignment: widget.isSender
+                  ? CrossAxisAlignment.end
+                  : CrossAxisAlignment.start,
+              children: [
+                Container(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * 0.5,
+                  ),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: widget.isSender
+                        ? Colors.deepPurpleAccent
+                        : Colors.blueAccent,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (widget.messageText != null &&
+                          widget.messageText!.trim().isNotEmpty)
+                        Text(
+                          widget.messageText!,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            letterSpacing: 1,
+                          ),
+                        ),
+                      TextButton.icon(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.grey[800],
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 5,
+                            horizontal: 5,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        onPressed: () => _downloadFile(context),
+                        icon: const Icon(
+                          Icons.download_rounded,
+                          color: Colors.white,
+                          size: 24,
+                        ),
+                        label: Text(
+                          widget.fileName,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            letterSpacing: 1,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              TextButton.icon(
-                onPressed: () async {
-                  final uri = Uri.parse(downloadUrl);
-                  final response = await http.get(uri);
-                  final dir =
-                      await getDownloadsDirectory(); // vagy getApplicationDocumentsDirectory
-                  final filePath = "${dir!.path}/$fileName";
-                  final file = File(filePath);
-                  await file.writeAsBytes(response.bodyBytes);
-                  OpenFile.open(filePath);
-                },
-                icon: const Icon(Icons.download_rounded, color: Colors.white),
-                label:
-                    Text(fileName, style: const TextStyle(color: Colors.white)),
-              ),
-            ],
-          ),
+                if (_showDetails) ...[
+                  const SizedBox(height: 4),
+                  Text(
+                    widget.sentAt,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontStyle: FontStyle.italic,
+                      color: Colors.grey[500],
+                    ),
+                  ),
+                  if (widget.isSender)
+                    Text(
+                      widget.isRead
+                          ? Preferences.getPreferredLanguage() == "Magyar"
+                              ? "Látta"
+                              : "Seen"
+                          : Preferences.getPreferredLanguage() == "Magyar"
+                              ? "Kézbesítve"
+                              : "Delivered",
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontStyle: FontStyle.italic,
+                        color: widget.isRead
+                            ? Colors.greenAccent
+                            : Colors.grey[500],
+                      ),
+                    ),
+                ]
+              ],
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
