@@ -172,8 +172,51 @@ class ChatServer implements MessageComponentInterface
                 return;
             }
         } elseif ($type === 'file') {
-            // Fájl üzenet
-            if (!isset($data['chat_id'], $data['sender_id'], $data['receiver_id'], $data['file_name'], $data['message_file'])) {
+
+            // echo "Érkezett fájl üzenet: " . json_encode($data) . "\n";
+            // // Fájl üzenet
+            // if (!isset($data['chat_id'], $data['sender_id'], $data['receiver_id'], $data['file_name'], $data['message_file'])) {
+            //     echo "❌ Hiányzó fájl adatok!\n";
+            //     return;
+            // }
+
+            // $chatId = intval($data['chat_id']);
+            // $senderId = intval($data['sender_id']);
+            // $receiverId = intval($data['receiver_id']);
+            // $messageType =  $data['message_type'];
+            // $fileName = basename($data['file_name']);
+            // $fileContent = base64_decode($data['message_file']);
+            // $messageText = trim($data['message_text'] ?? '');
+
+            // if (strlen($fileContent) > 100 * 1024 * 1024) {
+            //     echo "❌ Fájl túl nagy (100MB+)!\n";
+            //     return;
+            // }
+
+            // $uploadPath = __DIR__ . "/../uploads/files/$fileName"; // ✅ új helyre mentés
+            // if (!file_exists(dirname($uploadPath))) {
+            //     mkdir(dirname($uploadPath), 0777, true);
+            // }
+            // file_put_contents($uploadPath, $fileContent);
+
+            // $downloadUrl = "http://10.0.2.2/ChatexProject/uploads/files/" . $fileName;
+
+
+            // if (file_put_contents($uploadPath, $fileContent) === false) {
+            //     echo "❌ Nem sikerült menteni a fájlt: $uploadPath\n";
+            //     return;
+            // }
+
+            // $stmt = $this->db->prepare("INSERT INTO messages (chat_id, sender_id, receiver_id, message_type, message_file, message_text) VALUES (?, ?, ?, ?, ?, ?)");
+            // $stmt->bind_param("iiisss", $chatId, $senderId, $receiverId, $messageType, $fileName, $messageText);
+
+            // if (!$stmt->execute()) {
+            //     echo "❌ INSERT hiba: " . $stmt->error . "\n";
+            //     return;
+            // } mentés
+
+
+            if (!isset($data['chat_id'], $data['sender_id'], $data['receiver_id'], $data['files'])) {
                 echo "❌ Hiányzó fájl adatok!\n";
                 return;
             }
@@ -181,36 +224,31 @@ class ChatServer implements MessageComponentInterface
             $chatId = intval($data['chat_id']);
             $senderId = intval($data['sender_id']);
             $receiverId = intval($data['receiver_id']);
-            $messageType =  $data['message_type'];
-            $fileName = basename($data['file_name']);
-            $fileContent = base64_decode($data['message_file']);
             $messageText = trim($data['message_text'] ?? '');
+            $files = $data['files']; // Ez egy tömb
 
-            if (strlen($fileContent) > 100 * 1024 * 1024) {
-                echo "❌ Fájl túl nagy (100MB+)!\n";
-                return;
-            }
+            foreach ($files as $file) {
+                $fileName = basename($file['file_name']);
+                $fileContent = base64_decode($file['file_bytes']);
 
-            $uploadPath = __DIR__ . "/../uploads/files/$fileName"; // ✅ új helyre mentés
-            if (!file_exists(dirname($uploadPath))) {
-                mkdir(dirname($uploadPath), 0777, true);
-            }
-            file_put_contents($uploadPath, $fileContent);
+                if (strlen($fileContent) > 100 * 1024 * 1024) {
+                    echo "❌ $fileName túl nagy!\n";
+                    continue;
+                }
 
-            $downloadUrl = "http://10.0.2.2/ChatexProject/uploads/files/" . $fileName;
+                $uploadPath = __DIR__ . "/../uploads/files/$fileName";
+                file_put_contents($uploadPath, $fileContent);
 
+                $downloadUrl = "http://10.0.2.2/ChatexProject/uploads/files/$fileName"; //TODO: itt hagytam abba holnap innen folyt köv, a message 1 file-t jelenít meg és nem többet, a terminál viszont jól mutatja de ott is egyet (lehet jól mutatná de nem küldi el mind a 2-t!)
 
-            if (file_put_contents($uploadPath, $fileContent) === false) {
-                echo "❌ Nem sikerült menteni a fájlt: $uploadPath\n";
-                return;
-            }
+                $stmt = $this->db->prepare("INSERT INTO messages (chat_id, sender_id, receiver_id, message_text, message_type, message_file) VALUES (?, ?, ?, ?, 'file', ?)");
+                $stmt->bind_param("iiiss", $chatId, $senderId, $receiverId, $messageText, $fileName);
+                $stmt->execute();
 
-            $stmt = $this->db->prepare("INSERT INTO messages (chat_id, sender_id, receiver_id, message_type, message_file, message_text) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("iiisss", $chatId, $senderId, $receiverId, $messageType, $fileName, $messageText);
-
-            if (!$stmt->execute()) {
-                echo "❌ INSERT hiba: " . $stmt->error . "\n";
-                return;
+                if (!$stmt->execute()) {
+                    echo "❌ INSERT hiba: " . $stmt->error . "\n";
+                    return;
+                }
             }
         } elseif ($type === 'image') {
             // Kép üzenet
@@ -263,7 +301,7 @@ class ChatServer implements MessageComponentInterface
 
             while ($row = $result->fetch_assoc()) {
                 $messageReadPayload = [
-                    'message_type' => 'message_read',  // 👈 fontos!
+                    'message_type' => 'message_read',
                     'data' => $row
                 ];
                 foreach ($this->clients as $client) {

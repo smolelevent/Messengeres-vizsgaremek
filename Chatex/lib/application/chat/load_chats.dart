@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:chatex/application/chat/chat_screen.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'dart:convert';
@@ -17,8 +18,34 @@ class LoadedChatData extends StatefulWidget {
 
 class LoadedChatDataState extends State<LoadedChatData> {
   late Future<List<dynamic>> _chatList = Future.value([]);
-
   late WebSocketChannel _channel;
+
+  @override
+  void initState() {
+    super.initState();
+    _requestNecessaryPermissions();
+    _connectToWebSocket();
+    _getCorrectChatList();
+  }
+
+  @override
+  void dispose() {
+    _channel.sink.close();
+    super.dispose();
+  }
+
+  Future<void> _requestNecessaryPermissions() async {
+  // Android 13+ értesítésekhez
+  if (await Permission.notification.isDenied) {
+    await Permission.notification.request();
+  }
+
+  // Fájlírás (Android 10-hez és alatta)
+  if (await Permission.storage.isDenied) {
+    await Permission.storage.request();
+  }
+}
+
   void _connectToWebSocket() {
     _channel = WebSocketChannel.connect(
       Uri.parse("ws://10.0.2.2:8080"),
@@ -36,19 +63,6 @@ class LoadedChatDataState extends State<LoadedChatData> {
         _getCorrectChatList(); // újrahívja a Future-t
       }
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _connectToWebSocket();
-    _getCorrectChatList();
-  }
-
-  @override
-  void dispose() {
-    _channel.sink.close();
-    super.dispose();
   }
 
   Future<void> _getCorrectChatList() async {

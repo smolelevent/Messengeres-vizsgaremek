@@ -4,8 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:open_file/open_file.dart';
-import 'package:path_provider/path_provider.dart';
+//import 'package:open_file/open_file.dart';
+//import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:chatex/logic/notifications.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'dart:convert';
@@ -121,10 +123,8 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _connectToWebSocket() {
-    /*
-    INDÍTÁS ELŐTT FUTTATNI KELL A PHP-T: xampp_server\htdocs\ChatexProject\chatex_phps> php server_run.php,
-    A terminálba Ctrl + Shift + C-t nyomva lehet írni read-only terminálba!
-    */
+    /*INDÍTÁS ELŐTT FUTTATNI KELL A PHP-T: xampp_server\htdocs\ChatexProject\chatex_phps> php server_run.php,
+    A terminálba Ctrl + Shift + C-t nyomva lehet írni read-only terminálba!*/
 
     _channel = WebSocketChannel.connect(
       Uri.parse("ws://10.0.2.2:8080"),
@@ -136,9 +136,7 @@ class _ChatScreenState extends State<ChatScreen> {
       final decoded = jsonDecode(message);
 
       final type = decoded['message_type'] ?? 'text';
-      log("type: ${type.toString()}");
       final data = decoded['data'] ?? decoded;
-      log("data: ${data.toString()}");
 
       if (data['chat_id'] != widget.chatId) return;
 
@@ -167,7 +165,6 @@ class _ChatScreenState extends State<ChatScreen> {
               }));
             });
           }
-
           scrollToBottom();
           break;
 
@@ -200,21 +197,51 @@ class _ChatScreenState extends State<ChatScreen> {
     _messageController.clear();
   }
 
-  void _sendFile() {
-    for (final file in _attachedFiles) {
-      final base64File = base64Encode(file.bytes!);
-      final message = {
-        "message_type": "file",
-        "chat_id": widget.chatId,
-        "sender_id": Preferences.getUserId(),
-        "receiver_id": widget.receiverId,
-        "file_name": file.name,
-        "message_file": base64File,
-        "message_text": _messageController.text.trim(),
-      };
+  // void _sendFile() { mentés
+  //   for (final file in _attachedFiles) {
+  //     final base64File = base64Encode(file.bytes!);
+  //     final message = {
+  //       "message_type": "file",
+  //       "chat_id": widget.chatId,
+  //       "sender_id": Preferences.getUserId(),
+  //       "receiver_id": widget.receiverId,
+  //       "file_name": file.name,
+  //       "message_file": base64File,
+  //       "message_text": _messageController.text.trim(),
+  //     };
 
-      _channel.sink.add(jsonEncode(message));
-    }
+  //     log("Fájl küldése: ${jsonEncode(message)}");
+  //     _channel.sink.add(jsonEncode(message));
+  //   }
+
+  //   setState(() {
+  //     _attachedFiles.clear();
+  //     _messageController.clear();
+  //   });
+
+  //   scrollToBottom();
+  // }
+
+  void _sendFiles() {
+    if (_attachedFiles.isEmpty) return;
+
+    final List<Map<String, dynamic>> files = _attachedFiles.map((file) {
+      return {
+        "file_name": file.name,
+        "file_bytes": base64Encode(file.bytes!),
+      };
+    }).toList();
+
+    final message = {
+      "message_type": "file",
+      "chat_id": widget.chatId,
+      "sender_id": Preferences.getUserId(),
+      "receiver_id": widget.receiverId,
+      "message_text": _messageController.text.trim(),
+      "files": files,
+    };
+
+    _channel.sink.add(jsonEncode(message));
 
     setState(() {
       _attachedFiles.clear();
@@ -278,10 +305,40 @@ class _ChatScreenState extends State<ChatScreen> {
     final hasText = _messageController.text.trim().isNotEmpty;
     final hasFiles = _attachedFiles.isNotEmpty;
 
-    log("hasFiles tartalma: ${hasFiles.toString()}");
-    log("hasText tartalma: ${hasText.toString()}");
+    final oversized = _attachedFiles.any((f) => f.size > 100 * 1024 * 1024);
+    if (oversized) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              //TODO: nincs letesztelve
+              Preferences.getPreferredLanguage() == "Magyar"
+                  ? "Túl nagy fájl!"
+                  : "File too large!",
+            ),
+            content: Text(
+              Preferences.getPreferredLanguage() == "Magyar"
+                  ? "Csak 100 MB alatti fájlokat lehet küldeni."
+                  : "Only files under 100 MB can be sent.",
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    // log("hasFiles tartalma: ${hasFiles.toString()}");
+    // log("hasText tartalma: ${hasText.toString()}");
+
     if (hasFiles) {
-      _sendFile(); // Ez lekezeli a fájlokat és törli őket
+      _sendFiles(); // Ez lekezeli a fájlokat és törli őket
     } else if (hasText) {
       _sendMessage(); // Ez törli a beviteli mezőt
     }
@@ -318,13 +375,15 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-      }
+      Future.delayed(const Duration(milliseconds: 100), () {
+        if (_scrollController.hasClients) {
+          _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+          );
+        }
+      });
     });
   }
 
@@ -400,17 +459,30 @@ class _ChatScreenState extends State<ChatScreen> {
 
         switch (messageType) {
           case 'file':
+            log(message['download_url'].toString());
             return FileChatBubble(
-              messageText: message['message_text'] ?? "",
+              fileNames: [message['message_file']], // később: List<String>
+              downloadUrls: [message['download_url']],
+              messageText: message['message_text'],
               sentAt: formatLastSeen(message['sent_at'] ?? ""),
               isSender: isSender,
               isRead: message['is_read'] == 1,
               profileImage: isSender ? null : widget.profileImage,
               onTapScrollToBottom: scrollToBottom,
               isLastMessage: isLast,
-              fileName: message['message_file'] ?? "",
-              downloadUrl: message['download_url'] ?? "",
             );
+
+          // return FileChatBubble( mentés
+          //   messageText: message['message_text'] ?? "",
+          //   sentAt: formatLastSeen(message['sent_at'] ?? ""),
+          //   isSender: isSender,
+          //   isRead: message['is_read'] == 1,
+          //   profileImage: isSender ? null : widget.profileImage,
+          //   onTapScrollToBottom: scrollToBottom,
+          //   isLastMessage: isLast,
+          //   fileName: message['message_file'] ?? "",
+          //   downloadUrl: message['download_url'] ?? "",
+          // );
 
           // case 'image': TODO: ezt később
           //   return ImageChatBubble(
@@ -444,7 +516,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return _showScrollToBottom
         ? Padding(
             padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom > 0 ? 65 : 65,
+              bottom: MediaQuery.of(context).viewInsets.bottom > 0 ? 140 : 65,
             ),
             child: FloatingActionButton(
               backgroundColor: Colors.grey[800],
@@ -476,7 +548,7 @@ class _ChatScreenState extends State<ChatScreen> {
         itemBuilder: (context, index) {
           final file = _attachedFiles[index];
           final isImage = file.extension?.toLowerCase().startsWith("jp") ==
-                  true ||
+                  true || //TODO: képnél ezt megnézni
               ["png", "gif", "webp"].contains(file.extension?.toLowerCase());
 
           return Padding(
@@ -853,7 +925,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
 //TODO: Te:
 //TODO: számláló ami a 5000 karaktert számolja, és ha elérjük akkor nem enged tovább gépelni
-//TODO: ha a message több információit akarjuk látni akkor is menjen az aljára, ha elkezdünk gépelni mindent toljon fel!
 
 //MessageChatBubble osztály kezdete -----------------------------------------------------------------------
 class MessageChatBubble extends StatefulWidget {
@@ -1006,13 +1077,14 @@ class _MessageChatBubbleState extends State<MessageChatBubble> {
 }
 
 //FileChatBubble osztály kezdete -----------------------------------------------------------------------
+
 class FileChatBubble extends StatefulWidget {
   const FileChatBubble({
     super.key,
-    required this.fileName,
-    required this.downloadUrl,
     required this.isSender,
     required this.sentAt,
+    required this.fileNames,
+    required this.downloadUrls,
     this.messageText,
     this.profileImage,
     this.isRead = false,
@@ -1020,11 +1092,11 @@ class FileChatBubble extends StatefulWidget {
     this.isLastMessage = false,
   });
 
-  final String fileName;
-  final String downloadUrl;
-  final String? messageText;
   final bool isSender;
   final String sentAt;
+  final List<String> fileNames;
+  final List<String> downloadUrls;
+  final String? messageText;
   final String? profileImage;
   final bool isRead;
   final VoidCallback? onTapScrollToBottom;
@@ -1047,138 +1119,70 @@ class _FileChatBubbleState extends State<FileChatBubble> {
     }
   }
 
-  Widget _buildProfileImage(String? imageString) {
-    if (imageString == null || imageString.isEmpty) {
-      return const Icon(
-        Icons.person,
-        size: 36,
-        color: Colors.white,
-      );
-    }
+  Future<void> _downloadFile(int index) async {
+    final url = widget.downloadUrls[index];
+    final fileName = widget.fileNames[index];
 
-    if (imageString.startsWith("data:image/svg+xml;base64,")) {
-      final svgBytes = base64Decode(imageString.split(",")[1]);
-      return SvgPicture.memory(
-        svgBytes,
-        width: 36,
-        height: 36,
-        fit: BoxFit.fill,
-      );
-    } else if (imageString.startsWith("data:image/")) {
-      final base64Data = base64Decode(imageString.split(",")[1]);
-      return Image.memory(
-        base64Data,
-        width: 36,
-        height: 36,
-        fit: BoxFit.fill,
-      );
-    } else {
-      return const Icon(
-        Icons.person,
-        size: 36,
-        color: Colors.white,
-      );
-    }
-  }
-
-  Future<void> _downloadFile(BuildContext context) async {
     try {
-      final uri = Uri.parse(widget.downloadUrl);
+      final permission = await Permission.storage.request();
+      if (!permission.isGranted) {
+        return;
+      }
+
+      final uri = Uri.parse(url);
       final response = await http.get(uri);
 
       if (response.statusCode != 200) {
-        ToastMessages.showToastMessages(
-          Preferences.getPreferredLanguage() == "Magyar"
-              ? "Letöltési hiba!"
-              : "Download failed!",
-          0.4,
-          Colors.redAccent,
-          Icons.error,
-          Colors.black,
-          const Duration(seconds: 2),
-          context,
+        await NotificationService.showNotification(
+          title:
+              "❌ ${Preferences.getPreferredLanguage() == "Magyar" ? "Hiba" : "Error"}",
+          body: Preferences.getPreferredLanguage() == "Magyar"
+              ? "Nem sikerült letölteni a(z) $fileName fájlt."
+              : "Failed to download $fileName.",
         );
         return;
       }
 
-      final downloadsDir = await getDownloadsDirectory();
-      if (downloadsDir == null) {
-        throw Exception("Nem található letöltési mappa");
+      final downloadDir = Directory('/storage/emulated/0/Download');
+      if (!downloadDir.existsSync()) {
+        await downloadDir.create(recursive: true);
       }
 
-      final filePath = "${downloadsDir.path}/${widget.fileName}";
+      final filePath = "${downloadDir.path}/$fileName";
       final file = File(filePath);
       await file.writeAsBytes(response.bodyBytes);
 
-      ToastMessages.showToastMessages(
-        Preferences.getPreferredLanguage() == "Magyar"
-            ? "Fájl sikeresen letöltve: ${widget.fileName}"
-            : "File downloaded: ${widget.fileName}",
-        0.4,
-        Colors.greenAccent,
-        Icons.download_done,
-        Colors.black,
-        const Duration(seconds: 2),
-        context,
+      await NotificationService.showNotification(
+        title: Preferences.getPreferredLanguage() == "Magyar"
+            ? "Letöltés kész"
+            : "Download complete",
+        body: Preferences.getPreferredLanguage() == "Magyar"
+            ? "$fileName mentve ide:\n${downloadDir.path}"
+            : "$fileName saved to:\n${downloadDir.path}",
       );
-
-      OpenFile.open(filePath);
     } catch (e) {
-      ToastMessages.showToastMessages(
-        Preferences.getPreferredLanguage() == "Magyar"
-            ? "Hiba a fájl letöltése közben!"
-            : "Error downloading file!",
-        0.4,
-        Colors.redAccent,
-        Icons.error,
-        Colors.black,
-        const Duration(seconds: 2),
-        context,
+      await NotificationService.showNotification(
+        title: "Hiba",
+        body: "Letöltési hiba: $e",
       );
     }
   }
 
-  // Future<void> _downloadFile() async { régi szar
-  //   try {
-  //     final uri = Uri.parse(widget.downloadUrl);
-  //     final response = await http.get(uri);
-  //     final dir = await getDownloadsDirectory();
+  Widget _buildProfileImage(String? imageString) {
+    if (imageString == null || imageString.isEmpty) {
+      return const Icon(Icons.person, size: 36, color: Colors.white);
+    }
 
-  //     if (dir == null) {
-  //       ToastMessages.showToastMessages(
-  //         Preferences.getPreferredLanguage() == "Magyar"
-  //             ? "Letöltési mappa nem található!"
-  //             : "Download folder not found!",
-  //         0.4,
-  //         Colors.redAccent,
-  //         Icons.error,
-  //         Colors.black,
-  //         const Duration(seconds: 2),
-  //         context,
-  //       );
-
-  //       return;
-  //     }
-
-  //     final filePath = "${dir.path}/${widget.fileName}";
-  //     final file = File(filePath);
-  //     await file.writeAsBytes(response.bodyBytes);
-
-  //     await OpenFile.open(filePath);
-  //   } catch (e) {
-  //     ToastMessages.showToastMessages(
-  //       Preferences.getPreferredLanguage() == "Magyar"
-  //           ? "Hiba történt!"
-  //           : "An error occurred!",
-  //       0.4,
-  //       Colors.redAccent,
-  //       Icons.error,
-  //       Colors.black,
-  //       const Duration(seconds: 2),
-  //       context,
-  //     );
-  //   }
-  // }
+    if (imageString.startsWith("data:image/svg+xml;base64,")) {
+      final svgBytes = base64Decode(imageString.split(",")[1]);
+      return SvgPicture.memory(svgBytes, width: 36, height: 36);
+    } else if (imageString.startsWith("data:image/")) {
+      final base64Data = base64Decode(imageString.split(",")[1]);
+      return Image.memory(base64Data, width: 36, height: 36);
+    } else {
+      return const Icon(Icons.person, size: 36, color: Colors.white);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -1187,11 +1191,9 @@ class _FileChatBubbleState extends State<FileChatBubble> {
       child: Padding(
         padding: const EdgeInsets.only(left: 5, right: 5, top: 20),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment:
               widget.isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
-          crossAxisAlignment: _showDetails
-              ? CrossAxisAlignment.start
-              : CrossAxisAlignment.start,
           children: [
             if (!widget.isSender)
               ClipOval(child: _buildProfileImage(widget.profileImage)),
@@ -1201,59 +1203,45 @@ class _FileChatBubbleState extends State<FileChatBubble> {
                   ? CrossAxisAlignment.end
                   : CrossAxisAlignment.start,
               children: [
-                Container(
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.5,
-                  ),
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: widget.isSender
-                        ? Colors.deepPurpleAccent
-                        : Colors.blueAccent,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (widget.messageText != null &&
-                          widget.messageText!.trim().isNotEmpty)
-                        Text(
-                          widget.messageText!,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            letterSpacing: 1,
-                          ),
-                        ),
-                      TextButton.icon(
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.grey[800],
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 5,
-                            horizontal: 5,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        onPressed: () => _downloadFile(context),
-                        icon: const Icon(
-                          Icons.download_rounded,
+                if (widget.messageText != null &&
+                    widget.messageText!.trim().isNotEmpty)
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.5,
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: widget.isSender
+                            ? Colors.deepPurpleAccent
+                            : Colors.blueAccent,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Text(
+                        widget.messageText!,
+                        style: const TextStyle(
                           color: Colors.white,
-                          size: 24,
-                        ),
-                        label: Text(
-                          widget.fileName,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            letterSpacing: 1,
-                          ),
+                          fontSize: 16,
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                const SizedBox(height: 6),
+                ...List.generate(widget.fileNames.length, (index) {
+                  final fileName = widget.fileNames[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 4.0),
+                    child: TextButton.icon(
+                      onPressed: () => _downloadFile(index),
+                      icon: const Icon(Icons.download_rounded,
+                          color: Colors.white),
+                      label: Text(
+                        fileName,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  );
+                }),
                 if (_showDetails) ...[
                   const SizedBox(height: 4),
                   Text(
@@ -1290,3 +1278,246 @@ class _FileChatBubbleState extends State<FileChatBubble> {
     );
   }
 }
+
+// class FileChatBubble extends StatefulWidget { mentés
+//   const FileChatBubble({
+//     super.key,
+//     required this.fileName,
+//     required this.downloadUrl,
+//     required this.isSender,
+//     required this.sentAt,
+//     this.messageText,
+//     this.profileImage,
+//     this.isRead = false,
+//     this.onTapScrollToBottom,
+//     this.isLastMessage = false,
+//   });
+
+//   final String fileName;
+//   final String downloadUrl;
+//   final String? messageText;
+//   final bool isSender;
+//   final String sentAt;
+//   final String? profileImage;
+//   final bool isRead;
+//   final VoidCallback? onTapScrollToBottom;
+//   final bool isLastMessage;
+
+//   @override
+//   State<FileChatBubble> createState() => _FileChatBubbleState();
+// }
+
+// class _FileChatBubbleState extends State<FileChatBubble> {
+//   bool _showDetails = false;
+
+//   void _toggleDetails() {
+//     setState(() {
+//       _showDetails = !_showDetails;
+//     });
+
+//     if (widget.onTapScrollToBottom != null && widget.isLastMessage) {
+//       widget.onTapScrollToBottom!();
+//     }
+//   }
+
+//   Widget _buildProfileImage(String? imageString) {
+//     if (imageString == null || imageString.isEmpty) {
+//       return const Icon(
+//         Icons.person,
+//         size: 36,
+//         color: Colors.white,
+//       );
+//     }
+
+//     if (imageString.startsWith("data:image/svg+xml;base64,")) {
+//       final svgBytes = base64Decode(imageString.split(",")[1]);
+//       return SvgPicture.memory(
+//         svgBytes,
+//         width: 36,
+//         height: 36,
+//         fit: BoxFit.fill,
+//       );
+//     } else if (imageString.startsWith("data:image/")) {
+//       final base64Data = base64Decode(imageString.split(",")[1]);
+//       return Image.memory(
+//         base64Data,
+//         width: 36,
+//         height: 36,
+//         fit: BoxFit.fill,
+//       );
+//     } else {
+//       return const Icon(
+//         Icons.person,
+//         size: 36,
+//         color: Colors.white,
+//       );
+//     }
+//   }
+
+//   Future<void> _downloadFile() async {
+//     try {
+//       final uri = Uri.tryParse(widget.downloadUrl);
+//       log("uri link: ${uri.toString()}");
+//       if (uri == null || uri.toString().isEmpty) {
+//         await NotificationService.showNotification(
+//           title: Preferences.getPreferredLanguage() == "Magyar"
+//               ? "Letöltési hiba"
+//               : "Download error",
+//           body: Preferences.getPreferredLanguage() == "Magyar"
+//               ? "A fájl nem található!"
+//               : "File not found!",
+//         );
+//         return;
+//       }
+
+//       final response = await http.get(uri);
+//       if (response.statusCode != 200) {
+//         await NotificationService.showNotification(
+//           title: Preferences.getPreferredLanguage() == "Magyar"
+//               ? "Letöltési hiba"
+//               : "Download error",
+//           body: Preferences.getPreferredLanguage() == "Magyar"
+//               ? "Nem sikerült letölteni a fájlt (Hiba kód: ${response.statusCode})!"
+//               : "Failed to download the file (Error code: ${response.statusCode})!",
+//         );
+//         return;
+//       }
+
+//       final downloadsPath = "/storage/emulated/0/Download";
+//       final filePath = "$downloadsPath/${widget.fileName}";
+//       final file = File(filePath);
+//       await file.writeAsBytes(response.bodyBytes);
+
+//       await NotificationService.showNotification(
+//         title: Preferences.getPreferredLanguage() == "Magyar"
+//             ? "Letöltés sikeres"
+//             : "Download successful",
+//         body: Preferences.getPreferredLanguage() == "Magyar"
+//             ? "${widget.fileName} elmentve ide:\n$filePath"
+//             : "${widget.fileName} saved to:\n$filePath",
+//       );
+//     } catch (e) {
+//       await NotificationService.showNotification(
+//         title: Preferences.getPreferredLanguage() == "Magyar"
+//             ? "Hiba történt"
+//             : "Error occurred",
+//         body: Preferences.getPreferredLanguage() == "Magyar"
+//             ? "Nem sikerült letölteni: ${e.toString()}"
+//             : "Failed to download: ${e.toString()}",
+//       );
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       onTap: _toggleDetails,
+//       child: Padding(
+//         padding: const EdgeInsets.only(left: 5, right: 5, top: 20),
+//         child: Row(
+//           mainAxisAlignment:
+//               widget.isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
+//           crossAxisAlignment: _showDetails
+//               ? CrossAxisAlignment.start
+//               : CrossAxisAlignment.start,
+//           children: [
+//             if (!widget.isSender)
+//               ClipOval(child: _buildProfileImage(widget.profileImage)),
+//             const SizedBox(width: 8),
+//             Column(
+//               crossAxisAlignment: widget.isSender
+//                   ? CrossAxisAlignment.end
+//                   : CrossAxisAlignment.start,
+//               children: [
+//                 Container(
+//                   constraints: BoxConstraints(
+//                     maxWidth: MediaQuery.of(context).size.width * 0.5,
+//                   ),
+//                   padding: const EdgeInsets.all(10),
+//                   decoration: BoxDecoration(
+//                     color: widget.isSender
+//                         ? Colors.deepPurpleAccent
+//                         : Colors.blueAccent,
+//                     borderRadius: BorderRadius.circular(15),
+//                   ),
+//                   child: Column(
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     children: [
+//                       if (widget.messageText != null &&
+//                           widget.messageText!.trim().isNotEmpty)
+//                         Padding(
+//                           padding: const EdgeInsets.only(bottom: 5),
+//                           child: Text(
+//                             widget.messageText!,
+//                             style: const TextStyle(
+//                               color: Colors.white,
+//                               fontSize: 16,
+//                               letterSpacing: 1,
+//                             ),
+//                           ),
+//                         ),
+//                       TextButton.icon(
+//                         style: TextButton.styleFrom(
+//                           backgroundColor: Colors.grey[800],
+//                           padding: const EdgeInsets.symmetric(
+//                             vertical: 5,
+//                             horizontal: 5,
+//                           ),
+//                           shape: RoundedRectangleBorder(
+//                             borderRadius: BorderRadius.circular(10),
+//                           ),
+//                         ),
+//                         onPressed: () => _downloadFile(),
+//                         icon: const Icon(
+//                           Icons.download_rounded,
+//                           color: Colors.white,
+//                           size: 24,
+//                         ),
+//                         label: Text(
+//                           widget.fileName,
+//                           style: const TextStyle(
+//                             color: Colors.white,
+//                             fontSize: 16,
+//                             letterSpacing: 1,
+//                           ),
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//                 if (_showDetails) ...[
+//                   const SizedBox(height: 4),
+//                   Text(
+//                     widget.sentAt,
+//                     style: TextStyle(
+//                       fontSize: 12,
+//                       fontStyle: FontStyle.italic,
+//                       color: Colors.grey[500],
+//                     ),
+//                   ),
+//                   if (widget.isSender)
+//                     Text(
+//                       widget.isRead
+//                           ? Preferences.getPreferredLanguage() == "Magyar"
+//                               ? "Látta"
+//                               : "Seen"
+//                           : Preferences.getPreferredLanguage() == "Magyar"
+//                               ? "Kézbesítve"
+//                               : "Delivered",
+//                       style: TextStyle(
+//                         fontSize: 12,
+//                         fontStyle: FontStyle.italic,
+//                         color: widget.isRead
+//                             ? Colors.greenAccent
+//                             : Colors.grey[500],
+//                       ),
+//                     ),
+//                 ]
+//               ],
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

@@ -7,6 +7,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:chatex/main/reset_password.dart';
 import 'package:chatex/main/sign_up.dart';
 import 'package:chatex/application/chat/build_ui.dart';
+import 'package:chatex/logic/notifications.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'package:chatex/logic/auth.dart';
@@ -17,11 +18,14 @@ import 'dart:developer';
 
 //TODO: keyboard submit után automatikusan zárja be a billentyűzetet
 
+//TODO: forgot password feliratnál egy kicsit nagyobb legyen a hely
+
 Future<void> main() async {
   final WidgetsBinding widgetsBinding =
       WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Preferences.init();
+  await NotificationService.initialize();
   FlutterNativeSplash.remove();
 
   final isLoggedIn = await tryAutoLogin();
