@@ -1,0 +1,13 @@
+1. C# console alkalmazás:
+adatbázisok beolvasása
+csv és json
+lista csinálása
+rekord megjelenítése
+
+2. winform
+json vagy csv - átkonvertálás mysqlbe
+responzív weboldal csinálása
+
+3. backend programozás
+node.js - npm - express - ejs template
+ugyanez frontendben
