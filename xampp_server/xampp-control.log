@@ -2299,3 +2299,84 @@
 22:55:39  [main] 	Deinitializing Modules
 22:55:39  [main] 	Deinitializing Control Panel
 
+22:15:29  [main] 	Initializing Control Panel
+22:15:29  [main] 	Windows Version:  Enterprise  64-bit
+22:15:29  [main] 	XAMPP Version: 8.2.12
+22:15:29  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+22:15:29  [main] 	Running with Administrator rights - good!
+22:15:29  [main] 	XAMPP Installation Directory: "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+22:15:29  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+22:15:29  [main] 	Checking for prerequisites
+22:15:29  [main] 	All prerequisites found
+22:15:29  [main] 	Initializing Modules
+22:15:29  [Apache] 	XAMPP Apache Service is already running on port 80
+22:15:29  [Apache] 	XAMPP Apache Service is already running on port 443
+22:15:29  [mysql] 	XAMPP MySQL Service is already running on port 3306
+22:15:29  [main] 	The Mercury module is disabled
+22:15:29  [main] 	The Tomcat module is disabled
+22:15:29  [main] 	Starting Check-Timer
+22:15:29  [main] 	Control Panel Ready
+22:15:59  [mysql] 	Attempting to stop MySQL service...
+22:16:00  [mysql] 	Status change detected: stopped
+22:16:01  [mysql] 	Attempting to start MySQL service...
+22:16:01  [mysql] 	Status change detected: running
+22:16:02  [Apache] 	Attempting to stop Apache service...
+22:16:05  [Apache] 	Status change detected: stopped
+22:16:05  [Apache] 	Attempting to start Apache service...
+22:16:06  [Apache] 	Status change detected: running
+23:06:40  [Apache] 	Attempting to stop Apache service...
+23:06:43  [Apache] 	Status change detected: stopped
+23:06:44  [mysql] 	Attempting to stop MySQL service...
+23:06:45  [mysql] 	Status change detected: stopped
+23:06:48  [main] 	Deinitializing Modules
+23:06:48  [main] 	Deinitializing Control Panel
+
+23:06:52  [main] 	Initializing Control Panel
+23:06:52  [main] 	Windows Version:  Enterprise  64-bit
+23:06:52  [main] 	XAMPP Version: 8.2.12
+23:06:52  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+23:06:52  [main] 	Running with Administrator rights - good!
+23:06:52  [main] 	XAMPP Installation Directory: "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+23:06:52  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+23:06:52  [main] 	Checking for prerequisites
+23:06:52  [main] 	All prerequisites found
+23:06:52  [main] 	Initializing Modules
+23:06:52  [main] 	The Mercury module is disabled
+23:06:52  [main] 	The Tomcat module is disabled
+23:06:52  [main] 	Starting Check-Timer
+23:06:52  [main] 	Control Panel Ready
+23:06:54  [Apache] 	Attempting to start Apache service...
+23:06:54  [Apache] 	Status change detected: running
+23:06:55  [mysql] 	Attempting to start MySQL service...
+23:06:56  [mysql] 	Status change detected: running
+23:56:14  [Apache] 	Attempting to stop Apache service...
+23:56:17  [Apache] 	Status change detected: stopped
+23:56:19  [mysql] 	Attempting to stop MySQL service...
+23:56:21  [mysql] 	Status change detected: stopped
+23:56:24  [main] 	Deinitializing Modules
+23:56:24  [main] 	Deinitializing Control Panel
+
+0:14:19  [main] 	Initializing Control Panel
+0:14:19  [main] 	Windows Version:  Enterprise  64-bit
+0:14:19  [main] 	XAMPP Version: 8.2.12
+0:14:19  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+0:14:19  [main] 	Running with Administrator rights - good!
+0:14:19  [main] 	XAMPP Installation Directory: "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+0:14:19  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+0:14:19  [main] 	Checking for prerequisites
+0:14:19  [main] 	All prerequisites found
+0:14:19  [main] 	Initializing Modules
+0:14:19  [Apache] 	XAMPP Apache Service is already running on port 80
+0:14:19  [Apache] 	XAMPP Apache Service is already running on port 443
+0:14:19  [mysql] 	XAMPP MySQL Service is already running on port 3306
+0:14:19  [main] 	The Mercury module is disabled
+0:14:19  [main] 	The Tomcat module is disabled
+0:14:19  [main] 	Starting Check-Timer
+0:14:19  [main] 	Control Panel Ready
+0:14:20  [Apache] 	Attempting to stop Apache service...
+0:14:23  [Apache] 	Status change detected: stopped
+0:14:31  [mysql] 	Attempting to stop MySQL service...
+0:14:32  [mysql] 	Status change detected: stopped
+0:14:36  [main] 	Deinitializing Modules
+0:14:36  [main] 	Deinitializing Control Panel
+
