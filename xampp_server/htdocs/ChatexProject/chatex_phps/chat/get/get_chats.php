@@ -28,7 +28,14 @@ $query = "
         u.signed_in,
 
         (
-            SELECT m.message_text
+            SELECT 
+                CASE
+                    WHEN m.message_text IS NOT NULL AND TRIM(m.message_text) != '' THEN m.message_text
+                    WHEN EXISTS (
+                        SELECT 1 FROM message_attachments ma WHERE ma.message_id = m.message_id
+                    ) THEN '[FILE]'
+                    ELSE ''
+                END
             FROM messages m
             WHERE m.chat_id = c.chat_id
             ORDER BY m.sent_at DESC

@@ -29,7 +29,21 @@ while ($row = $result->fetch_assoc()) {
         $attachments[] = $attachment;
     }
 
+    if (isset($row['message_text']) && trim($row['message_text']) === '') {
+        $row['message_text'] = null;
+    }
+
     $row['attachments'] = $attachments;
+
+    // 📌 Típus besorolása
+    if (!empty($row['message_text'])) {
+        $row['message_type'] = 'text';
+    } elseif (!empty($attachments)) {
+        $firstType = $attachments[0]['file_type'] ?? 'file';
+        $row['message_type'] = $firstType === 'image' ? 'image' : 'file';
+    } else {
+        $row['message_type'] = 'text';
+    }
 
     $messages[] = $row;
 }

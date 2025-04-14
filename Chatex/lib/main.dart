@@ -6,7 +6,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 //import 'package:device_preview/device_preview.dart'; //TODO: device_preview
 import 'package:chatex/main/reset_password.dart';
 import 'package:chatex/main/sign_up.dart';
-import 'package:chatex/application/chat/build_ui.dart';
+import 'package:chatex/application/components_of_chat/build_ui.dart';
 import 'package:chatex/logic/notifications.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'package:chatex/logic/preferences.dart';

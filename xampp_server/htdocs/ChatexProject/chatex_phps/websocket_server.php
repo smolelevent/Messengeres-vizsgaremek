@@ -60,7 +60,7 @@ class ChatServer implements MessageComponentInterface
                 $chatId = intval($data['chat_id']);
                 $senderId = intval($data['sender_id']);
                 $receiverId = intval($data['receiver_id']);
-                $messageText = trim($data['message_text']);
+                $messageText = isset($data['message_text']) && trim($data['message_text']) !== '' ? trim($data['message_text']) : null;
 
                 $stmt = $this->db->prepare("INSERT INTO messages (chat_id, sender_id, receiver_id, message_text) VALUES (?, ?, ?, ?)");
                 $stmt->bind_param("iiis", $chatId, $senderId, $receiverId, $messageText);
@@ -81,7 +81,7 @@ class ChatServer implements MessageComponentInterface
                 $chatId = intval($data['chat_id']);
                 $senderId = intval($data['sender_id']);
                 $receiverId = intval($data['receiver_id']);
-                $messageText = trim($data['message_text'] ?? '');
+                $messageText = isset($data['message_text']) && trim($data['message_text']) !== '' ? trim($data['message_text']) : null;
                 $files = $data['files'];
 
                 $stmt = $this->db->prepare("INSERT INTO messages (chat_id, sender_id, receiver_id, message_text) VALUES (?, ?, ?, ?)");

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:chatex/application/chat/build_ui.dart';
+import 'package:chatex/application/components_of_chat/build_ui.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'package:chatex/main.dart';

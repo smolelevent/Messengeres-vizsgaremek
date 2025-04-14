@@ -1,8 +1,8 @@
-import 'package:chatex/application/elements/elements_of_chat/bottom_nav_bar.dart'
+import 'package:chatex/application/components_of_ui/bottom_nav_bar.dart'
     as app;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:chatex/application/elements/elements_of_chat/people.dart'
+import 'package:chatex/application/components_of_ui/people.dart'
     as app;
 
 void main() {
