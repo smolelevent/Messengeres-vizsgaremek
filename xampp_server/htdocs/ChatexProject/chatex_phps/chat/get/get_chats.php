@@ -43,6 +43,14 @@ $query = "
         ) AS last_message,
 
         (
+            SELECT m.sender_id
+            FROM messages m
+            WHERE m.chat_id = c.chat_id
+            ORDER BY m.sent_at DESC
+            LIMIT 1
+        ) AS last_sender_id,
+
+        (
             SELECT m.sent_at
             FROM messages m
             WHERE m.chat_id = c.chat_id

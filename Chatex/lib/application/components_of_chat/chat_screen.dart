@@ -16,6 +16,7 @@ import 'package:chatex/logic/toast_message.dart';
 import 'dart:developer';
 import 'dart:convert';
 import 'dart:async';
+import 'dart:typed_data';
 //import 'dart:io';
 
 class ChatScreen extends StatefulWidget {
@@ -44,10 +45,6 @@ class ChatScreen extends StatefulWidget {
 
 //TODO: mindig frissül a pfp a php miatt
 
-//TODO: Te:
-
-//TODO: számláló ami a 5000 karaktert számolja, és ha elérjük akkor nem enged tovább gépelni
-
 //TODO: folytonossá tenni a people.dart-ot is
 
 class _ChatScreenState extends State<ChatScreen> {
@@ -55,6 +52,10 @@ class _ChatScreenState extends State<ChatScreen> {
   final ScrollController _scrollController = ScrollController();
   final FocusNode _inputFocusNode = FocusNode();
   bool _isInputFocused = false;
+
+  late String _currentStatus;
+  late String _currentLastSeen;
+  late int _currentSignedIn;
 
   bool get _showSendIcon {
     return _messageController.text.trim().isNotEmpty ||
@@ -70,9 +71,38 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Timer? _keepAliveTimer;
 
+  static const int _maxMessageLength = 5000;
+
+  ImageProvider? _cachedAppbarProfileImage;
+  Uint8List? _svgAppbarBytes;
+  ImageProvider? _cachedBubbleProfileImage;
+  Uint8List? _svgBubbleBytes;
+
   @override
   void initState() {
     super.initState();
+
+    // AppBar profilkép
+    if (widget.profileImage.startsWith("data:image/svg+xml;base64,")) {
+      _svgAppbarBytes = base64Decode(widget.profileImage.split(",")[1]);
+    } else if (widget.profileImage.startsWith("data:image/")) {
+      final base64Data = base64Decode(widget.profileImage.split(",")[1]);
+      _cachedAppbarProfileImage = MemoryImage(base64Data);
+    }
+
+    // Üzenetbuborék profilkép
+    if (widget.profileImage.startsWith("data:image/svg+xml;base64,")) {
+      _svgBubbleBytes = base64Decode(widget.profileImage.split(",")[1]);
+    } else if (widget.profileImage.startsWith("data:image/")) {
+      final base64Data = base64Decode(widget.profileImage.split(",")[1]);
+      _cachedBubbleProfileImage = MemoryImage(base64Data);
+    }
+
+    _currentStatus =
+        widget.isOnline; //TODO: nem működik jól, nem frissül egyből
+    _currentLastSeen = widget.lastSeen;
+    _currentSignedIn = widget.signedIn;
+
     _loadMessages();
     _connectToWebSocket();
     _markMessagesAsRead();
@@ -180,6 +210,12 @@ class _ChatScreenState extends State<ChatScreen> {
       Uri.parse("ws://10.0.2.2:8080"),
     );
 
+    // Auth küldése
+    _channel.sink.add(jsonEncode({
+      "message_type": "auth",
+      "user_id": Preferences.getUserId(),
+    }));
+
     log("Chat screen WebSocket connected");
 
     _channel.stream.listen((message) {
@@ -196,7 +232,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
       if (index != -1) return;
       final isForMe = data['receiver_id'] == Preferences.getUserId();
-      if (isForMe) {
+      if (isForMe && ModalRoute.of(context)?.isCurrent == true) {
         Future.delayed(const Duration(milliseconds: 500), () {
           _channel.sink.add(jsonEncode({
             "message_type": "read_status_update",
@@ -205,7 +241,7 @@ class _ChatScreenState extends State<ChatScreen> {
           }));
         });
       }
-
+//TODO: a kapcsolati hibákat bőbeszédebbé tenni, befejezni ma a képeket (jó lesz ez a fél valós idejű megvalósítás!)
       switch (type) {
         case 'file':
           final attachments = data['attachments'] ?? [];
@@ -252,6 +288,17 @@ class _ChatScreenState extends State<ChatScreen> {
           if (index != -1) {
             setState(() {
               _messages[index] = data;
+            });
+          }
+          break;
+//TODO: nem akarja frissíteni az appbar-ban a státuszt csak ha újra lépek!
+        case 'status_update':
+          final int updatedUserId = data['user_id'];
+          if (updatedUserId == widget.receiverId) {
+            setState(() {
+              _currentStatus = data['status'];
+              _currentLastSeen = data['last_seen'];
+              _currentSignedIn = data['signed_in'];
             });
           }
           break;
@@ -339,8 +386,9 @@ class _ChatScreenState extends State<ChatScreen> {
     };
 
     _channel.sink.add(jsonEncode(message));
-    scrollToBottom();
     _messageController.clear();
+    FocusScope.of(context).unfocus();
+    scrollToBottom();
   }
 
   void _sendFiles() {
@@ -363,9 +411,9 @@ class _ChatScreenState extends State<ChatScreen> {
     };
 
     _channel.sink.add(jsonEncode(message));
-    _attachedFiles.clear();
     _messageController.clear();
-
+    _attachedFiles.clear();
+    FocusScope.of(context).unfocus();
     scrollToBottom();
   }
 
@@ -394,7 +442,7 @@ class _ChatScreenState extends State<ChatScreen> {
   //   }
   // }
 
-  // Future<void> _sendImageFromCamera() async {
+  // Future<void> _sendImageFromCamera() async { //TODO: ezeket ha lehet
   //   final picker = ImagePicker();
   //   final picked = await picker.pickImage(source: ImageSource.camera);
 
@@ -419,7 +467,36 @@ class _ChatScreenState extends State<ChatScreen> {
   //   }
   // }
 
+  void _checkMessageLength() {
+    if (_messageController.text.length > _maxMessageLength) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(
+            Preferences.getPreferredLanguage() == "Magyar"
+                ? "Túl hosszú üzenet!"
+                : "Message too long!",
+          ),
+          content: Text(
+            Preferences.getPreferredLanguage() == "Magyar"
+                ? "Legfeljebb $_maxMessageLength karakter hosszú üzenetet lehet küldeni!"
+                : "You can send a message up to $_maxMessageLength characters!",
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("OK"),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+  }
+
   void _handleSend() {
+    _checkMessageLength();
+
     final hasText = _messageController.text.trim().isNotEmpty;
     final hasFiles = _attachedFiles.isNotEmpty;
 
@@ -467,7 +544,7 @@ class _ChatScreenState extends State<ChatScreen> {
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
           "chat_id": widget.chatId,
-          "user_id": widget.receiverId,
+          "user_id": Preferences.getUserId(), //az a receiver_id aki megkapja
         }),
       );
 
@@ -550,8 +627,7 @@ class _ChatScreenState extends State<ChatScreen> {
         leadingWidth: 55,
         title: Row(
           children: [
-            _buildProfileImage(
-                widget.profileImage, widget.isOnline, widget.signedIn),
+            _buildProfileImage(_currentStatus, _currentSignedIn),
             const SizedBox(width: 10),
             Expanded(
               child: Column(
@@ -566,13 +642,13 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                   Text(
-                    widget.isOnline == "online" && widget.signedIn == 1
+                    _currentStatus == "online" && _currentSignedIn == 1
                         ? (Preferences.getPreferredLanguage() == "Magyar"
                             ? "Elérhető"
                             : "Online")
                         : (Preferences.getPreferredLanguage() == "Magyar"
-                            ? "Utoljára elérhető: ${formatLastSeen(widget.lastSeen)}"
-                            : "Last seen: ${formatLastSeen(widget.lastSeen)}"),
+                            ? "Utoljára elérhető: ${formatLastSeen(_currentLastSeen)}"
+                            : "Last seen: ${formatLastSeen(_currentLastSeen)}"),
                     style: const TextStyle(
                       fontSize: 14,
                       color: Colors.grey,
@@ -596,21 +672,19 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Widget _buildProfileImage(String imageString, String isOnline, int signedIn) {
+  Widget _buildProfileImage(String isOnline, int signedIn) {
     Widget imageWidget;
 
-    if (imageString.startsWith("data:image/svg+xml;base64,")) {
-      final svgBytes = base64Decode(imageString.split(",")[1]);
+    if (_svgAppbarBytes != null) {
       imageWidget = SvgPicture.memory(
-        svgBytes,
+        _svgAppbarBytes!,
         width: 48,
         height: 48,
         fit: BoxFit.fill,
       );
-    } else if (imageString.startsWith("data:image/")) {
-      final base64Data = base64Decode(imageString.split(",")[1]);
-      imageWidget = Image.memory(
-        base64Data,
+    } else if (_cachedAppbarProfileImage != null) {
+      imageWidget = Image(
+        image: _cachedAppbarProfileImage!,
         width: 48,
         height: 48,
         fit: BoxFit.fill,
@@ -727,7 +801,8 @@ class _ChatScreenState extends State<ChatScreen> {
               sentAt: formatLastSeen(message['sent_at'] ?? ""),
               isSender: isSender,
               isRead: message['is_read'] == 1,
-              profileImage: isSender ? null : widget.profileImage,
+              svgProfileBytes: isSender ? null : _svgBubbleBytes,
+              cachedImage: isSender ? null : _cachedBubbleProfileImage,
               onTapScrollToBottom: scrollToBottom,
               isLastMessage: isLast,
             );
@@ -751,7 +826,8 @@ class _ChatScreenState extends State<ChatScreen> {
               sentAt: formatLastSeen(message['sent_at'] ?? ""),
               isSender: isSender,
               isRead: message['is_read'] == 1,
-              profileImage: isSender ? null : widget.profileImage,
+              svgProfileBytes: isSender ? null : _svgBubbleBytes,
+              cachedImage: isSender ? null : _cachedBubbleProfileImage,
               onTapScrollToBottom: scrollToBottom,
               isLastMessage: isLast,
             );
@@ -906,7 +982,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
                   if (result != null) {
                     final oversizedFiles = result.files
-                        .where((file) => file.size > 100 * 1024 * 1024)
+                        .where((file) =>
+                            file.size > 100 * 1024 * 1024) //100mb byte-ban
                         .toList();
                     final validFiles = result.files
                         .where((file) => file.size <= 100 * 1024 * 1024)
@@ -957,17 +1034,40 @@ class _ChatScreenState extends State<ChatScreen> {
                   color: Colors.grey[800],
                   borderRadius: BorderRadius.circular(25),
                 ),
-                child: TextField(
-                  controller: _messageController,
-                  focusNode: _inputFocusNode,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    hintText: Preferences.getPreferredLanguage() == "Magyar"
-                        ? "Kezdj el írni..."
-                        : "Start writing...",
-                    hintStyle: TextStyle(color: Colors.grey[400]),
-                    border: InputBorder.none,
-                  ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _messageController,
+                        focusNode: _inputFocusNode,
+                        style: const TextStyle(color: Colors.white),
+                        maxLines: null,
+                        minLines: 1,
+                        decoration: InputDecoration(
+                          hintText:
+                              Preferences.getPreferredLanguage() == "Magyar"
+                                  ? "Kezdj el írni..."
+                                  : "Start writing...",
+                          hintStyle: TextStyle(color: Colors.grey[400]),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                    if (_messageController.text.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: Text(
+                          "${_messageController.text.length}/$_maxMessageLength",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: _messageController.text.length >
+                                    _maxMessageLength
+                                ? Colors.redAccent
+                                : Colors.grey[400],
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
             ),

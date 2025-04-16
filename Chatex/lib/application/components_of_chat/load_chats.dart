@@ -69,11 +69,11 @@ class LoadedChatDataState extends State<LoadedChatData> {
     final int userId = Preferences.getUserId()!;
 
     setState(() {
-      _chatList = fetchChatListFromDatabase(userId);
+      _chatList = _getChatList(userId);
     });
   }
 
-  Future<List<dynamic>> fetchChatListFromDatabase(int userId) async {
+  Future<List<dynamic>> _getChatList(int userId) async {
     try {
       final Uri chatFetchUrl = Uri.parse(
           "http://10.0.2.2/ChatexProject/chatex_phps/chat/get/get_chats.php");
@@ -116,110 +116,131 @@ class LoadedChatDataState extends State<LoadedChatData> {
     }
   }
 
+  Widget _buildEmptyChatList() {
+    return Center(
+      child: RichText(
+        textAlign: TextAlign.center,
+        text: TextSpan(
+          style: const TextStyle(
+            color: Colors.white70,
+            fontSize: 20,
+          ),
+          children: [
+            TextSpan(
+              text: Preferences.getPreferredLanguage() == "Magyar"
+                  ? "Még nincs egyetlen csevegésed sem.\nKezdj el egyet a "
+                  : "You don't have any chats yet.\nStart one clicking on the ",
+            ),
+            const WidgetSpan(
+              child: Icon(
+                Icons.add_comment,
+                size: 20,
+                color: Colors.white,
+              ),
+            ),
+            TextSpan(
+              text: Preferences.getPreferredLanguage() == "Magyar"
+                  ? " ikonra kattintva!"
+                  : " icon!",
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildChatList() {
+    return FutureBuilder<List<dynamic>>(
+      future: _chatList,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(
+              strokeWidth: 3,
+              color: Colors.deepPurpleAccent,
+            ),
+          );
+        }
+
+        final chatList = snapshot.data ?? [];
+
+        if (chatList.isEmpty) {
+          return _buildEmptyChatList();
+        }
+        return ListView.builder(
+          itemCount: chatList.length,
+          itemBuilder: (context, index) {
+            final chat = chatList[index];
+
+            final String rawMessage =
+                chat["last_message"]?.toString().trim() ?? "";
+            final int? lastSenderId = chat["last_sender_id"];
+            final int currentUserId = Preferences.getUserId() ?? -1;
+
+            String prefix = "";
+            if (lastSenderId == currentUserId) {
+              prefix = Preferences.getPreferredLanguage() == "Magyar"
+                  ? "Te: "
+                  : "You: ";
+            }
+
+            String lastMessage;
+            if (rawMessage == "[FILE]") {
+              lastMessage = prefix +
+                  (Preferences.getPreferredLanguage() == "Magyar"
+                      ? "📎 Fájl csatolva"
+                      : "📎 File attached");
+            } else if (rawMessage == "[IMAGE]") {
+              //TODO: php-ban még nincs lekezelve
+              lastMessage = prefix +
+                  (Preferences.getPreferredLanguage() == "Magyar"
+                      ? "🖼️ Kép küldve"
+                      : "🖼️ Image sent");
+            } else if (rawMessage.isEmpty) {
+              lastMessage = Preferences.getPreferredLanguage() == "Magyar"
+                  ? "Nincs még üzenet"
+                  : "No message yet";
+            } else {
+              lastMessage = prefix + rawMessage;
+            }
+
+            return ChatTile(
+              chatName: chat["friend_name"],
+              profileImage: chat["friend_profile_picture"] ?? "",
+              lastMessage: lastMessage,
+              time: chat["last_message_time"] ?? "",
+              isOnline: chat["status"],
+              signedIn: chat["signed_in"],
+              unreadCount: chat["unread_count"] ?? 0,
+              onTap: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatScreen(
+                      receiverId: chat["friend_id"],
+                      chatName: chat["friend_name"],
+                      profileImage: chat["friend_profile_picture"] ?? "",
+                      lastSeen: chat["friend_last_seen"],
+                      isOnline: chat["status"],
+                      signedIn: chat["signed_in"],
+                      chatId: chat["chat_id"],
+                    ),
+                  ),
+                );
+                _getCorrectChatList();
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[850],
-      body: FutureBuilder<List<dynamic>>(
-        future: _chatList,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 3,
-                color: Colors.deepPurpleAccent,
-              ),
-            );
-          }
-
-          final chatList = snapshot.data ?? [];
-
-          if (chatList.isEmpty) {
-            return Center(
-              child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  style: const TextStyle(
-                    color: Colors.white70,
-                    fontSize: 20,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: Preferences.getPreferredLanguage() == "Magyar"
-                          ? "Még nincs egyetlen csevegésed sem.\nKezdj el egyet a "
-                          : "You don't have any chats yet.\nStart one clicking on the ",
-                    ),
-                    const WidgetSpan(
-                      child: Icon(
-                        Icons.add_comment,
-                        size: 20,
-                        color: Colors.white,
-                      ),
-                    ),
-                    TextSpan(
-                      text: Preferences.getPreferredLanguage() == "Magyar"
-                          ? " ikonra kattintva!"
-                          : " icon!",
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
-          return ListView.builder(
-            itemCount: chatList.length,
-            itemBuilder: (context, index) {
-              final chat = chatList[index];
-
-              String rawMessage = chat["last_message"]?.toString().trim() ?? "";
-
-              String lastMessage;
-              if (rawMessage == "[FILE]") {
-                lastMessage = Preferences.getPreferredLanguage() == "Magyar"
-                    ? "📎 Fájl csatolva"
-                    : "📎 File attached";
-              } else if (rawMessage == "[IMAGE]") {
-                lastMessage = Preferences.getPreferredLanguage() == "Magyar"
-                    ? "🖼️ Kép küldve"
-                    : "🖼️ Image sent";
-              } else if (rawMessage.isEmpty) {
-                lastMessage = Preferences.getPreferredLanguage() == "Magyar"
-                    ? "Nincs még üzenet"
-                    : "No message yet";
-              } else {
-                lastMessage = rawMessage;
-              }
-
-              return ChatTile(
-                chatName: chat["friend_name"],
-                profileImage: chat["friend_profile_picture"] ?? "",
-                lastMessage: lastMessage,
-                time: chat["last_message_time"] ?? "",
-                isOnline: chat["status"],
-                signedIn: chat["signed_in"],
-                unreadCount: chat["unread_count"] ?? 0,
-                onTap: () async {
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChatScreen(
-                        receiverId: chat["friend_id"],
-                        chatName: chat["friend_name"],
-                        profileImage: chat["friend_profile_picture"] ?? "",
-                        lastSeen: chat["friend_last_seen"],
-                        isOnline: chat["status"],
-                        signedIn: chat["signed_in"],
-                        chatId: chat["chat_id"],
-                      ),
-                    ),
-                  );
-                  _getCorrectChatList();
-                },
-              );
-            },
-          );
-        },
-      ),
+      body: _buildChatList(),
     );
   }
 }

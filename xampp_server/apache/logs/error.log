@@ -2388,3 +2388,38 @@
 [Mon Apr 14 23:14:31.424243 2025] [mpm_winnt:notice] [pid 3852:tid 452] AH00422: Parent: Received shutdown signal -- Shutting down the server.
 [Mon Apr 14 23:14:33.489303 2025] [mpm_winnt:notice] [pid 7024:tid 484] AH00364: Child: All worker threads have exited.
 [Mon Apr 14 23:14:33.639225 2025] [mpm_winnt:notice] [pid 3852:tid 452] AH00430: Parent: Child process 7024 exited successfully.
+[Tue Apr 15 10:48:39.389274 2025] [ssl:warn] [pid 3956:tid 176] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Tue Apr 15 10:48:39.436527 2025] [ssl:warn] [pid 3956:tid 176] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Tue Apr 15 10:48:39.671639 2025] [mpm_winnt:notice] [pid 3956:tid 176] AH00455: Apache/2.4.58 (Win64) OpenSSL/3.1.3 PHP/8.2.12 configured -- resuming normal operations
+[Tue Apr 15 10:48:39.671639 2025] [mpm_winnt:notice] [pid 3956:tid 176] AH00456: Apache Lounge VS17 Server built: Oct 18 2023 13:03:18
+[Tue Apr 15 10:48:39.671639 2025] [core:notice] [pid 3956:tid 176] AH00094: Command line: 'C:\\Users\\Levi\\Desktop\\szakmai\\dualis\\13.d\\git repok\\messengeres-vizsgaremek\\xampp_server\\apache\\bin\\httpd.exe -d C:/Users/Levi/Desktop/Szakmai/dualis/13.d/Git repok/Messengeres-vizsgaremek/xampp_server/apache'
+[Tue Apr 15 10:48:39.671639 2025] [mpm_winnt:notice] [pid 3956:tid 176] AH00418: Parent: Created child process 7032
+[Tue Apr 15 10:48:39.969629 2025] [ssl:warn] [pid 7032:tid 488] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Tue Apr 15 10:48:40.000871 2025] [ssl:warn] [pid 7032:tid 488] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Tue Apr 15 10:48:40.032502 2025] [mpm_winnt:notice] [pid 7032:tid 488] AH00354: Child: Starting 150 worker threads.
+[Tue Apr 15 15:57:07.788422 2025] [ssl:warn] [pid 3900:tid 424] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Tue Apr 15 15:57:07.835670 2025] [core:warn] [pid 3900:tid 424] AH00098: pid file C:/Users/Levi/Desktop/Szakmai/dualis/13.d/Git repok/Messengeres-vizsgaremek/xampp_server/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Tue Apr 15 15:57:07.835670 2025] [ssl:warn] [pid 3900:tid 424] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Tue Apr 15 15:57:08.290251 2025] [mpm_winnt:notice] [pid 3900:tid 424] AH00455: Apache/2.4.58 (Win64) OpenSSL/3.1.3 PHP/8.2.12 configured -- resuming normal operations
+[Tue Apr 15 15:57:08.290251 2025] [mpm_winnt:notice] [pid 3900:tid 424] AH00456: Apache Lounge VS17 Server built: Oct 18 2023 13:03:18
+[Tue Apr 15 15:57:08.290251 2025] [core:notice] [pid 3900:tid 424] AH00094: Command line: 'C:\\Users\\Levi\\Desktop\\szakmai\\dualis\\13.d\\git repok\\messengeres-vizsgaremek\\xampp_server\\apache\\bin\\httpd.exe -d C:/Users/Levi/Desktop/Szakmai/dualis/13.d/Git repok/Messengeres-vizsgaremek/xampp_server/apache'
+[Tue Apr 15 15:57:08.290251 2025] [mpm_winnt:notice] [pid 3900:tid 424] AH00418: Parent: Created child process 6540
+[Tue Apr 15 15:57:08.625029 2025] [ssl:warn] [pid 6540:tid 508] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Tue Apr 15 15:57:08.651157 2025] [ssl:warn] [pid 6540:tid 508] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Tue Apr 15 15:57:08.682400 2025] [mpm_winnt:notice] [pid 6540:tid 508] AH00354: Child: Starting 150 worker threads.
+[Tue Apr 15 23:47:24.902696 2025] [mpm_winnt:notice] [pid 3900:tid 424] AH00422: Parent: Received shutdown signal -- Shutting down the server.
+[Tue Apr 15 23:47:26.964889 2025] [mpm_winnt:notice] [pid 6540:tid 508] AH00364: Child: All worker threads have exited.
+[Tue Apr 15 23:47:34.150675 2025] [mpm_winnt:notice] [pid 3900:tid 424] AH00430: Parent: Child process 6540 exited successfully.
+[Wed Apr 16 10:04:29.384235 2025] [ssl:warn] [pid 4016:tid 452] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Apr 16 10:04:29.431100 2025] [ssl:warn] [pid 4016:tid 452] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Apr 16 10:04:29.697844 2025] [mpm_winnt:notice] [pid 4016:tid 452] AH00455: Apache/2.4.58 (Win64) OpenSSL/3.1.3 PHP/8.2.12 configured -- resuming normal operations
+[Wed Apr 16 10:04:29.697844 2025] [mpm_winnt:notice] [pid 4016:tid 452] AH00456: Apache Lounge VS17 Server built: Oct 18 2023 13:03:18
+[Wed Apr 16 10:04:29.697844 2025] [core:notice] [pid 4016:tid 452] AH00094: Command line: 'C:\\Users\\Levi\\Desktop\\szakmai\\dualis\\13.d\\git repok\\messengeres-vizsgaremek\\xampp_server\\apache\\bin\\httpd.exe -d C:/Users/Levi/Desktop/Szakmai/dualis/13.d/Git repok/Messengeres-vizsgaremek/xampp_server/apache'
+[Wed Apr 16 10:04:29.697844 2025] [mpm_winnt:notice] [pid 4016:tid 452] AH00418: Parent: Created child process 7084
+[Wed Apr 16 10:04:29.995823 2025] [ssl:warn] [pid 7084:tid 484] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Apr 16 10:04:30.027066 2025] [ssl:warn] [pid 7084:tid 484] AH01909: www.example.com:443:0 server certificate does NOT include an ID which matches the server name
+[Wed Apr 16 10:04:30.058703 2025] [mpm_winnt:notice] [pid 7084:tid 484] AH00354: Child: Starting 150 worker threads.
+[Wed Apr 16 11:24:02.602811 2025] [mpm_winnt:error] [pid 7084:tid 4500] AH00326: Server ran out of threads to serve requests. Consider raising the ThreadsPerChild setting
+[Wed Apr 16 17:11:05.543779 2025] [mpm_winnt:notice] [pid 4016:tid 452] AH00422: Parent: Received shutdown signal -- Shutting down the server.
+[Wed Apr 16 17:11:07.607444 2025] [mpm_winnt:notice] [pid 7084:tid 484] AH00364: Child: All worker threads have exited.
+[Wed Apr 16 17:11:09.311375 2025] [mpm_winnt:notice] [pid 4016:tid 452] AH00430: Parent: Child process 7084 exited successfully.

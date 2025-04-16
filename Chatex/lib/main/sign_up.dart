@@ -456,7 +456,7 @@ class _SignUpState extends State<SignUp> {
           ),
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          labelText: _isPasswordConfirmFocused //TODO: ilyen szarokat átírni
+          labelText: _isPasswordConfirmFocused
               ? widget.language == "Magyar"
                   ? "Jelszó újra"
                   : "Confirm password"

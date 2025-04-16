@@ -12,19 +12,21 @@ import 'package:chatex/logic/notifications.dart';
 import 'package:chatex/logic/preferences.dart';
 //import 'package:chatex/logic/toast_message.dart';
 import 'dart:developer';
-import 'dart:convert';
+//import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 
 class FileChatBubble extends StatefulWidget {
   const FileChatBubble({
     super.key,
     required this.fileNames,
     required this.downloadUrls,
+    this.messageText,
     required this.isSender,
     required this.sentAt,
-    this.messageText,
-    this.profileImage,
+    this.svgProfileBytes,
+    this.cachedImage,
     this.isRead = false,
     this.onTapScrollToBottom,
     this.isLastMessage = false,
@@ -35,7 +37,8 @@ class FileChatBubble extends StatefulWidget {
   final String? messageText;
   final bool isSender;
   final String sentAt;
-  final String? profileImage;
+  final Uint8List? svgProfileBytes;
+  final ImageProvider<Object>? cachedImage;
   final bool isRead;
   final VoidCallback? onTapScrollToBottom;
   final bool isLastMessage;
@@ -83,26 +86,17 @@ class _FileChatBubbleState extends State<FileChatBubble> {
     }
   }
 
-  Widget _buildProfileImage(String? imageString) {
-    if (imageString == null || imageString.isEmpty) {
-      return const Icon(
-        Icons.person,
-        size: 36,
-        color: Colors.white,
-      );
-    }
-    if (imageString.startsWith("data:image/svg+xml;base64,")) {
-      final svgBytes = base64Decode(imageString.split(",")[1]);
+  Widget _buildProfileImage() {
+    if (widget.svgProfileBytes != null) {
       return SvgPicture.memory(
-        svgBytes,
+        widget.svgProfileBytes!,
         width: 36,
         height: 36,
         fit: BoxFit.fill,
       );
-    } else if (imageString.startsWith("data:image/")) {
-      final base64Data = base64Decode(imageString.split(",")[1]);
-      return Image.memory(
-        base64Data,
+    } else if (widget.cachedImage != null) {
+      return Image(
+        image: widget.cachedImage!,
         width: 36,
         height: 36,
         fit: BoxFit.fill,
@@ -130,7 +124,8 @@ class _FileChatBubbleState extends State<FileChatBubble> {
               : CrossAxisAlignment.start,
           children: [
             if (!widget.isSender)
-              ClipOval(child: _buildProfileImage(widget.profileImage)),
+              //ClipOval(child: _buildProfileImage(widget.profileImage)),
+              ClipOval(child: _buildProfileImage()),
             const SizedBox(width: 8),
             Column(
               crossAxisAlignment: widget.isSender
