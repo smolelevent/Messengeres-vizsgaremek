@@ -56,13 +56,12 @@ class _LanguageSettingState extends State<LanguageSetting> {
             ? "Nyelvek"
             : "Languages",
       ),
-      backgroundColor: Colors.deepPurpleAccent,
-      foregroundColor: Colors.white,
+      backgroundColor: Colors.black,
+      foregroundColor: Colors.deepPurpleAccent,
       shadowColor: Colors.deepPurpleAccent,
       elevation: 10,
       centerTitle: true,
       titleTextStyle: const TextStyle(
-        color: Colors.white,
         fontSize: 22,
         fontWeight: FontWeight.bold,
         letterSpacing: 1,

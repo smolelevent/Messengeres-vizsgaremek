@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-//import 'package:file_picker/file_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-//import 'package:web_socket_channel/web_socket_channel.dart';
-//import 'package:image_picker/image_picker.dart';
-//import 'package:open_file/open_file.dart';
-//import 'package:permission_handler/permission_handler.dart';
 import 'package:chatex/logic/notifications.dart';
 import 'package:chatex/logic/preferences.dart';
-//import 'package:chatex/logic/toast_message.dart';
 import 'dart:developer';
-//import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
@@ -74,13 +67,13 @@ class _FileChatBubbleState extends State<FileChatBubble> {
       await file.writeAsBytes(response.bodyBytes);
 
       await NotificationService.showNotification(
-        title: "✅ Letöltés kész",
+        title: "Letöltés kész",
         body: "${widget.fileNames[index]} elmentve ide:\n$filePath",
       );
     } catch (e) {
       log("Fájl letöltési hiba: ${e.toString()}");
       await NotificationService.showNotification(
-        title: "❌ Hiba",
+        title: "Hiba",
         body: "Letöltési hiba!",
       );
     }

@@ -9,6 +9,7 @@ import 'package:chatex/application/components_of_chat/load_chats.dart';
 import 'package:chatex/application/components_of_chat/components_of_chat_screen/message_chat_bubble.dart';
 import 'package:chatex/application/components_of_chat/components_of_chat_screen/file_chat_bubble.dart';
 import 'package:chatex/application/components_of_chat/components_of_chat_screen/image_chat_bubble.dart';
+import 'package:chatex/application/components_of_chat/components_of_chat_screen/chat_information.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'dart:developer';
@@ -219,22 +220,12 @@ class _ChatScreenState extends State<ChatScreen> {
           }
 
           setState(() {
-            // // Ha van szöveg, előbb egy szöveges buborék jelenjen meg
-            // if ((data['message_text'] ?? '').toString().trim().isNotEmpty) {
-            //   _messages.add({
-            //     ...data,
-            //     'message_type': 'text',
-            //   });
-            // } mentés
-
-            // Majd egy külön fájl buborék <- mentés
             _messages.add({
               ...data,
               'message_type': 'file',
               'fileNames': fileNames,
               'downloadUrls': downloadUrls,
-              'message_text': data[
-                  'message_text'], // ne jelenjen meg még egyszer ITT NULL VOLT MENTÉS
+              'message_text': data['message_text'],
             });
           });
 
@@ -322,29 +313,7 @@ class _ChatScreenState extends State<ChatScreen> {
           downloadUrls.add(att['download_url']);
         }
 
-        // final hasText =
-        //     (message['message_text']?.toString().trim().isNotEmpty ?? false);
-
-        // if ((messageType == 'file' || messageType == 'image') && hasText) {
-        //   // 1️⃣ Először a szöveg buborék
-        //   loadedMessages.add({
-        //     ...message,
-        //     'message_type': 'text',
-        //     'attachments': [],
-        //   });
-
-        //   // 2️⃣ A fájl vagy kép külön
-        //   loadedMessages.add({
-        //     ...message,
-        //     'message_type': messageType,
-        //     'fileNames': fileNames,
-        //     'downloadUrls': downloadUrls,
-        //     'message_text': null, // ne ismételje meg a szöveget
-        //   });
-        // } mentés
-
         if (messageType == 'file' || messageType == 'image') {
-          //ez else if volt
           loadedMessages.add({
             ...message,
             'message_type': messageType,
@@ -367,7 +336,7 @@ class _ChatScreenState extends State<ChatScreen> {
       scrollToBottom();
     } else {
       ToastMessages.showToastMessages(
-        Preferences.getPreferredLanguage() == "Magyar"
+        lang == "Magyar"
             ? "Kapcsolati hiba az üzenetek betöltésénél!"
             : "Connection error by getting messages!",
         0.2,
@@ -381,68 +350,6 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  // Future<void> _loadMessages() async { mentés
-  //   final response = await http.post(
-  //     Uri.parse(
-  //         "http://10.0.2.2/ChatexProject/chatex_phps/chat/get/get_messages.php"),
-  //     headers: {"Content-Type": "application/json"},
-  //     body: jsonEncode({"chat_id": widget.chatId}),
-  //   );
-
-  //   if (response.statusCode == 200) {
-  //     final responseData = jsonDecode(response.body);
-  //     final List<Map<String, dynamic>> loadedMessages = [];
-
-  //     for (final message in responseData['messages']) {
-  //       final messageType = message['message_type'];
-
-  //       if (messageType == 'file' || messageType == 'image') {
-  //         final attachments = message['attachments'] ?? [];
-
-  //         final fileNames = <String>[];
-  //         final downloadUrls = <String>[];
-
-  //         for (final att in attachments) {
-  //           fileNames.add(att['file_name']);
-  //           downloadUrls.add(att['download_url']);
-  //         }
-
-  //         loadedMessages.add({
-  //           ...message,
-  //           'fileNames': fileNames,
-  //           'downloadUrls': downloadUrls,
-  //           'message_text':
-  //               (message['message_text']?.toString().trim().isEmpty ?? true)
-  //                   ? null
-  //                   : message['message_text'],
-  //         });
-  //       } else {
-  //         loadedMessages.add(message);
-  //       }
-  //     }
-
-  //     //elrendezzük az üzenetek adatait és megjelenítjük őket
-  //     setState(() {
-  //       _messages = loadedMessages;
-  //     });
-
-  //     scrollToBottom();
-  //   } else {
-  //     ToastMessages.showToastMessages(
-  //       Preferences.getPreferredLanguage() == "Magyar"
-  //           ? "Kapcsolati hiba az üzenetek betöltésénél!"
-  //           : "Connection error by getting messages!",
-  //       0.2,
-  //       Colors.redAccent,
-  //       Icons.error,
-  //       Colors.black,
-  //       const Duration(seconds: 2),
-  //       context,
-  //     );
-  //     log("Hiba történt az üzenetek lekérésekor: ${response.body}");
-  //   }
-  // }
-
   void _sendMessage() {
     final message = {
       "message_type": "text",
@@ -453,11 +360,7 @@ class _ChatScreenState extends State<ChatScreen> {
     };
 
     //üzenet küldés a websocket szerveren keresztűl megy az adatbázisba,
-    //illetve töröljük a tartalmát és a focust a textmezőről, és letekerünk a chat aljára
     _channel.sink.add(jsonEncode(message));
-    // _messageController.clear();
-    // FocusScope.of(context).unfocus();
-    // scrollToBottom();
   }
 
   Future<void> _sendFiles() async {
@@ -495,11 +398,17 @@ class _ChatScreenState extends State<ChatScreen> {
     }
 
     if (oversizedFiles.isNotEmpty) {
-      _showContentTooLargeDialog(
+      _showContentDialog(
         "A fájlok mérete túl nagy!",
         "The files are too large!",
         "Csak 100 MB vagy alatti fájlokat lehet küldeni!",
         "You can only send files up to 100 MB!",
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("OK"),
+          ),
+        ],
       );
       return;
     }
@@ -528,19 +437,11 @@ class _ChatScreenState extends State<ChatScreen> {
       "sender_id": userId,
       "receiver_id": widget.receiverId,
       "message_text": messageText,
-      // _messageController.text.trim().isEmpty
-      //     ? null
-      //     : _messageController.text.trim(),
       "files": files,
     };
 
-//"message_text": _messageController.text.trim(), régibe ez volt
     log("📤 Küldés fájlokkal: ${jsonEncode(message)}");
     _channel.sink.add(jsonEncode(message));
-    // _messageController.clear();
-    // _attachedFiles.clear();
-    // FocusScope.of(context).unfocus();
-    // scrollToBottom();
   }
 
   Future<void> _sendImageFromCamera() async {
@@ -550,11 +451,18 @@ class _ChatScreenState extends State<ChatScreen> {
     final bytes = await picked.readAsBytes();
     if (bytes.length > 50 * 1024 * 1024) {
       //maximum 50MB a kép küldés limitje
-      _showContentTooLargeDialog(
-          "A képek mérete túl nagy!",
-          "The images are too large!",
-          "Csak 50 MB vagy alatti képeket lehet küldeni!",
-          "You can only send files up to 50 MB!");
+      _showContentDialog(
+        "A képek mérete túl nagy!",
+        "The images are too large!",
+        "Csak 50 MB vagy alatti képeket lehet küldeni!",
+        "You can only send files up to 50 MB!",
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("OK"),
+          ),
+        ],
+      );
       return;
     }
 
@@ -576,7 +484,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
     //egyből elküldjük a képet
     _channel.sink.add(jsonEncode(message));
-    //scrollToBottom();
   }
 
   Future<void> _sendImageFromGallery() async {
@@ -605,11 +512,18 @@ class _ChatScreenState extends State<ChatScreen> {
     }
 
     if (oversized.isNotEmpty) {
-      _showContentTooLargeDialog(
-          "A képek mérete túl nagy!",
-          "The images are too large!",
-          "Csak 50 MB vagy alatti képeket lehet küldeni!",
-          "You can only send files up to 50 MB!");
+      _showContentDialog(
+        "A képek mérete túl nagy!",
+        "The images are too large!",
+        "Csak 50 MB vagy alatti képeket lehet küldeni!",
+        "You can only send files up to 50 MB!",
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("OK"),
+          ),
+        ],
+      );
       return;
     }
 
@@ -637,9 +551,6 @@ class _ChatScreenState extends State<ChatScreen> {
       "sender_id": userId,
       "receiver_id": widget.receiverId,
       "message_text": messageText,
-      // _messageController.text.trim().isEmpty
-      //     ? null
-      //     : _messageController.text.trim(),
       "images": images,
     };
 
@@ -724,6 +635,38 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  Future<void> _deleteMessage(int messageId) async {
+    try {
+      final response = await http.post(
+        Uri.parse(
+            "http://10.0.2.2/ChatexProject/chatex_phps/chat/set/delete_message.php"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "message_id": messageId,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        setState(() {
+          _messages.removeWhere((msg) => msg['message_id'] == messageId);
+        });
+      }
+    } catch (e) {
+      ToastMessages.showToastMessages(
+        Preferences.getPreferredLanguage() == "Magyar"
+            ? "Kapcsolati hiba\naz üzenet törlésénél!"
+            : "Connection error by\ndeleting message!",
+        0.2,
+        Colors.redAccent,
+        Icons.error,
+        Colors.black,
+        const Duration(seconds: 3),
+        context,
+      );
+      log("Nem sikerült törölni az üzenetet: $e");
+    }
+  }
+
 //ÜZENET KÜLDŐ/KEZELŐ METÓDUSOK VÉGE --------------------------------------------------------------
 
 //EGYÉB KIEGÉSZÍTŐ METÓDUSOK ELEJE ----------------------------------------------------------------
@@ -780,26 +723,68 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  void _showContentTooLargeDialog(String hunTitleString, String engTitleString,
-      String hunContentString, String engContentString) {
+  void _showContentDialog(String hunTitleString, String engTitleString,
+      String hunContentString, String engContentString,
+      {List<Widget>? actions}) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
+          backgroundColor: Colors.grey[850],
+          elevation: 10,
+          shadowColor: Colors.deepPurpleAccent,
           title: AutoSizeText(
             lang == "Magyar" ? hunTitleString : engTitleString,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
           content: AutoSizeText(
             lang == "Magyar" ? hunContentString : engContentString,
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("OK"),
+            style: const TextStyle(
+              fontSize: 18,
+              color: Colors.white,
+              letterSpacing: 1,
             ),
-          ],
+          ),
+          actions: actions ?? [],
         );
       },
+    );
+  }
+
+  void _showDeleteDialog(int messageId) {
+    _showContentDialog(
+      "Törlés",
+      "Delete",
+      "Biztosan törölni szeretnéd ezt az üzenetet?",
+      "Are you sure you want to delete this message?",
+      actions: [
+        TextButton(
+          child: Text(
+            lang == "Magyar" ? "Mégse" : "Cancel",
+            style: const TextStyle(
+              color: Colors.white,
+              letterSpacing: 1,
+            ),
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
+        TextButton(
+          child: Text(
+            lang == "Magyar" ? "Törlés" : "Delete",
+            style: const TextStyle(
+              color: Colors.redAccent,
+              letterSpacing: 1,
+            ),
+          ),
+          onPressed: () async {
+            Navigator.pop(context);
+            await _deleteMessage(messageId);
+          },
+        ),
+      ],
     );
   }
 
@@ -814,28 +799,21 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _checkMessageLength() {
-    //TODO: EGYSÉGESÍTENI
     if (_messageController.text.length > _maxMessageLength) {
       //jelenleg 5000-re van rakva mind itt Dart-on és mind az adatbázisba!
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: AutoSizeText(
-            lang == "Magyar" ? "Túl hosszú üzenet!" : "Message too long!",
+      _showContentDialog(
+        "Túl hosszú üzenet!",
+        "Message too long!",
+        "Legfeljebb $_maxMessageLength karakter hosszú üzenetet lehet küldeni!",
+        "You can send a message up to $_maxMessageLength characters!",
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("OK"),
           ),
-          content: AutoSizeText(
-            lang == "Magyar"
-                ? "Legfeljebb $_maxMessageLength karakter hosszú üzenetet lehet küldeni!"
-                : "You can send a message up to $_maxMessageLength characters!",
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("OK"),
-            ),
-          ],
-        ),
+        ],
       );
+
       return;
     }
   }
@@ -932,7 +910,12 @@ class _ChatScreenState extends State<ChatScreen> {
               engTooltip: "User Information",
               icon: Icons.info,
               onPressed: () {
-                //TODO: felhasználó információi CHAT TÖLÉST ÉS JÓL VAN AZ ÚGY
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatInfoScreen(chatId: widget.chatId),
+                  ),
+                );
               },
             ),
           ],
@@ -1061,44 +1044,66 @@ class _ChatScreenState extends State<ChatScreen> {
             final downloadUrls =
                 List<String>.from(message['downloadUrls'] ?? []);
 
-            return FileChatBubble(
-              fileNames: fileNames,
-              downloadUrls: downloadUrls,
-              messageText: message['message_text'],
-              sentAt: formatLastSeen(message['sent_at'] ?? ""),
-              isSender: isSender,
-              isRead: message['is_read'] == 1,
-              svgProfileBytes: isSender ? null : _cachedMessageSvgBytes,
-              cachedImage: isSender ? null : _cachedMessageProfilePicture,
-              onTapScrollToBottom: scrollToBottom,
-              isLastMessage: isLast,
+            return GestureDetector(
+              onLongPress: () {
+                if (message['sender_id'] == userId) {
+                  _showDeleteDialog(message['message_id']);
+                }
+              },
+              child: FileChatBubble(
+                fileNames: fileNames,
+                downloadUrls: downloadUrls,
+                messageText: message['message_text'],
+                sentAt: formatLastSeen(message['sent_at'] ?? ""),
+                isSender: isSender,
+                isRead: message['is_read'] == 1,
+                svgProfileBytes: isSender ? null : _cachedMessageSvgBytes,
+                cachedImage: isSender ? null : _cachedMessageProfilePicture,
+                onTapScrollToBottom: scrollToBottom,
+                isLastMessage: isLast,
+              ),
             );
 
           case 'image':
             final imageUrls = List<String>.from(message['downloadUrls'] ?? []);
-            return ImageChatBubble(
-              imageUrls: imageUrls,
-              messageText: message['message_text'],
-              sentAt: formatLastSeen(message['sent_at'] ?? ""),
-              isSender: isSender,
-              isRead: message['is_read'] == 1,
-              svgProfileBytes: isSender ? null : _cachedMessageSvgBytes,
-              cachedImage: isSender ? null : _cachedMessageProfilePicture,
-              onTapScrollToBottom: scrollToBottom,
-              isLastMessage: isLast,
+
+            return GestureDetector(
+              onLongPress: () {
+                if (message['sender_id'] == userId) {
+                  _showDeleteDialog(message['message_id']);
+                }
+              },
+              child: ImageChatBubble(
+                imageUrls: imageUrls,
+                messageText: message['message_text'],
+                sentAt: formatLastSeen(message['sent_at'] ?? ""),
+                isSender: isSender,
+                isRead: message['is_read'] == 1,
+                svgProfileBytes: isSender ? null : _cachedMessageSvgBytes,
+                cachedImage: isSender ? null : _cachedMessageProfilePicture,
+                onTapScrollToBottom: scrollToBottom,
+                isLastMessage: isLast,
+              ),
             );
 
           case 'text':
           default:
-            return MessageChatBubble(
-              messageText: message['message_text'] ?? "",
-              sentAt: formatLastSeen(message['sent_at'] ?? ""),
-              isSender: isSender,
-              isRead: message['is_read'] == 1,
-              svgProfileBytes: isSender ? null : _cachedMessageSvgBytes,
-              cachedImage: isSender ? null : _cachedMessageProfilePicture,
-              onTapScrollToBottom: scrollToBottom,
-              isLastMessage: isLast,
+            return GestureDetector(
+              onLongPress: () {
+                if (message['sender_id'] == userId) {
+                  _showDeleteDialog(message['message_id']);
+                }
+              },
+              child: MessageChatBubble(
+                messageText: message['message_text'] ?? "",
+                sentAt: formatLastSeen(message['sent_at'] ?? ""),
+                isSender: isSender,
+                isRead: message['is_read'] == 1,
+                svgProfileBytes: isSender ? null : _cachedMessageSvgBytes,
+                cachedImage: isSender ? null : _cachedMessageProfilePicture,
+                onTapScrollToBottom: scrollToBottom,
+                isLastMessage: isLast,
+              ),
             );
         }
       },
@@ -1308,7 +1313,13 @@ class _ChatScreenState extends State<ChatScreen> {
               hunTooltip: _showSendIcon ? "Üzenet küldése" : "Emoji gomb",
               engTooltip: _showSendIcon ? "Send message" : "Emoji button",
               icon: _showSendIcon ? Icons.send_rounded : Icons.thumb_up_rounded,
-              onPressed: _handleSend, //TODO: emoji nem csinál semmit!
+              onPressed: _showSendIcon
+                  ? _handleSend
+                  : () {
+                      _messageController.text =
+                          "👍"; //like emoji küldése gyors üzenetként
+                      _handleSend();
+                    },
             ),
           ],
         ),

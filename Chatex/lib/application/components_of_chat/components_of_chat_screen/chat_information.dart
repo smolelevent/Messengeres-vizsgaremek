@@ -1,0 +1,122 @@
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:chatex/application/components_of_chat/load_chats.dart';
+import 'package:chatex/application/components_of_chat/build_ui.dart';
+import 'package:chatex/logic/toast_message.dart';
+import 'dart:convert';
+import 'dart:developer';
+
+class ChatInfoScreen extends StatelessWidget {
+  const ChatInfoScreen({
+    super.key,
+    required this.chatId,
+  });
+
+  final int chatId;
+
+  Future<void> _deleteChat(BuildContext context) async {
+    try {
+      final response = await http.post(
+        Uri.parse(
+            "http://10.0.2.2/ChatexProject/chatex_phps/chat/set/delete_chat.php"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "chat_id": chatId,
+          "user_id": userId,
+        }),
+      );
+
+      final responseData = jsonDecode(response.body);
+      if (responseData["success"] == true) {
+        ToastMessages.showToastMessages(
+          lang == "Magyar"
+              ? "A beszélgetés sikeresen törölve lett!"
+              : "Chat deleted successfully!",
+          0.2,
+          Colors.green,
+          Icons.check_rounded,
+          Colors.black,
+          const Duration(seconds: 4),
+          context,
+        );
+
+        Future.delayed(const Duration(seconds: 4), () {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => const ChatUI()),
+            (route) => false, // minden route-ot töröl
+          );
+        });
+      } else {
+        ToastMessages.showToastMessages(
+          lang == "Magyar"
+              ? "Hiba történt a törlés során!"
+              : "Failed to delete chat!",
+          0.2,
+          Colors.redAccent,
+          Icons.error,
+          Colors.black,
+          const Duration(seconds: 4),
+          context,
+        );
+        log("Chat törlés sikertelen: ${response.body}");
+      }
+    } catch (e) {
+      ToastMessages.showToastMessages(
+        lang == "Magyar"
+            ? "Kapcsolati hiba a chat törlése közben!"
+            : "Connection error while deleting chat!",
+        0.2,
+        Colors.redAccent,
+        Icons.error,
+        Colors.black,
+        const Duration(seconds: 2),
+        context,
+      );
+      log("Kapcsolati hiba a chat törlése közben! $e");
+      return;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[850],
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.deepPurpleAccent,
+        shadowColor: Colors.deepPurpleAccent,
+        elevation: 10,
+        centerTitle: true,
+        titleTextStyle: const TextStyle(
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 1,
+        ),
+        title: Text(
+          lang == "Magyar" ? "Chat információi" : "Chat information",
+        ),
+      ),
+      body: Center(
+        child: ElevatedButton.icon(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.redAccent,
+            foregroundColor: Colors.white,
+          ),
+          icon: const Icon(
+            Icons.delete,
+            size: 40,
+          ),
+          label: Text(
+            lang == "Magyar" ? "Chat törlése" : "Delete chat",
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          onPressed: () => _deleteChat(context),
+        ),
+      ),
+    );
+  }
+}
