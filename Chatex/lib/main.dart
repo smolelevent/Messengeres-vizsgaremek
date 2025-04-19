@@ -57,7 +57,7 @@ Future<bool> tryAutoLogin() async {
       return true;
     }
   } catch (e) {
-    log("Hiba a token validálásakor (kapcsolati hiba!): ${e.toString()}");
+    log("Hiba a token validálásakor: ${e.toString()}");
   }
 
   return false;

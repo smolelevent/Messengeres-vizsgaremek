@@ -123,9 +123,7 @@ class _FileChatBubbleState extends State<FileChatBubble> {
               ? CrossAxisAlignment.start
               : CrossAxisAlignment.start,
           children: [
-            if (!widget.isSender)
-              //ClipOval(child: _buildProfileImage(widget.profileImage)),
-              ClipOval(child: _buildProfileImage()),
+            if (!widget.isSender) ClipOval(child: _buildProfileImage()),
             const SizedBox(width: 8),
             Column(
               crossAxisAlignment: widget.isSender
@@ -170,7 +168,9 @@ class _FileChatBubbleState extends State<FileChatBubble> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          onPressed: () => _downloadFile(index),
+                          onPressed: () async {
+                            _downloadFile(index);
+                          }, //=> _downloadFile(index), mentés
                           icon: const Icon(
                             Icons.download_rounded,
                             color: Colors.white,

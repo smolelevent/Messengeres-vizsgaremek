@@ -186,8 +186,8 @@ class _ChatSidebarState extends State<ChatSidebar> {
           } catch (e) {
             ToastMessages.showToastMessages(
               Preferences.getPreferredLanguage() == "Magyar"
-                  ? "Kapcsolati hiba!"
-                  : "Connection error!",
+                  ? "Kapcsolati hiba a státusz változtatásánál!"
+                  : "Connection error by change status!",
               0.3,
               Colors.redAccent,
               Icons.error,

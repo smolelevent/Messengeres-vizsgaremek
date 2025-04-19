@@ -45,8 +45,8 @@ class _FriendRequestsState extends State<FriendRequests> {
     } catch (e) {
       ToastMessages.showToastMessages(
         Preferences.getPreferredLanguage() == "Magyar"
-            ? "Kapcsolati hiba!"
-            : "Connection error!",
+            ? "Kapcsolati hiba a jelölések lekérésénél!"
+            : "Connection error by getting requests!",
         0.2,
         Colors.redAccent,
         Icons.error,
@@ -104,8 +104,8 @@ class _FriendRequestsState extends State<FriendRequests> {
     } catch (e) {
       ToastMessages.showToastMessages(
         Preferences.getPreferredLanguage() == "Magyar"
-            ? "Kapcsolati hiba!"
-            : "Connection error!",
+            ? "Kapcsolati hiba a jelölés elfogadásánál!"
+            : "Connection error by accept request!",
         0.2,
         Colors.red,
         Icons.error,
@@ -160,8 +160,8 @@ class _FriendRequestsState extends State<FriendRequests> {
     } catch (e) {
       ToastMessages.showToastMessages(
         Preferences.getPreferredLanguage() == "Magyar"
-            ? "Kapcsolati hiba!"
-            : "Connection error!",
+            ? "Kapcsolati hiba a jelölés elutasításánál!"
+            : "Connection error by decline request!",
         0.2,
         Colors.red,
         Icons.error,

@@ -152,7 +152,9 @@ class _AccountSettingState extends State<AccountSetting> {
         }
       } catch (e) {
         ToastMessages.showToastMessages(
-          "Kapcsolati hiba!",
+          Preferences.getPreferredLanguage() == "Magyar"
+              ? "Kapcsolati hiba a profilkép frissítése közben!"
+              : "Connection error by updating profile picture!",
           0.2,
           Colors.redAccent,
           Icons.error,
@@ -212,7 +214,9 @@ class _AccountSettingState extends State<AccountSetting> {
         }
       } catch (e) {
         ToastMessages.showToastMessages(
-          "Kapcsolati hiba!",
+          Preferences.getPreferredLanguage() == "Magyar"
+              ? "Kapcsolati hiba a felhasználónév frissítése közben!"
+              : "Connection error by updating username!",
           0.2,
           Colors.redAccent,
           Icons.error,

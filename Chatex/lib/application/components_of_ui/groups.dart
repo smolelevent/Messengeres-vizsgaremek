@@ -62,8 +62,8 @@ class _GroupsState extends State<Groups> {
     } catch (e) {
       ToastMessages.showToastMessages(
         Preferences.getPreferredLanguage() == "Magyar"
-            ? "Kapcsolati hiba!"
-            : "Connection error!",
+            ? "Kapcsolati hiba a csoportok betöltésénél!"
+            : "Connection error by getting group chats!",
         0.3,
         Colors.redAccent,
         Icons.error,

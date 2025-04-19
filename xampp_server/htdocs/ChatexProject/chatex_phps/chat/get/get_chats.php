@@ -31,10 +31,13 @@ $query = "
             SELECT 
                 CASE
                     WHEN m.message_text IS NOT NULL AND TRIM(m.message_text) != '' THEN m.message_text
-                    WHEN EXISTS (
-                        SELECT 1 FROM message_attachments ma WHERE ma.message_id = m.message_id
-                    ) THEN '[FILE]'
-                    ELSE ''
+            WHEN EXISTS (
+                SELECT 1 FROM message_attachments ma WHERE ma.message_id = m.message_id AND ma.file_type = 'image'
+            ) THEN '[IMAGE]'
+            WHEN EXISTS (
+                SELECT 1 FROM message_attachments ma WHERE ma.message_id = m.message_id AND ma.file_type = 'file'
+            ) THEN '[FILE]'
+            ELSE ''
                 END
             FROM messages m
             WHERE m.chat_id = c.chat_id

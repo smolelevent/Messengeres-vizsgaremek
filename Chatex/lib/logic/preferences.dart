@@ -12,21 +12,21 @@ class Preferences {
   }
 
 //Setterek ----------------------------------------------------
+  static Future<void> setUserId(int id) async {
+    await _prefs?.setInt('id', id);
+  }
+
   static Future<void> setPreferredLanguage(String language) async {
     await _prefs?.setString('preferred_lang', language);
     languageNotifier.value = language;
   }
 
+  static Future<void> setProfilePicture(String profilePicture) async {
+    await _prefs?.setString("profile_picture", profilePicture);
+  }
+
   static Future<void> setUsername(String username) async {
     await _prefs?.setString('username', username);
-  }
-
-  static Future<void> setToken(String token) async {
-    await _prefs?.setString('jwt_token', token);
-  }
-
-  static Future<void> setUserId(int id) async {
-    await _prefs?.setInt('id', id);
   }
 
   static Future<void> setEmail(String email) async {
@@ -37,15 +37,19 @@ class Preferences {
     await _prefs?.setString('password_hash', passwordHash);
   }
 
-  static Future<void> setProfilePicture(String profilePicture) async {
-    await _prefs?.setString("profile_picture", profilePicture);
-  }
-
   static Future<void> setStatus(String status) async {
     await _prefs?.setString("status", status);
   }
 
+  static Future<void> setToken(String token) async {
+    await _prefs?.setString('jwt_token', token);
+  }
+
 //Getterek ----------------------------------------------------
+  static int? getUserId() {
+    return _prefs?.getInt('id');
+  }
+
   static String getPreferredLanguage() {
     Future.microtask(() {
       languageNotifier.value = _prefs?.getString('preferred_lang') ?? 'Magyar';
@@ -53,16 +57,12 @@ class Preferences {
     return _prefs?.getString('preferred_lang') ?? 'Magyar';
   }
 
+  static String? getProfilePicture() {
+    return _prefs?.getString('profile_picture');
+  }
+
   static String getUsername() {
     return _prefs?.getString('username') ?? '';
-  }
-
-  static String getToken() {
-    return _prefs?.getString('jwt_token') ?? '';
-  }
-
-  static int? getUserId() {
-    return _prefs?.getInt('id');
   }
 
   static String? getEmail() {
@@ -73,12 +73,12 @@ class Preferences {
     return _prefs?.getString('password_hash');
   }
 
-  static String? getProfilePicture() {
-    return _prefs?.getString('profile_picture');
-  }
-
   static String? getStatus() {
     return _prefs?.getString('status') ?? 'offline';
+  }
+
+  static String getToken() {
+    return _prefs?.getString('jwt_token') ?? '';
   }
 
 //Egyéb ----------------------------------------------------

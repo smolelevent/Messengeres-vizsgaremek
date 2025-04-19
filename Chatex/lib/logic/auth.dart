@@ -87,7 +87,9 @@ class AuthService {
       }
     } catch (e) {
       ToastMessages.showToastMessages(
-        language == "Magyar" ? "Kapcsolati hiba!" : "Connection error!",
+        language == "Magyar"
+            ? "Kapcsolati hiba a regisztrációnál!"
+            : "Connection error by registration!",
         0.1,
         Colors.redAccent,
         Icons.error,
@@ -181,7 +183,9 @@ class AuthService {
       }
     } catch (e) {
       ToastMessages.showToastMessages(
-        language == "Magyar" ? "Kapcsolati hiba!" : "Connection error!",
+        language == "Magyar"
+            ? "Kapcsolati hiba a bejelentkezésnél!"
+            : "Connection error by login!",
         0.22,
         Colors.redAccent,
         Icons.error,
@@ -221,8 +225,8 @@ class AuthService {
     } catch (e) {
       ToastMessages.showToastMessages(
         Preferences.getPreferredLanguage() == "Magyar"
-            ? "Kapcsolati hiba!"
-            : "Connection error!",
+            ? "Kapcsolati hiba a kijelentkezésnél!"
+            : "Connection error by logout!",
         0.2,
         Colors.redAccent,
         Icons.error,
@@ -296,7 +300,9 @@ class AuthService {
       }
     } catch (e) {
       ToastMessages.showToastMessages(
-        language == "Magyar" ? "Kapcsolati hiba!" : "Connection error!",
+        language == "Magyar"
+            ? "Kapcsolati hiba a jelszó helyreállításánál!"
+            : "Connection error by password reset!",
         0.2,
         Colors.redAccent,
         Icons.error,

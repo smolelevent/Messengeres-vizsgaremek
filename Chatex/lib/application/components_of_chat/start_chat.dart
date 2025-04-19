@@ -63,8 +63,8 @@ class _StartChatState extends State<StartChat> {
     } catch (e) {
       ToastMessages.showToastMessages(
         Preferences.getPreferredLanguage() == "Magyar"
-            ? "Kapcsolati hiba!"
-            : "Connection error!",
+            ? "Kapcsolati hiba a barátlista lekérésénél!"
+            : "Connection error by getting friend list!",
         0.1,
         Colors.redAccent,
         Icons.error,
@@ -236,8 +236,8 @@ class _StartChatState extends State<StartChat> {
     } catch (e) {
       ToastMessages.showToastMessages(
         Preferences.getPreferredLanguage() == "Magyar"
-            ? "Kapcsolati hiba!"
-            : "Connection error!",
+            ? "Kapcsolati hiba a chat kezdeményezésénél!"
+            : "Connection error by starting chat!",
         0.1,
         Colors.redAccent,
         Icons.error,

@@ -500,8 +500,8 @@ class _PeopleState extends State<People> {
     } catch (e) {
       ToastMessages.showToastMessages(
         Preferences.getPreferredLanguage() == "Magyar"
-            ? "Kapcsolati hiba!"
-            : "Connection error!",
+            ? "Kapcsolati hiba a barátküldés közben!"
+            : "Connection error by sending friend request!",
         0.2,
         Colors.redAccent,
         Icons.error,

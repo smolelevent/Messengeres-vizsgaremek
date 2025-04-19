@@ -35,14 +35,26 @@ while ($row = $result->fetch_assoc()) {
 
     $row['attachments'] = $attachments;
 
-    // 📌 Típus besorolása
-    if (!empty($row['message_text'])) {
-        $row['message_type'] = 'text';
-    } elseif (!empty($attachments)) {
+    // // 📌 Típus besorolása előző mentés
+    // if (!empty($row['message_text'])) {
+    //     $row['message_type'] = 'text';
+    // } elseif (!empty($attachments)) {
+    //     $firstType = $attachments[0]['file_type'] ?? 'file';
+    //     $row['message_type'] = $firstType === 'image' ? 'image' : 'file';
+    // } else {
+    //     $row['message_type'] = 'text';
+    // }
+
+    $hasText = !empty($row['message_text']);
+    $hasAttachments = !empty($attachments);
+
+    if ($hasAttachments) {
         $firstType = $attachments[0]['file_type'] ?? 'file';
         $row['message_type'] = $firstType === 'image' ? 'image' : 'file';
-    } else {
+    } elseif ($hasText) {
         $row['message_type'] = 'text';
+    } else {
+        $row['message_type'] = 'text'; // fallback, ha se szöveg, se csatolmány nincs
     }
 
     $messages[] = $row;
