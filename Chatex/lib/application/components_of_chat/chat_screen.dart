@@ -1,21 +1,20 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:chatex/application/components_of_chat/load_chats.dart';
-import 'package:chatex/application/components_of_chat/components_of_chat_screen/message_chat_bubble.dart';
-import 'package:chatex/application/components_of_chat/components_of_chat_screen/file_chat_bubble.dart';
-import 'package:chatex/application/components_of_chat/components_of_chat_screen/image_chat_bubble.dart';
+import 'package:chatex/application/components_of_chat/components_of_chat_screen/message_bubbles/message_chat_bubble.dart';
+import 'package:chatex/application/components_of_chat/components_of_chat_screen/message_bubbles/file_chat_bubble.dart';
+import 'package:chatex/application/components_of_chat/components_of_chat_screen/message_bubbles/image_chat_bubble.dart';
 import 'package:chatex/application/components_of_chat/components_of_chat_screen/chat_information.dart';
 import 'package:chatex/logic/toast_message.dart';
-import 'package:chatex/logic/preferences.dart';
+import 'dart:typed_data';
 import 'dart:developer';
 import 'dart:convert';
 import 'dart:async';
-import 'dart:typed_data';
 
 //A WEBSOCKET SZERVER-T INDÍTÁS ELŐTT FUTTATNI KELL A PHP-T: xampp_server\htdocs\ChatexProject\chatex_phps> php server_run.php
 
@@ -46,61 +45,55 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
 //OSZTÁLYON BELÜLI VÁLTOZÓK ELEJE -----------------------------------------------------------------
-  final TextEditingController _messageController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
-  final FocusNode _inputFocusNode = FocusNode();
-  bool _isInputFocused = false;
-  bool _showScrollToBottomButton = false;
+  final TextEditingController _messageController =
+      TextEditingController(); //az input mező tartalmát tudjuk kezeleni
+  final ScrollController _scrollController =
+      ScrollController(); //a tekerés helyzetét tudjuk figyelni ezáltal pl.: scrollToBottomButton
 
-  final List<PlatformFile> _attachedFiles = [];
+  final FocusNode _inputFocusNode =
+      FocusNode(); //szövegmező fokuszálásának a meghatározásához
+  bool _isInputFocused = false; //amit itt mentünk el
 
+  static const int _maxMessageLength = 5000;
   bool get _showSendIcon {
-    return _messageController.text.trim().isNotEmpty ||
-        _attachedFiles.isNotEmpty;
+    //küldés ikon ha nem üres a szövegmező vagy nem üres a csatolmány lista
+    return _messageController.text.trim().isNotEmpty || _attachments.isNotEmpty;
   }
 
+  bool _showScrollToBottomButton = false;
+
+  //a felhasználó jelenlegi adatai
   late String _currentStatus;
   late String _currentLastSeen;
   late int _currentSignedIn;
 
-  late WebSocketChannel _channel;
-  List<Map<String, dynamic>> _messages = <Map<String, dynamic>>[];
-  Timer? _keepAliveTimer;
-
-  static const int _maxMessageLength = 5000;
-
+  //cachelt képek hogy íráskor ne frissüljenek ("pislálkodjanak")
   ImageProvider? _cachedAppbarProfilePicture;
   Uint8List? _cachedAppbarSvgBytes;
   ImageProvider? _cachedMessageProfilePicture;
   Uint8List? _cachedMessageSvgBytes;
 
-  final ImagePicker _imagePicker = ImagePicker();
+  //websocket channel amin keresztűl folynak az adatok a websocket szerver felé
+  late WebSocketChannel _channel;
+  Timer? _keepAliveTimer; //"életben tartó" ping küldésért felelős
+
+  List<Map<String, dynamic>> _messages =
+      <Map<String, dynamic>>[]; //üzenetek listája
+  final List<PlatformFile> _attachments = []; //csatolmányok listája
+
+  final ImagePicker _imagePicker = ImagePicker(); //kép választó
 
 //OSZTÁLYON BELÜLI VÁLTOZÓK VÉGE ------------------------------------------------------------------
 
 //HÁTTÉR FOLYAMATOK ELEJE -------------------------------------------------------------------------
   @override
   void initState() {
+    //mik történjenek a chat_screen.dart indításakor
     super.initState();
-    _loadMessages();
+    _cacheAllPermanentImages();
     _connectToWebSocket();
+    _loadMessages();
     _markMessagesAsRead();
-
-    // AppBar profilkép //TODO: EGYSÉGESÍTENI
-    if (widget.profileImage.startsWith("data:image/svg+xml;base64,")) {
-      _cachedAppbarSvgBytes = base64Decode(widget.profileImage.split(",")[1]);
-    } else if (widget.profileImage.startsWith("data:image/")) {
-      final base64Data = base64Decode(widget.profileImage.split(",")[1]);
-      _cachedAppbarProfilePicture = MemoryImage(base64Data);
-    }
-
-    // Üzenetbuborék profilkép
-    if (widget.profileImage.startsWith("data:image/svg+xml;base64,")) {
-      _cachedMessageSvgBytes = base64Decode(widget.profileImage.split(",")[1]);
-    } else if (widget.profileImage.startsWith("data:image/")) {
-      final base64Data = base64Decode(widget.profileImage.split(",")[1]);
-      _cachedMessageProfilePicture = MemoryImage(base64Data);
-    }
 
     _currentStatus = widget.isOnline;
     _currentLastSeen = widget.lastSeen;
@@ -145,6 +138,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void dispose() {
+    //"eldobjuk azokat" amik már nem kellenek (erőforrás szabadítás)
     _keepAliveTimer?.cancel();
     _channel.sink.close();
     _messageController.dispose();
@@ -237,8 +231,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
           if (attachments.isNotEmpty) {
             final imageUrls = attachments
-                .map<String>((att) =>
-                    att['download_url'].toString()) //TODO: dynamic típusú
+                .map<String>((att) => att['download_url'].toString())
                 .toList();
             final fileNames = attachments
                 .map<String>((att) => att['file_name'].toString())
@@ -282,63 +275,69 @@ class _ChatScreenState extends State<ChatScreen> {
       }
     });
 
-    _keepAliveTimer?.cancel(); // ha már 25s-es timer akkor töröljük
-    _keepAliveTimer = Timer.periodic(const Duration(seconds: 25), (_) {
-      _channel.sink.add(jsonEncode({"message_type": "ping"}));
-      log("Keep-alive ping elküldve!"); //azért szükséges hogy ne vesszen el a kapcsolat magától!
-    });
+    _keepAliveTimer?.cancel(); // ha már van 25s-os timer akkor töröljük
+    _keepAliveTimer = Timer.periodic(
+      const Duration(seconds: 25),
+      (_) {
+        _channel.sink.add(jsonEncode({"message_type": "ping"}));
+        log("Keep-alive ping elküldve!"); //azért szükséges hogy ne vesszen el a kapcsolat magától!
+      },
+    );
   }
 
   Future<void> _loadMessages() async {
-    final response = await http.post(
-      Uri.parse(
-          "http://10.0.2.2/ChatexProject/chatex_phps/chat/get/get_messages.php"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({"chat_id": widget.chatId}),
-    );
+    try {
+      final response = await http.post(
+        Uri.parse(
+            "http://10.0.2.2/ChatexProject/chatex_phps/chat/get/get_messages.php"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"chat_id": widget.chatId}),
+      );
 
-    if (response.statusCode == 200) {
-      final responseData = jsonDecode(response.body);
-      final List<Map<String, dynamic>> loadedMessages = [];
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        final List<Map<String, dynamic>> loadedMessages = [];
 
-      for (final message in responseData['messages']) {
-        final messageType = message['message_type'];
-        final attachments = message['attachments'] ?? [];
+        for (final message in responseData['messages']) {
+          final messageType = message['message_type'];
+          final attachments = message['attachments'] ?? [];
+          final fileNames = <String>[];
+          final downloadUrls = <String>[];
 
-        final fileNames = <String>[];
-        final downloadUrls = <String>[];
+          for (final att in attachments) {
+            fileNames.add(att['file_name']);
+            downloadUrls.add(att['download_url']);
+          }
 
-        for (final att in attachments) {
-          fileNames.add(att['file_name']);
-          downloadUrls.add(att['download_url']);
+          if (messageType == 'file' || messageType == 'image') {
+            //ha csatolmány akkor speciális üzenetet adunk hozzá
+            loadedMessages.add({
+              ...message,
+              'message_type': messageType,
+              'fileNames': fileNames,
+              'downloadUrls': downloadUrls,
+              'message_text':
+                  (message['message_text']?.toString().trim().isEmpty ?? true)
+                      ? null
+                      : message['message_text'],
+            });
+          } else {
+            loadedMessages.add(message); //ha text típusú akkor csak hozzáadjuk
+          }
         }
 
-        if (messageType == 'file' || messageType == 'image') {
-          loadedMessages.add({
-            ...message,
-            'message_type': messageType,
-            'fileNames': fileNames,
-            'downloadUrls': downloadUrls,
-            'message_text':
-                (message['message_text']?.toString().trim().isEmpty ?? true)
-                    ? null
-                    : message['message_text'],
-          });
-        } else {
-          loadedMessages.add(message);
-        }
+        setState(() {
+          //majd véglegesen eltároljuk
+          _messages = loadedMessages;
+        });
+
+        scrollToBottom();
       }
-
-      setState(() {
-        _messages = loadedMessages;
-      });
-
-      scrollToBottom();
-    } else {
+    } catch (e) {
       ToastMessages.showToastMessages(
         lang == "Magyar"
             ? "Kapcsolati hiba az üzenetek betöltésénél!"
-            : "Connection error by getting messages!",
+            : "Connection error while getting messages!",
         0.2,
         Colors.redAccent,
         Icons.error,
@@ -346,7 +345,7 @@ class _ChatScreenState extends State<ChatScreen> {
         const Duration(seconds: 2),
         context,
       );
-      log("Hiba történt az üzenetek lekérésekor: ${response.body}");
+      log("Hiba történt az üzenetek lekérésekor: ${e.toString()}");
     }
   }
 
@@ -363,15 +362,17 @@ class _ChatScreenState extends State<ChatScreen> {
     _channel.sink.add(jsonEncode(message));
   }
 
-  Future<void> _sendFiles() async {
+  Future<void> _pickFiles() async {
     final picked = await FilePicker.platform.pickFiles(
       dialogTitle:
           lang == "Magyar" ? "Fájl(ok) kiválasztása" : "Select file(s)",
       withData: true,
-      compressionQuality: 75,
+      compressionQuality:
+          75, //25%-os tömörítés-sel juttatjuk el az adatbázishoz, letöltéskor pedig 100%
       allowMultiple: true,
       type: FileType.custom,
       allowedExtensions: [
+        //engedélyezett kiterjesztések
         'pdf',
         'doc',
         'docx',
@@ -391,6 +392,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
     for (final file in picked.files) {
       if (file.size > 100 * 1024 * 1024) {
+        //maximum 100MB a fájlok együttes mérete
         oversizedFiles.add(file);
       } else {
         validFiles.add(file);
@@ -413,24 +415,25 @@ class _ChatScreenState extends State<ChatScreen> {
       return;
     }
 
-    log("validFiles: ${validFiles.toString()}");
     setState(() {
-      _attachedFiles.addAll(validFiles);
+      _attachments.addAll(validFiles);
     });
   }
 
-  void _sendFilesFromPreviewBar(String? messageText) {
-    final files = _attachedFiles
-        .where((f) => !_isImageExtension(_getExtension(f))) // csak nem-kép
+  void _sendFiles(String? messageText) {
+    final files = _attachments
+        .where((f) => !_isImageExtension(_getExtension(
+            f))) // csak nem kép adatokat veszünk ki az _attachments listából
         .map((file) => {
               "file_name": file.name,
               "file_bytes": base64Encode(file.bytes!),
-            }) //megnézni hogy passzol
+            })
         .toList();
 
     if (files.isEmpty) return;
 
-    log("files: ${files.toString()}");
+    log("files tartalma: ${files.toString()}");
+
     final message = {
       "message_type": "file",
       "chat_id": widget.chatId,
@@ -440,7 +443,7 @@ class _ChatScreenState extends State<ChatScreen> {
       "files": files,
     };
 
-    log("📤 Küldés fájlokkal: ${jsonEncode(message)}");
+    log("Küldés fájlokkal: ${jsonEncode(message)}");
     _channel.sink.add(jsonEncode(message));
   }
 
@@ -486,7 +489,7 @@ class _ChatScreenState extends State<ChatScreen> {
     _channel.sink.add(jsonEncode(message));
   }
 
-  Future<void> _sendImageFromGallery() async {
+  Future<void> _pickImages() async {
     final picked = await _imagePicker.pickMultiImage();
     if (picked.isEmpty) return;
 
@@ -529,14 +532,14 @@ class _ChatScreenState extends State<ChatScreen> {
 
     //felvesszük a képeket a PreviewBar-ra amihez küldés előtt szöveget és fileokat lehet hozzáadni
     setState(() {
-      _attachedFiles.addAll(validImageFiles);
+      _attachments.addAll(validImageFiles);
     });
   }
 
-  void _sendImagesFromPreviewBar(String? messageText) {
-    final images = _attachedFiles
+  void _sendImages(String? messageText) {
+    final images = _attachments
         .where((f) => _isImageExtension(_getExtension(
-            f))) //csak olyan fileokat engedünk amik a megfelelő kiterjesztéssel rendelkeznek
+            f))) //csak olyan fileokat engedünk amik a megfelelő kiterjesztéssel rendelkeznek, tehát csak képeket
         .map((file) => {
               "file_name": file.name,
               "image_data": base64Encode(file.bytes!),
@@ -558,37 +561,40 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _handleSend() {
+    //ez a metódus kezeli az összes fajta üzenet küldését (szöveg, kép, fájl)
     _checkMessageLength();
 
     final hasText = _messageController.text.trim().isNotEmpty;
-    final hasFiles = _attachedFiles.isNotEmpty;
+    //megnézzük hogy mit tartalmaz az üzenet (ezek a szöveg küldéshez kellenek)
+    final hasFiles = _attachments.isNotEmpty;
 
     final hasImages =
-        _attachedFiles.any((f) => _isImageExtension(_getExtension(f)));
+        _attachments.any((f) => _isImageExtension(_getExtension(f)));
+    //ezek az _attachments listát bontják szét (kép/fájl típusú küldéshez kell)
     final hasOtherFiles =
-        _attachedFiles.any((f) => !_isImageExtension(_getExtension(f)));
+        _attachments.any((f) => !_isImageExtension(_getExtension(f)));
 
     String? currentText = _messageController.text.trim().isNotEmpty
         ? _messageController.text.trim()
         : null;
 
     if (hasImages) {
-      _sendImagesFromPreviewBar(currentText);
+      _sendImages(currentText);
       // küldés után null értéket adunk, hogy a következő típusnál már ne adja hozzá ugyanazt az üzenetet! (pl.: ha 5000 karakteres szövegről van szó)
       currentText = null;
     }
 
     if (hasOtherFiles) {
-      _sendFilesFromPreviewBar(currentText);
+      _sendFiles(currentText);
     }
 
     if (hasText && !hasFiles) {
       _sendMessage();
     }
 
-    //Törlés csak itt, ha esetleg több típust küld egyszerre a felhasználó!
+    //Itt töröljük a küldés utáni tartalmakat, ha esetleg több típust küld egyszerre a felhasználó!
     _messageController.clear();
-    _attachedFiles.clear();
+    _attachments.clear();
     FocusScope.of(context).unfocus();
     scrollToBottom();
   }
@@ -616,14 +622,12 @@ class _ChatScreenState extends State<ChatScreen> {
           "chat_id": widget.chatId,
           "user_id": userId,
         }));
-      } else {
-        log("Hiba az üzenet olvasottsága frissítése közben: ${responseData.toString()}");
       }
     } catch (e) {
       ToastMessages.showToastMessages(
-        Preferences.getPreferredLanguage() == "Magyar"
+        lang == "Magyar"
             ? "Kapcsolati hiba\naz olvasottság átállításánál!"
-            : "Connection error by\nmarking the message as read!",
+            : "Connection error while\nmarking the message as read!",
         0.2,
         Colors.redAccent,
         Icons.error,
@@ -631,7 +635,7 @@ class _ChatScreenState extends State<ChatScreen> {
         const Duration(seconds: 3),
         context,
       );
-      log("Kapcsolati hiba\naz olvasottság átállításánál: $e");
+      log("Kapcsolati hiba\naz olvasottság átállításánál: ${e.toString()}");
     }
   }
 
@@ -642,7 +646,8 @@ class _ChatScreenState extends State<ChatScreen> {
             "http://10.0.2.2/ChatexProject/chatex_phps/chat/set/delete_message.php"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
-          "message_id": messageId,
+          "message_id":
+              messageId, //elküldjük annak az üzenetnek az id-ját amit törölni akarunk
         }),
       );
 
@@ -653,9 +658,9 @@ class _ChatScreenState extends State<ChatScreen> {
       }
     } catch (e) {
       ToastMessages.showToastMessages(
-        Preferences.getPreferredLanguage() == "Magyar"
+        lang == "Magyar"
             ? "Kapcsolati hiba\naz üzenet törlésénél!"
-            : "Connection error by\ndeleting message!",
+            : "Connection error while\ndeleting message!",
         0.2,
         Colors.redAccent,
         Icons.error,
@@ -663,7 +668,7 @@ class _ChatScreenState extends State<ChatScreen> {
         const Duration(seconds: 3),
         context,
       );
-      log("Nem sikerült törölni az üzenetet: $e");
+      log("Nem sikerült törölni az üzenetet: ${e.toString()}");
     }
   }
 
@@ -671,18 +676,49 @@ class _ChatScreenState extends State<ChatScreen> {
 
 //EGYÉB KIEGÉSZÍTŐ METÓDUSOK ELEJE ----------------------------------------------------------------
 
-  void scrollToBottom() {
+  void _cacheAllPermanentImages() {
+    // AppBar profilkép //TODO: EGYSÉGESÍTENI
+    if (widget.profileImage.startsWith("data:image/svg+xml;base64,")) {
+      _cachedAppbarSvgBytes = base64Decode(widget.profileImage.split(",")[1]);
+    } else if (widget.profileImage.startsWith("data:image/")) {
+      final base64Data = base64Decode(widget.profileImage.split(",")[1]);
+      _cachedAppbarProfilePicture = MemoryImage(base64Data);
+    }
+
+    // Üzenetbuborék profilkép
+    if (widget.profileImage.startsWith("data:image/svg+xml;base64,")) {
+      _cachedMessageSvgBytes = base64Decode(widget.profileImage.split(",")[1]);
+    } else if (widget.profileImage.startsWith("data:image/")) {
+      final base64Data = base64Decode(widget.profileImage.split(",")[1]);
+      _cachedMessageProfilePicture = MemoryImage(base64Data);
+    }
+  }
+
+  void scrollToBottom({int retry = 3}) {
+    //néha nem működik valószínüleg az a emulator szoftveres renderelése miatt van!!
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(
         const Duration(milliseconds: 100),
         () {
-          if (_scrollController.hasClients) {
+          //3szor próbálkozik azzal hogy az aljára ugorjon a képernyő
+          if (!_scrollController.hasClients || retry == 0) return;
+
+          final position = _scrollController
+              .position; //alapértelmezett pozíciója a _scrollController-nek (teteje vagy az alja)
+          final currentExtent = position
+              .pixels; //az alapértelmezett-től mennyire tér el (föl vagy le)
+          final maxExtent = position.maxScrollExtent; //maximum scrollolhatóság
+
+          // Ha még nem az alján vagyunk, újra próbáljuk
+          if ((maxExtent - currentExtent).abs() > 50) {
             _scrollController.animateTo(
-              _scrollController
-                  .position.maxScrollExtent, //a képernyő aljára ugrik
-              duration: const Duration(milliseconds: 500),
+              maxExtent, //aljára
+              duration: const Duration(milliseconds: 300),
               curve: Curves.easeOut,
             );
+
+            // Próbálkozunk még egyszer-kétszer
+            scrollToBottom(retry: retry - 1);
           }
         },
       );
@@ -717,9 +753,7 @@ class _ChatScreenState extends State<ChatScreen> {
         return formattedDate;
       }
     } catch (e) {
-      return Preferences.getPreferredLanguage() == "Magyar"
-          ? "Hiba!"
-          : "Error!";
+      return lang == "Magyar" ? "Hiba!" : "Error!";
     }
   }
 
@@ -842,6 +876,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Widget _buildBody() {
     return MediaQuery.removeViewInsets(
+      //ez a widget felelős azért hogy az üzenet ne csússzon a bottomSheets alá!
       removeBottom: true,
       context: context,
       child: Stack(
@@ -849,7 +884,7 @@ class _ChatScreenState extends State<ChatScreen> {
           Column(
             children: [
               Expanded(child: (_buildMessageList())),
-              if (_attachedFiles.isNotEmpty) _buildAttachmentPreviewBar(),
+              if (_attachments.isNotEmpty) _buildAttachmentPreviewBar(),
             ],
           ),
         ],
@@ -860,6 +895,7 @@ class _ChatScreenState extends State<ChatScreen> {
   PreferredSizeWidget _buildAppBar() {
     return PreferredSize(
       preferredSize: const Size.fromHeight(60),
+      //60-as mérete legyen az appbar-nak
       child: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.deepPurpleAccent,
@@ -873,6 +909,13 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         titleSpacing: 0,
         leadingWidth: 55,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded),
+          onPressed: () {
+            Navigator.pop(context, true);
+            //ha vissza lépünk akkor a load_chats.dart is frissítve legyen!
+          },
+        ),
         title: Row(
           children: [
             _buildProfileImage(_currentStatus, _currentSignedIn),
@@ -1013,7 +1056,7 @@ class _ChatScreenState extends State<ChatScreen> {
       child: Align(
         alignment: Alignment.topCenter,
         child: Text(
-          Preferences.getPreferredLanguage() == "Magyar"
+          lang == "Magyar"
               ? "Ez a beszélgetés még üres."
               : "The chat is empty.",
           style: const TextStyle(
@@ -1033,6 +1076,7 @@ class _ChatScreenState extends State<ChatScreen> {
       padding: const EdgeInsets.only(bottom: 80),
       itemCount: _messages.length,
       itemBuilder: (context, index) {
+        //kinyerjük az adatokat a _messages listából
         final message = _messages[index];
         final isSender = message['sender_id'] == userId;
         final isLast = index == _messages.length - 1;
@@ -1047,6 +1091,7 @@ class _ChatScreenState extends State<ChatScreen> {
             return GestureDetector(
               onLongPress: () {
                 if (message['sender_id'] == userId) {
+                  //csak akkor engedlyük az üzenet törlését ha a saját üzenetét akarja
                   _showDeleteDialog(message['message_id']);
                 }
               },
@@ -1111,17 +1156,25 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Widget _buildScrollToBottomButton() {
+    final bottomInset = MediaQuery.of(context)
+        .viewInsets
+        .bottom; //a képernyő aljától lévő távolság
+    final previewBarHeight = _attachments.isNotEmpty
+        ? 80.0
+        : 0.0; //80-as méretű a previewBar-nak kihagyott távolság
+    final bottomPadding = bottomInset > 0 //ha eltávolodtunk a képernyő aljától
+        ? bottomInset +
+            previewBarHeight +
+            20 //tetszőleges pont + 80 (preview bar) + 20 (fölötte lévő scrollToBottomButton)
+        : previewBarHeight + 65; //normális helyén legyen a gomb
+
     return _showScrollToBottomButton
         ? Padding(
-            //TODO: azt is megnézni hogy a file preview list nyítva van e mert ha nem akkor más viewInsets.bottom
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom > 0 ? 140 : 65,
-            ),
+            padding: EdgeInsets.only(bottom: bottomPadding),
             child: FloatingActionButton(
               backgroundColor: Colors.grey[800],
-              tooltip: Preferences.getPreferredLanguage() == "Magyar"
-                  ? "Ugrás az aljára"
-                  : "Scroll to bottom",
+              tooltip:
+                  lang == "Magyar" ? "Ugrás az aljára" : "Scroll to bottom",
               elevation: 10,
               mini: true,
               shape: const CircleBorder(),
@@ -1143,9 +1196,10 @@ class _ChatScreenState extends State<ChatScreen> {
       height: 80,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: _attachedFiles.length,
+        itemCount: _attachments.length,
         itemBuilder: (context, index) {
-          final file = _attachedFiles[index];
+          //megfelelően jelenítsük meg az attachmenteket
+          final file = _attachments[index];
           final isImage = _isImageExtension(_getExtension(file));
 
           return Padding(
@@ -1158,7 +1212,9 @@ class _ChatScreenState extends State<ChatScreen> {
                   decoration: BoxDecoration(
                     color: Colors.grey[900],
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.deepPurpleAccent),
+                    border: Border.all(
+                      color: Colors.deepPurpleAccent,
+                    ),
                   ),
                   padding: const EdgeInsets.all(6),
                   child: Column(
@@ -1166,11 +1222,13 @@ class _ChatScreenState extends State<ChatScreen> {
                     children: [
                       isImage
                           ? Image.memory(
+                              //képek esetében magát a képet
                               file.bytes!,
                               width: 30,
                               height: 30,
                             )
                           : const Icon(
+                              //fájlok esetében pedig így
                               Icons.insert_drive_file,
                               color: Colors.white,
                               size: 30,
@@ -1193,7 +1251,10 @@ class _ChatScreenState extends State<ChatScreen> {
                   right: -4,
                   top: -4,
                   child: GestureDetector(
-                    onTap: () => setState(() => _attachedFiles.removeAt(index)),
+                    //törölje ki a küldésből
+                    onTap: () {
+                      setState(() => _attachments.removeAt(index));
+                    },
                     child: const CircleAvatar(
                       radius: 10,
                       backgroundColor: Colors.red,
@@ -1226,6 +1287,7 @@ class _ChatScreenState extends State<ChatScreen> {
         child: Row(
           children: [
             if (_isInputFocused)
+              //ha fokuszálva van a szövegmező akkor csak a vissza gombot mutatjuk
               _buildIcon(
                 color: Colors.white,
                 hunTooltip: "Vissza",
@@ -1243,7 +1305,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 hunTooltip: "Fájl feltöltése",
                 engTooltip: "File upload",
                 icon: Icons.file_upload_outlined,
-                onPressed: _sendFiles,
+                onPressed: _pickFiles,
               ),
               _buildIcon(
                 color: Colors.white,
@@ -1257,10 +1319,11 @@ class _ChatScreenState extends State<ChatScreen> {
                 hunTooltip: "Galéria",
                 engTooltip: "Gallery",
                 icon: Icons.photo_library_rounded,
-                onPressed: _sendImageFromGallery,
+                onPressed: _pickImages,
               ),
             ],
             Expanded(
+              //expanded widget hogy a szövegmező kitöltse a maradék helyet ha csak a vissza nyíl van
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 decoration: BoxDecoration(
@@ -1270,6 +1333,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: Row(
                   children: [
                     Expanded(
+                      //kövesse a container méretét!
                       child: TextField(
                         controller: _messageController,
                         focusNode: _inputFocusNode,
@@ -1294,7 +1358,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       Padding(
                         padding: const EdgeInsets.only(left: 8),
                         child: Text(
-                          "${_messageController.text.length}/$_maxMessageLength", //számláló
+                          "${_messageController.text.length}/$_maxMessageLength", //karakter számláló
                           style: TextStyle(
                             fontSize: 12,
                             color: _messageController.text.length >

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:chatex/logic/preferences.dart';
+import 'package:chatex/application/components_of_chat/load_chats.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'dart:convert';
 import 'dart:developer';
 
+//FriendRequests OSZTÁLY ELEJE --------------------------------------------------------------------
 class FriendRequests extends StatefulWidget {
+
   const FriendRequests({super.key});
 
   @override
@@ -17,6 +19,10 @@ class FriendRequests extends StatefulWidget {
 class _FriendRequestsState extends State<FriendRequests> {
   List<dynamic> _friendRequests = [];
   bool _isLoading = true;
+
+//OSZTÁLYON BELÜLI VÁLTOZÓK VÉGE ------------------------------------------------------------------
+
+//HÁTTÉR FOLYAMATOK ELEJE -------------------------------------------------------------------------
 
   @override
   void initState() {
@@ -30,7 +36,7 @@ class _FriendRequestsState extends State<FriendRequests> {
         Uri.parse(
             'http://10.0.2.2/ChatexProject/chatex_phps/friends/get/get_requests.php'),
         body: jsonEncode({
-          "user_id": Preferences.getUserId(),
+          "user_id": userId,
         }),
         headers: {"Content-Type": "application/json"},
       );
@@ -44,7 +50,7 @@ class _FriendRequestsState extends State<FriendRequests> {
       }
     } catch (e) {
       ToastMessages.showToastMessages(
-        Preferences.getPreferredLanguage() == "Magyar"
+        lang == "Magyar"
             ? "Kapcsolati hiba a jelölések lekérésénél!"
             : "Connection error by getting requests!",
         0.2,
@@ -71,7 +77,7 @@ class _FriendRequestsState extends State<FriendRequests> {
 
       if (response.statusCode == 200) {
         ToastMessages.showToastMessages(
-          Preferences.getPreferredLanguage() == "Magyar"
+          lang == "Magyar"
               ? "Barát kérés sikeresen elfogadva!🎊"
               : "Friend request accepted!🎊",
           0.2,
@@ -86,7 +92,7 @@ class _FriendRequestsState extends State<FriendRequests> {
         });
       } else {
         ToastMessages.showToastMessages(
-          Preferences.getPreferredLanguage() == "Magyar"
+          lang == "Magyar"
               ? "Hiba történt az elfogadás során!"
               : "An error occured while accepting!",
           0.2,
@@ -103,7 +109,7 @@ class _FriendRequestsState extends State<FriendRequests> {
       }
     } catch (e) {
       ToastMessages.showToastMessages(
-        Preferences.getPreferredLanguage() == "Magyar"
+        lang == "Magyar"
             ? "Kapcsolati hiba a jelölés elfogadásánál!"
             : "Connection error by accept request!",
         0.2,
@@ -127,7 +133,7 @@ class _FriendRequestsState extends State<FriendRequests> {
 
       if (response.statusCode == 200) {
         ToastMessages.showToastMessages(
-          Preferences.getPreferredLanguage() == "Magyar"
+          lang == "Magyar"
               ? "Barát kérés sikeresen elutasítva!"
               : "Friend request declined!",
           0.2,
@@ -142,7 +148,7 @@ class _FriendRequestsState extends State<FriendRequests> {
         });
       } else {
         ToastMessages.showToastMessages(
-          Preferences.getPreferredLanguage() == "Magyar"
+          lang == "Magyar"
               ? "Hiba történt az elutasítás során!"
               : "An error occured while declining",
           0.2,
@@ -159,7 +165,7 @@ class _FriendRequestsState extends State<FriendRequests> {
       }
     } catch (e) {
       ToastMessages.showToastMessages(
-        Preferences.getPreferredLanguage() == "Magyar"
+        lang == "Magyar"
             ? "Kapcsolati hiba a jelölés elutasításánál!"
             : "Connection error by decline request!",
         0.2,
@@ -171,6 +177,8 @@ class _FriendRequestsState extends State<FriendRequests> {
       );
     }
   }
+
+//HÁTTÉR FOLYAMATOK VÉGE --------------------------------------------------------------------------
 
   @override
   Widget build(BuildContext context) {
@@ -189,10 +197,12 @@ class _FriendRequestsState extends State<FriendRequests> {
     );
   }
 
+//DIZÁJN ELEMEK ELEJE -----------------------------------------------------------------------------
+
   Widget _noRequestsWidget() {
     return Center(
       child: Text(
-        Preferences.getPreferredLanguage() == "Magyar"
+        lang == "Magyar"
             ? "Nincsenek új jelölések"
             : "No new friend requests",
         style: const TextStyle(
@@ -242,7 +252,7 @@ class _FriendRequestsState extends State<FriendRequests> {
         );
       } else {
         ToastMessages.showToastMessages(
-          Preferences.getPreferredLanguage() == "Magyar"
+          lang == "Magyar"
               ? "Ismeretlen MIME-típus a profilképnél!"
               : "An unknown MIME type has been detected!",
           0.2,
@@ -257,7 +267,7 @@ class _FriendRequestsState extends State<FriendRequests> {
       }
     } catch (e) {
       ToastMessages.showToastMessages(
-        Preferences.getPreferredLanguage() == "Magyar"
+        lang == "Magyar"
             ? "Hiba a kép dekódolásakor!"
             : "Error in picture decoding!",
         0.2,
@@ -297,7 +307,7 @@ class _FriendRequestsState extends State<FriendRequests> {
           ),
         ),
         subtitle: Text(
-          Preferences.getPreferredLanguage() == "Magyar"
+          lang == "Magyar"
               ? "Barát jelölés🤓"
               : "Friend request🤓",
           style: const TextStyle(
@@ -326,7 +336,7 @@ class _FriendRequestsState extends State<FriendRequests> {
   PreferredSizeWidget _buildAppbar() {
     return AppBar(
       title: Text(
-        Preferences.getPreferredLanguage() == "Magyar"
+        lang == "Magyar"
             ? "Jelölések"
             : "Friend Requests",
       ),
@@ -343,4 +353,7 @@ class _FriendRequestsState extends State<FriendRequests> {
       ),
     );
   }
+//DIZÁJN ELEMEK VÉGE ------------------------------------------------------------------------------
 }
+
+//FileChatBubble OSZTÁLY VÉGE ------------------------------------------------------------------

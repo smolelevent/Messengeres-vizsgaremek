@@ -1,0 +1,77 @@
+egységes input törlő:
+
+suffixIcon: _searchController.text.isNotEmpty
+          //tartalom törlő gomb
+          ? IconButton(
+              icon: const Icon(
+                Icons.clear,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                _searchController.clear();
+                setState(() {
+                  _searchQuery = '';
+                });
+              },
+            )
+          : null,
+
+
+
+egységes appbar design:
+
+      backgroundColor: Colors.black,
+      foregroundColor: Colors.deepPurpleAccent,
+      shadowColor: Colors.deepPurpleAccent,
+      elevation: 10,
+
+      centerTitle: true,
+      titleTextStyle: const TextStyle(
+        fontSize: 22,
+        fontWeight: FontWeight.bold,
+        letterSpacing: 1,
+      ),
+
+
+egységes kapcsolati hiba:
+
+ToastMessages.showToastMessages(
+        lang == "Magyar"
+            ? "Kapcsolati hiba a chat törlése közben!"
+            : "Connection error while deleting chat!",
+        0.2,
+        Colors.redAccent,
+        Icons.error,
+        Colors.black,
+        const Duration(seconds: 2),
+        context,
+      );
+      log("Kapcsolati hiba a chat törlése közben! ${e.toString()}");
+
+...a\n
+		és nincs space a n után
+...while\n 
+
+
+minden logikai metódus első sorába egy magyarázatot!
+
+
+chatex TODO-k:
+
+//TODO: folytonossá tenni a people.dart-ot is
+
+//TODO: chaten valósidőbe kezelni az adatokat, last seen, online, üzenet stb...
+
+case 'message_read': és case 'status_update': egyeztetése
+
+6. EGYSÉGESÍTENI MINDENT!!!!!!!!! (profil)kép logikát, formatLastSeen-t
+
+8. scrollbutton
+
+
+
+
+
+
+
+

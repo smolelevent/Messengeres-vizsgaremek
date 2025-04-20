@@ -7,6 +7,7 @@ import 'package:chatex/logic/permissions.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'dart:convert';
+import 'dart:developer';
 
 //GLOBÁLIS VÁLTOZÓK ELEJE -------------------------------------------------------------------------
 final int? userId = Preferences.getUserId();
@@ -17,6 +18,7 @@ final String? email = Preferences.getEmail();
 final String? passwordHash = Preferences.getPasswordHash();
 final String? status = Preferences.getStatus();
 final String token = Preferences.getToken();
+final languageNotifier = Preferences.languageNotifier;
 //GLOBÁLIS VÁLTOZÓK VÉGE --------------------------------------------------------------------------
 
 //LoadedChatData OSZTÁLY ELEJE --------------------------------------------------------------------
@@ -111,7 +113,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
       ToastMessages.showToastMessages(
         lang == "Magyar"
             ? "Kapcsolati hiba a chatek lekérésénél!"
-            : "Connection error by getting chats!",
+            : "Connection error while getting chats!",
         0.3,
         Colors.redAccent,
         Icons.error,
@@ -119,6 +121,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
         const Duration(seconds: 3),
         context,
       );
+      log("Hiba a chatek lekérése közben: ${e.toString()}");
       return [];
     }
   }
@@ -223,7 +226,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
               signedIn: chat["signed_in"],
               unreadCount: chat["unread_count"] ?? 0,
               onTap: () async {
-                await Navigator.push(
+                final shouldRefresh = await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => ChatScreen(
@@ -237,7 +240,10 @@ class LoadedChatDataState extends State<LoadedChatData> {
                     ),
                   ),
                 );
-                _getCorrectChatList();
+                //Csak akkor frissít, ha szükséges
+                if (shouldRefresh == true) {
+                  _getCorrectChatList();
+                }
               },
             );
           },

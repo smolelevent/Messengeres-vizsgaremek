@@ -56,6 +56,11 @@ class ChatTile extends StatelessWidget {
 
 //HÁTTÉR FOLYAMATOK VÉGE --------------------------------------------------------------------------
 
+  @override
+  Widget build(BuildContext context) {
+    return _buildChatTile();
+  }
+
 //DIZÁJN ELEMEK ELEJE -----------------------------------------------------------------------------
 
   Widget _buildProfileImage(String imageString, String isOnline, int signedIn) {
@@ -133,12 +138,13 @@ class ChatTile extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 5.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
-        side: hasUnreadMessages
-            ? const BorderSide(
-                color: Colors.white,
-                width: 2,
-              )
-            : BorderSide.none,
+        side:
+            hasUnreadMessages //ha van olvasotlan üzenetei akkor legyen egy fehér keret a tile körül
+                ? const BorderSide(
+                    color: Colors.white,
+                    width: 2,
+                  )
+                : BorderSide.none,
       ),
       elevation: 5,
       child: ListTile(
@@ -163,12 +169,15 @@ class ChatTile extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 14,
-                  color: hasUnreadMessages ? Colors.white : Colors.grey[400],
+                  color: hasUnreadMessages
+                      ? Colors.white
+                      : Colors.grey[400], //emelje ki az olvasatlan üzenetet
                 ),
               ),
             ),
-            if (hasUnreadMessages) //TODO: letesztelni az animációt!
+            if (hasUnreadMessages)
               AnimatedSwitcher(
+                //animációval változzon a olvasatlan üzenetek számlálója
                 duration: const Duration(milliseconds: 300),
                 transitionBuilder: (child, animation) => ScaleTransition(
                   scale: animation,
@@ -182,7 +191,8 @@ class ChatTile extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: const BoxDecoration(
-                    color: Colors.red,
+                    color: Colors
+                        .red, //piros kerettel jelenjen meg a feltünőség érdekében
                     shape: BoxShape.circle,
                   ),
                   child: Text(
@@ -198,7 +208,7 @@ class ChatTile extends StatelessWidget {
           ],
         ),
         trailing: Text(
-          formatMessageTime(time),
+          formatMessageTime(time), //formázzuk az utlolsó üzenet időpontját
           style: TextStyle(
             fontSize: 12,
             color: Colors.grey[400],
@@ -210,10 +220,6 @@ class ChatTile extends StatelessWidget {
   }
 
 //DIZÁJN ELEMEK VÉGE ------------------------------------------------------------------------------
-
-  @override
-  Widget build(BuildContext context) {
-    return _buildChatTile();
-  }
 }
+
 //ChatTile OSZTÁLY VÉGE ---------------------------------------------------------------------------

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:chatex/application/components_of_chat/load_chats.dart';
 import 'package:chatex/application/components_of_chat/build_ui.dart';
+import 'package:chatex/application/components_of_chat/load_chats.dart';
 import 'package:chatex/logic/toast_message.dart';
-import 'dart:convert';
 import 'dart:developer';
+import 'dart:convert';
 
+//ChatInfoScreen OSZTÁLY ELEJE -----------------------------------------------------------------
 class ChatInfoScreen extends StatelessWidget {
   const ChatInfoScreen({
     super.key,
@@ -14,6 +15,8 @@ class ChatInfoScreen extends StatelessWidget {
 
   final int chatId;
 
+//HÁTTÉR FOLYAMATOK ELEJE -------------------------------------------------------------------------
+  
   Future<void> _deleteChat(BuildContext context) async {
     try {
       final response = await http.post(
@@ -21,7 +24,7 @@ class ChatInfoScreen extends StatelessWidget {
             "http://10.0.2.2/ChatexProject/chatex_phps/chat/set/delete_chat.php"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
-          "chat_id": chatId,
+          "chat_id": chatId, //ezek alapján azonosítjuk a törlést
           "user_id": userId,
         }),
       );
@@ -40,6 +43,7 @@ class ChatInfoScreen extends StatelessWidget {
           context,
         );
 
+        //a sikeres törlés után visszatérünk a chat listához
         Future.delayed(const Duration(seconds: 4), () {
           Navigator.pushAndRemoveUntil(
             context,
@@ -78,45 +82,61 @@ class ChatInfoScreen extends StatelessWidget {
     }
   }
 
+//HÁTTÉR FOLYAMATOK VÉGE --------------------------------------------------------------------------
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[850],
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.deepPurpleAccent,
-        shadowColor: Colors.deepPurpleAccent,
-        elevation: 10,
-        centerTitle: true,
-        titleTextStyle: const TextStyle(
-          fontSize: 22,
-          fontWeight: FontWeight.bold,
-          letterSpacing: 1,
-        ),
-        title: Text(
-          lang == "Magyar" ? "Chat információi" : "Chat information",
-        ),
+      appBar: _buildAppBar(),
+      body: _buildDeleteChatButton(context),
+    );
+  }
+
+//DIZÁJN ELEMEK ELEJE -----------------------------------------------------------------------------
+
+  PreferredSizeWidget _buildAppBar() {
+    return AppBar(
+      backgroundColor: Colors.black,
+      foregroundColor: Colors.deepPurpleAccent,
+      shadowColor: Colors.deepPurpleAccent,
+      elevation: 10,
+      centerTitle: true,
+      titleTextStyle: const TextStyle(
+        fontSize: 22,
+        fontWeight: FontWeight.bold,
+        letterSpacing: 1,
       ),
-      body: Center(
-        child: ElevatedButton.icon(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.redAccent,
-            foregroundColor: Colors.white,
-          ),
-          icon: const Icon(
-            Icons.delete,
-            size: 40,
-          ),
-          label: Text(
-            lang == "Magyar" ? "Chat törlése" : "Delete chat",
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          onPressed: () => _deleteChat(context),
-        ),
+      title: Text(
+        lang == "Magyar" ? "Chat információi" : "Chat information",
       ),
     );
   }
+
+  Widget _buildDeleteChatButton(BuildContext context) {
+    return Center(
+      child: ElevatedButton.icon(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.redAccent,
+          foregroundColor: Colors.white,
+        ),
+        icon: const Icon(
+          Icons.delete,
+          size: 40,
+        ),
+        label: Text(
+          lang == "Magyar" ? "Chat törlése" : "Delete chat",
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        onPressed: () => _deleteChat(context),
+      ),
+    );
+  }
+
+//DIZÁJN ELEMEK VÉGE ------------------------------------------------------------------------------
 }
+
+//ChatInfoScreen OSZTÁLY VÉGE ------------------------------------------------------------------

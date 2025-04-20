@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:chatex/logic/preferences.dart';
+import 'package:chatex/application/components_of_chat/load_chats.dart';
 
+//BottomNavbarForChat OSZTÁLY ELEJE ---------------------------------------------------------------
 class BottomNavbarForChat extends StatefulWidget {
   const BottomNavbarForChat({
     super.key,
@@ -8,7 +9,10 @@ class BottomNavbarForChat extends StatefulWidget {
     required this.onItemTapped,
   });
 
+  //melyik oldalon vagyunk ha sidebar elemei közül akkor a -1-en tehát ne legyen kiválasztva semmi különben pedig chatek és ismerősök közül
   final int selectedIndex;
+
+  //_setScreen-t hívjuk meg a build_ui.dart-ban
   final Function(int) onItemTapped;
 
   @override
@@ -19,43 +23,46 @@ class _BottomNavbarForChatState extends State<BottomNavbarForChat> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<String>(
-      valueListenable: Preferences.languageNotifier,
+      valueListenable: languageNotifier,
       builder: (context, locale, child) {
-        return ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(15),
-            topRight: Radius.circular(15),
-          ),
-          child: BottomAppBar(
-            color: Colors.grey[800],
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _bottomAppBarItem(
-                  Icons.chat,
-                  Preferences.getPreferredLanguage() == "Magyar"
-                      ? "Chatek"
-                      : "Chats",
-                  0,
-                  const Key("chatNavBar"), // Unique key for the Chats tab
-                ),
-                _bottomAppBarItem(
-                  Icons.person,
-                  Preferences.getPreferredLanguage() == "Magyar"
-                      ? "Ismerősök"
-                      : "Friends",
-                  1,
-                  const Key("friendsNavBar"), // Unique key for the Friends tab
-                ),
-              ],
-            ),
-          ),
-        );
+        return _buildBottomNavbar();
       },
     );
   }
 
+//DIZÁJN ELEMEK ELEJE -----------------------------------------------------------------------------
+
+  Widget _buildBottomNavbar() {
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(15),
+        topRight: Radius.circular(15),
+      ),
+      child: BottomAppBar(
+        color: Colors.grey[800],
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _bottomAppBarItem(
+              Icons.chat_rounded,
+              lang == "Magyar" ? "Chatek" : "Chats",
+              0,
+              const Key("chatNavBar"), // Unique key for the Chats tab
+            ),
+            _bottomAppBarItem(
+              Icons.person_rounded,
+              lang == "Magyar" ? "Ismerősök" : "Friends",
+              1,
+              const Key("friendsNavBar"), // Unique key for the Friends tab
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _bottomAppBarItem(IconData icon, String label, int index, Key key) {
+    //elmentjük egy változóba a konstruktorból meghívott index-t ami egyenlő lett a metódus index-ével
     final bool isSelected = widget.selectedIndex == index;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,6 +72,7 @@ class _BottomNavbarForChatState extends State<BottomNavbarForChat> {
           minWidth: 0,
           onPressed: () => widget.onItemTapped(index),
           child: Column(
+            //ikon és szöveg egymás alatt legyenek
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
@@ -86,4 +94,7 @@ class _BottomNavbarForChatState extends State<BottomNavbarForChat> {
       ],
     );
   }
+
+//DIZÁJN ELEMEK VÉGE ------------------------------------------------------------------------------
 }
+//BottomNavbarForChat OSZTÁLY VÉGE ----------------------------------------------------------------
