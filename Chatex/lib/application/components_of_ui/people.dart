@@ -6,6 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:chatex/application/components_of_chat/load_chats.dart';
 import 'package:chatex/application/components_of_ui/components_of_people/friend_requests.dart';
+import 'package:chatex/application/components_of_ui/components_of_people/manage_friends.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'dart:convert';
 import 'dart:async';
@@ -109,7 +110,7 @@ class _PeopleState extends State<People> {
     _timer = Timer(
       const Duration(milliseconds: 500), //fél másodpercig vár
       () async {
-        if (query.isEmpty || query.length < 3) {
+        if (query.isEmpty || query.length < 3 || query.length > 20) {
           setState(() {
             //eredmény üres ha nem felel meg az if-nek
             _userSearchResults = [];
@@ -185,7 +186,7 @@ class _PeopleState extends State<People> {
       //a message kulcs tartalmazhatja a "pending_request"-et, "already_friends", vagy a "can_send"-et
       final String status = responseData["message"];
       _friendStatusMap[friendId] = status; //hozzá rendeli a státuszt
-      return status;
+      return status; //később ez alapján változik a design
     } else {
       ToastMessages.showToastMessages(
         lang == "Magyar"
@@ -268,59 +269,130 @@ class _PeopleState extends State<People> {
 
 //HÁTTÉR FOLYAMATOK VÉGE --------------------------------------------------------------------------
 
-//TODO: innen folyt köv!!!!! fasza lesz w/segítség txt-k
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[850],
-      body: FormBuilder(
-        key: _formKey,
-        child: Column(
-          children: [
-            SizedBox(
-              height: 70,
-              child: ListView(
-                children: [
-                  _buildFriendRequestsCard(
-                    Icons.people_alt,
-                    Colors.white,
-                    lang == "Magyar" ? "Barát jelölések" : "Friend requests",
-                    () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const FriendRequests(),
-                        ),
-                      );
-                      _loadFriendRequestCount();
-                    },
-                  ),
-                ],
-              ),
-            ),
-            _userSearchInputWidget(),
-            const SizedBox(height: 10),
-            Expanded(
-              flex: 2,
-              child: _searchResultsWidget(),
-            ),
-          ],
-        ),
-      ),
+      body: _buildBody(),
     );
   }
 
 //DIZÁJN ELEMEK ELEJE -----------------------------------------------------------------------------
 
-  Widget _buildFriendRequestsCard(
-      IconData icon, Color iconColor, String title, VoidCallback onTap) {
+  Widget _buildBody() {
+    //ez a metódus felel az egész képernyő felépítéséért
+    return FormBuilder(
+      //a formBuilder használata azért szükséges hogy validálni tudjuk a kereső mezőt
+      key: _formKey, //egy kulccsal tudjuk figyelni
+      child: Column(
+        children: [
+          SizedBox(
+            //egy meghatározott méretű területen jelenítjük meg a kettő kártya widgetet
+            height: 140,
+            child: ListView(
+              children: [
+                _buildCard(
+                  Icons.people_alt_rounded,
+                  Colors.white,
+                  lang == "Magyar" ? "Barát jelölések" : "Friend requests",
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      const Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white,
+                        size: 16,
+                      ),
+                      if (_friendRequestCount > 0)
+                        //ha van barátjelölés jelenítsük meg a előre nyíl előtt
+                        Positioned(
+                          right: 30,
+                          top: -4,
+                          child: Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: const BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
+                            constraints: const BoxConstraints(
+                              minWidth: 20,
+                              minHeight: 20,
+                            ),
+                            child: Text(
+                              '$_friendRequestCount',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                  () async {
+                    //kattintásra nyissa meg a barátjelölések képernyőt
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const FriendRequests(),
+                      ),
+                    );
+                    //és töltse be a barátkérés számlálót
+                    _loadFriendRequestCount();
+                  },
+                ),
+                _buildCard(
+                  Icons.emoji_people_rounded,
+                  Colors.white,
+                  lang == "Magyar" ? "Barátok kezelése" : "Manage friends",
+                  const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                    size: 16,
+                  ),
+                  () async {
+                    //kattintásra nyissa meg a barátkezelés képernyőt
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ManageFriends(),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+          _userSearchInputWidget(),
+          const SizedBox(height: 10),
+          Expanded(
+            //expanded widgettel van megoldva a hogy 2:3 arányban jelenjen meg
+            flex: 2,
+            child: _searchResultsWidget(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCard(IconData icon, Color iconColor, String title,
+      Widget trailing, VoidCallback onTap) {
     return Card(
+      //Card widget adja az alakot míg,
       color: Colors.grey[800],
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
       elevation: 5,
       margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
       child: ListTile(
-        leading: Icon(icon, color: iconColor),
+        //a ListTile widget adja a Card-ban lévő elrendezést
+        leading: Icon(
+          icon,
+          color: iconColor,
+        ),
         title: Text(
           title,
           style: const TextStyle(
@@ -329,52 +401,91 @@ class _PeopleState extends State<People> {
             letterSpacing: 1,
           ),
         ),
-        trailing: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 16),
-            if (_friendRequestCount > 0)
-              Positioned(
-                right: 30,
-                top: -4,
-                child: Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: const BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
-                  ),
-                  constraints: const BoxConstraints(
-                    minWidth: 20,
-                    minHeight: 20,
-                  ),
-                  child: Text(
-                    '$_friendRequestCount',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-          ],
-        ),
+        trailing: trailing,
         onTap: onTap,
       ),
     );
   }
 
-//DIZÁJN ELEMEK VÉGE ------------------------------------------------------------------------------
+  // Widget _buildFriendRequestsCard(
+  //     //ez a metódus felel a barátjelölések képernyő megjelenítésében
+  //     IconData icon,
+  //     Color iconColor,
+  //     String title,
+  //     VoidCallback onTap) {
+  //   return Card(
+  //     //Card widget adja az alakot míg,
+  //     color: Colors.grey[800],
+  //     shape: RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.circular(10),
+  //     ),
+  //     elevation: 5,
+  //     margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
+  //     child: ListTile(
+  //       //a ListTile widget adja a Card-ban lévő elrendezést
+  //       leading: Icon(
+  //         icon,
+  //         color: iconColor,
+  //       ),
+  //       title: Text(
+  //         title,
+  //         style: const TextStyle(
+  //           color: Colors.white,
+  //           fontSize: 18,
+  //           letterSpacing: 1,
+  //         ),
+  //       ),
+  //       trailing: Stack(
+  //         clipBehavior: Clip.none,
+  //         children: [
+  //           const Icon(
+  //             Icons.arrow_forward_ios,
+  //             color: Colors.white,
+  //             size: 16,
+  //           ),
+  //           if (_friendRequestCount > 0)
+  //             //ha van barátjelölés jelenítsük meg a előre nyíl előtt
+  //             Positioned(
+  //               right: 30,
+  //               top: -4,
+  //               child: Container(
+  //                 padding: const EdgeInsets.all(4),
+  //                 decoration: const BoxDecoration(
+  //                   color: Colors.red,
+  //                   shape: BoxShape.circle,
+  //                 ),
+  //                 constraints: const BoxConstraints(
+  //                   minWidth: 20,
+  //                   minHeight: 20,
+  //                 ),
+  //                 child: Text(
+  //                   '$_friendRequestCount',
+  //                   style: const TextStyle(
+  //                     color: Colors.white,
+  //                     fontSize: 12,
+  //                     fontWeight: FontWeight.bold,
+  //                   ),
+  //                   textAlign: TextAlign.center,
+  //                 ),
+  //               ),
+  //             ),
+  //         ],
+  //       ),
+  //       onTap: onTap,
+  //     ),
+  //   );
+  // }
 
   Widget _userSearchInputWidget() {
+    //ez a metódus a keresésért felel
     return Container(
       margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
       child: FormBuilderTextField(
-        key: (const Key("userName")),
+        key: (const Key("userName")), //a teszteléshez ez a kulcs szükséges
         name: "username",
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: FormBuilderValidators.compose([
+          //a regisztrációkor is érvényes követelmények alapján keresünk
           FormBuilderValidators.minLength(
             3,
             errorText: lang == "Magyar"
@@ -396,22 +507,24 @@ class _PeopleState extends State<People> {
             checkNullOrEmpty: false,
           ),
         ]),
-        focusNode: _userSearchFocusNode,
-        controller: _userSearchController,
+        focusNode: _userSearchFocusNode, //design változás fókuszkor
+        controller: _userSearchController, //tartalom
         onChanged: (query) {
-          if (query == null ||
-              query.isEmpty ||
-              query.length < 3 ||
-              query.length > 20) {
+          //ha változik akkor csak a null eshetőséget vizsgáljuk itt
+          if (query == null) {
             setState(() {
               _userSearchResults = [];
             });
           } else {
+            //a többit itt ellenőrizzük
             _searchUsers(query);
           }
         },
         keyboardType: TextInputType.name,
-        style: const TextStyle(color: Colors.white, fontSize: 20.0),
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 20.0,
+        ),
         decoration: InputDecoration(
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -426,13 +539,24 @@ class _PeopleState extends State<People> {
                   : "Enter the username!"
               : null,
           focusedBorder: const UnderlineInputBorder(
-              borderSide:
-                  BorderSide(color: Colors.deepPurpleAccent, width: 2.5)),
+            borderSide: BorderSide(
+              color: Colors.deepPurpleAccent,
+              width: 2.5,
+            ),
+          ),
           enabledBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.white, width: 2.5)),
+            borderSide: BorderSide(
+              color: Colors.white,
+              width: 2.5,
+            ),
+          ),
           suffixIcon: _userSearchController.text.isNotEmpty
+              //tartalom törlő ikon
               ? IconButton(
-                  icon: const Icon(Icons.clear, color: Colors.white),
+                  icon: const Icon(
+                    Icons.clear,
+                    color: Colors.white,
+                  ),
                   onPressed: () {
                     _userSearchController.clear();
                     setState(() {
@@ -447,11 +571,6 @@ class _PeopleState extends State<People> {
             fontWeight: FontWeight.bold,
             fontSize: 20.0,
           ),
-          helperStyle: const TextStyle(
-            color: Colors.white,
-            fontSize: 15.0,
-            letterSpacing: 1.0,
-          ),
           labelStyle: const TextStyle(
             color: Colors.white,
             fontSize: 20.0,
@@ -462,105 +581,139 @@ class _PeopleState extends State<People> {
     );
   }
 
-  Widget _searchResultsWidget() {
-    if (_userSearchResults.isEmpty) {
-      return Center(
-        child: Text(
-          lang == "Magyar" ? "Nincs találat" : "No results",
-          style: const TextStyle(color: Colors.white, fontSize: 18),
+  Widget _buildProfilePicture(String? profilePicture) {
+    //base64 alapján
+    Widget profileImage;
+
+    if (profilePicture != null && profilePicture.isNotEmpty) {
+      if (profilePicture.startsWith("data:image/svg+xml;base64,")) {
+        final svgString =
+            utf8.decode(base64Decode(profilePicture.split(",")[1]));
+        profileImage = SvgPicture.string(
+          svgString,
+          width: 60,
+          height: 60,
+          fit: BoxFit.fill,
+        );
+      } else if (profilePicture.startsWith("data:image/")) {
+        profileImage = Image.memory(
+          base64Decode(profilePicture.split(",")[1]),
+          width: 60,
+          height: 60,
+          fit: BoxFit.fill,
+        );
+      } else {
+        profileImage = CircleAvatar(
+          radius: 30,
+          backgroundColor: Colors.grey[600],
+          child: const Icon(
+            Icons.person,
+            size: 40,
+            color: Colors.white,
+          ),
+        );
+      }
+    } else {
+      profileImage = CircleAvatar(
+        radius: 30,
+        backgroundColor: Colors.grey[600],
+        child: const Icon(
+          Icons.person,
+          size: 40,
+          color: Colors.white,
         ),
       );
     }
 
+    return profileImage;
+  }
+
+  Widget _searchResultsWidget() {
+    if (_userSearchResults.isEmpty) {
+      //középre igazítás itt a ListView területén van, illetve nem lehet külön metódusba mert nem buildelődik újra
+      return Center(
+        child: Text(
+          lang == "Magyar" ? "Nincs találat" : "No results",
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+          ),
+        ),
+      );
+    }
+
+    //ha viszont van akkor:
     return ListView.builder(
+      //az összes talált felhasználó adatait lebuildeljük mivel a lista hossza alapján megyünk
       itemCount: _userSearchResults.length,
       itemBuilder: (context, index) {
+        //külön eltároljuk a listánk adatait
         final user = _userSearchResults[index];
+        //id-re, profile_picture-re, és username-et tároló változókra
         final int friendId = user["id"];
         final String? profilePicture = user["profile_picture"];
         final String username = user["username"];
 
-        Widget profileImage;
-        if (profilePicture != null && profilePicture.isNotEmpty) {
-          if (profilePicture.startsWith("data:image/svg+xml;base64,")) {
-            final svgString =
-                utf8.decode(base64Decode(profilePicture.split(",")[1]));
-            profileImage = SvgPicture.string(
-              svgString,
-              width: 60,
-              height: 60,
-              fit: BoxFit.fill,
-            );
-          } else if (profilePicture.startsWith("data:image/")) {
-            profileImage = Image.memory(
-              base64Decode(profilePicture.split(",")[1]),
-              width: 60,
-              height: 60,
-              fit: BoxFit.fill,
-            );
-          } else {
-            profileImage = CircleAvatar(
-              radius: 30,
-              backgroundColor: Colors.grey[600],
-              child: const Icon(Icons.person, size: 40, color: Colors.white),
-            );
-          }
-        } else {
-          profileImage = CircleAvatar(
-            radius: 30,
-            backgroundColor: Colors.grey[600],
-            child: const Icon(Icons.person, size: 40, color: Colors.white),
-          );
-        }
-
         return Padding(
           padding: const EdgeInsets.only(bottom: 10),
           child: ListTile(
-              leading: ClipOval(child: profileImage),
-              title: AutoSizeText(
-                maxLines: 1,
-                username,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                ),
+            //ismét vízszintes elrendezés ListTile-al
+            leading: ClipOval(child: _buildProfilePicture(profilePicture)),
+            title: AutoSizeText(
+              //kiférjen minden eshetőséggel a felhasználónév
+              maxLines: 1,
+              username,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20,
               ),
-              trailing: FutureBuilder(
-                future: _checkFriendStatus(friendId),
-                builder: (context, snapshot) {
-                  final status = snapshot.data.toString();
+            ),
+            trailing: FutureBuilder(
+              //itt viszont dinamikusan kell változtatnunk az értékeket
+              future: _checkFriendStatus(friendId), //ez alapján
+              builder: (context, snapshot) {
+                //a future alapján visszaadott érték amit a snapshot-ból veszünk ki
+                final status = snapshot.data.toString();
 
-                  if (status == "already_friends") {
-                    return Text(
-                      lang == "Magyar" ? "Barát" : "Friend",
+                //majd az értékek alapján megjelenítjük
+                if (status == "already_friends") {
+                  return Text(
+                    lang == "Magyar" ? "Barát" : "Friend",
+                    style: const TextStyle(
+                      color: Colors.greenAccent,
+                      fontSize: 14,
+                    ),
+                  );
+                } else if (status == "pending_request") {
+                  return Text(
+                    lang == "Magyar" ? "Függőben" : "Pending",
+                    style: const TextStyle(
+                      color: Colors.orange,
+                      fontSize: 14,
+                    ),
+                  );
+                } else {
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepPurpleAccent,
+                    ),
+                    onPressed: () => _sendFriendRequest(friendId),
+                    child: Text(
+                      lang == "Magyar" ? "Jelölés" : "Add",
                       style: const TextStyle(
-                          color: Colors.greenAccent, fontSize: 14),
-                    );
-                  } else if (status == "pending_request") {
-                    return Text(
-                      lang == "Magyar" ? "Függőben" : "Pending",
-                      style: const TextStyle(
-                        color: Colors.orange,
-                        fontSize: 14,
+                        color: Colors.white,
                       ),
-                    );
-                  } else {
-                    return ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepPurpleAccent,
-                      ),
-                      onPressed: () => _sendFriendRequest(friendId),
-                      child: Text(
-                        lang == "Magyar" ? "Jelölés" : "Add",
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    );
-                  }
-                },
-              )),
+                    ),
+                  );
+                }
+              },
+            ),
+          ),
         );
       },
     );
   }
+
+//DIZÁJN ELEMEK VÉGE ------------------------------------------------------------------------------
 }
-//FileChatBubble OSZTÁLY VÉGE ------------------------------------------------------------------
+//People OSZTÁLY VÉGE -----------------------------------------------------------------------------

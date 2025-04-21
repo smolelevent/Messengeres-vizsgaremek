@@ -9,7 +9,6 @@ import 'dart:developer';
 
 //FriendRequests OSZTÁLY ELEJE --------------------------------------------------------------------
 class FriendRequests extends StatefulWidget {
-
   const FriendRequests({super.key});
 
   @override
@@ -202,9 +201,7 @@ class _FriendRequestsState extends State<FriendRequests> {
   Widget _noRequestsWidget() {
     return Center(
       child: Text(
-        lang == "Magyar"
-            ? "Nincsenek új jelölések"
-            : "No new friend requests",
+        lang == "Magyar" ? "Nincsenek új jelölések" : "No new friend requests",
         style: const TextStyle(
           color: Colors.white,
           fontSize: 18,
@@ -307,9 +304,7 @@ class _FriendRequestsState extends State<FriendRequests> {
           ),
         ),
         subtitle: Text(
-          lang == "Magyar"
-              ? "Barát jelölés🤓"
-              : "Friend request🤓",
+          lang == "Magyar" ? "Barát jelölés🤓" : "Friend request🤓",
           style: const TextStyle(
             color: Colors.white70,
           ),
@@ -336,9 +331,7 @@ class _FriendRequestsState extends State<FriendRequests> {
   PreferredSizeWidget _buildAppbar() {
     return AppBar(
       title: Text(
-        lang == "Magyar"
-            ? "Jelölések"
-            : "Friend Requests",
+        lang == "Magyar" ? "Jelölések" : "Friend Requests",
       ),
       backgroundColor: Colors.deepPurpleAccent,
       foregroundColor: Colors.white,
@@ -356,4 +349,4 @@ class _FriendRequestsState extends State<FriendRequests> {
 //DIZÁJN ELEMEK VÉGE ------------------------------------------------------------------------------
 }
 
-//FileChatBubble OSZTÁLY VÉGE ------------------------------------------------------------------
+//FriendRequests OSZTÁLY VÉGE ---------------------------------------------------------------------
