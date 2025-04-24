@@ -10,15 +10,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 //GLOBÁLIS VÁLTOZÓK ELEJE -------------------------------------------------------------------------
-final int? userId = Preferences.getUserId();
-final String lang = Preferences.getPreferredLanguage();
-final String? profilePicture = Preferences.getProfilePicture();
-final String username = Preferences.getUsername();
-final String? email = Preferences.getEmail();
-final String? passwordHash = Preferences.getPasswordHash();
-final String? status = Preferences.getStatus();
-final String token = Preferences.getToken();
-final languageNotifier = Preferences.languageNotifier;
+
 //GLOBÁLIS VÁLTOZÓK VÉGE --------------------------------------------------------------------------
 
 //LoadedChatData OSZTÁLY ELEJE --------------------------------------------------------------------
@@ -31,7 +23,6 @@ class LoadedChatData extends StatefulWidget {
 
 class LoadedChatDataState extends State<LoadedChatData> {
 //OSZTÁLYON BELÜLI VÁLTOZÓK ELEJE -----------------------------------------------------------------------
-
   late Future<List<dynamic>> _chatList = Future.value([]);
   late WebSocketChannel _channel;
 
@@ -70,7 +61,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
       final data = decodedMessage['data'] ?? decodedMessage;
 
       // Csak azokat a chateket frissítse le amik a megfelelő user_id-t tartalmazzák
-      if (type == 'message' && data['receiver_id'] == userId) {
+      if (type == 'message' && data['receiver_id'] == Preferences.getUserId()) {
         _getCorrectChatList(); // újrahívja a chat listát
       }
     });
@@ -78,7 +69,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
 
   Future<void> _getCorrectChatList() async {
     setState(() {
-      _chatList = _getChatList(userId);
+      _chatList = _getChatList(Preferences.getUserId());
     });
   }
 
@@ -97,7 +88,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
         return json.decode(response.body);
       } else {
         ToastMessages.showToastMessages(
-          lang == "Magyar"
+          Preferences.isHungarian
               ? "Nem sikerült betölteni a chat listát!"
               : "Couldn't load the chat list!",
           0.3,
@@ -111,7 +102,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
       }
     } catch (e) {
       ToastMessages.showToastMessages(
-        lang == "Magyar"
+        Preferences.isHungarian
             ? "Kapcsolati hiba a chatek lekérésénél!"
             : "Connection error while getting chats!",
         0.3,
@@ -149,7 +140,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
           ),
           children: [
             TextSpan(
-              text: lang == "Magyar"
+              text: Preferences.isHungarian
                   ? "Még nincs egyetlen csevegésed sem.\nKezdj el egyet a "
                   : "You don't have any chats yet.\nStart one clicking on the ",
             ),
@@ -161,7 +152,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
               ),
             ),
             TextSpan(
-              text: lang == "Magyar" ? " ikonra kattintva!" : " icon!",
+              text: Preferences.isHungarian ? " ikonra kattintva!" : " icon!",
             ),
           ],
         ),
@@ -196,23 +187,23 @@ class LoadedChatDataState extends State<LoadedChatData> {
             final String rawMessage =
                 chat["last_message"]?.toString().trim() ?? "";
             final int? lastSenderId = chat["last_sender_id"];
-            final int currentUserId = userId ?? -1;
+            final int currentUserId = Preferences.getUserId() ?? -1;
 
             String prefix = "";
             if (lastSenderId == currentUserId) {
-              prefix = lang == "Magyar" ? "Te: " : "You: ";
+              prefix = Preferences.isHungarian ? "Te: " : "You: ";
             }
 
             String lastMessage;
             if (rawMessage == "[FILE]") {
               lastMessage = prefix +
-                  (lang == "Magyar" ? "📎 Fájl csatolva" : "📎 File attached");
+                  (Preferences.isHungarian ? "📎 Fájl csatolva" : "📎 File attached");
             } else if (rawMessage == "[IMAGE]") {
               lastMessage = prefix +
-                  (lang == "Magyar" ? "🖼️ Kép küldve" : "🖼️ Image sent");
+                  (Preferences.isHungarian ? "🖼️ Kép küldve" : "🖼️ Image sent");
             } else if (rawMessage.isEmpty) {
               lastMessage =
-                  lang == "Magyar" ? "Nincs még üzenet" : "No message yet";
+                  Preferences.isHungarian ? "Nincs még üzenet" : "No message yet";
             } else {
               lastMessage = prefix + rawMessage;
             }

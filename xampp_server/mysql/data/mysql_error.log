@@ -34298,3 +34298,1103 @@ Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribut
 2025-04-21 13:55:33 0 [Note] InnoDB: Shutdown completed; log sequence number 53882305; transaction id 63790
 2025-04-21 13:55:33 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: Shutdown complete
 
+2025-04-22 19:37:45 0 [Note] Starting MariaDB 10.4.32-MariaDB source revision c4143f909528e3fab0677a28631d10389354c491 as process 4376
+2025-04-22 19:37:46 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2025-04-22 19:37:46 0 [Note] InnoDB: Uses event mutexes
+2025-04-22 19:37:46 0 [Note] InnoDB: Compressed tables use zlib 1.3
+2025-04-22 19:37:46 0 [Note] InnoDB: Number of pools: 1
+2025-04-22 19:37:46 0 [Note] InnoDB: Using SSE2 crc32 instructions
+2025-04-22 19:37:46 0 [Note] InnoDB: Initializing buffer pool, total size = 16M, instances = 1, chunk size = 16M
+2025-04-22 19:37:46 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-04-22 19:37:46 0 [Note] InnoDB: 128 out of 128 rollback segments are active.
+2025-04-22 19:37:46 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-04-22 19:37:46 0 [Note] InnoDB: Setting file 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-04-22 19:37:46 0 [Note] InnoDB: File 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size is now 12 MB.
+2025-04-22 19:37:46 0 [Note] InnoDB: Waiting for purge to start
+2025-04-22 19:37:46 0 [Note] InnoDB: 10.4.32 started; log sequence number 53882305; transaction id 63792
+2025-04-22 19:37:46 0 [Note] InnoDB: Loading buffer pool(s) from C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-04-22 19:37:46 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-04-22 19:37:46 0 [Note] Server socket created on IP: '::'.
+2025-04-22 19:37:46 0 [Note] InnoDB: Buffer pool(s) load completed at 250422 19:37:46
+2025-04-22 19:37:46 0 [Note] Reading of all Master_info entries succeeded
+2025-04-22 19:37:46 0 [Note] Added new Master_info '' to hash table
+2025-04-22 19:37:46 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: ready for connections.
+Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribution
+2025-04-22 19:46:47 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 19:46:47 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 19:46:47 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 19:46:48 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 19:46:48 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 19:46:48 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 19:46:48 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 19:46:48 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 19:46:48 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 19:46:48 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 19:46:48 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 19:46:48 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 19:46:48 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 19:46:48 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 19:46:48 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 19:46:48 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 19:46:48 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 19:46:48 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 19:46:48 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 19:46:48 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 19:46:48 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:06:38 29 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:06:38 29 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:06:38 29 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:06:39 31 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:06:39 31 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:06:39 31 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:06:39 33 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:06:39 33 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:06:39 33 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:06:39 35 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:06:39 35 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:06:39 35 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:06:39 37 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:06:39 37 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:06:39 37 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:06:39 39 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:06:39 39 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:06:39 39 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:22:05 43 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:22:05 43 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:22:05 43 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:22:05 45 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:22:05 45 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:22:05 45 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:10 49 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:10 49 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:10 49 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:10 51 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:10 51 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:10 51 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:10 53 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:10 53 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:10 53 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:11 55 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:11 55 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:11 55 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:11 57 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:11 57 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:11 57 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:11 59 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:11 59 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:11 59 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:15 61 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:16 61 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:16 61 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:16 63 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:16 63 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:16 63 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:19 65 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:19 65 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:19 65 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:19 67 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:19 67 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:19 67 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:38 69 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:38 69 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:38 69 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:38 71 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:38 71 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:38 71 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:38 73 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:38 73 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:38 73 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:38 75 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:38 75 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:38 75 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:38 77 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:38 77 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:38 77 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:39 79 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:39 79 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:39 79 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:41 81 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:41 81 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:41 81 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:41 83 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:41 83 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:41 83 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:42 85 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:42 85 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:42 85 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:42 87 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:42 87 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:26:42 87 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:12 106 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:12 106 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:12 106 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:12 108 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:12 108 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:12 108 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:13 110 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:13 110 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:13 110 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:13 112 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:13 112 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:13 112 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:17 114 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:17 114 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:17 114 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:37 132 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:37 132 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:37 132 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:37 134 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:37 134 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:37 134 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:40 136 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:40 136 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:40 136 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:40 138 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:40 138 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:40 138 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:45 140 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:45 140 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:42:45 140 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:43:08 156 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:43:08 156 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:43:08 156 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:43:08 158 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:43:08 158 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:43:08 158 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:43:13 160 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:43:13 160 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:43:13 160 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:43:13 162 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:43:13 162 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:43:13 162 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:43:27 164 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:43:28 164 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:43:28 164 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:43:28 166 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:43:28 166 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 20:43:28 166 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:07:23 182 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:07:23 182 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:07:23 182 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:53 185 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:53 185 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:53 185 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:53 187 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:53 187 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:53 187 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:53 189 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:53 189 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:53 189 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:53 191 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:53 191 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:53 191 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:53 193 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:53 193 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:53 193 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:53 195 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:53 195 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:53 195 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:56 197 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:56 197 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:56 197 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:56 199 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:56 199 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:56 199 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:59 201 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:59 201 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:59 201 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:59 203 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:59 203 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:26:59 203 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:04 205 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:04 205 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:04 205 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:05 207 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:05 207 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:05 207 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:23 210 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:23 210 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:23 210 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:24 212 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:24 212 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:24 212 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:24 214 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:24 214 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:24 214 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:24 216 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:24 216 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:24 216 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:24 218 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:24 218 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:24 218 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:24 220 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:24 220 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:27:24 220 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:51:19 224 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:51:19 224 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 21:51:19 224 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 22:13:56 228 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 22:13:56 228 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 22:13:56 228 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 22:35:09 230 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 22:35:09 230 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 22:35:09 230 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 22:56:01 232 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 22:56:01 232 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 22:56:01 232 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 23:16:32 234 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 23:16:32 234 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 23:16:32 234 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 23:36:43 245 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 23:36:43 245 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 23:36:43 245 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-22 23:39:41 22 [Warning] Aborted connection 22 to db: 'dbchatex' user: 'root' host: 'localhost' (Got an error reading communication packets)
+2025-04-22 23:41:59 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe (initiated by: unknown): Normal shutdown
+2025-04-22 23:41:59 0 [Note] Event Scheduler: Purging the queue. 0 events
+2025-04-22 23:41:59 0 [Note] InnoDB: FTS optimize thread exiting.
+2025-04-22 23:41:59 0 [Note] InnoDB: Starting shutdown...
+2025-04-22 23:41:59 0 [Note] InnoDB: Dumping buffer pool(s) to C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-04-22 23:41:59 0 [Note] InnoDB: Instance 0, restricted to 250 pages due to innodb_buf_pool_dump_pct=25
+2025-04-22 23:41:59 0 [Note] InnoDB: Buffer pool(s) dump completed at 250422 23:41:59
+2025-04-22 23:42:00 0 [Note] InnoDB: Shutdown completed; log sequence number 53917466; transaction id 63891
+2025-04-22 23:42:00 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: Shutdown complete
+
+2025-04-23 11:50:15 0 [Note] Starting MariaDB 10.4.32-MariaDB source revision c4143f909528e3fab0677a28631d10389354c491 as process 4420
+2025-04-23 11:50:16 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2025-04-23 11:50:16 0 [Note] InnoDB: Uses event mutexes
+2025-04-23 11:50:16 0 [Note] InnoDB: Compressed tables use zlib 1.3
+2025-04-23 11:50:16 0 [Note] InnoDB: Number of pools: 1
+2025-04-23 11:50:16 0 [Note] InnoDB: Using SSE2 crc32 instructions
+2025-04-23 11:50:16 0 [Note] InnoDB: Initializing buffer pool, total size = 16M, instances = 1, chunk size = 16M
+2025-04-23 11:50:16 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-04-23 11:50:16 0 [Warning] InnoDB: Are you sure you are using the right ib_logfiles to start up the database? Log sequence number in the ib_logfiles is 53882305, less than the log sequence number in the first system tablespace file header, 53917466.
+2025-04-23 11:50:16 0 [Note] InnoDB: The log sequence number 53917466 in the system tablespace does not match the log sequence number 53882305 in the ib_logfiles!
+2025-04-23 11:50:16 0 [Warning] InnoDB: Ignoring a doublewrite copy of page [page id: space=0, page number=234] with future log sequence number 53916088
+2025-04-23 11:50:16 0 [Warning] InnoDB: Ignoring a doublewrite copy of page [page id: space=72, page number=5] with future log sequence number 53916364
+2025-04-23 11:50:16 0 [Warning] InnoDB: Ignoring a doublewrite copy of page [page id: space=72, page number=4] with future log sequence number 53916354
+2025-04-23 11:50:16 0 [Warning] InnoDB: Ignoring a doublewrite copy of page [page id: space=72, page number=3] with future log sequence number 53916384
+2025-04-23 11:50:16 0 [Warning] InnoDB: Ignoring a doublewrite copy of page [page id: space=0, page number=234] with future log sequence number 53916837
+2025-04-23 11:50:16 0 [Warning] InnoDB: Ignoring a doublewrite copy of page [page id: space=0, page number=403] with future log sequence number 53916837
+2025-04-23 11:50:16 0 [Warning] InnoDB: Ignoring a doublewrite copy of page [page id: space=0, page number=233] with future log sequence number 53916793
+2025-04-23 11:50:16 0 [Warning] InnoDB: Ignoring a doublewrite copy of page [page id: space=0, page number=412] with future log sequence number 53916793
+2025-04-23 11:50:16 0 [Warning] InnoDB: Ignoring a doublewrite copy of page [page id: space=0, page number=408] with future log sequence number 53916793
+2025-04-23 11:50:16 0 [Warning] InnoDB: Ignoring a doublewrite copy of page [page id: space=0, page number=232] with future log sequence number 53916687
+2025-04-23 11:50:16 0 [Warning] InnoDB: Ignoring a doublewrite copy of page [page id: space=0, page number=411] with future log sequence number 53916687
+2025-04-23 11:50:16 0 [Warning] InnoDB: Ignoring a doublewrite copy of page [page id: space=0, page number=231] with future log sequence number 53916627
+2025-04-23 11:50:16 0 [Warning] InnoDB: Ignoring a doublewrite copy of page [page id: space=0, page number=236] with future log sequence number 53917402
+2025-04-23 11:50:16 0 [Warning] InnoDB: Ignoring a doublewrite copy of page [page id: space=86, page number=64] with future log sequence number 53917422
+2025-04-23 11:50:16 0 [Warning] InnoDB: Ignoring a doublewrite copy of page [page id: space=0, page number=379] with future log sequence number 53917402
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=195] log sequence number 53883295 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=323] log sequence number 53883295 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=196] log sequence number 53883339 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=364] log sequence number 53883339 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=202] log sequence number 53883700 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=326] log sequence number 53883700 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=203] log sequence number 53885360 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=333] log sequence number 53885360 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=204] log sequence number 53885404 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=324] log sequence number 53885404 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=205] log sequence number 53886561 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=420] log sequence number 53886561 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=206] log sequence number 53887942 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=419] log sequence number 53887942 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=207] log sequence number 53887986 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=384] log sequence number 53887986 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=208] log sequence number 53890153 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=359] log sequence number 53890153 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=209] log sequence number 53890197 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=339] log sequence number 53890197 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=210] log sequence number 53892768 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=401] log sequence number 53892768 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=211] log sequence number 53892812 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=365] log sequence number 53892812 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=212] log sequence number 53892856 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=400] log sequence number 53892856 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=213] log sequence number 53895858 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=397] log sequence number 53895858 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=214] log sequence number 53895902 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=431] log sequence number 53895902 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=215] log sequence number 53895946 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=385] log sequence number 53895946 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=216] log sequence number 53895990 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=436] log sequence number 53895990 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=217] log sequence number 53901920 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=415] log sequence number 53901920 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=218] log sequence number 53901964 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=331] log sequence number 53901964 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=219] log sequence number 53902008 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=425] log sequence number 53902008 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=222] log sequence number 53902052 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=395] log sequence number 53902052 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=223] log sequence number 53903501 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=341] log sequence number 53903501 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=224] log sequence number 53903545 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=314] log sequence number 53903545 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=225] log sequence number 53910376 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=360] log sequence number 53910376 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=226] log sequence number 53910420 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=386] log sequence number 53910420 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=227] log sequence number 53910464 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=378] log sequence number 53910464 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=228] log sequence number 53910883 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=377] log sequence number 53910883 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=229] log sequence number 53910927 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=340] log sequence number 53910927 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=230] log sequence number 53916583 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=442] log sequence number 53916583 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=231] log sequence number 53916627 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=380] log sequence number 53916627 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=232] log sequence number 53916687 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=411] log sequence number 53916687 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=233] log sequence number 53916793 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=234] log sequence number 53916837 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=403] log sequence number 53916837 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=235] log sequence number 53917081 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=414] log sequence number 53917081 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=236] log sequence number 53917402 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=379] log sequence number 53917402 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Page [page id: space=0, page number=0] log sequence number 53916793 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:16 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:17 0 [Note] InnoDB: 128 out of 128 rollback segments are active.
+2025-04-23 11:50:17 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-04-23 11:50:17 0 [Note] InnoDB: Setting file 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-04-23 11:50:17 0 [Note] InnoDB: File 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size is now 12 MB.
+2025-04-23 11:50:17 0 [Note] InnoDB: Waiting for purge to start
+2025-04-23 11:50:17 2 [ERROR] InnoDB: Page [page id: space=86, page number=64] log sequence number 53917422 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:17 2 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:17 2 [ERROR] InnoDB: Page [page id: space=71, page number=3] log sequence number 53915821 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:17 2 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:17 2 [ERROR] InnoDB: Page [page id: space=72, page number=3] log sequence number 53916384 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:17 2 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:17 0 [Note] InnoDB: 10.4.32 started; log sequence number 53882305; transaction id 63892
+2025-04-23 11:50:17 0 [Note] InnoDB: Loading buffer pool(s) from C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-04-23 11:50:17 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-04-23 11:50:17 0 [ERROR] InnoDB: Page [page id: space=0, page number=408] log sequence number 53916793 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:17 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:17 0 [ERROR] InnoDB: Page [page id: space=0, page number=412] log sequence number 53916793 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:17 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:17 0 [ERROR] InnoDB: Page [page id: space=1, page number=3] log sequence number 53916344 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:17 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:17 0 [ERROR] InnoDB: Page [page id: space=2, page number=6] log sequence number 53916324 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:17 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:17 0 [ERROR] InnoDB: Page [page id: space=9, page number=3] log sequence number 53905687 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:17 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:17 0 [ERROR] InnoDB: Page [page id: space=16, page number=3] log sequence number 53911188 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:17 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:17 0 [ERROR] InnoDB: Page [page id: space=71, page number=4] log sequence number 53911539 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:17 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:17 0 [ERROR] InnoDB: Page [page id: space=71, page number=5] log sequence number 53911570 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:17 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:17 0 [Note] Server socket created on IP: '::'.
+2025-04-23 11:50:17 0 [ERROR] InnoDB: Page [page id: space=72, page number=4] log sequence number 53916354 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:17 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:17 0 [ERROR] InnoDB: Page [page id: space=72, page number=5] log sequence number 53916364 is in the future! Current system log sequence number 53882314.
+2025-04-23 11:50:17 0 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 11:50:17 0 [Note] InnoDB: Buffer pool(s) load completed at 250423 11:50:17
+2025-04-23 11:50:17 0 [Note] Reading of all Master_info entries succeeded
+2025-04-23 11:50:17 0 [Note] Added new Master_info '' to hash table
+2025-04-23 11:50:17 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: ready for connections.
+Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribution
+2025-04-23 11:52:06 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 11:52:06 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 11:52:06 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 11:52:07 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 11:52:07 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 11:52:07 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 11:52:07 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 11:52:07 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 11:52:07 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 11:52:07 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 11:52:07 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 11:52:07 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 11:52:07 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 11:52:07 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 11:52:07 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 11:52:07 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 11:52:07 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 11:52:07 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 11:52:07 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 11:52:07 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 11:52:07 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=196] log sequence number 53883339 is in the future! Current system log sequence number 53883301.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=202] log sequence number 53883700 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=203] log sequence number 53885360 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=204] log sequence number 53885404 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=205] log sequence number 53886561 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=206] log sequence number 53887942 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=207] log sequence number 53887986 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=208] log sequence number 53890153 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=209] log sequence number 53890197 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=210] log sequence number 53892768 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=211] log sequence number 53892812 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 34 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=212] log sequence number 53892856 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=213] log sequence number 53895858 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 34 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=214] log sequence number 53895902 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 34 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=215] log sequence number 53895946 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=216] log sequence number 53895990 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=217] log sequence number 53901920 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=218] log sequence number 53901964 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=219] log sequence number 53902008 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=222] log sequence number 53902052 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=223] log sequence number 53903501 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=224] log sequence number 53903545 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=225] log sequence number 53910376 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=226] log sequence number 53910420 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=227] log sequence number 53910464 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=228] log sequence number 53910883 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=229] log sequence number 53910927 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=230] log sequence number 53916583 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=231] log sequence number 53916627 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=232] log sequence number 53916687 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=233] log sequence number 53916793 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=234] log sequence number 53916837 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=235] log sequence number 53917081 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=414] log sequence number 53917081 is in the future! Current system log sequence number 53883405.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=236] log sequence number 53917402 is in the future! Current system log sequence number 53883449.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Page [page id: space=0, page number=379] log sequence number 53917402 is in the future! Current system log sequence number 53883449.
+2025-04-23 12:16:03 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:26:11 35 [ERROR] InnoDB: Page [page id: space=0, page number=326] log sequence number 53883700 is in the future! Current system log sequence number 53883502.
+2025-04-23 12:26:11 35 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:26:30 36 [ERROR] InnoDB: Page [page id: space=0, page number=333] log sequence number 53885360 is in the future! Current system log sequence number 53883807.
+2025-04-23 12:26:30 36 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:38:44 39 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 12:38:44 39 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 12:38:44 39 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 12:43:00 42 [ERROR] InnoDB: Page [page id: space=0, page number=324] log sequence number 53885404 is in the future! Current system log sequence number 53884128.
+2025-04-23 12:43:00 42 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:44:07 44 [ERROR] InnoDB: Page [page id: space=0, page number=419] log sequence number 53887942 is in the future! Current system log sequence number 53884435.
+2025-04-23 12:44:07 44 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:44:17 45 [ERROR] InnoDB: Page [page id: space=0, page number=384] log sequence number 53887986 is in the future! Current system log sequence number 53884726.
+2025-04-23 12:44:17 45 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 12:44:21 46 [ERROR] InnoDB: Page [page id: space=0, page number=359] log sequence number 53890153 is in the future! Current system log sequence number 53885033.
+2025-04-23 12:44:21 46 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 13:01:02 49 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:01:02 49 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:01:02 49 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:03 51 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:03 50 [ERROR] InnoDB: Page [page id: space=0, page number=401] log sequence number 53892768 is in the future! Current system log sequence number 53885604.
+2025-04-23 13:02:03 50 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 13:02:03 51 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:03 51 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:03 53 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:03 53 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:03 53 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:18 55 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:19 55 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:19 55 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:19 57 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:19 57 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:19 57 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:19 59 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:19 59 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:19 59 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:19 61 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:19 61 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:19 61 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:19 63 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:19 63 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:19 63 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:19 64 [ERROR] InnoDB: Page [page id: space=0, page number=365] log sequence number 53892812 is in the future! Current system log sequence number 53886701.
+2025-04-23 13:02:19 64 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 13:02:19 65 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:19 65 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:19 65 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:27 67 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:27 67 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:27 67 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:27 69 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:27 69 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:27 69 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:27 71 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:27 71 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:27 71 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:27 73 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:27 73 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:27 73 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:27 75 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:27 75 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:27 75 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:27 76 [ERROR] InnoDB: Page [page id: space=0, page number=400] log sequence number 53892856 is in the future! Current system log sequence number 53887106.
+2025-04-23 13:02:27 76 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 13:02:27 77 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:27 77 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 13:02:27 77 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 14:20:37 79 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 14:20:37 79 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 14:20:37 79 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 14:43:27 81 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 14:43:27 81 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 14:43:27 81 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:06:19 85 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:06:19 85 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:06:19 85 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:29:10 87 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:29:10 87 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:29:10 87 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:35:47 89 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:35:47 89 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:35:47 89 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:35:48 91 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:35:48 91 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:35:48 91 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:35:48 93 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:35:48 93 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:35:48 93 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:35:48 95 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:35:48 95 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:35:48 95 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:35:48 97 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:35:48 97 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:35:48 97 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:35:48 98 [ERROR] InnoDB: Page [page id: space=0, page number=431] log sequence number 53895902 is in the future! Current system log sequence number 53887451.
+2025-04-23 15:35:48 98 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 15:35:48 99 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:35:48 99 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:35:48 99 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:59:43 101 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:59:43 101 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 15:59:43 101 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:07:57 103 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:07:57 103 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:07:57 103 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:07:58 105 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:07:58 105 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:07:58 105 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:07:58 107 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:07:58 107 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:07:58 107 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:07:58 109 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:07:58 109 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:07:58 109 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:07:58 111 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:07:58 111 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:07:58 111 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:07:58 112 [ERROR] InnoDB: Page [page id: space=0, page number=385] log sequence number 53895946 is in the future! Current system log sequence number 53887768.
+2025-04-23 16:07:58 112 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 16:07:58 113 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:07:58 113 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:07:58 113 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:08:14 115 [ERROR] InnoDB: Page [page id: space=0, page number=436] log sequence number 53895990 is in the future! Current system log sequence number 53888085.
+2025-04-23 16:08:14 115 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 16:08:36 116 [ERROR] InnoDB: Page [page id: space=0, page number=415] log sequence number 53901920 is in the future! Current system log sequence number 53888376.
+2025-04-23 16:08:36 116 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 16:08:40 117 [ERROR] InnoDB: Page [page id: space=0, page number=331] log sequence number 53901964 is in the future! Current system log sequence number 53888683.
+2025-04-23 16:08:40 117 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 16:10:29 118 [ERROR] InnoDB: Page [page id: space=0, page number=425] log sequence number 53902008 is in the future! Current system log sequence number 53888974.
+2025-04-23 16:10:29 118 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 16:23:09 121 [ERROR] InnoDB: Page [page id: space=0, page number=395] log sequence number 53902052 is in the future! Current system log sequence number 53889588.
+2025-04-23 16:23:09 121 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 16:23:42 122 [ERROR] InnoDB: Page [page id: space=0, page number=341] log sequence number 53903501 is in the future! Current system log sequence number 53889908.
+2025-04-23 16:23:42 122 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 16:23:49 124 [ERROR] InnoDB: Page [page id: space=0, page number=360] log sequence number 53910376 is in the future! Current system log sequence number 53890215.
+2025-04-23 16:23:49 124 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 16:23:49 1 [ERROR] InnoDB: Page [page id: space=0, page number=0] log sequence number 53916793 is in the future! Current system log sequence number 53890786.
+2025-04-23 16:23:49 1 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 16:24:35 126 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:35 126 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:35 126 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:35 128 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:35 128 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:35 128 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:35 130 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:35 130 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:35 130 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:35 132 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:35 132 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:35 132 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:35 134 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:35 134 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:35 134 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:36 135 [ERROR] InnoDB: Page [page id: space=0, page number=386] log sequence number 53910420 is in the future! Current system log sequence number 53891024.
+2025-04-23 16:24:36 135 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 16:24:36 136 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:36 136 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:36 136 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:42 137 [ERROR] InnoDB: Page [page id: space=0, page number=378] log sequence number 53910464 is in the future! Current system log sequence number 53891341.
+2025-04-23 16:24:42 137 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 16:24:46 139 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:46 139 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:46 139 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:46 141 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:46 141 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:46 141 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:46 143 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:46 143 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:46 143 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:46 145 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:46 145 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:46 145 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:46 147 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:46 147 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:46 147 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:46 148 [ERROR] InnoDB: Page [page id: space=0, page number=377] log sequence number 53910883 is in the future! Current system log sequence number 53891648.
+2025-04-23 16:24:46 148 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 16:24:46 149 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:46 149 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:46 149 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:24:52 150 [ERROR] InnoDB: Page [page id: space=0, page number=340] log sequence number 53910927 is in the future! Current system log sequence number 53891949.
+2025-04-23 16:24:52 150 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 16:43:19 152 [ERROR] InnoDB: Page [page id: space=0, page number=442] log sequence number 53916583 is in the future! Current system log sequence number 53892256.
+2025-04-23 16:43:19 152 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 16:43:26 154 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:26 154 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:26 154 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:26 156 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:26 156 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:26 156 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:26 158 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:26 158 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:26 158 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:27 160 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:27 160 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:27 160 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:27 162 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:27 162 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:27 162 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:27 163 [ERROR] InnoDB: Page [page id: space=0, page number=380] log sequence number 53916627 is in the future! Current system log sequence number 53892961.
+2025-04-23 16:43:27 163 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 16:43:27 164 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:27 164 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:27 164 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:29 166 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:29 166 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:29 166 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:30 168 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:30 168 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:30 168 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:30 170 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:30 170 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:30 170 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:30 172 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:30 172 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:30 172 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:30 174 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:30 174 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:30 174 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:30 175 [ERROR] InnoDB: Page [page id: space=0, page number=411] log sequence number 53916687 is in the future! Current system log sequence number 53893278.
+2025-04-23 16:43:30 175 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 16:43:30 176 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:30 176 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:30 176 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:34 178 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:34 178 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:34 178 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:35 180 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:35 180 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:35 180 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:35 182 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:35 182 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:35 182 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:35 184 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:35 184 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:35 184 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:35 186 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:35 186 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:35 186 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:35 188 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:35 188 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:35 188 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:41 189 [ERROR] InnoDB: Page [page id: space=0, page number=403] log sequence number 53916837 is in the future! Current system log sequence number 53894193.
+2025-04-23 16:43:41 189 [ERROR] InnoDB: Your database may be corrupt or you may have copied the InnoDB tablespace but not the InnoDB log files. Please refer to https://mariadb.com/kb/en/library/innodb-recovery-modes/ for information about forcing recovery.
+2025-04-23 16:43:50 191 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:50 191 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:50 191 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:50 193 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:50 193 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:50 193 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:50 195 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:50 195 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:50 195 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:50 197 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:50 197 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:50 197 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:50 199 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:50 199 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:50 199 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:51 201 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:51 201 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:51 201 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:57 204 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:57 204 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:57 204 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:58 206 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:58 206 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:58 206 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:58 208 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:58 208 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:58 208 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:58 210 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:58 210 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:58 210 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:58 212 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:58 212 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:58 212 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:58 214 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:58 214 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 16:43:58 214 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 17:07:53 217 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 17:07:53 217 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 17:07:53 217 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:35:21 221 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:35:21 221 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:35:21 221 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:00 223 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:00 223 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:00 223 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:01 225 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:01 225 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:01 225 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:01 227 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:01 227 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:01 227 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:01 229 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:01 229 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:01 229 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:01 231 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:01 231 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:01 231 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:01 233 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:01 233 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:01 233 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:17 236 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:17 236 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:17 236 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:17 238 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:17 238 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:17 238 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:17 240 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:17 240 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:17 240 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:17 242 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:17 242 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:17 242 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:17 244 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:17 244 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:17 244 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:17 246 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:17 246 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:17 246 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:42 249 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:42 249 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:42 249 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:42 251 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:42 251 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:42 251 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:43 253 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:43 253 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:43 253 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:43 255 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:43 255 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:43 255 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:43 257 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:43 257 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:43 257 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:43 259 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:43 259 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:50:43 259 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 19:55:56 24 [Warning] Aborted connection 24 to db: 'dbchatex' user: 'root' host: 'localhost' (Got timeout reading communication packets)
+2025-04-23 20:14:38 272 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 20:14:38 272 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 20:14:38 272 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 20:37:18 276 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 20:37:18 276 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 20:37:18 276 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 20:59:35 278 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 20:59:35 278 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 20:59:35 278 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 21:21:30 280 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 21:21:30 280 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 21:21:30 280 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 21:43:03 283 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 21:43:03 283 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 21:43:03 283 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:04:15 290 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:04:15 290 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:04:15 290 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:25:05 295 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:25:05 295 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:25:05 295 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:44:36 297 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:44:36 297 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:44:36 297 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:44:37 299 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:44:37 299 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:44:37 299 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:44:37 301 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:44:37 301 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:44:37 301 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:44:37 303 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:44:37 303 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:44:37 303 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:44:37 305 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:44:37 305 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:44:37 305 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:44:37 307 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:44:37 307 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:44:37 307 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:49:07 311 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:49:07 311 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 22:49:07 311 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 23:08:32 319 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 23:08:32 319 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 23:08:32 319 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-23 23:28:38 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe (initiated by: unknown): Normal shutdown
+2025-04-23 23:28:38 0 [Note] Event Scheduler: Purging the queue. 0 events
+2025-04-23 23:28:38 0 [Note] InnoDB: FTS optimize thread exiting.
+2025-04-23 23:28:47 0 [Note] InnoDB: Starting shutdown...
+2025-04-23 23:28:47 0 [Note] InnoDB: Dumping buffer pool(s) to C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-04-23 23:28:47 0 [Note] InnoDB: Instance 0, restricted to 250 pages due to innodb_buf_pool_dump_pct=25
+2025-04-23 23:28:47 0 [Note] InnoDB: Buffer pool(s) dump completed at 250423 23:28:47
+2025-04-23 23:28:47 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+2025-04-23 23:28:47 0 [Note] InnoDB: Shutdown completed; log sequence number 54756627; transaction id 64041
+2025-04-23 23:28:47 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: Shutdown complete
+
+2025-04-24  9:41:16 0 [Note] Starting MariaDB 10.4.32-MariaDB source revision c4143f909528e3fab0677a28631d10389354c491 as process 4748
+2025-04-24  9:41:17 0 [Note] InnoDB: Mutexes and rw_locks use Windows interlocked functions
+2025-04-24  9:41:17 0 [Note] InnoDB: Uses event mutexes
+2025-04-24  9:41:17 0 [Note] InnoDB: Compressed tables use zlib 1.3
+2025-04-24  9:41:17 0 [Note] InnoDB: Number of pools: 1
+2025-04-24  9:41:17 0 [Note] InnoDB: Using SSE2 crc32 instructions
+2025-04-24  9:41:17 0 [Note] InnoDB: Initializing buffer pool, total size = 16M, instances = 1, chunk size = 16M
+2025-04-24  9:41:17 0 [Note] InnoDB: Completed initialization of buffer pool
+2025-04-24  9:41:17 0 [Note] InnoDB: 128 out of 128 rollback segments are active.
+2025-04-24  9:41:17 0 [Note] InnoDB: Creating shared tablespace for temporary tables
+2025-04-24  9:41:17 0 [Note] InnoDB: Setting file 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size to 12 MB. Physically writing the file full; Please wait ...
+2025-04-24  9:41:17 0 [Note] InnoDB: File 'C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ibtmp1' size is now 12 MB.
+2025-04-24  9:41:17 0 [Note] InnoDB: Waiting for purge to start
+2025-04-24  9:41:17 0 [Note] InnoDB: 10.4.32 started; log sequence number 54756627; transaction id 64043
+2025-04-24  9:41:17 0 [Note] InnoDB: Loading buffer pool(s) from C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-04-24  9:41:17 0 [Note] Plugin 'FEEDBACK' is disabled.
+2025-04-24  9:41:17 0 [Note] Server socket created on IP: '::'.
+2025-04-24  9:41:17 0 [Note] InnoDB: Buffer pool(s) load completed at 250424  9:41:17
+2025-04-24  9:41:17 0 [Note] Reading of all Master_info entries succeeded
+2025-04-24  9:41:17 0 [Note] Added new Master_info '' to hash table
+2025-04-24  9:41:17 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: ready for connections.
+Version: '10.4.32-MariaDB'  socket: ''  port: 3306  mariadb.org binary distribution
+2025-04-24  9:52:50 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:52:50 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:52:50 9 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:52:51 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:52:51 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:52:51 11 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:52:51 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:52:51 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:52:51 13 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:52:51 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:52:51 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:52:51 15 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:52:52 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:52:52 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:52:52 17 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:52:52 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:52:52 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:52:52 19 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:52:52 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:52:52 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:52:52 21 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:53:16 23 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:53:16 23 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:53:16 23 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:53:17 25 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:53:17 25 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:53:17 25 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:53:17 27 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:53:17 27 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:53:17 27 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:53:17 29 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:53:17 29 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:53:17 29 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:53:17 31 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:53:17 31 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:53:17 31 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:53:17 33 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:53:17 33 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24  9:53:17 33 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 10:17:13 40 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 10:17:13 40 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 10:17:13 40 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 10:40:19 42 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 10:40:19 42 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 10:40:19 42 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 11:03:02 44 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 11:03:02 44 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 11:03:02 44 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 11:25:22 46 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 11:25:22 46 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 11:25:22 46 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 11:47:20 50 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 11:47:20 50 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 11:47:20 50 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:56 58 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:56 58 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:56 58 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:56 60 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:56 60 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:56 60 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:57 62 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:57 62 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:57 62 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:57 64 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:57 64 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:57 64 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:57 66 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:57 66 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:57 66 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:57 68 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:57 68 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:57 68 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:58 70 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:58 70 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:58 70 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:59 72 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:59 72 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:59 72 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:59 74 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:59 74 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:59 74 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:59 76 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:59 76 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:59 76 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:59 78 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:59 78 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:59 78 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:59 80 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:59 80 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 15:49:59 80 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 16:13:54 82 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 16:13:54 82 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 16:13:54 82 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 16:36:50 84 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 16:36:50 84 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 16:36:50 84 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 16:59:23 86 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 16:59:23 86 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 16:59:23 86 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 22:29:41 34 [Warning] Aborted connection 34 to db: 'dbchatex' user: 'root' host: 'localhost' (Got timeout reading communication packets)
+2025-04-24 22:29:45 88 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 22:29:45 88 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 22:29:45 88 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 22:51:45 90 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 22:51:45 90 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 22:51:45 90 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 23:13:22 92 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 23:13:22 92 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-24 23:13:22 92 [ERROR] mysqld.exe: Ervenytelen info a file-ban: '.\mysql\user.frm'
+2025-04-25  0:05:14 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe (initiated by: unknown): Normal shutdown
+2025-04-25  0:05:14 0 [Note] Event Scheduler: Purging the queue. 0 events
+2025-04-25  0:05:14 0 [Note] InnoDB: FTS optimize thread exiting.
+2025-04-25  0:05:14 0 [Note] InnoDB: Starting shutdown...
+2025-04-25  0:05:14 0 [Note] InnoDB: Dumping buffer pool(s) to C:\Users\Levi\Desktop\Szakmai\dualis\13.d\Git repok\Messengeres-vizsgaremek\xampp_server\mysql\data\ib_buffer_pool
+2025-04-25  0:05:14 0 [Note] InnoDB: Instance 0, restricted to 250 pages due to innodb_buf_pool_dump_pct=25
+2025-04-25  0:05:14 0 [Note] InnoDB: Buffer pool(s) dump completed at 250425  0:05:14
+2025-04-25  0:05:15 0 [Note] InnoDB: Removed temporary tablespace data file: "ibtmp1"
+2025-04-25  0:05:15 0 [Note] InnoDB: Shutdown completed; log sequence number 54759362; transaction id 64084
+2025-04-25  0:05:15 0 [Note] C:\Users\Levi\Desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\mysql\bin\mysqld.exe: Shutdown complete
+

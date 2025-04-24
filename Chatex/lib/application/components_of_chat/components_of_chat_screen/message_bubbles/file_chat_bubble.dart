@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:chatex/logic/notifications.dart';
-import 'package:chatex/application/components_of_chat/load_chats.dart';
+import 'package:chatex/logic/preferences.dart';
 import 'dart:typed_data';
 import 'dart:developer';
 import 'dart:async';
@@ -224,10 +224,10 @@ class _FileChatBubbleState extends State<FileChatBubble> {
                 if (widget.isSender)
                   Text(
                     widget.isRead
-                        ? lang == "Magyar"
+                        ? Preferences.isHungarian
                             ? "Látta"
                             : "Seen"
-                        : lang == "Magyar"
+                        : Preferences.isHungarian
                             ? "Kézbesítve"
                             : "Delivered",
                     style: TextStyle(

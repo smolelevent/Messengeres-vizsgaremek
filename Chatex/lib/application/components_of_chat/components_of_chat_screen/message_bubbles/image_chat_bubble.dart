@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:chatex/logic/notifications.dart';
-import 'package:chatex/application/components_of_chat/load_chats.dart';
+import 'package:chatex/logic/preferences.dart';
 import 'dart:typed_data';
 import 'dart:developer';
 import 'dart:io';
@@ -211,10 +211,10 @@ class _ImageChatBubbleState extends State<ImageChatBubble> {
                 if (widget.isSender)
                   Text(
                     widget.isRead
-                        ? lang == "Magyar"
+                        ? Preferences.isHungarian
                             ? "Látta"
                             : "Seen"
-                        : lang == "Magyar"
+                        : Preferences.isHungarian
                             ? "Kézbesítve"
                             : "Delivered",
                     style: TextStyle(

@@ -11,7 +11,7 @@ class Preferences {
     _prefs = await SharedPreferences.getInstance();
   }
 
-//Setterek ----------------------------------------------------
+//Setterek ----------------------------------------------------------------------------------------
   static Future<void> setUserId(int id) async {
     await _prefs?.setInt('id', id);
   }
@@ -45,7 +45,7 @@ class Preferences {
     await _prefs?.setString('jwt_token', token);
   }
 
-//Getterek ----------------------------------------------------
+//Getterek ----------------------------------------------------------------------------------------
   static int? getUserId() {
     return _prefs?.getInt('id');
   }
@@ -81,8 +81,11 @@ class Preferences {
     return _prefs?.getString('jwt_token') ?? '';
   }
 
-//Egyéb ----------------------------------------------------
+//Egyéb -------------------------------------------------------------------------------------------
   static Future<void> clearPreferences() async {
     await _prefs?.clear();
   }
+
+  //Egyszerűsítő metódusok ------------------------------------------------------------------------
+  static bool get isHungarian => getPreferredLanguage() == "Magyar";
 }

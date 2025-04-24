@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:chatex/application/components_of_chat/load_chats.dart';
+import 'package:chatex/logic/preferences.dart';
 import 'dart:typed_data';
 
 //MessageChatBubble OSZTÁLY ELEJE -----------------------------------------------------------------
@@ -143,10 +143,10 @@ class _MessageChatBubbleState extends State<MessageChatBubble> {
                 if (widget.isSender)
                   Text(
                     widget.isRead
-                        ? lang == "Magyar"
+                        ? Preferences.isHungarian
                             ? "Látta"
                             : "Seen"
-                        : lang == "Magyar"
+                        : Preferences.isHungarian
                             ? "Kézbesítve"
                             : "Delivered",
                     style: TextStyle(

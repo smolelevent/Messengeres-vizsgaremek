@@ -5,12 +5,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:chatex/application/components_of_chat/load_chats.dart';
 import 'package:chatex/application/components_of_chat/components_of_chat_screen/message_bubbles/message_chat_bubble.dart';
 import 'package:chatex/application/components_of_chat/components_of_chat_screen/message_bubbles/file_chat_bubble.dart';
 import 'package:chatex/application/components_of_chat/components_of_chat_screen/message_bubbles/image_chat_bubble.dart';
 import 'package:chatex/application/components_of_chat/components_of_chat_screen/chat_information.dart';
 import 'package:chatex/logic/toast_message.dart';
+import 'package:chatex/logic/preferences.dart';
 import 'dart:typed_data';
 import 'dart:developer';
 import 'dart:convert';
@@ -158,7 +158,7 @@ class _ChatScreenState extends State<ChatScreen> {
     //Auth típusú üzenet frissíti a is_online és a last_seen mezőt ezért az Appbar-ban lévő adatok frissülnek
     _channel.sink.add(jsonEncode({
       "message_type": "auth",
-      "user_id": userId,
+      "user_id": Preferences.getUserId(),
     }));
 
     log("A chat_screen.dart-ról sikeres volt a websocket csatlakozás!");
@@ -178,7 +178,7 @@ class _ChatScreenState extends State<ChatScreen> {
       if (index != -1) return;
 
       final isForMe = data['receiver_id'] ==
-          userId; //ha az üzenet a jelenlegi felhasználónak szól
+          Preferences.getUserId(); //ha az üzenet a jelenlegi felhasználónak szól
       if (isForMe && ModalRoute.of(context)?.isCurrent == true) {
         //és a chat_screen.dart a jelenlegi képernyő
         Future.delayed(
@@ -188,7 +188,7 @@ class _ChatScreenState extends State<ChatScreen> {
               "message_type":
                   "read_status_update", //akkor olvasva legyenek az üzenetek
               "chat_id": widget.chatId,
-              "user_id": userId,
+              "user_id": Preferences.getUserId(),
             }));
           },
         );
@@ -335,7 +335,7 @@ class _ChatScreenState extends State<ChatScreen> {
       }
     } catch (e) {
       ToastMessages.showToastMessages(
-        lang == "Magyar"
+        Preferences.isHungarian
             ? "Kapcsolati hiba az üzenetek betöltésénél!"
             : "Connection error while getting messages!",
         0.2,
@@ -353,7 +353,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final message = {
       "message_type": "text",
       "chat_id": widget.chatId,
-      "sender_id": userId,
+      "sender_id": Preferences.getUserId(),
       "receiver_id": widget.receiverId,
       "message_text": _messageController.text.trim(),
     };
@@ -365,7 +365,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Future<void> _pickFiles() async {
     final picked = await FilePicker.platform.pickFiles(
       dialogTitle:
-          lang == "Magyar" ? "Fájl(ok) kiválasztása" : "Select file(s)",
+          Preferences.isHungarian ? "Fájl(ok) kiválasztása" : "Select file(s)",
       withData: true,
       compressionQuality:
           75, //25%-os tömörítés-sel juttatjuk el az adatbázishoz, letöltéskor pedig 100%
@@ -437,7 +437,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final message = {
       "message_type": "file",
       "chat_id": widget.chatId,
-      "sender_id": userId,
+      "sender_id": Preferences.getUserId(),
       "receiver_id": widget.receiverId,
       "message_text": messageText,
       "files": files,
@@ -474,7 +474,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final message = {
       "message_type": "image",
       "chat_id": widget.chatId,
-      "sender_id": userId,
+      "sender_id": Preferences.getUserId(),
       "receiver_id": widget.receiverId,
       "message_text": null,
       "images": [
@@ -551,7 +551,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final message = {
       "message_type": "image",
       "chat_id": widget.chatId,
-      "sender_id": userId,
+      "sender_id": Preferences.getUserId(),
       "receiver_id": widget.receiverId,
       "message_text": messageText,
       "images": images,
@@ -608,7 +608,7 @@ class _ChatScreenState extends State<ChatScreen> {
         body: jsonEncode({
           "chat_id": widget.chatId,
           "user_id":
-              userId, //az a receiver_id aki megkapja tehát az user_id-t kell megadnunk
+              Preferences.getUserId(), //az a receiver_id aki megkapja tehát az user_id-t kell megadnunk
         }),
       );
 
@@ -620,12 +620,12 @@ class _ChatScreenState extends State<ChatScreen> {
         _channel.sink.add(jsonEncode({
           "message_type": "read_status_update",
           "chat_id": widget.chatId,
-          "user_id": userId,
+          "user_id": Preferences.getUserId(),
         }));
       }
     } catch (e) {
       ToastMessages.showToastMessages(
-        lang == "Magyar"
+        Preferences.isHungarian
             ? "Kapcsolati hiba\naz olvasottság átállításánál!"
             : "Connection error while\nmarking the message as read!",
         0.2,
@@ -658,7 +658,7 @@ class _ChatScreenState extends State<ChatScreen> {
       }
     } catch (e) {
       ToastMessages.showToastMessages(
-        lang == "Magyar"
+        Preferences.isHungarian
             ? "Kapcsolati hiba\naz üzenet törlésénél!"
             : "Connection error while\ndeleting message!",
         0.2,
@@ -733,19 +733,19 @@ class _ChatScreenState extends State<ChatScreen> {
       final difference = now.difference(lastSeen);
 
       if (difference.inMinutes < 1) {
-        return lang == "Magyar" ? "Épp most" : "Just now";
+        return Preferences.isHungarian ? "Épp most" : "Just now";
       } else if (difference.inMinutes < 60) {
-        return lang == "Magyar"
+        return Preferences.isHungarian
             ? "${difference.inMinutes} perce"
             : "${difference.inMinutes} minute(s) ago";
       } else if (difference.inHours < 24) {
-        return lang == "Magyar"
+        return Preferences.isHungarian
             ? "${difference.inHours} órája"
             : "${difference.inHours} hour(s) ago";
       } else if (difference.inDays == 1) {
-        return lang == "Magyar" ? "Tegnap" : "Yesterday";
+        return Preferences.isHungarian ? "Tegnap" : "Yesterday";
       } else if (difference.inDays == 2) {
-        return lang == "Magyar" ? "Tegnap előtt" : "The day before yesterday";
+        return Preferences.isHungarian ? "Tegnap előtt" : "The day before yesterday";
       } else {
         final formattedDate =
             "${lastSeen.year}.${lastSeen.month.toString().padLeft(2, '0')}.${lastSeen.day.toString().padLeft(2, '0')} "
@@ -753,7 +753,7 @@ class _ChatScreenState extends State<ChatScreen> {
         return formattedDate;
       }
     } catch (e) {
-      return lang == "Magyar" ? "Hiba!" : "Error!";
+      return Preferences.isHungarian ? "Hiba!" : "Error!";
     }
   }
 
@@ -768,14 +768,14 @@ class _ChatScreenState extends State<ChatScreen> {
           elevation: 10,
           shadowColor: Colors.deepPurpleAccent,
           title: AutoSizeText(
-            lang == "Magyar" ? hunTitleString : engTitleString,
+            Preferences.isHungarian ? hunTitleString : engTitleString,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
           ),
           content: AutoSizeText(
-            lang == "Magyar" ? hunContentString : engContentString,
+            Preferences.isHungarian ? hunContentString : engContentString,
             style: const TextStyle(
               fontSize: 18,
               color: Colors.white,
@@ -797,7 +797,7 @@ class _ChatScreenState extends State<ChatScreen> {
       actions: [
         TextButton(
           child: Text(
-            lang == "Magyar" ? "Mégse" : "Cancel",
+            Preferences.isHungarian ? "Mégse" : "Cancel",
             style: const TextStyle(
               color: Colors.white,
               letterSpacing: 1,
@@ -807,7 +807,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         TextButton(
           child: Text(
-            lang == "Magyar" ? "Törlés" : "Delete",
+            Preferences.isHungarian ? "Törlés" : "Delete",
             style: const TextStyle(
               color: Colors.redAccent,
               letterSpacing: 1,
@@ -935,8 +935,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   AutoSizeText(
                     maxLines: 1,
                     _currentStatus == "online" && _currentSignedIn == 1
-                        ? (lang == "Magyar" ? "Elérhető" : "Online")
-                        : (lang == "Magyar"
+                        ? (Preferences.isHungarian ? "Elérhető" : "Online")
+                        : (Preferences.isHungarian
                             ? "Utoljára elérhető: ${formatLastSeen(_currentLastSeen)}"
                             : "Last seen: ${formatLastSeen(_currentLastSeen)}"),
                     style: const TextStyle(
@@ -1041,7 +1041,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return IconButton(
       color: color,
       focusColor: Colors.deepPurpleAccent,
-      tooltip: lang == "Magyar" ? hunTooltip : engTooltip,
+      tooltip: Preferences.isHungarian ? hunTooltip : engTooltip,
       icon: Icon(
         icon,
         size: 26,
@@ -1056,7 +1056,7 @@ class _ChatScreenState extends State<ChatScreen> {
       child: Align(
         alignment: Alignment.topCenter,
         child: Text(
-          lang == "Magyar"
+          Preferences.isHungarian
               ? "Ez a beszélgetés még üres."
               : "The chat is empty.",
           style: const TextStyle(
@@ -1078,7 +1078,7 @@ class _ChatScreenState extends State<ChatScreen> {
       itemBuilder: (context, index) {
         //kinyerjük az adatokat a _messages listából
         final message = _messages[index];
-        final isSender = message['sender_id'] == userId;
+        final isSender = message['sender_id'] == Preferences.getUserId();
         final isLast = index == _messages.length - 1;
         final messageType = message['message_type'];
 
@@ -1090,7 +1090,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
             return GestureDetector(
               onLongPress: () {
-                if (message['sender_id'] == userId) {
+                if (message['sender_id'] == Preferences.getUserId()) {
                   //csak akkor engedlyük az üzenet törlését ha a saját üzenetét akarja
                   _showDeleteDialog(message['message_id']);
                 }
@@ -1114,7 +1114,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
             return GestureDetector(
               onLongPress: () {
-                if (message['sender_id'] == userId) {
+                if (message['sender_id'] == Preferences.getUserId()) {
                   _showDeleteDialog(message['message_id']);
                 }
               },
@@ -1135,7 +1135,7 @@ class _ChatScreenState extends State<ChatScreen> {
           default:
             return GestureDetector(
               onLongPress: () {
-                if (message['sender_id'] == userId) {
+                if (message['sender_id'] == Preferences.getUserId()) {
                   _showDeleteDialog(message['message_id']);
                 }
               },
@@ -1174,7 +1174,7 @@ class _ChatScreenState extends State<ChatScreen> {
             child: FloatingActionButton(
               backgroundColor: Colors.grey[800],
               tooltip:
-                  lang == "Magyar" ? "Ugrás az aljára" : "Scroll to bottom",
+                  Preferences.isHungarian ? "Ugrás az aljára" : "Scroll to bottom",
               elevation: 10,
               mini: true,
               shape: const CircleBorder(),
@@ -1344,7 +1344,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             null, //annyi sorba írhat ahányat akar max 5000 karakterig
                         minLines: 1,
                         decoration: InputDecoration(
-                          hintText: lang == "Magyar"
+                          hintText: Preferences.isHungarian
                               ? "Kezdj el írni..."
                               : "Start writing...",
                           hintStyle: TextStyle(

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:chatex/application/components_of_chat/load_chats.dart';
+import 'package:chatex/logic/preferences.dart';
+
 import 'package:chatex/logic/toast_message.dart';
 import 'dart:developer';
 
@@ -12,7 +13,7 @@ Future<void> requestNotificationPermission(BuildContext context) async {
 
   if (notificationPermissionStatus.isPermanentlyDenied) {
     _showToastWhenPermanentlyDenied(
-        context, lang == "Magyar" ? "értesítések" : "Notifications");
+        context, Preferences.isHungarian ? "értesítések" : "Notifications");
     await Future.delayed(const Duration(seconds: 4));
     openAppSettings();
     return;
@@ -21,7 +22,7 @@ Future<void> requestNotificationPermission(BuildContext context) async {
   final notificationUsageRequest = await Permission.notification.request();
   if (!notificationUsageRequest.isGranted) {
     _showToastWhenDenied(
-        context, lang == "Magyar" ? "értesítések" : "notifications");
+        context, Preferences.isHungarian ? "értesítések" : "notifications");
   }
 }
 
@@ -40,19 +41,19 @@ Future<void> requestDownloadPermission(BuildContext context) async {
 
   if (storagePermissionStatus.isPermanentlyDenied) {
     _showToastWhenPermanentlyDenied(
-        context, lang == "Magyar" ? "letöltés" : "Download");
+        context, Preferences.isHungarian ? "letöltés" : "Download");
     await Future.delayed(const Duration(seconds: 4));
     openAppSettings();
     return;
   }
 
 // Első kérés előtt tájékoztatjuk
-  _showToastWhenDenied(context, lang == "Magyar" ? "letöltés" : "download");
+  _showToastWhenDenied(context, Preferences.isHungarian ? "letöltés" : "download");
   await Future.delayed(const Duration(seconds: 4));
 
   final storageUsageRequest = await Permission.storage.request();
   if (!storageUsageRequest.isGranted) {
-    _showToastWhenDenied(context, lang == "Magyar" ? "letöltés" : "download");
+    _showToastWhenDenied(context, Preferences.isHungarian ? "letöltés" : "download");
   }
 }
 
@@ -69,7 +70,7 @@ Future<int> _getAndroidSdkVer() async {
 //ha az engedély megvan tagadva
 void _showToastWhenDenied(BuildContext context, String typeOfPermission) {
   ToastMessages.showToastMessages(
-    lang == "Magyar"
+    Preferences.isHungarian
         ? "A $typeOfPermission használatához\nengedély szükséges!"
         : "Permission required for $typeOfPermission!",
     0.3,
@@ -85,7 +86,7 @@ void _showToastWhenDenied(BuildContext context, String typeOfPermission) {
 void _showToastWhenPermanentlyDenied(
     BuildContext context, String typeOfPermission) {
   ToastMessages.showToastMessages(
-    lang == "Magyar"
+    Preferences.isHungarian
         ? "A(z) $typeOfPermission engedély tiltva van!\nÁtírányítás a beállításokba..."
         : "The $typeOfPermission permission is denied!\nRedirecting to the settings...",
     0.3,

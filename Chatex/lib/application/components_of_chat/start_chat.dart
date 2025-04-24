@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:chatex/application/components_of_chat/chat_screen.dart';
-import 'package:chatex/application/components_of_chat/load_chats.dart';
+import 'package:chatex/logic/preferences.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'dart:convert';
 import 'dart:developer';
@@ -47,13 +47,13 @@ class _StartChatState extends State<StartChat> {
 
   Future<void> _loadFriends() async {
     try {
-      if (userId == null) return;
+      if (Preferences.getUserId() == null) return;
 
       final response = await http.post(
         Uri.parse(
             "http://10.0.2.2/ChatexProject/chatex_phps/chat/get/get_friend_list.php"),
         headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"user_id": userId}),
+        body: jsonEncode({"user_id": Preferences.getUserId()}),
       );
 
       final List<dynamic> responseData = jsonDecode(response.body);
@@ -66,7 +66,7 @@ class _StartChatState extends State<StartChat> {
       } else {
         setState(() => _isLoading = false);
         ToastMessages.showToastMessages(
-          lang == "Magyar"
+          Preferences.isHungarian
               ? "Nem sikerült betölteni a barátaid!"
               : "Couldn't load your friends!",
           0.1,
@@ -79,7 +79,7 @@ class _StartChatState extends State<StartChat> {
       }
     } catch (e) {
       ToastMessages.showToastMessages(
-        lang == "Magyar"
+        Preferences.isHungarian
             ? "Kapcsolati hiba a barátlista lekérésénél!"
             : "Connection error while getting friend list!",
         0.1,
@@ -95,7 +95,7 @@ class _StartChatState extends State<StartChat> {
   void _startChatWith(int friendId) async {
     try {
       //csak olyan felhasználókkal lehet chatelni akikkel még nincs chat
-      final int? senderId = userId;
+      final int? senderId = Preferences.getUserId();
 
       final response = await http.post(
         Uri.parse(
@@ -112,7 +112,7 @@ class _StartChatState extends State<StartChat> {
 
       if (responseData["message"] == "Chat létrehozva!") {
         ToastMessages.showToastMessages(
-          lang == "Magyar" ? "Chat létrehozva!" : "Chat created!",
+          Preferences.isHungarian ? "Chat létrehozva!" : "Chat created!",
           0.2,
           Colors.green,
           Icons.check,
@@ -139,7 +139,7 @@ class _StartChatState extends State<StartChat> {
       }
     } catch (e) {
       ToastMessages.showToastMessages(
-        lang == "Magyar"
+        Preferences.isHungarian
             ? "Kapcsolati hiba a chat kezdeményezésénél!"
             : "Connection error while starting chat!",
         0.1,
@@ -187,7 +187,7 @@ class _StartChatState extends State<StartChat> {
   PreferredSizeWidget _buildAppbar() {
     return AppBar(
       title: Text(
-        lang == "Magyar" ? "Chat kezdése" : "Start a chat",
+        Preferences.isHungarian ? "Chat kezdése" : "Start a chat",
       ),
       backgroundColor: Colors.black,
       foregroundColor: Colors.deepPurpleAccent,
@@ -235,7 +235,7 @@ class _StartChatState extends State<StartChat> {
       contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       hintText: _isSearchFocused //ellentétes logika a labelText-hez képest
           ? null
-          : lang == "Magyar"
+          : Preferences.isHungarian
               ? "Ismerősök keresése..."
               : "Search friends...",
       hintStyle: TextStyle(
@@ -245,7 +245,7 @@ class _StartChatState extends State<StartChat> {
         fontSize: 17.0,
       ),
       labelText: _isSearchFocused //ellentétes logika a hintText-hez képest
-          ? lang == "Magyar"
+          ? Preferences.isHungarian
               ? "Ismerősök keresése..."
               : "Search friends..."
           : null,
@@ -303,7 +303,7 @@ class _StartChatState extends State<StartChat> {
       //sajnos ezt nem lehet külön metódusba tenni mivel nem fog működni
       return Center(
         child: Text(
-          lang == "Magyar" ? "Nincs találat" : "No results",
+          Preferences.isHungarian ? "Nincs találat" : "No results",
           style: const TextStyle(
             color: Colors.white70,
             fontSize: 18,

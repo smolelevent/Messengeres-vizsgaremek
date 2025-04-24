@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:chatex/application/components_of_chat/load_chats.dart';
+import 'package:chatex/logic/preferences.dart';
 
 //BottomNavbarForChat OSZTÁLY ELEJE ---------------------------------------------------------------
 class BottomNavbarForChat extends StatefulWidget {
@@ -23,7 +23,7 @@ class _BottomNavbarForChatState extends State<BottomNavbarForChat> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<String>(
-      valueListenable: languageNotifier,
+      valueListenable: Preferences.languageNotifier,
       builder: (context, locale, child) {
         return _buildBottomNavbar();
       },
@@ -45,13 +45,13 @@ class _BottomNavbarForChatState extends State<BottomNavbarForChat> {
           children: [
             _bottomAppBarItem(
               Icons.chat_rounded,
-              lang == "Magyar" ? "Chatek" : "Chats",
+              Preferences.isHungarian ? "Chatek" : "Chats",
               0,
               const Key("chatNavBar"), // Unique key for the Chats tab
             ),
             _bottomAppBarItem(
               Icons.person_rounded,
-              lang == "Magyar" ? "Ismerősök" : "Friends",
+              Preferences.isHungarian ? "Ismerősök" : "Friends",
               1,
               const Key("friendsNavBar"), // Unique key for the Friends tab
             ),

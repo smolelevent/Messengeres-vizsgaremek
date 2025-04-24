@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:chatex/application/components_of_chat/load_chats.dart';
+import 'package:chatex/logic/preferences.dart';
 
 class DummyGroup extends StatelessWidget {
   const DummyGroup({super.key});
@@ -27,7 +27,7 @@ class DummyGroup extends StatelessWidget {
   PreferredSizeWidget _buildAppbar() {
     return AppBar(
       title: Text(
-        lang == "Magyar" ? "Csoportok létrehozása" : "Create groups",
+        Preferences.isHungarian ? "Csoportok létrehozása" : "Create groups",
       ),
       backgroundColor: Colors.black,
       foregroundColor: Colors.deepPurpleAccent,

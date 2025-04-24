@@ -8,6 +8,7 @@ import 'package:chatex/application/components_of_ui/people.dart';
 import 'package:chatex/application/components_of_ui/groups.dart';
 import 'package:chatex/application/components_of_ui/settings.dart';
 import 'package:chatex/application/components_of_ui/components_of_groups/dummy_group.dart';
+import 'package:chatex/logic/preferences.dart';
 
 //ChatUI OSZTÁLY ELEJE ----------------------------------------------------------------------------
 class ChatUI extends StatefulWidget {
@@ -55,7 +56,7 @@ class _ChatUIState extends State<ChatUI> {
   Widget build(BuildContext context) {
     //ez a widget figyeli a belépéskor beállított nyelvet és az alapján építi fel a widgeteket
     return ValueListenableBuilder<String>(
-      valueListenable: languageNotifier, //ez alapján
+      valueListenable: Preferences.languageNotifier, //ez alapján
       builder: (context, value, child) {
         return SafeArea(
           child: Scaffold(
@@ -100,10 +101,10 @@ class _ChatUIState extends State<ChatUI> {
             : _selectedIndex == 1
                 ? "Chatex"
                 : _selectedIndex == 2
-                    ? lang == "Magyar"
+                    ? Preferences.isHungarian
                         ? "Csoportok"
                         : "Groups"
-                    : lang == "Magyar"
+                    : Preferences.isHungarian
                         ? "Beállítások"
                         : "Settings",
       ),
@@ -123,7 +124,7 @@ class _ChatUIState extends State<ChatUI> {
               ),
               color: Colors.deepPurpleAccent,
               tooltip:
-                  lang == "Magyar" ? "Új chat készítése" : "Create a new chat",
+                  Preferences.isHungarian ? "Új chat készítése" : "Create a new chat",
               onPressed: () {
                 Navigator.push(
                   context,
@@ -141,7 +142,7 @@ class _ChatUIState extends State<ChatUI> {
                 Icons.groups_rounded,
               ),
               color: Colors.deepPurpleAccent,
-              tooltip: lang == "Magyar"
+              tooltip: Preferences.isHungarian
                   ? "Új csoport készítése"
                   : "Create a new group",
               onPressed: () {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:chatex/application/components_of_chat/load_chats.dart';
+import 'package:chatex/logic/preferences.dart';
 import 'package:chatex/application/components_of_ui/components_of_groups/dummy_group.dart';
 import 'package:chatex/application/components_of_ui/components_of_groups/group_tile.dart';
 import 'package:chatex/logic/toast_message.dart';
@@ -34,7 +34,7 @@ class _GroupsState extends State<Groups> {
   Future<void> _getCorrectGroupList() async {
     setState(() {
       _groupList = fetchGroupListFromDatabase(
-          userId); //eltároljuk az adott felhasználó csoportjait
+          Preferences.getUserId()); //eltároljuk az adott felhasználó csoportjait
     });
   }
 
@@ -56,7 +56,7 @@ class _GroupsState extends State<Groups> {
             response.body); //visszatérünk az adatokkal és _groupList-nek adjuk
       } else {
         ToastMessages.showToastMessages(
-          lang == "Magyar"
+          Preferences.isHungarian
               ? "Nem sikerült betölteni a csoportjaidat!"
               : "Couldn't load your groups!",
           0.3,
@@ -70,7 +70,7 @@ class _GroupsState extends State<Groups> {
       }
     } catch (e) {
       ToastMessages.showToastMessages(
-        lang == "Magyar"
+        Preferences.isHungarian
             ? "Kapcsolati hiba a csoportok betöltésénél!"
             : "Connection error while getting group chats!",
         0.3,
@@ -109,7 +109,7 @@ class _GroupsState extends State<Groups> {
           children: [
             //TextSpan és WidgetSpan kombinációval a felhasználóknak egyértelmű hogy mit kell csinálniuk ha csoportot akarnak csinálni
             TextSpan(
-              text: lang == "Magyar"
+              text: Preferences.isHungarian
                   ? "Még nem vagy tagja egyetlen csoportnak sem.\nCsinálj egyet a "
                   : "You aren't in any group chats.\nCreate one by clicking on the ",
             ),
@@ -121,7 +121,7 @@ class _GroupsState extends State<Groups> {
               ),
             ),
             TextSpan(
-              text: lang == "Magyar" ? " ikonra kattintva!" : " icon!",
+              text: Preferences.isHungarian ? " ikonra kattintva!" : " icon!",
             ),
           ],
         ),

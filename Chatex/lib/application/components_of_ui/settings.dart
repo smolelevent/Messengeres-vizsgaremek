@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:chatex/logic/preferences.dart';
 import 'package:chatex/application/components_of_ui/components_of_settings/language.dart';
 import 'package:chatex/application/components_of_ui/components_of_settings/account.dart';
-import 'package:chatex/logic/preferences.dart';
-import 'dart:developer';
 
+//Settings OSZTÁLY ELEJE --------------------------------------------------------------------------
 class Settings extends StatefulWidget {
   const Settings({super.key});
 
@@ -13,219 +13,244 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  final TextEditingController _searchController = TextEditingController();
-  final FocusNode _searchFocusNode = FocusNode();
-  String _searchQuery = "";
-  String _selectedLanguage = Preferences.getPreferredLanguage();
+//OSZTÁLYON BELÜLI VÁLTOZÓK ELEJE -----------------------------------------------------------------
+  final TextEditingController _searchController =
+      TextEditingController(); //szöveg kezelésére szolgál
+  final FocusNode _searchFocusNode =
+      FocusNode(); //fókuszra történő dizájn változtatás
+  bool _isSearchFocused = false; //itt mentjük el a FocusNode-ot
+  String _searchQuery = ""; //keresés
+
+//OSZTÁLYON BELÜLI VÁLTOZÓK VÉGE ------------------------------------------------------------------
+
+//HÁTTÉR FOLYAMATOK ELEJE -------------------------------------------------------------------------
 
   @override
   void initState() {
-    _selectedLanguage = Preferences.getPreferredLanguage();
     super.initState();
-  }
-
-  Future<void> _savePreferredLanguage(String language) async {
-    await Preferences.setPreferredLanguage(language);
-    setState(() {
-      _selectedLanguage = language;
+    _searchFocusNode.addListener(() {
+      setState(() {
+        _isSearchFocused = _searchFocusNode.hasFocus;
+      });
     });
   }
 
-  List<Map<String, dynamic>> getSettings() {
+  List<SettingCategory> getSettings() {
+    //ez a metódus felépíti a szerkezetét a beállításoknak, amit később kezelünk
     return [
-      {
-        "category": Preferences.getPreferredLanguage() == "Magyar"
-            ? "Általános"
-            : "General",
-        "items": [
-          {
-            "title": Preferences.getPreferredLanguage() == "Magyar"
-                ? "Nyelv"
-                : "Language",
-            "subtitle": _selectedLanguage,
-            "icon": Icons.language,
-            "onTap": () async {
-              final newLanguage = await Navigator.push(
+      SettingCategory(
+        //külön osztály a kategóriáknak
+        title: Preferences.isHungarian ? "Általános" : "General",
+        items: [
+          SettingItem(
+            //és külön osztály a kategóriákban lévő elemeknek
+            icon: Icons.language_rounded,
+            color: Colors.teal,
+            title: Preferences.isHungarian ? "Nyelv" : "Language",
+            subtitle: Preferences.getPreferredLanguage(),
+            onTap: () async {
+              //ha megnyomjuk a nyelv választó menüt akkor eltároljuk egy változóba
+              final selectedLanguage = await Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const LanguageSetting()),
+                  builder: (context) => const LanguageSetting(),
+                ),
               );
 
-              if (newLanguage != null) {
-                await _savePreferredLanguage(newLanguage);
+              if (selectedLanguage != null) {
+                //majd ha visszatért és nem null akkor frissítjük a képernyőt (akár más a nyelv akár nem)
+                setState(() {}); // csak az UI frissítése
               }
             },
-          },
-          {
-            "title": Preferences.getPreferredLanguage() == "Magyar"
-                ? "Értesítések"
-                : "Notifications",
-            "subtitle":
-                Preferences.getPreferredLanguage() == "Magyar" ? "Be" : "On",
-            "icon": Icons.notifications,
-            "onTap": () => log("értesítés"),
-          },
+          ),
         ],
-      },
-      {
-        "category":
-            Preferences.getPreferredLanguage() == "Magyar" ? "Fiók" : "Account",
-        "items": [
-          {
-            "title": Preferences.getPreferredLanguage() == "Magyar"
-                ? "Fiók"
-                : "Account",
-            "subtitle": "",
-            "icon": Icons.person,
-            "onTap": () {
+      ),
+      SettingCategory(
+        //itt lesznek a fiókkal kapcsolatos beállítások (a jövőben bővülni fog!)
+        title: Preferences.isHungarian ? "Fiók" : "Account",
+        items: [
+          SettingItem(
+            icon: Icons.person_rounded,
+            color: Colors.blue,
+            title:
+                Preferences.isHungarian ? "Fiók kezelése" : "Account managment",
+            subtitle: "",
+            onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const AccountSetting()));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AccountSetting(),
+                ),
+              );
             },
-          },
-          {
-            "title": Preferences.getPreferredLanguage() == "Magyar"
-                ? "Jelszó módosítása"
-                : "Change password",
-            "subtitle": "",
-            "icon": Icons.password,
-            "onTap": () => log("jelszó"),
-          },
+          ),
         ],
-      },
+      ),
     ];
   }
 
+//HÁTTÉR FOLYAMATOK VÉGE --------------------------------------------------------------------------
+
   @override
   Widget build(BuildContext context) {
-    final settings = getSettings();
-
-    final filteredSettings = settings
-        .map(
-          (category) {
-            final filteredItems = (category["items"] as List)
-                .where((item) => item["title"]
-                    .toLowerCase()
-                    .contains(_searchQuery.toLowerCase()))
-                .toList();
-
-            return filteredItems.isNotEmpty
-                ? {"category": category["category"], "items": filteredItems}
-                : null;
-          },
-        )
-        .whereType<Map<String, dynamic>>()
-        .toList();
-
     return Scaffold(
       backgroundColor: Colors.grey[850],
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15),
-            child: _buildSearchField(),
-          ),
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              children: filteredSettings.expand((category) {
-                final items = category["items"] as List;
-                return [
-                  _buildCategoryTitle(category["category"]),
-                  ...items.map((item) => _buildSettingCard(
-                        item["icon"],
-                        Colors.white,
-                        item["title"],
-                        item["subtitle"],
-                        item["onTap"],
-                      )),
-                  if (category != filteredSettings.last) _buildDivider(),
-                ];
-              }).toList(),
-            ),
-          ),
-        ],
-      ),
+      body: _buildSearchFilteredBody(),
     );
   }
 
+//DIZÁJN ELEMEK ELEJE -----------------------------------------------------------------------------
+
   Widget _buildSearchField() {
+    //ez a metódus építi fel a keresési mezőt
     return Container(
-      margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
+      margin: const EdgeInsets.only(top: 30, right: 10, left: 10, bottom: 20),
       child: FormBuilderTextField(
+        //formBuilder csomag használatával
         key: const Key("settingsSearch"),
+        //ezek az értékek (name, key) a teszteléshez kellenek
         name: "settings_search",
         controller: _searchController,
         focusNode: _searchFocusNode,
-        onChanged: (query) => setState(() => _searchQuery = query ?? ""),
+        onChanged: (query) {
+          //a keresési szöveget elmentjük a _searchQuery-be
+          setState(() {
+            _searchQuery = query ?? "";
+          });
+        },
         keyboardType: TextInputType.text,
         style: const TextStyle(
+          //a beírt szöveg stílusa
           color: Colors.white,
           fontSize: 17.0,
         ),
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.grey[800],
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          hintText: _searchFocusNode.hasFocus
-              ? null
-              : Preferences.getPreferredLanguage() == "Magyar"
-                  ? "Beállítások keresése..."
-                  : "Search settings...",
-          hintStyle: TextStyle(
-            color: Colors.grey[400],
-            fontStyle: FontStyle.italic,
-            fontWeight: FontWeight.bold,
-            fontSize: 17.0,
-          ),
-          labelText: _searchFocusNode.hasFocus
-              ? Preferences.getPreferredLanguage() == "Magyar"
-                  ? "Beállítások keresése..."
-                  : "Search settings..."
-              : null,
-          labelStyle: const TextStyle(
-            color: Colors.white,
-            fontSize: 17.0,
-          ),
-          prefixIcon: const Icon(Icons.search, color: Colors.white, size: 28),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide:
-                const BorderSide(color: Colors.deepPurpleAccent, width: 2.5),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(color: Colors.white70, width: 2.5),
-          ),
+        decoration: _searchFieldInputDecoration(),
+      ),
+    );
+  }
+
+  InputDecoration _searchFieldInputDecoration() {
+    return InputDecoration(
+      filled: true,
+      fillColor: Colors.grey[800],
+      contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      hintText: _isSearchFocused
+          ? null
+          : Preferences.isHungarian
+              ? "Beállítások keresése..."
+              : "Search settings...",
+      hintStyle: TextStyle(
+        //input helyén megjelenő szöveg
+        color: Colors.grey[400],
+        fontStyle: FontStyle.italic,
+        fontWeight: FontWeight.bold,
+        fontSize: 17.0,
+      ),
+      labelText: _isSearchFocused
+          ? Preferences.isHungarian
+              ? "Beállítások keresése..."
+              : "Search settings..."
+          : null,
+      labelStyle: const TextStyle(
+        //íráskor megjelenő szöveg
+        color: Colors.white,
+        fontSize: 17.0,
+      ),
+      prefixIcon: const Icon(
+        Icons.search,
+        color: Colors.white,
+        size: 28,
+      ),
+      suffixIcon: _searchController.text.isNotEmpty
+          //tartalmat törlő gomb
+          ? IconButton(
+              icon: const Icon(
+                Icons.clear_rounded,
+                color: Colors.white,
+                size: 30,
+              ),
+              onPressed: () {
+                _searchController.clear();
+                setState(() {
+                  _searchQuery = '';
+                });
+              },
+            )
+          : null,
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(15),
+        borderSide: const BorderSide(
+          color: Colors.deepPurpleAccent,
+          width: 2.5,
+        ),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(15),
+        borderSide: const BorderSide(
+          color: Colors.white70,
+          width: 2.5,
         ),
       ),
     );
   }
 
-  Widget _buildSettingCard(IconData icon, Color iconColor, String title,
-      String subtitle, VoidCallback onTap) {
-    return Card(
-      color: Colors.grey[800],
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      elevation: 5,
-      child: ListTile(
-        leading: Icon(icon, color: iconColor),
-        title: Text(title, style: const TextStyle(color: Colors.white)),
-        subtitle: subtitle.isNotEmpty
-            ? Text(subtitle, style: TextStyle(color: Colors.grey[400]))
-            : null,
-        trailing:
-            const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 16),
-        onTap: onTap,
-      ),
+  Widget _buildSearchFilteredBody() {
+    final List<SettingCategory> settings =
+        getSettings(); //eltároltuk egy List-be az összes beállítást
+
+    final filteredSettings = settings
+        //a kereséshez szükséges szűrés, itt kategóriákként kezeli még
+        .map((category) {
+          //iit pedig már egyéni beállításokként
+          final filteredItems = category.items
+              .where(
+                (item) => item.title.toLowerCase().startsWith(
+                      _searchQuery
+                          .toLowerCase(), //maga a beállítás szövege megegyezik a keresett szöveggel
+                    ),
+              )
+              .toList(); //és listába adjuk vissza
+          return filteredItems.isNotEmpty
+              //ha van találat akkor térjen vissza a kategóriával és a beállítás(ok)-al
+              ? SettingCategory(title: category.title, items: filteredItems)
+              : null;
+        })
+        .whereType<SettingCategory>()
+        .toList();
+
+    return Column(
+      children: [
+        _buildSearchField(),
+        Expanded(
+          //kitöltse a rendelkezésre álló teret a beállítás ameddig engedi a padding
+          child: ListView(
+            padding: const EdgeInsets.symmetric(
+                horizontal: 15), //legyen kisebb mint a keresés
+            children: filteredSettings.expand((category) {
+              //szűrő alapján felépíti a kategóriát és annak elemeit is
+              return [
+                _buildCategoryTitle(category.title),
+                ...category.items.map((item) => _buildSettingCard(
+                      item.icon,
+                      item.color,
+                      item.title,
+                      item.subtitle,
+                      item.onTap,
+                    )),
+                //ha az utolsó abban a kategóriában akkor egy elválasztó vonalat tesz
+                if (category != filteredSettings.last) _buildDivider(),
+              ];
+            }).toList(), //fontos hogy mindig listaként, mert a beállításokat is egy listában kezeljük
+          ),
+        ),
+      ],
     );
   }
 
   Widget _buildCategoryTitle(String title) {
+    //ez a metódus felel a kategória megjelenítéséért
     return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 5),
+      padding: const EdgeInsets.only(bottom: 5),
       child: Text(
         title,
         style: const TextStyle(
@@ -238,7 +263,99 @@ class _SettingsState extends State<Settings> {
     );
   }
 
-  Widget _buildDivider() {
-    return const Divider(color: Colors.deepPurpleAccent, thickness: 2);
+  Widget _buildSettingCard(IconData icon, Color iconColor, String title,
+      String subtitle, VoidCallback onTap) {
+    //ez a metódus építi fel maga a beállítás kártyát a megadott adatok alapján
+    return Card(
+      margin: const EdgeInsets.only(bottom: 20),
+      color: Colors.grey[800],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      elevation: 5,
+      child: ListTile(
+        leading: Icon(
+          icon,
+          color: iconColor,
+          size: 30,
+        ),
+        title: Text(
+          title,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 1,
+          ),
+        ),
+        subtitle: subtitle.isNotEmpty
+            //lesz olyan eset ahol nem lesz egyértelmű subtitle ezért kell ez a szerkezet
+            ? Text(
+                subtitle,
+                style: TextStyle(
+                  color: Colors.grey[400],
+                  letterSpacing: 1,
+                ),
+              )
+            : null,
+        trailing: const Icon(
+          Icons.arrow_forward_ios,
+          color: Colors.white,
+          size: 16,
+        ),
+        onTap: onTap,
+      ),
+    );
   }
+
+  Widget _buildDivider() {
+    //ez a widget felépít egy elválasztót a kategóriák között
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0, bottom: 20),
+      child: Container(
+        height: 4,
+        decoration: BoxDecoration(
+          color: Colors.deepPurpleAccent,
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    );
+  }
+
+//DIZÁJN ELEMEK VÉGE ------------------------------------------------------------------------------
 }
+
+//Settings OSZTÁLY VÉGE ---------------------------------------------------------------------------
+
+//SettingCategory OSZTÁLY ELEJE -------------------------------------------------------------------
+class SettingCategory {
+  //a listánkban ezzel az osztállyal tároljuk el a beállítások kategóriáit
+  SettingCategory({
+    required this.title,
+    required this.items,
+  });
+
+  final String title;
+  final List<SettingItem> items;
+}
+
+//SettingCategory OSZTÁLY VÉGE --------------------------------------------------------------------
+
+//SettingItem OSZTÁLY ELEJE -----------------------------------------------------------------------
+class SettingItem {
+  //a listánkban ezzel az osztállyal tároljuk el a beállításokat
+  SettingItem({
+    required this.icon,
+    required this.title,
+    required this.color,
+    required this.subtitle,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final Color color;
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
+}
+
+//SettingItem OSZTÁLY VÉGE ------------------------------------------------------------------------

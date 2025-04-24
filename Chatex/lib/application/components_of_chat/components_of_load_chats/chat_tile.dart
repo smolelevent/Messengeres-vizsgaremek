@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:chatex/application/components_of_chat/load_chats.dart';
+import 'package:chatex/logic/preferences.dart';
 import 'dart:convert';
 
 //ChatTile OSZTÁLY ELEJE --------------------------------------------------------------------------
@@ -37,15 +37,15 @@ class ChatTile extends StatelessWidget {
           .difference(dateTime); //különbség a mostani idő és a timestamp között
 
       if (difference.inMinutes < 1) {
-        return lang == "Magyar" ? "Épp most" : "Just now";
+        return Preferences.isHungarian ? "Épp most" : "Just now";
       } else if (difference.inMinutes < 60) {
-        return lang == "Magyar"
+        return Preferences.isHungarian
             ? "${difference.inMinutes} perce"
             : "${difference.inMinutes} minute(s) ago";
       } else if (difference.inHours < 24 && now.day == dateTime.day) {
         return "${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";
       } else if (difference.inHours < 48 && now.day - dateTime.day == 1) {
-        return lang == "Magyar" ? "Tegnap" : "Yesterday";
+        return Preferences.isHungarian ? "Tegnap" : "Yesterday";
       } else {
         return "${dateTime.month.toString().padLeft(2, '0')}.${dateTime.day.toString().padLeft(2, '0')} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";
       }

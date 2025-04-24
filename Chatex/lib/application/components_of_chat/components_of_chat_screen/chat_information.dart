@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:chatex/application/components_of_chat/build_ui.dart';
-import 'package:chatex/application/components_of_chat/load_chats.dart';
+import 'package:chatex/logic/preferences.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'dart:developer';
 import 'dart:convert';
@@ -16,7 +16,7 @@ class ChatInfoScreen extends StatelessWidget {
   final int chatId;
 
 //HÁTTÉR FOLYAMATOK ELEJE -------------------------------------------------------------------------
-  
+
   Future<void> _deleteChat(BuildContext context) async {
     try {
       final response = await http.post(
@@ -25,14 +25,14 @@ class ChatInfoScreen extends StatelessWidget {
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
           "chat_id": chatId, //ezek alapján azonosítjuk a törlést
-          "user_id": userId,
+          "user_id": Preferences.getUserId(),
         }),
       );
 
       final responseData = jsonDecode(response.body);
       if (responseData["success"] == true) {
         ToastMessages.showToastMessages(
-          lang == "Magyar"
+          Preferences.isHungarian
               ? "A beszélgetés sikeresen törölve lett!"
               : "Chat deleted successfully!",
           0.2,
@@ -53,7 +53,7 @@ class ChatInfoScreen extends StatelessWidget {
         });
       } else {
         ToastMessages.showToastMessages(
-          lang == "Magyar"
+          Preferences.isHungarian
               ? "Hiba történt a törlés során!"
               : "Failed to delete chat!",
           0.2,
@@ -67,7 +67,7 @@ class ChatInfoScreen extends StatelessWidget {
       }
     } catch (e) {
       ToastMessages.showToastMessages(
-        lang == "Magyar"
+        Preferences.isHungarian
             ? "Kapcsolati hiba a chat törlése közben!"
             : "Connection error while deleting chat!",
         0.2,
@@ -108,7 +108,7 @@ class ChatInfoScreen extends StatelessWidget {
         letterSpacing: 1,
       ),
       title: Text(
-        lang == "Magyar" ? "Chat információi" : "Chat information",
+        Preferences.isHungarian ? "Chat információi" : "Chat information",
       ),
     );
   }
@@ -125,7 +125,7 @@ class ChatInfoScreen extends StatelessWidget {
           size: 40,
         ),
         label: Text(
-          lang == "Magyar" ? "Chat törlése" : "Delete chat",
+          Preferences.isHungarian ? "Chat törlése" : "Delete chat",
           style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,

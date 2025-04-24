@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:chatex/application/components_of_chat/load_chats.dart';
+import 'package:chatex/logic/preferences.dart';
 import 'package:chatex/application/components_of_ui/components_of_people/friend_requests.dart';
 import 'package:chatex/application/components_of_ui/components_of_people/manage_friends.dart';
 import 'package:chatex/logic/toast_message.dart';
@@ -73,7 +73,7 @@ class _PeopleState extends State<People> {
       final response = await http.post(
         Uri.parse(
             "http://10.0.2.2/ChatexProject/chatex_phps/friends/get/get_friend_request_count.php"),
-        body: jsonEncode({"user_id": userId}),
+        body: jsonEncode({"user_id": Preferences.getUserId()}),
         headers: {"Content-Type": "application/json"},
       );
 
@@ -89,7 +89,7 @@ class _PeopleState extends State<People> {
       }
     } catch (e) {
       ToastMessages.showToastMessages(
-        lang == "Magyar"
+        Preferences.isHungarian
             ? "Kapcsolati hiba a\nbarátkérések számának lekérésékor!"
             : "Connection error while\nfetching friend requests (count)!",
         0.2,
@@ -130,7 +130,7 @@ class _PeopleState extends State<People> {
 
           if (response.statusCode == 200) {
             List<dynamic> responseData = jsonDecode(response.body);
-            final String currentUsername = username;
+            final String currentUsername = Preferences.getUsername();
 
             //A keresést indító felhasználót kizárjuk a keresési eredményekből
             responseData = responseData.where((user) {
@@ -147,7 +147,7 @@ class _PeopleState extends State<People> {
           }
         } catch (e) {
           ToastMessages.showToastMessages(
-            lang == "Magyar"
+            Preferences.isHungarian
                 ? "Kapcsolati hiba a\nfelhasználók lekérésekor!"
                 : "Connection error while\n fetching users!",
             0.2,
@@ -175,7 +175,7 @@ class _PeopleState extends State<People> {
           "http://10.0.2.2/ChatexProject/chatex_phps/friends/get/check_friend_status.php"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
-        "user_id": userId,
+        "user_id": Preferences.getUserId(),
         "friend_id": friendId,
       }),
     );
@@ -189,7 +189,7 @@ class _PeopleState extends State<People> {
       return status; //később ez alapján változik a design
     } else {
       ToastMessages.showToastMessages(
-        lang == "Magyar"
+        Preferences.isHungarian
             ? "Kapcsolati hiba a\nbarátjelölés állapotának lekérésénél!"
             : "Connection error while fetching friend request status!",
         0.2,
@@ -212,7 +212,7 @@ class _PeopleState extends State<People> {
         Uri.parse(
             "http://10.0.2.2/ChatexProject/chatex_phps/friends/set/send_friend_request.php"),
         body: jsonEncode({
-          "user_id": userId,
+          "user_id": Preferences.getUserId(),
           "friend_id": friendId,
         }),
         headers: {"Content-Type": "application/json"},
@@ -230,7 +230,7 @@ class _PeopleState extends State<People> {
         _searchUsers(_userSearchController.text);
 
         ToastMessages.showToastMessages(
-          lang == "Magyar" ? "Barátjelölés elküldve!" : "Friend request sent!",
+          Preferences.isHungarian ? "Barátjelölés elküldve!" : "Friend request sent!",
           0.2,
           Colors.green,
           Icons.check,
@@ -241,7 +241,7 @@ class _PeopleState extends State<People> {
       } else if (responseData["message"] ==
           "Hiba történt a barátjelölés során!") {
         ToastMessages.showToastMessages(
-          lang == "Magyar"
+          Preferences.isHungarian
               ? "Hiba történt a barátjelölés során!"
               : "Error occurred while sending the friend request!",
           0.2,
@@ -254,7 +254,7 @@ class _PeopleState extends State<People> {
       }
     } catch (e) {
       ToastMessages.showToastMessages(
-        lang == "Magyar"
+        Preferences.isHungarian
             ? "Kapcsolati hiba a barátküldés közben!"
             : "Connection error while\nsending the friend request!",
         0.2,
@@ -290,11 +290,13 @@ class _PeopleState extends State<People> {
             //egy meghatározott méretű területen jelenítjük meg a kettő kártya widgetet
             height: 140,
             child: ListView(
+              //TODO: no scroll
               children: [
                 _buildCard(
                   Icons.people_alt_rounded,
                   Colors.white,
-                  lang == "Magyar" ? "Barát jelölések" : "Friend requests",
+                  Preferences.isHungarian ? "Barát jelölések" : "Friend requests",
+                  //trailingként átadott kód
                   Stack(
                     clipBehavior: Clip.none,
                     children: [
@@ -343,10 +345,11 @@ class _PeopleState extends State<People> {
                     _loadFriendRequestCount();
                   },
                 ),
+                //barátok kezelése gomb
                 _buildCard(
                   Icons.emoji_people_rounded,
                   Colors.white,
-                  lang == "Magyar" ? "Barátok kezelése" : "Manage friends",
+                  Preferences.isHungarian ? "Barátok kezelése" : "Manage friends",
                   const Icon(
                     Icons.arrow_forward_ios,
                     color: Colors.white,
@@ -407,75 +410,6 @@ class _PeopleState extends State<People> {
     );
   }
 
-  // Widget _buildFriendRequestsCard(
-  //     //ez a metódus felel a barátjelölések képernyő megjelenítésében
-  //     IconData icon,
-  //     Color iconColor,
-  //     String title,
-  //     VoidCallback onTap) {
-  //   return Card(
-  //     //Card widget adja az alakot míg,
-  //     color: Colors.grey[800],
-  //     shape: RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.circular(10),
-  //     ),
-  //     elevation: 5,
-  //     margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-  //     child: ListTile(
-  //       //a ListTile widget adja a Card-ban lévő elrendezést
-  //       leading: Icon(
-  //         icon,
-  //         color: iconColor,
-  //       ),
-  //       title: Text(
-  //         title,
-  //         style: const TextStyle(
-  //           color: Colors.white,
-  //           fontSize: 18,
-  //           letterSpacing: 1,
-  //         ),
-  //       ),
-  //       trailing: Stack(
-  //         clipBehavior: Clip.none,
-  //         children: [
-  //           const Icon(
-  //             Icons.arrow_forward_ios,
-  //             color: Colors.white,
-  //             size: 16,
-  //           ),
-  //           if (_friendRequestCount > 0)
-  //             //ha van barátjelölés jelenítsük meg a előre nyíl előtt
-  //             Positioned(
-  //               right: 30,
-  //               top: -4,
-  //               child: Container(
-  //                 padding: const EdgeInsets.all(4),
-  //                 decoration: const BoxDecoration(
-  //                   color: Colors.red,
-  //                   shape: BoxShape.circle,
-  //                 ),
-  //                 constraints: const BoxConstraints(
-  //                   minWidth: 20,
-  //                   minHeight: 20,
-  //                 ),
-  //                 child: Text(
-  //                   '$_friendRequestCount',
-  //                   style: const TextStyle(
-  //                     color: Colors.white,
-  //                     fontSize: 12,
-  //                     fontWeight: FontWeight.bold,
-  //                   ),
-  //                   textAlign: TextAlign.center,
-  //                 ),
-  //               ),
-  //             ),
-  //         ],
-  //       ),
-  //       onTap: onTap,
-  //     ),
-  //   );
-  // }
-
   Widget _userSearchInputWidget() {
     //ez a metódus a keresésért felel
     return Container(
@@ -488,20 +422,20 @@ class _PeopleState extends State<People> {
           //a regisztrációkor is érvényes követelmények alapján keresünk
           FormBuilderValidators.minLength(
             3,
-            errorText: lang == "Magyar"
+            errorText: Preferences.isHungarian
                 ? "A felhasználónév túl rövid! (min 3)"
                 : "The username is too short! (min 3)",
             checkNullOrEmpty: false,
           ),
           FormBuilderValidators.maxLength(
             20,
-            errorText: lang == "Magyar"
+            errorText: Preferences.isHungarian
                 ? "A felhasználónév túl hosszú! (max 20)"
                 : "The username is too long! (max 20)",
             checkNullOrEmpty: false,
           ),
           FormBuilderValidators.required(
-            errorText: lang == "Magyar"
+            errorText: Preferences.isHungarian
                 ? "A felhasználónév nem lehet üres!"
                 : "The username cannot be empty!",
             checkNullOrEmpty: false,
@@ -530,11 +464,11 @@ class _PeopleState extends State<People> {
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           hintText: _isUserSearchFocused
               ? null
-              : lang == "Magyar"
+              : Preferences.isHungarian
                   ? "Add meg a felhasználónevet!"
                   : "Enter the username!",
           labelText: _isUserSearchFocused
-              ? lang == "Magyar"
+              ? Preferences.isHungarian
                   ? "Add meg a felhasználónevet!"
                   : "Enter the username!"
               : null,
@@ -633,7 +567,7 @@ class _PeopleState extends State<People> {
       //középre igazítás itt a ListView területén van, illetve nem lehet külön metódusba mert nem buildelődik újra
       return Center(
         child: Text(
-          lang == "Magyar" ? "Nincs találat" : "No results",
+          Preferences.isHungarian ? "Nincs találat" : "No results",
           style: const TextStyle(
             color: Colors.white,
             fontSize: 18,
@@ -651,8 +585,8 @@ class _PeopleState extends State<People> {
         final user = _userSearchResults[index];
         //id-re, profile_picture-re, és username-et tároló változókra
         final int friendId = user["id"];
-        final String? profilePicture = user["profile_picture"];
         final String username = user["username"];
+        final String? profilePicture = user["profile_picture"];
 
         return Padding(
           padding: const EdgeInsets.only(bottom: 10),
@@ -678,7 +612,7 @@ class _PeopleState extends State<People> {
                 //majd az értékek alapján megjelenítjük
                 if (status == "already_friends") {
                   return Text(
-                    lang == "Magyar" ? "Barát" : "Friend",
+                    Preferences.isHungarian ? "Barát" : "Friend",
                     style: const TextStyle(
                       color: Colors.greenAccent,
                       fontSize: 14,
@@ -686,7 +620,7 @@ class _PeopleState extends State<People> {
                   );
                 } else if (status == "pending_request") {
                   return Text(
-                    lang == "Magyar" ? "Függőben" : "Pending",
+                    Preferences.isHungarian ? "Függőben" : "Pending",
                     style: const TextStyle(
                       color: Colors.orange,
                       fontSize: 14,
@@ -699,7 +633,7 @@ class _PeopleState extends State<People> {
                     ),
                     onPressed: () => _sendFriendRequest(friendId),
                     child: Text(
-                      lang == "Magyar" ? "Jelölés" : "Add",
+                      Preferences.isHungarian ? "Jelölés" : "Add",
                       style: const TextStyle(
                         color: Colors.white,
                       ),
