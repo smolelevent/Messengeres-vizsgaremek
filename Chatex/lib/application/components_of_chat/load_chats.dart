@@ -33,7 +33,7 @@ class LoadedChatDataState extends State<LoadedChatData> {
   @override
   void initState() {
     super.initState();
-    //szükséges a Future.delayed mivel megvárja hogy végezzenek a kis folyamatok
+    //szükséges a Future.delayed mivel meg kell hogy várja a kis folyamatokat hogy végezzenek
     Future.delayed(Duration.zero, () async {
       await requestNotificationPermission(context);
       await requestDownloadPermission(context);
@@ -197,13 +197,18 @@ class LoadedChatDataState extends State<LoadedChatData> {
             String lastMessage;
             if (rawMessage == "[FILE]") {
               lastMessage = prefix +
-                  (Preferences.isHungarian ? "📎 Fájl csatolva" : "📎 File attached");
+                  (Preferences.isHungarian
+                      ? "📎 Fájl csatolva"
+                      : "📎 File attached");
             } else if (rawMessage == "[IMAGE]") {
               lastMessage = prefix +
-                  (Preferences.isHungarian ? "🖼️ Kép küldve" : "🖼️ Image sent");
+                  (Preferences.isHungarian
+                      ? "🖼️ Kép küldve"
+                      : "🖼️ Image sent");
             } else if (rawMessage.isEmpty) {
-              lastMessage =
-                  Preferences.isHungarian ? "Nincs még üzenet" : "No message yet";
+              lastMessage = Preferences.isHungarian
+                  ? "Nincs még üzenet"
+                  : "No message yet";
             } else {
               lastMessage = prefix + rawMessage;
             }

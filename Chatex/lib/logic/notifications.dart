@@ -1,10 +1,14 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+//NotificationService OSZTÁLY ELEJE ---------------------------------------------------------------
 class NotificationService {
+//HÁTTÉR FOLYAMATOK ELEJE -------------------------------------------------------------------------
+  //létrehozunk egy példányt a FlutterLocalNotificationsPlugin osztályból ami a értesítések megjelenítéséért fog felelni
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
   static Future<void> initialize() async {
+    //ez a metódus a main.dart betöltésekor inicializálja az értesítések beállításait (értesítése ikon)
     const AndroidInitializationSettings androidSettings =
         AndroidInitializationSettings('@drawable/ic_notification');
 
@@ -19,6 +23,7 @@ class NotificationService {
     required String title,
     required String body,
   }) async {
+    //ez a metódus jeleníti meg az értesítést a megadott beállításokkal (priorítás, fontosság, stílus, és ikon)
     final AndroidNotificationDetails androidDetails =
         AndroidNotificationDetails(
       'default_channel',
@@ -35,10 +40,15 @@ class NotificationService {
     );
 
     await _notificationsPlugin.show(
-      DateTime.now().millisecondsSinceEpoch ~/ 1000, // unique ID
+      //egyedi azonosítót kap ami a "Unix epoch" óta eltelt idő osztva 1000-el,
+      //majd kerekítve a 0-hoz közel (debugnál hasznos)
+      DateTime.now().millisecondsSinceEpoch ~/ 1000,
+      //megjelenítjük a megadott title-t és body-t (ami tetszőleges lehet!)
       title,
       body,
-      platformDetails,
+      platformDetails, //androidra szánt beállítások-al jelenítse meg
     );
   }
+//HÁTTÉR FOLYAMATOK VÉGE --------------------------------------------------------------------------
 }
+//NotificationService OSZTÁLY VÉGE ----------------------------------------------------------------
