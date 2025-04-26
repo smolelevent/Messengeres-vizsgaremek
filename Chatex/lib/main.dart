@@ -275,11 +275,11 @@ class _LoginUIState extends State<LoginUI> {
                   ? "Az email cím érvénytelen!"
                   : "The email address is invalid!",
               checkNullOrEmpty: false),
-          FormBuilderValidators.required(
-              errorText: _selectedLanguage == "Magyar"
-                  ? "Az email cím nem lehet üres!"
-                  : "The email address cannot be empty!",
-              checkNullOrEmpty: false),
+          // FormBuilderValidators.required(
+          //     errorText: _selectedLanguage == "Magyar"
+          //         ? "Az email cím nem lehet üres!"
+          //         : "The email address cannot be empty!",
+          //     checkNullOrEmpty: true),
         ]),
         focusNode: _emailFocusNode,
         controller: _emailController,

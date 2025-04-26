@@ -5,8 +5,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:chatex/logic/toast_message.dart';
+import 'package:chatex/main.dart';
 import 'package:chatex/logic/preferences.dart';
+import 'package:chatex/logic/toast_message.dart';
+import 'dart:typed_data';
 import 'dart:developer';
 import 'dart:convert';
 import 'dart:io';
@@ -22,6 +24,10 @@ class AccountSetting extends StatefulWidget {
 class _AccountSettingState extends State<AccountSetting> {
 //OSZTÁLYON BELÜLI VÁLTOZÓK ELEJE -----------------------------------------------------------------
 
+  //a controllerekből lehet kivenni az input mezők értékeit
+  //a FocusNode-ok az input mezők hint és label text közötti váltakozásáért fog felelni
+  //amit társítani kell egy bool változóhoz ami a FocusNode .hasFocus értékét fogja tartalmazni, ez alapján változik a design
+
   final TextEditingController _usernameController = TextEditingController();
   final FocusNode _usernameFocusNode = FocusNode();
   bool _isUsernameFocused = false;
@@ -33,24 +39,32 @@ class _AccountSettingState extends State<AccountSetting> {
   final TextEditingController _passwordController = TextEditingController();
   final FocusNode _passwordFocusNode = FocusNode();
   bool _isPasswordFocused = false;
+  //a jelszó láthatásokat külön kezeljük, és ki-be kapcsolójuk van
   bool _isPasswordNotVisible = true;
 
   final TextEditingController _passwordConfirmController =
       TextEditingController();
   final FocusNode _passwordConfirmFocusNode = FocusNode();
   bool _isPasswordConfirmFocused = false;
+  //külön
   bool _isPasswordConfirmNotVisible = true;
 
-  final _formKey = GlobalKey<FormBuilderState>();
+  //ezek felelnek azért, ha a felhasználó megnyomja a ceruza ikont akkor megjelenjen az input mező és ezeket külön kezeljük
   bool _isEditingUsername = false;
   bool _isEditingEmail = false;
   bool _isEditingPassword = false;
 
+  //alapértelmezetten betöltjük a felhasználó jelenlegi profilképét
   String? _profilePicture = Preferences.getProfilePicture();
   File? _selectedImage;
 
-  bool _hasChanges = false;
+  //a _formKey felel azért hogy kitudjuk venni a Form értékeit, míg a _isFormValid a gomb megnyomhatóságáért felel!
+  final _formKey = GlobalKey<FormBuilderState>();
   bool _isFormValid = false;
+
+  //cacheléshez szükséges változók (hogy a profilkép minden képernyő frissítéskor ne pislákoljon)
+  ImageProvider? _cachedProfileImage;
+  Uint8List? _cachedSvgBytes;
 
 //OSZTÁLYON BELÜLI VÁLTOZÓK VÉGE ------------------------------------------------------------------
 
@@ -58,6 +72,10 @@ class _AccountSettingState extends State<AccountSetting> {
   @override
   void initState() {
     super.initState();
+    _cacheProfileImage();
+
+    //FocusNode-okat össze kötjük a bool változójukkal
+
     _usernameFocusNode.addListener(() {
       setState(() {
         _isUsernameFocused = _usernameFocusNode.hasFocus;
@@ -82,6 +100,8 @@ class _AccountSettingState extends State<AccountSetting> {
       });
     });
 
+    //ha megjelenik egy input mező frissítsük a képernyőt
+
     _usernameController.addListener(() {
       if (_isEditingUsername) setState(() {});
     });
@@ -90,19 +110,26 @@ class _AccountSettingState extends State<AccountSetting> {
       if (_isEditingEmail) setState(() {});
     });
 
-    _usernameController.addListener(_onAnyFieldChanged);
-    _emailController.addListener(_onAnyFieldChanged);
-    _passwordController.addListener(_onAnyFieldChanged);
-    _passwordConfirmController.addListener(_onAnyFieldChanged);
+    _passwordController.addListener(() {
+      if (_isEditingPassword) setState(() {});
+    });
 
-    _usernameFocusNode.addListener(_onAnyFieldChanged);
-    _emailFocusNode.addListener(_onAnyFieldChanged);
-    _passwordFocusNode.addListener(_onAnyFieldChanged);
-    _passwordConfirmFocusNode.addListener(_onAnyFieldChanged);
+    //mindegyik kontrollernél és focusNode-nál figyeljük hogy van e valid mező hogy a gomb megfelelően frissítsen
+
+    _usernameController.addListener(_onAnyFieldValid);
+    _emailController.addListener(_onAnyFieldValid);
+    _passwordController.addListener(_onAnyFieldValid);
+    _passwordConfirmController.addListener(_onAnyFieldValid);
+
+    _usernameFocusNode.addListener(_onAnyFieldValid);
+    _emailFocusNode.addListener(_onAnyFieldValid);
+    _passwordFocusNode.addListener(_onAnyFieldValid);
+    _passwordConfirmFocusNode.addListener(_onAnyFieldValid);
   }
 
   @override
   void dispose() {
+    //ha már nincsen használatban akkor felszabadítja az erőforrásokat amit eddig foglaltak
     super.dispose();
     _usernameController.dispose();
     _emailController.dispose();
@@ -115,178 +142,198 @@ class _AccountSettingState extends State<AccountSetting> {
     _passwordConfirmFocusNode.dispose();
   }
 
-  void _onAnyFieldChanged() {
-    final isFormValid = _formKey.currentState?.validate() ?? false;
+  void _cacheProfileImage() {
+    //cacheljük a profilképet hogy ne "pislálkoljon"
+    if (_profilePicture!.startsWith("data:image/svg+xml;base64,")) {
+      _cachedSvgBytes = base64Decode(_profilePicture!.split(",")[1]);
+      _cachedProfileImage = null;
+    } else if (_profilePicture!.startsWith("data:image/")) {
+      final base64Data = base64Decode(_profilePicture!.split(",")[1]);
+      _cachedProfileImage = MemoryImage(base64Data);
+      _cachedSvgBytes = null;
+    }
+  }
 
-    final hasProfilePictureChanged = _selectedImage != null;
+  void _onAnyFieldValid() {
+    //ez dönti el hogy engedélyezve legyen a mentés gomb vagy sem
+    //minden input változásnál lefut
+    final currentState = _formKey.currentState;
+    if (currentState == null) return;
+
+    currentState.save(); // Ez azért kell, hogy az értékeket is le tudjunk kérni
+
+    final isUsernameValid =
+        currentState.fields['username']?.validate() ?? false;
+    final isEmailValid = currentState.fields['email']?.validate() ?? false;
+
+    // Jelszónál dupla feltétel: csak akkor nézzük, ha a megerősítő jelszó is valid
+    final isPasswordValid =
+        (currentState.fields['password']?.validate() ?? false) &&
+            (currentState.fields['password_confirm']?.validate() ?? false);
+
+    // Profilkép változás ha a kiválasztott kép nem üres
+    final hasNewProfilePicture = _selectedImage != null;
+
+    //bármelyik is igaz
+    final atLeastOneValid = isUsernameValid ||
+        isEmailValid ||
+        isPasswordValid ||
+        hasNewProfilePicture;
 
     setState(() {
-      _isFormValid = isFormValid || hasProfilePictureChanged;
+      //átadjuk a gombot engedélyező változónak
+      _isFormValid = atLeastOneValid;
     });
   }
 
-  Future<void> _pickProfilePicture() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      final File imageFile = File(pickedFile.path);
-      final List<int> imageAsBytes = await imageFile.readAsBytes();
-      final String base64Image = base64Encode(imageAsBytes);
-      String mimeType;
+  Future<void> _updateUsername(String newUsername) async {
+    //ez a metódus frissíti a felhasználónevet a megadott string-el
+    try {
+      final response = await http.post(
+        Uri.parse(
+            "http://10.0.2.2/ChatexProject/chatex_phps/settings/account/update_username.php"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "user_id": Preferences.getUserId(),
+          "username": newUsername,
+        }),
+      );
 
-      if (pickedFile.path.endsWith(".svg")) {
-        mimeType = "data:image/svg+xml;base64,";
-      } else if (pickedFile.path.endsWith(".jpg")) {
-        mimeType = "data:image/jpg;base64,";
-      } else if (pickedFile.path.endsWith(".jpeg")) {
-        mimeType = "data:image/jpeg;base64,";
-      } else if (pickedFile.path.endsWith(".png")) {
-        mimeType = "data:image/png;base64,";
-      } else {
+      final responseData = jsonDecode(response.body);
+
+      if (responseData["status"] == "success") {
+        //lokálisan is frissítjük a nevet
+        await Preferences.setUsername(newUsername);
+
         ToastMessages.showToastMessages(
-          "Nem támogatott fájlformátum!",
+          Preferences.isHungarian
+              ? "Felhasználónév sikeresen frissítve!"
+              : "Username updated successfully!",
           0.2,
-          Colors.red,
-          Icons.image,
+          Colors.green,
+          Icons.check,
           Colors.black,
           const Duration(seconds: 2),
           context,
         );
-        return;
+      } else {
+        ToastMessages.showToastMessages(
+          Preferences.isHungarian
+              ? "Hiba történt a felhasználónév frissítésekor!"
+              : "Failed to update username!",
+          0.2,
+          Colors.redAccent,
+          Icons.error_rounded,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
       }
-
-      setState(() {
-        _selectedImage = imageFile;
-        _profilePicture = "$mimeType$base64Image";
-      });
-
+    } catch (e) {
       ToastMessages.showToastMessages(
-        "Kép kiválasztva! Most módosíthatod!",
+        Preferences.isHungarian
+            ? "Kapcsolati hiba a\nfelhasználónév módosítása közben!"
+            : "Connection error while\nupdating username!",
         0.2,
-        Colors.orange,
-        Icons.image,
+        Colors.redAccent,
+        Icons.error_rounded,
         Colors.black,
-        const Duration(seconds: 2),
+        const Duration(seconds: 3),
         context,
       );
+      log("Kapcsolati hiba a felhasználónév módosítása közben! ${e.toString()}");
     }
   }
 
-  // Future<void> _updateProfilePicture() async {
-  //   if (_selectedImage == null) {
-  //     ToastMessages.showToastMessages(
-  //       "Nincs kiválasztott kép!",
-  //       0.2,
-  //       Colors.redAccent,
-  //       Icons.error,
-  //       Colors.black,
-  //       const Duration(seconds: 2),
-  //       context,
-  //     );
-  //   } else {
-  //     try {
-  //       log(_profilePicture.toString());
-  //       final response = await http.post(
-  //         Uri.parse(
-  //             "http://10.0.2.2/ChatexProject/chatex_phps/settings/update_profile_picture.php"),
-  //         body: jsonEncode({
-  //           "user_id": Preferences.getUserId(),
-  //           "profile_picture": _profilePicture,
-  //         }),
-  //         headers: {"Content-Type": "application/json"},
-  //       );
-  //       final responseData = json.decode(response.body);
-  //       log(responseData.toString());
-  //       if (responseData["status"] == "success") {
-  //         ToastMessages.showToastMessages(
-  //           "Profilkép frissítve!",
-  //           0.2,
-  //           Colors.green,
-  //           Icons.check,
-  //           Colors.black,
-  //           const Duration(seconds: 2),
-  //           context,
-  //         );
+  Future<void> _updateEmail(String newEmail) async {
+    //ez a metódus frissíti az email címet a megadott id és string alapján
+    try {
+      final response = await http.post(
+        Uri.parse(
+            "http://10.0.2.2/ChatexProject/chatex_phps/settings/account/update_email.php"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "user_id": Preferences.getUserId(),
+          "email": newEmail,
+        }),
+      );
 
-  //         await Preferences.setProfilePicture(_profilePicture!);
-  //       } else {
-  //         ToastMessages.showToastMessages(
-  //           "Hiba történt a frissítés során!",
-  //           0.2,
-  //           Colors.redAccent,
-  //           Icons.error,
-  //           Colors.black,
-  //           const Duration(seconds: 2),
-  //           context,
-  //         );
-  //       }
-  //     } catch (e) {
-  //       ToastMessages.showToastMessages(
-  //         Preferences.getPreferredLanguage() == "Magyar"
-  //             ? "Kapcsolati hiba a profilkép frissítése közben!"
-  //             : "Connection error by updating profile picture!",
-  //         0.2,
-  //         Colors.redAccent,
-  //         Icons.error,
-  //         Colors.black,
-  //         const Duration(seconds: 2),
-  //         context,
-  //       );
-  //       log(e.toString());
-  //     }
-  //   }
-  // }
+      final responseData = jsonDecode(response.body);
 
-  Future<void> _updateUsername() async {
-    if (_usernameController.text.isEmpty) {
-      //TODO: nem jól van le kezelve
+      if (responseData["status"] == "success") {
+        //lokális mentés
+        await Preferences.setEmail(newEmail);
+        ToastMessages.showToastMessages(
+          Preferences.isHungarian
+              ? "Email sikeresen frissítve!"
+              : "Email updated successfully!",
+          0.2,
+          Colors.green,
+          Icons.check,
+          Colors.black,
+          const Duration(seconds: 3),
+          context,
+        );
+      } else {
+        ToastMessages.showToastMessages(
+          Preferences.isHungarian
+              ? "Hiba történt az email frissítésekor!"
+              : "Failed to update email!",
+          0.2,
+          Colors.redAccent,
+          Icons.error_rounded,
+          Colors.black,
+          const Duration(seconds: 3),
+          context,
+        );
+      }
+    } catch (e) {
       ToastMessages.showToastMessages(
-        "A név nem lehet üres!",
+        Preferences.isHungarian
+            ? "Kapcsolati hiba az\nemail frissítése közben!"
+            : "Connection error while\nupdating email!",
         0.2,
         Colors.redAccent,
-        Icons.error,
+        Icons.error_rounded,
         Colors.black,
-        const Duration(seconds: 2),
+        const Duration(seconds: 3),
         context,
       );
-    } else {
-      try {
-        final response = await http.post(
-          Uri.parse(
-              "http://10.0.2.2/ChatexProject/chatex_phps/settings/update_username.php"),
-          body: jsonEncode({"username": _usernameController.text}),
-          headers: {"Content-Type": "application/json"},
-        );
+      log("Kapcsolati hiba az email frissítése közben! ${e.toString()}");
+    }
+  }
 
-        final responseData = json.decode(response.body);
-        if (responseData["status"] == "success") {
-          ToastMessages.showToastMessages(
-            "Felhasználónév frissítve!",
-            0.2,
-            Colors.green,
-            Icons.check,
-            Colors.black,
-            const Duration(seconds: 2),
-            context,
-          );
+  Future<void> _updatePassword(String newPassword) async {
+    //jelszó frissítés
+    try {
+      final response = await http.post(
+        Uri.parse(
+            "http://10.0.2.2/ChatexProject/chatex_phps/settings/account/update_password.php"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "user_id": Preferences.getUserId(),
+          "password": newPassword,
+        }),
+      );
 
-          await Preferences.setUsername(_usernameController.text);
-        } else {
-          ToastMessages.showToastMessages(
-            "Hiba történt a frissítés során!",
-            0.2,
-            Colors.redAccent,
-            Icons.error,
-            Colors.black,
-            const Duration(seconds: 2),
-            context,
-          );
-        }
-      } catch (e) {
+      final responseData = jsonDecode(response.body);
+
+      if (responseData["status"] == "success") {
+        //ezt nem mentjük el lokálisan, mert nem tároljuk biztonsági okok miatt
         ToastMessages.showToastMessages(
-          Preferences.getPreferredLanguage() == "Magyar"
-              ? "Kapcsolati hiba a felhasználónév frissítése közben!"
-              : "Connection error by updating username!",
+          Preferences.isHungarian ? "Jelszó frissítve!" : "Password updated!",
+          0.2,
+          Colors.green,
+          Icons.check_rounded,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
+      } else {
+        ToastMessages.showToastMessages(
+          Preferences.isHungarian
+              ? "Hiba a jelszó frissítése közben!"
+              : "Password update failed!",
           0.2,
           Colors.redAccent,
           Icons.error,
@@ -294,8 +341,311 @@ class _AccountSettingState extends State<AccountSetting> {
           const Duration(seconds: 2),
           context,
         );
-        log(e.toString());
       }
+    } catch (e) {
+      ToastMessages.showToastMessages(
+        Preferences.isHungarian
+            ? "Kapcsolati hiba a\njelszó frissítése közben!"
+            : "Connection error while\nupdating password!",
+        0.2,
+        Colors.redAccent,
+        Icons.error_rounded,
+        Colors.black,
+        const Duration(seconds: 3),
+        context,
+      );
+      log("Kapcsolati hiba a jelszó frissítése közben! ${e.toString()}");
+    }
+  }
+
+  Future<void> _pickImage() async {
+    //ez a metódus felel a képkiválasztásért
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile == null) return;
+
+    final filePath = pickedFile.path;
+    final fileExtension = filePath.split('.').last.toLowerCase();
+    final supportedExtensions = ['svg', 'png', 'jpg', 'jpeg'];
+
+    if (!supportedExtensions.contains(fileExtension)) {
+      //ha nem támogatott formátum lett kiválasztva
+      ToastMessages.showToastMessages(
+        Preferences.isHungarian
+            ? "Nem támogatott fájlformátum!"
+            : "Unsupported file format!",
+        0.2,
+        Colors.red,
+        Icons.image,
+        Colors.black,
+        const Duration(seconds: 2),
+        context,
+      );
+      return;
+    }
+
+    final file = File(filePath);
+    final bytes = await file.readAsBytes();
+
+    //base64-es kódolás amihez hozzátesszük a mimeType-ot
+    final base64 = base64Encode(bytes);
+
+    String mimeType;
+    switch (fileExtension) {
+      case "svg":
+        mimeType = "data:image/svg+xml;base64,";
+        break;
+      case "png":
+        mimeType = "data:image/png;base64,";
+        break;
+      case "jpg":
+        mimeType = "data:image/jpg;base64,";
+        break;
+      case "jpeg":
+        mimeType = "data:image/jpeg;base64,";
+        break;
+      default:
+        mimeType = "";
+    }
+
+    setState(() {
+      //frissítjük mind a kettő változót, és már az új profilkép fog megjelenni
+      _selectedImage = file;
+      _profilePicture = "$mimeType$base64";
+    });
+
+    ToastMessages.showToastMessages(
+      Preferences.isHungarian
+          ? "Kép kiválasztva! Most módosíthatod!"
+          : "Image selected! You can now update it!",
+      0.2,
+      Colors.orange,
+      Icons.image,
+      Colors.black,
+      const Duration(seconds: 2),
+      context,
+    );
+
+    //frissítjük a mentés gombot
+    _onAnyFieldValid();
+
+    //frissítsük a cache-t is
+    _cacheProfileImage();
+  }
+
+  Future<void> _updateProfilePicture() async {
+    //csak akkor frissítünk, ha volt kiválasztott kép
+    if (_selectedImage == null || _profilePicture == null) return;
+
+    try {
+      final response = await http.post(
+        Uri.parse(
+            "http://10.0.2.2/ChatexProject/chatex_phps/settings/account/update_profile_picture.php"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "user_id": Preferences.getUserId(),
+          "profile_picture": _profilePicture,
+        }),
+      );
+
+      final responseData = jsonDecode(response.body);
+
+      if (responseData["status"] == "success") {
+        //lokálisan is frissítjük
+        await Preferences.setProfilePicture(_profilePicture!);
+
+        ToastMessages.showToastMessages(
+          Preferences.isHungarian
+              ? "Profilkép sikeresen frissítve!"
+              : "Profile picture updated successfully!",
+          0.2,
+          Colors.green,
+          Icons.check_rounded,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
+      } else {
+        ToastMessages.showToastMessages(
+          Preferences.isHungarian
+              ? "Hiba történt a profilkép frissítésekor!"
+              : "Failed to update profile picture!",
+          0.2,
+          Colors.redAccent,
+          Icons.error_rounded,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
+      }
+    } catch (e) {
+      ToastMessages.showToastMessages(
+        Preferences.isHungarian
+            ? "Kapcsolati hiba a\nprofilkép frissítése közben!"
+            : "Connection error while\nupdating profile picture!",
+        0.2,
+        Colors.redAccent,
+        Icons.error_rounded,
+        Colors.black,
+        const Duration(seconds: 3),
+        context,
+      );
+      log("Kapcsolati hiba a profilkép frissítése közben! ${e.toString()}");
+    }
+  }
+
+  Future<void> _handleSave() async {
+    //ez a metódus felel az összes frissítő metódus meghívásáért
+
+    //eltároljuk az új értékekeket
+    final newUsername =
+        _formKey.currentState!.fields["username"]?.value?.trim() ?? '';
+    final newEmail =
+        _formKey.currentState!.fields["email"]?.value?.trim() ?? '';
+    final newPassword =
+        _formKey.currentState!.fields["password"]?.value?.trim() ?? '';
+
+    //összehasonlítást végzünk az új és a régi értékek között
+    //és csak akkor engedlyük frissíteni ha nem ugyanaz (kivéve a jelszónál mert azt alapból nem tároljuk)
+    final oldUsername = Preferences.getUsername();
+    final oldEmail = Preferences.getEmail();
+
+    //minden frissítés után ezt igazra váltjuk
+    bool somethingChanged = false;
+
+    //felhasználónév frissítése
+    if (newUsername.isNotEmpty &&
+        newUsername != oldUsername &&
+        newUsername != null) {
+      await _updateUsername(newUsername);
+      somethingChanged = true;
+    }
+
+    //email frissítése
+    if (newEmail.isNotEmpty && newEmail != oldEmail && newEmail != null) {
+      await _updateEmail(newEmail);
+      somethingChanged = true;
+    }
+
+    //jelszó frissítése (lehet ugyanarra változtatni a jelszót, de azt már nem tudtam megoldani hogy ne lehessen)
+    if (newPassword.isNotEmpty && newPassword != null) {
+      await _updatePassword(newPassword);
+      somethingChanged = true;
+    }
+
+    //profilkép frissítése (csak azt nézzük ha van kiválasztott új kép)
+    if (_selectedImage != null) {
+      await _updateProfilePicture();
+      somethingChanged = true;
+    }
+
+    if (somethingChanged) {
+      //és ha sikerült legalább 1 módosítás akkor visszajelzést adunk a felhasználónak
+      ToastMessages.showToastMessages(
+        Preferences.isHungarian ? "Módosítások elmentve!" : "Changes saved!",
+        0.2,
+        Colors.deepPurpleAccent,
+        Icons.check,
+        Colors.black,
+        const Duration(seconds: 2),
+        context,
+      );
+
+      setState(() {
+        //majd bezárunk mindent
+        _isEditingUsername = false;
+        _isEditingEmail = false;
+        _isEditingPassword = false;
+
+        //töröljük a kiválasztott képet és kikapcsoljuk a gombot
+        _selectedImage = null;
+        _isFormValid = false;
+      });
+
+      //illetve töröljük a mezők tartalmát
+      _formKey.currentState!.reset();
+      _usernameController.clear();
+      _emailController.clear();
+      _passwordController.clear();
+      _passwordConfirmController.clear();
+    } else {
+      //különben (felhasználónév és email esetében)
+      ToastMessages.showToastMessages(
+        Preferences.isHungarian
+            ? "Nem lehet ugyanarra módosítani!"
+            : "Can't modify to the same value(s)!",
+        0.2,
+        Colors.redAccent,
+        Icons.error_rounded,
+        Colors.black,
+        const Duration(seconds: 4),
+        context,
+      );
+    }
+  }
+
+  Future<void> _deleteAccount() async {
+    //ez a metódus a megerősítés után törli a fiókot
+    try {
+      final response = await http.post(
+        Uri.parse(
+            "http://10.0.2.2/ChatexProject/chatex_phps/settings/account/delete_user.php"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"user_id": Preferences.getUserId()}),
+      );
+
+      final responseData = jsonDecode(response.body);
+
+      if (responseData["success"] == true) {
+        ToastMessages.showToastMessages(
+          Preferences.isHungarian ? "Fiók törölve!" : "Account deleted!",
+          0.3,
+          Colors.green,
+          Icons.check_rounded,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
+
+        //lokálisan is törlünk mindent!
+        await Preferences.clearPreferences();
+
+        if (context.mounted) {
+          //és 3 másodperc várakozás után vissza írányítjuk a bejelentkezési képernyőre!
+          Future.delayed(const Duration(seconds: 3), () {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => const LoginUI()),
+              (route) => false,
+            );
+          });
+        }
+      } else {
+        ToastMessages.showToastMessages(
+          Preferences.isHungarian
+              ? "Hiba a fiók törlésénél!"
+              : "Error deleting account!",
+          0.3,
+          Colors.redAccent,
+          Icons.error_rounded,
+          Colors.black,
+          const Duration(seconds: 3),
+          context,
+        );
+      }
+    } catch (e) {
+      ToastMessages.showToastMessages(
+        Preferences.isHungarian
+            ? "Kapcsolati hiba a\nfiók törlése közben!"
+            : "Connection error while\ndeleting account!",
+        0.2,
+        Colors.redAccent,
+        Icons.error_rounded,
+        Colors.black,
+        const Duration(seconds: 3),
+        context,
+      );
+      log("Kapcsolati hiba a fiók törlése közben! ${e.toString()}");
     }
   }
 
@@ -315,6 +665,7 @@ class _AccountSettingState extends State<AccountSetting> {
 //DIZÁJN ELEMEK ELEJE -----------------------------------------------------------------------------
 
   PreferredSizeWidget _buildAppbar() {
+    //TODO: egységesíteni
     //ez a metódus felépíti az appbar-t
     return AppBar(
       title: AutoSizeText(
@@ -335,9 +686,11 @@ class _AccountSettingState extends State<AccountSetting> {
 
   Widget _buildBody() {
     return SingleChildScrollView(
+      //scrollolhatóvá teszi a képernyőt, ha nem fér ki valami
       padding: const EdgeInsets.all(16),
       child: FormBuilder(
         key: _formKey,
+        onChanged: _onAnyFieldValid,
         child: Column(
           children: [
             _buildDivider(
@@ -347,6 +700,7 @@ class _AccountSettingState extends State<AccountSetting> {
               children: [
                 Expanded(
                   child: Padding(
+                    //ne érjen össze az input mező a profilképpel
                     padding: const EdgeInsets.only(right: 15),
                     child: Column(
                       children: [
@@ -370,22 +724,22 @@ class _AccountSettingState extends State<AccountSetting> {
                             FormBuilderValidators.minLength(
                               3,
                               errorText: Preferences.isHungarian
-                                  ? "A felhasználónév túl rövid! (min 3)"
-                                  : "The username is too short! (min 3)",
+                                  ? "A felhasználónév\ntúl rövid! (min 3)"
+                                  : "The username is\ntoo short! (min 3)",
                               checkNullOrEmpty: false,
                             ),
                             FormBuilderValidators.maxLength(
                               20,
                               errorText: Preferences.isHungarian
-                                  ? "A felhasználónév túl hosszú! (max 20)"
-                                  : "The username is too long! (max 20)",
+                                  ? "A felhasználónév\ntúl hosszú! (max 20)"
+                                  : "The username is\ntoo long! (max 20)",
                               checkNullOrEmpty: false,
                             ),
                             FormBuilderValidators.required(
                                 errorText: Preferences.isHungarian
-                                    ? "A felhasználónév nem lehet üres!"
-                                    : "The username cannot be empty!",
-                                checkNullOrEmpty: false),
+                                    ? "A felhasználónév\nnem lehet üres!"
+                                    : "The username\ncannot be empty!",
+                                checkNullOrEmpty: true),
                           ]),
                         ),
                         _buildEditableField(
@@ -409,14 +763,14 @@ class _AccountSettingState extends State<AccountSetting> {
                                     r"^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
                                     unicode: true),
                                 errorText: Preferences.isHungarian
-                                    ? "Az email cím érvénytelen!"
-                                    : "The email address is invalid!",
+                                    ? "Az email cím\nérvénytelen!"
+                                    : "The email address\nis invalid!",
                                 checkNullOrEmpty: false),
                             FormBuilderValidators.required(
                                 errorText: Preferences.isHungarian
-                                    ? "Az email cím nem lehet üres!"
-                                    : "The email address cannot be empty!",
-                                checkNullOrEmpty: false),
+                                    ? "Az email cím\nnem lehet üres!"
+                                    : "The email address\ncannot be empty!",
+                                checkNullOrEmpty: true),
                           ]),
                         ),
                       ],
@@ -426,10 +780,77 @@ class _AccountSettingState extends State<AccountSetting> {
                 _buildProfilePicture(),
               ],
             ),
-            _buildPasswordField(),
+            _buildEditableField(
+              title: Preferences.isHungarian
+                  ? "Jelszó módosítása"
+                  : "Change password",
+              fieldName: "password",
+              initialValue: null,
+              isEditing: _isEditingPassword,
+              focusNode: _passwordFocusNode,
+              focusVariable: _isPasswordFocused,
+              controller: _passwordController,
+              keyboardType: null,
+              onEditToggle: () {
+                setState(() {
+                  _isEditingPassword = !_isEditingPassword;
+                });
+              },
+              obscureText: _isPasswordNotVisible,
+              onVisibilityToggle: () {
+                setState(() {
+                  _isPasswordNotVisible = !_isPasswordNotVisible;
+                });
+              },
+              helperText: Preferences.isHungarian
+                  ? "Min. 8 karakter, Max. 20 karakter,\n1 kisbetű, 1 nagybetű, és 1 szám."
+                  : "Min. 8 characters, Max. 20 characters,\n1 lowercase, 1 uppercase, and 1 number.",
+              helperStyle: const TextStyle(
+                color: Colors.white,
+                letterSpacing: 1.0,
+              ),
+              validator: FormBuilderValidators.compose([
+                FormBuilderValidators.required(
+                    errorText: Preferences.isHungarian
+                        ? "A jelszó nem lehet üres!"
+                        : "The password cannot be empty!",
+                    checkNullOrEmpty: true),
+                FormBuilderValidators.minLength(8,
+                    errorText: Preferences.isHungarian
+                        ? "A jelszó túl rövid! (min 8 karakter)"
+                        : "The password is too short! (min 8 characters)",
+                    checkNullOrEmpty: false),
+                FormBuilderValidators.maxLength(20,
+                    errorText: Preferences.isHungarian
+                        ? "A jelszó túl hosszú! (max 20 karakter)"
+                        : "The password is too long! (max 20 characters)",
+                    checkNullOrEmpty: false),
+                FormBuilderValidators.hasUppercaseChars(
+                    atLeast: 1,
+                    regex: RegExp(r'\p{Lu}', unicode: true),
+                    errorText: Preferences.isHungarian
+                        ? "A jelszónak legalább 1 nagybetűt tartalmaznia kell!"
+                        : "The password must contain at least 1 uppercase letter!",
+                    checkNullOrEmpty: false),
+                FormBuilderValidators.hasLowercaseChars(
+                    atLeast: 1,
+                    regex: RegExp(r'\p{Ll}', unicode: true),
+                    errorText: Preferences.isHungarian
+                        ? "A jelszónak legalább 1 kisbetűt tartalmaznia kell!"
+                        : "The password must contain at least 1 lowercase letter!",
+                    checkNullOrEmpty: false),
+                FormBuilderValidators.hasNumericChars(
+                    atLeast: 1,
+                    regex: RegExp(r'[0-9]', unicode: true),
+                    errorText: Preferences.isHungarian
+                        ? "A jelszónak legalább 1 számot tartalmaznia kell!"
+                        : "The password must contain at least 1 number!",
+                    checkNullOrEmpty: false),
+              ]),
+            ),
+            //a jelszó megerősítése magában a _buildEditableField metódusban van!
             const SizedBox(height: 30),
-            _buildUpdateButtons(),
-            const SizedBox(height: 30),
+            _buildSaveButton(),
             _buildDeleteAccountButton(),
           ],
         ),
@@ -438,26 +859,20 @@ class _AccountSettingState extends State<AccountSetting> {
   }
 
   Widget _buildProfilePicture() {
+    //cachelt képekből felépítjük a profilképet
     Widget image;
-    if (_profilePicture == null || _profilePicture!.isEmpty) {
-      return _defaultAvatar();
-    }
 
-    if (_profilePicture!.startsWith("data:image/svg+xml;base64,")) {
-      final svgBytes = base64Decode(_profilePicture!.split(",")[1]);
-      image = ClipOval(
-        child: SvgPicture.memory(
-          svgBytes,
-          width: 120,
-          height: 120,
-          fit: BoxFit.fill,
-        ),
+    if (_cachedSvgBytes != null) {
+      image = SvgPicture.memory(
+        _cachedSvgBytes!,
+        width: 120,
+        height: 120,
+        fit: BoxFit.fill,
       );
-    } else if (_profilePicture!.startsWith("data:image/")) {
-      final imageBytes = base64Decode(_profilePicture!.split(",")[1]);
+    } else if (_cachedProfileImage != null) {
       image = ClipOval(
-        child: Image.memory(
-          imageBytes,
+        child: Image(
+          image: _cachedProfileImage!,
           width: 120,
           height: 120,
           fit: BoxFit.fill,
@@ -476,84 +891,88 @@ class _AccountSettingState extends State<AccountSetting> {
         context,
       );
       log("Ismeretlen MIME-típus a profilképnél: $_profilePicture");
-      image = CircleAvatar(
-        radius: 60,
-        backgroundColor: Colors.grey[600],
-        child: const Icon(
-          Icons.person,
-          size: 50,
-          color: Colors.white,
-        ),
-      );
+      image = _defaultAvatar();
     }
 
+    //majd ezzel térünk vissza
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 5, top: 12),
-          child: Text(
-            Preferences.isHungarian ? "Profilkép:" : "Profile picture:",
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 1,
-            ),
-          ),
-        ),
-        Stack(
-          alignment: Alignment.bottomRight,
+        Row(
           children: [
-            image,
+            Padding(
+              padding: const EdgeInsets.only(bottom: 5, top: 12),
+              child: Text(
+                Preferences.isHungarian ? "Profilkép" : "Profile picture",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1,
+                ),
+              ),
+            ),
             IconButton(
+              //megnyomásra megjelenik a képválasztó
               onPressed: _pickImage,
               icon: const Icon(
                 Icons.edit,
                 color: Colors.deepPurpleAccent,
               ),
-            )
+            ),
           ],
         ),
+        ClipOval(child: image),
       ],
     );
   }
 
   Widget _buildEditableField({
+    //meghíváskor kell megadni a mezőket (köztük a hosszú validátorokat is)
+    //mivel így nincsen duplikált kód (a jelszó megerősítése itt található, mert egyszerre jelenik meg a password-al)
     required String title,
     required String fieldName,
     required String? initialValue,
     required bool isEditing,
-    required VoidCallback onEditToggle,
-    required String? Function(String?) validator,
-    required TextInputType keyboardType,
     required FocusNode focusNode,
-    required TextEditingController controller,
     required bool focusVariable,
+    required TextEditingController controller,
+    required TextInputType? keyboardType,
+    required VoidCallback onEditToggle,
+    //ezek a nem kötelező mezők mind a jelszó input mező megjelenéséért felelnek
+    bool? obscureText,
+    VoidCallback? onVisibilityToggle,
+    String? helperText,
+    TextStyle? helperStyle,
+    required String? Function(String?) validator,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 1,
+        //nem jelenítünk meg title-t és ceruza ikont se mert a jelszó mező már felfogja építeni
+        if (fieldName != "password_confirm")
+          Row(
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1,
+                ),
               ),
-            ),
-            IconButton(
-              icon: const Icon(
-                Icons.edit,
-                color: Colors.deepPurpleAccent,
+              IconButton(
+                icon: const Icon(
+                  Icons.edit,
+                  color: Colors.deepPurpleAccent,
+                ),
+                onPressed: onEditToggle,
               ),
-              onPressed: onEditToggle,
-            ),
-          ],
-        ),
-        if (isEditing)
+            ],
+          ),
+        if (isEditing) ...[
+          //megnyitáskor ez történik:
           FormBuilderTextField(
             name: fieldName,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -561,300 +980,160 @@ class _AccountSettingState extends State<AccountSetting> {
             focusNode: focusNode,
             controller: controller,
             keyboardType: keyboardType,
+            obscureText: obscureText ?? false,
             style: const TextStyle(
               color: Colors.white,
             ),
-            decoration: InputDecoration(
-              suffixIcon: controller.text.isNotEmpty
-                  ? GestureDetector(
-                      onTap: () => controller.clear(),
-                      child: const Icon(
-                        Icons.clear_rounded,
-                        color: Colors.white,
-                      ),
-                    )
-                  : null,
-              hintText: focusVariable ? null : title,
-              hintStyle: TextStyle(
-                color: Colors.grey[600],
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold,
-              ),
-              labelText: focusVariable ? title : null,
-              labelStyle: const TextStyle(
-                color: Colors.white,
-                letterSpacing: 1.0,
-              ),
-              enabledBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.white,
-                  width: 2.5,
-                ),
-              ),
-              focusedBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.deepPurpleAccent,
-                  width: 2.5,
-                ),
-              ),
-            ),
-          )
-        else
-          AutoSizeText(
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            initialValue ?? "Hiba!",
-            style: const TextStyle(
-              color: Colors.white70,
-              fontSize: 16,
+            decoration: _decorationForInput(
+              //ha nincs megadva onVisibilityToggle tehát nem jelszó mező (email, username):
+              (onVisibilityToggle == null)
+                  //akkor csak a tartalom törlő ikon jelenhet meg
+                  ? (controller.text.isNotEmpty
+                      ? _buildDeleteContentIcon(controller)
+                      : null)
+                  : Row(
+                      //különben pedig a törlő ikon és a jelszó láthatósági ikon
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (controller.text.isNotEmpty)
+                          _buildDeleteContentIcon(controller),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15),
+                          child: GestureDetector(
+                            //meghíváskor adjuk meg mit csináljon, mert sajnos itt ha változóval adnánk át nem működne
+                            onTap: onVisibilityToggle,
+                            child: Icon(
+                              obscureText!
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+              //többi elem a _decorationForInput mezőhöz (ez a hosszú csak a suffixIcon volt :) )
+              controller,
+              title,
+              focusVariable,
+              helperText,
+              helperStyle,
             ),
           ),
-        const SizedBox(height: 10),
-      ],
-    );
-  }
-
-  Widget _buildPasswordField() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Text(
-              Preferences.isHungarian ? "Jelszó módosítása" : "Change password",
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 1,
-              ),
-            ),
-            IconButton(
-              icon: const Icon(
-                Icons.edit,
-                color: Colors.deepPurpleAccent,
-              ),
-              onPressed: () {
-                setState(() {
-                  _isEditingPassword = !_isEditingPassword;
-                });
-              },
-            ),
-          ],
-        ),
-        if (_isEditingPassword)
-          Column(
-            children: [
-              FormBuilderTextField(
-                name: "password",
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: FormBuilderValidators.compose([
-                  FormBuilderValidators.required(
-                      errorText: Preferences.isHungarian
-                          ? "A jelszó nem lehet üres!"
-                          : "The password cannot be empty!",
-                      checkNullOrEmpty: false),
-                  FormBuilderValidators.minLength(8,
-                      errorText: Preferences.isHungarian
-                          ? "A jelszó túl rövid! (min 8 karakter)"
-                          : "The password is too short! (min 8 characters)",
-                      checkNullOrEmpty: false),
-                  FormBuilderValidators.maxLength(20,
-                      errorText: Preferences.isHungarian
-                          ? "A jelszó túl hosszú! (max 20 karakter)"
-                          : "The password is too long! (max 20 characters)",
-                      checkNullOrEmpty: false),
-                  FormBuilderValidators.hasUppercaseChars(
-                      atLeast: 1,
-                      regex: RegExp(r'\p{Lu}', unicode: true),
-                      errorText: Preferences.isHungarian
-                          ? "A jelszónak legalább 1 nagybetűt tartalmaznia kell!"
-                          : "The password must contain at least 1 uppercase letter!",
-                      checkNullOrEmpty: false),
-                  FormBuilderValidators.hasLowercaseChars(
-                      atLeast: 1,
-                      regex: RegExp(r'\p{Ll}', unicode: true),
-                      errorText: Preferences.isHungarian
-                          ? "A jelszónak legalább 1 kisbetűt tartalmaznia kell!"
-                          : "The password must contain at least 1 lowercase letter!",
-                      checkNullOrEmpty: false),
-                  FormBuilderValidators.hasNumericChars(
-                      atLeast: 1,
-                      regex: RegExp(r'[0-9]', unicode: true),
-                      errorText: Preferences.isHungarian
-                          ? "A jelszónak legalább 1 számot tartalmaznia kell!"
-                          : "The password must contain at least 1 number!",
-                      checkNullOrEmpty: false),
-                ]),
-                focusNode: _passwordFocusNode,
-                controller: _passwordController,
-                obscureText: _isPasswordNotVisible,
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
-                decoration: InputDecoration(
-                  suffixIcon: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (_passwordController.text.isNotEmpty)
-                        IconButton(
-                          icon: const Icon(
-                            Icons.clear_rounded,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _passwordController.clear();
-                            });
-                          },
-                        ),
-                      IconButton(
-                        icon: Icon(
-                          _isPasswordNotVisible
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _isPasswordNotVisible = !_isPasswordNotVisible;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  hintText: _isPasswordFocused
-                      ? null
-                      : Preferences.isHungarian
-                          ? "Jelszó"
-                          : "Password",
-                  hintStyle: TextStyle(
-                    color: Colors.grey[600],
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  labelText: _isPasswordFocused
-                      ? Preferences.isHungarian
-                          ? "Jelszó"
-                          : "Password"
-                      : null,
-                  labelStyle: const TextStyle(
-                    color: Colors.white,
-                    letterSpacing: 1.0,
-                  ),
-                  helperText: Preferences.isHungarian
-                      ? "Min. 8 karakter, Max. 20 karakter,\n1 kisbetű, 1 nagybetű, és 1 szám."
-                      : "Min. 8 characters, Max. 20 characters,\n1 lowercase, 1 uppercase, and 1 number.",
-                  helperStyle: const TextStyle(
-                    color: Colors.white,
-                    letterSpacing: 1.0,
-                  ),
-                  enabledBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.white,
-                      width: 2.5,
-                    ),
-                  ),
-                  focusedBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.deepPurpleAccent,
-                      width: 2.5,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              FormBuilderTextField(
-                name: "password_confirm",
-                autovalidateMode: AutovalidateMode.onUserInteraction,
+          if (fieldName == "password")
+            //pluszba építsen 1-et fel ha a felépített mező a password neven van
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: _buildEditableField(
+                title: Preferences.isHungarian
+                    ? "Jelszó újra"
+                    : "Confirm password",
+                fieldName: "password_confirm",
+                initialValue: null,
+                isEditing: _isEditingPassword,
+                focusNode: _passwordConfirmFocusNode,
+                focusVariable: _isPasswordConfirmFocused,
+                controller: _passwordConfirmController,
+                keyboardType: null,
+                onEditToggle: () {
+                  setState(() {
+                    _isEditingPassword = !_isEditingPassword;
+                  });
+                },
+                obscureText: _isPasswordConfirmNotVisible,
+                onVisibilityToggle: () {
+                  setState(() {
+                    _isPasswordConfirmNotVisible =
+                        !_isPasswordConfirmNotVisible;
+                  });
+                },
+                helperText: null,
+                helperStyle: null,
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(
                       errorText: Preferences.isHungarian
                           ? "A mezőnek meg kell egyeznie a jelszó mezővel!"
                           : "The field must match the password field!",
-                      checkNullOrEmpty: false),
+                      checkNullOrEmpty: true),
                   FormBuilderValidators.equal(_passwordController.text,
                       errorText: Preferences.isHungarian
                           ? "A jelszavak nem egyeznek meg!"
                           : "The passwords do not match!",
-                      checkNullOrEmpty: false),
+                      checkNullOrEmpty: true),
                 ]),
-                focusNode: _passwordConfirmFocusNode,
-                controller: _passwordConfirmController,
-                obscureText: _isPasswordConfirmNotVisible,
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
-                decoration: InputDecoration(
-                  suffixIcon: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (_passwordConfirmController.text.isNotEmpty)
-                        IconButton(
-                          icon: const Icon(
-                            Icons.clear_rounded,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _passwordConfirmController.clear();
-                            });
-                          },
-                        ),
-                      IconButton(
-                        icon: Icon(
-                          _isPasswordConfirmNotVisible
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _isPasswordConfirmNotVisible =
-                                !_isPasswordConfirmNotVisible;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  labelText: _isPasswordConfirmFocused
-                      ? Preferences.isHungarian
-                          ? "Jelszó újra"
-                          : "Confirm password"
-                      : null,
-                  hintText: _isPasswordConfirmFocused
-                      ? null
-                      : Preferences.isHungarian
-                          ? "Jelszó újra"
-                          : "Confirm password",
-                  focusedBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.deepPurpleAccent,
-                      width: 2.5,
-                    ),
-                  ),
-                  enabledBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.white,
-                      width: 2.5,
-                    ),
-                  ),
-                  hintStyle: TextStyle(
-                    color: Colors.grey[600],
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  labelStyle: const TextStyle(
-                    color: Colors.white,
-                    letterSpacing: 1.0,
-                  ),
-                ),
               ),
-            ],
-          ),
+            ),
+        ] else
+          //ha nem true az isEditing akkor pedig ez jelenjen meg (alapértelmezett érték)
+          _buildIfEditingIsNotTrue(initialValue),
+        const SizedBox(height: 10),
       ],
     );
   }
 
-  Widget _buildUpdateButtons() {
+  Widget _buildDeleteContentIcon(TextEditingController controller) {
+    //ezt hívjuk meg a _buildEditableField-nél és a tartalom törlésért felel
+    return GestureDetector(
+      onTap: () => controller.clear(),
+      child: const Icon(
+        Icons.clear_rounded,
+        color: Colors.white,
+      ),
+    );
+  }
+
+  InputDecoration _decorationForInput(
+      //egységes dekoráció, kódismétlés nélkül
+      suffixIcon,
+      TextEditingController controller,
+      String title,
+      bool focusVariable,
+      String? helperText,
+      TextStyle? helperStyle) {
+    return InputDecoration(
+      suffixIcon: suffixIcon,
+      hintText: focusVariable ? null : title,
+      hintStyle: TextStyle(
+        color: Colors.grey[600],
+        fontStyle: FontStyle.italic,
+        fontWeight: FontWeight.bold,
+      ),
+      labelText: focusVariable ? title : null,
+      labelStyle: const TextStyle(
+        color: Colors.white,
+        letterSpacing: 1.0,
+      ),
+      helperText: helperText,
+      helperStyle: helperStyle,
+      enabledBorder: const UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.white,
+          width: 2.5,
+        ),
+      ),
+      focusedBorder: const UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.deepPurpleAccent,
+          width: 2.5,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIfEditingIsNotTrue(String? initialValue) {
+    //ha nincs megjelenítve az input mező akkor a megadott alapértelmezett értéket írja ki (ha nincs akkor üres string)
+    return AutoSizeText(
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      initialValue ?? "",
+      style: const TextStyle(
+        color: Colors.white70,
+        fontSize: 16,
+      ),
+    );
+  }
+
+  Widget _buildSaveButton() {
+    //ez a gomb hívja meg a _handleSave-et, csak akkor aktív ha van legalább 1 validált változtatás (profilképet is beleértve)!
     return Column(
       children: [
         ElevatedButton(
@@ -878,6 +1157,7 @@ class _AccountSettingState extends State<AccountSetting> {
   }
 
   Widget _buildDeleteAccountButton() {
+    //ez pedig a törlés dialógust hívja meg ami majd a törlést
     return TextButton.icon(
       icon: const Icon(
         Icons.delete_forever,
@@ -893,167 +1173,87 @@ class _AccountSettingState extends State<AccountSetting> {
     );
   }
 
-  Future<void> _pickImage() async {
-    final file = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (file != null) {
-      final bytes = await File(file.path).readAsBytes();
-      final base64 = base64Encode(bytes);
-      final ext = file.path.split('.').last.toLowerCase();
-      String prefix;
-      switch (ext) {
-        case "svg":
-          prefix = "data:image/svg+xml;base64,";
-          break;
-        case "png":
-          prefix = "data:image/png;base64,";
-          break;
-        case "jpg":
-          prefix = "data:image/jpg;base64,";
-          break;
-        case "jpeg":
-          prefix = "data:image/jpeg;base64,";
-          break;
-        default:
-          prefix = "";
-      }
-
-      if (prefix.isEmpty) {
-        ToastMessages.showToastMessages(
-          "Nem támogatott fájlformátum!",
-          0.2,
-          Colors.red,
-          Icons.image,
-          Colors.black,
-          const Duration(seconds: 2),
-          context,
-        );
-        return;
-      }
-
-      setState(() {
-        _profilePicture = "$prefix$base64";
-        _selectedImage = File(file.path);
-      });
-
-      _onAnyFieldChanged();
-    }
-  }
-
-  Future<void> _updateProfilePicture() async {
-    if (_profilePicture == null) return;
-    try {
-      final response = await http.post(
-        Uri.parse(
-            "http://10.0.2.2/ChatexProject/chatex_phps/settings/update_profile_picture.php"),
-        body: jsonEncode({
-          "user_id": Preferences.getUserId(),
-          "profile_picture": _profilePicture,
-        }),
-        headers: {"Content-Type": "application/json"},
-      );
-
-      final data = jsonDecode(response.body);
-      if (data["status"] == "success") {
-        Preferences.setProfilePicture(_profilePicture!);
-        ToastMessages.showToastMessages(
-          "Profilkép frissítve!",
-          0.2,
-          Colors.green,
-          Icons.check,
-          Colors.black,
-          const Duration(seconds: 2),
-          context,
-        );
-      } else {
-        throw Exception("Frissítés sikertelen.");
-      }
-    } catch (e) {
-      log(e.toString());
-      ToastMessages.showToastMessages(
-        "Hiba a frissítés során!",
-        0.2,
-        Colors.redAccent,
-        Icons.error,
-        Colors.black,
-        const Duration(seconds: 2),
-        context,
-      );
-    }
-  }
-
-  Future<void> _handleSave() async {
-    if (!_formKey.currentState!.saveAndValidate()) return;
-
-    final username = _formKey.currentState!.fields["username"]?.value;
-    final email = _formKey.currentState!.fields["email"]?.value;
-    final password = _formKey.currentState!.fields["password"]?.value;
-
-    // TODO: implementáld az alábbiakhoz szükséges backend endpointokat
-    log("✏️ Mentésre küldve:\nFelhasználónév: $username\nEmail: $email\nJelszó: $password");
-  }
-
-  Future<void> _confirmAccountDeletion() async {
-    final confirmed = await showDialog<bool>(
+  void _confirmAccountDeletion() {
+    //megerősítő felület, ha Törlés-re nyom akkor lefut a törlő metódus
+    showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          Preferences.isHungarian
-              ? "Biztosan törlöd a fiókodat?"
-              : "Are you sure you want to delete your account?",
-        ),
-        content: Text(
-          Preferences.isHungarian
-              ? "Ez a művelet nem visszavonható!"
-              : "This action cannot be undone.",
-        ),
-        actions: [
-          TextButton(
-            child: Text(Preferences.isHungarian ? "Mégse" : "Cancel"),
-            onPressed: () => Navigator.pop(context, false),
-          ),
-          TextButton(
-            child: Text(
-              Preferences.isHungarian ? "Törlés" : "Delete",
-              style: const TextStyle(color: Colors.redAccent),
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.grey[850],
+          elevation: 10,
+          shadowColor: Colors.deepPurpleAccent,
+          title: AutoSizeText(
+            Preferences.isHungarian
+                ? "Biztosan törlöd a fiókodat?"
+                : "Are you sure you want to delete your account?",
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
-            onPressed: () => Navigator.pop(context, true),
           ),
-        ],
-      ),
+          content: AutoSizeText(
+            Preferences.isHungarian
+                ? "Ez a művelet nem visszavonható!"
+                : "This action cannot be undone!",
+            style: const TextStyle(
+              fontSize: 18,
+              color: Colors.white,
+              letterSpacing: 1,
+            ),
+          ),
+          actions: [
+            TextButton(
+              //ha "Mégse" akkor csak lépjen ki a dialog-ból
+              child: Text(
+                Preferences.isHungarian ? "Mégse" : "Cancel",
+                style: const TextStyle(
+                  color: Colors.white,
+                  letterSpacing: 1,
+                ),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              //törlésnél pedig hívja meg a törlő metódust és lépjen ki a dialógusból
+              child: Text(
+                Preferences.isHungarian ? "Törlés" : "Delete",
+                style: const TextStyle(
+                  color: Colors.redAccent,
+                  letterSpacing: 1,
+                ),
+              ),
+              onPressed: () async {
+                Navigator.pop(context);
+                await _deleteAccount();
+              },
+            ),
+          ],
+        );
+      },
     );
-
-    if (confirmed == true) {
-      // TODO: delete_user.php endpoint
-      ToastMessages.showToastMessages(
-        Preferences.isHungarian
-            ? "Fiók törölve (demo)!"
-            : "Account deleted (demo)!",
-        0.2,
-        Colors.orange,
-        Icons.delete,
-        Colors.black,
-        const Duration(seconds: 2),
-        context,
-      );
-    }
   }
-  //régik innentől -------------------------------------------------
 
   Widget _defaultAvatar() {
+    //ha nincs megfelelő profilkép (betöltve) akkor mi jelenjen meg
     return Padding(
       padding: const EdgeInsets.only(top: 15, right: 20),
       child: CircleAvatar(
         radius: 60,
         backgroundColor: Colors.grey[600],
-        child: const Icon(Icons.person, size: 50, color: Colors.white),
+        child: const Icon(
+          Icons.person,
+          size: 50,
+          color: Colors.white,
+        ),
       ),
     );
   }
 
   Widget _buildDivider(String title) {
-    //ez a widget felépít egy elválasztót a kategóriák között
+    //ez a widget felépít egy elválasztót (szöveggel) a kategóriák között (későbbi verziókban bővülni fog!)
     return Column(
-      //crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 10, bottom: 5, left: 8),

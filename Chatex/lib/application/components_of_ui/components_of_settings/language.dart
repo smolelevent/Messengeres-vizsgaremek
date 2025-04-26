@@ -31,7 +31,7 @@ class _LanguageSettingState extends State<LanguageSetting> {
     try {
       final response = await http.post(
         Uri.parse(
-            "http://10.0.2.2/ChatexProject/chatex_phps/settings/update_language.php"),
+            "http://10.0.2.2/ChatexProject/chatex_phps/settings/language/update_language.php"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
           "user_id": Preferences.getUserId(),
