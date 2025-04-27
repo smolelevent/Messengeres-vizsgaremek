@@ -1,4 +1,5 @@
 <?php
+//ez a php felel az adatbázis kapcsolat létesítéséért, $conn változón keresztűl kezeljük
 $serverIP = "localhost";
 $serverUsername = "root";
 $serverPassword = "";

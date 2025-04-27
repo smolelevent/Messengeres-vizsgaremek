@@ -1,4 +1,5 @@
 <?php
+//ezt a php-t kell futtatni az XAMPP szerver MELLETT hogy működjön a chat!!!!
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/websocket_server.php';
 
