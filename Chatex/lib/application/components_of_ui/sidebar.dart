@@ -14,7 +14,6 @@ import 'dart:async';
 class ChatSidebar extends StatefulWidget {
   const ChatSidebar({
     super.key,
-    //kötelezően át kell adni!
     required this.onSelectPage,
     required this.sidebarXController,
   });
@@ -29,8 +28,8 @@ class ChatSidebar extends StatefulWidget {
 }
 
 class _ChatSidebarState extends State<ChatSidebar> {
-  String?
-      _selectedStatus; //elmentjük itt a státuszt hogy egyből tudjuk frissíteni ne keljen rebuild
+  //elmentjük itt a státuszt hogy egyből tudjuk frissíteni ne keljen rebuild
+  String? _selectedStatus;
 
 //HÁTTÉR FOLYAMATOK ELEJE -------------------------------------------------------------------------
 
@@ -121,42 +120,13 @@ class _ChatSidebarState extends State<ChatSidebar> {
       valueListenable: Preferences.languageNotifier,
       builder: (context, locale, child) {
         return SidebarX(
-          //SidebarX csomag használata
           showToggleButton: false,
           controller: widget.sidebarXController,
           headerBuilder: (context, extended) {
             //itt a profilkép, név, és a státusz menü épül fel
-            return Column(
-              children: [
-                _buildProfileImage(),
-                const SizedBox(height: 20),
-                Text(
-                  Preferences.getUsername(),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1,
-                    wordSpacing: 2,
-                  ),
-                ),
-                _buildDropdownMenu(),
-              ],
-            );
+            return _buildHeader();
           },
-          headerDivider: Padding(
-            //elválasztó vonal
-            padding: const EdgeInsets.only(bottom: 15),
-            child: Center(
-              child: Container(
-                height: 5,
-                decoration: BoxDecoration(
-                  color: Colors.deepPurpleAccent,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-              ),
-            ),
-          ),
+          headerDivider: _buildHeaderDivider(),
           items: [
             //a tényleges tartalma a sidebarnak, ahova lehet navigálni
             _buildSidebarOption(locale, "Chatek", "Chats", Icons.chat_rounded,
@@ -186,6 +156,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
               "Logout",
               Icons.logout_rounded,
               Colors.redAccent,
+              //onTap esemény:
               () async {
                 final shouldLogout = await showDialog<bool>(
                   context: context,
@@ -250,6 +221,26 @@ class _ChatSidebarState extends State<ChatSidebar> {
           theme: _sidebarXTheme(),
         );
       },
+    );
+  }
+
+  Widget _buildHeader() {
+    return Column(
+      children: [
+        _buildProfileImage(),
+        const SizedBox(height: 20),
+        Text(
+          Preferences.getUsername(),
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+            letterSpacing: 1,
+            wordSpacing: 2,
+          ),
+        ),
+        _buildDropdownMenu(),
+      ],
     );
   }
 
@@ -355,6 +346,22 @@ class _ChatSidebarState extends State<ChatSidebar> {
     );
   }
 
+  Widget _buildHeaderDivider() {
+    return Padding(
+      //elválasztó vonal
+      padding: const EdgeInsets.only(bottom: 15),
+      child: Center(
+        child: Container(
+          height: 5,
+          decoration: BoxDecoration(
+            color: Colors.deepPurpleAccent,
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
+      ),
+    );
+  }
+
   SidebarXItem _buildSidebarOption(
       String locale,
       String hunText,
@@ -377,7 +384,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
 
   DropdownMenuEntry<String> _buildDropdownMenuEntry(
       String value, String label) {
-    //ez a metódus építi fel a válaszhatósági lehetőségeket, jelenleg 2
+    //jelenleg 2
     return DropdownMenuEntry(
       style: TextButton.styleFrom(
         foregroundColor: Colors.white,
@@ -393,7 +400,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
   }
 
   Widget _buildDropdownMenu() {
-    //ez a metódus felel a státusz válosztó menüért
+    //státusz válosztó menüért
     return Padding(
       padding: const EdgeInsets.only(bottom: 20, top: 20),
       child: DropdownMenu<String>(
@@ -409,7 +416,7 @@ class _ChatSidebarState extends State<ChatSidebar> {
               _selectedStatus = newStatus;
             });
           }
-//TODO: megnézni ha a profilképet és a nevet frissítjük akkor is egyből változik
+
           //az adatbázisban is frissítjük
           _updateStatus(newStatus);
         },
@@ -497,4 +504,5 @@ class _ChatSidebarState extends State<ChatSidebar> {
 
 //DIZÁJN ELEMEK VÉGE ------------------------------------------------------------------------------
 }
+
 //ChatSidebar OSZTÁLY VÉGE ------------------------------------------------------------------------

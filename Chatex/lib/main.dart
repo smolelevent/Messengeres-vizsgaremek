@@ -13,9 +13,9 @@ import 'package:chatex/logic/auth.dart';
 import 'dart:developer';
 import 'dart:convert';
 
-//TODO: phpMyAdmin id-k sorrendje rendezése
-
-//TODO: keyboard submit után automatikusan zárja be a billentyűzetet
+//AZ XAMPP-OT futtatni kell használat előtt (ha nem indul el akkor setup_xampp.bat-ot kell futtatni!), illetve...
+//A Websocket Server-t is futtatni kell indítás előtt (a terminálon keresztűl a megadott elérési úttal és paranccsal!)
+//parancs: xampp_server\htdocs\ChatexProject\chatex_phps> php server_run.php
 
 //GLOBÁLIS METÓDUSOK ELEJE ------------------------------------------------------------------------
 Future<void> main() async {
@@ -163,7 +163,7 @@ class _LoginUIState extends State<LoginUI> {
     ToastMessages.init(context);
   }
 
-  void _checkLogInFieldsValidation() {
+  void _checkLoginFieldsValidation() {
     //ez a metódus felel azért hogy a FormBuilder által létrehozott FormBuilderTextField-ek
     //megfelelően legyenek validálva és megfelelően legyen kezelve a bejelentkezés gomb!
 
@@ -292,7 +292,7 @@ class _LoginUIState extends State<LoginUI> {
       key: _formKey,
       onChanged: () {
         //minden változásnál nézzük az értékeket
-        _checkLogInFieldsValidation();
+        _checkLoginFieldsValidation();
       },
       child: Column(
         children: [
@@ -304,18 +304,18 @@ class _LoginUIState extends State<LoginUI> {
           Column(
             children: [
               _buildEmailWidget(),
-              _passwordWidget(),
+              _buildPasswordWidget(),
               const SizedBox(
                 height: 10.0,
               ),
-              _logInWidget(),
+              _buildLoginButton(),
               const SizedBox(
                 height: 5.0,
               ),
-              _forgotPasswordWidget(),
+              _buildForgotPasswordButton(),
             ],
           ),
-          _registrationWidget(),
+          _buildRegistrationButton(),
           _chatexWidget(),
         ],
       ),
@@ -343,11 +343,6 @@ class _LoginUIState extends State<LoginUI> {
                   ? "Az email cím érvénytelen!"
                   : "The email address is invalid!",
               checkNullOrEmpty: false),
-          FormBuilderValidators.required(
-              errorText: _selectedLanguage == "Magyar"
-                  ? "Az email cím nem lehet üres!"
-                  : "The email address cannot be empty!",
-              checkNullOrEmpty: true),
         ]),
         focusNode: _emailFocusNode,
         controller: _emailController,
@@ -365,7 +360,7 @@ class _LoginUIState extends State<LoginUI> {
     );
   }
 
-  Widget _passwordWidget() {
+  Widget _buildPasswordWidget() {
     //ugyanarra a mintára alakítjuk ki, mint az email mezőt!
     return Container(
       margin: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
@@ -405,11 +400,6 @@ class _LoginUIState extends State<LoginUI> {
                   ? "A jelszónak legalább 1 számot tartalmaznia kell!"
                   : "The password must contain at least 1 number!",
               checkNullOrEmpty: false),
-          FormBuilderValidators.required(
-              errorText: _selectedLanguage == "Magyar"
-                  ? "A jelszó nem lehet üres!"
-                  : "The password cannot be empty!",
-              checkNullOrEmpty: true),
         ]),
         focusNode: _passwordFocusNode,
         controller: _passwordController,
@@ -503,7 +493,7 @@ class _LoginUIState extends State<LoginUI> {
     );
   }
 
-  Widget _logInWidget() {
+  Widget _buildLoginButton() {
     //bejelentkezés gomb, dinamikus frissítéssel
     return Row(
       children: [
@@ -523,7 +513,7 @@ class _LoginUIState extends State<LoginUI> {
               onPressed: _isLogInDisabled
                   ? null
                   : () async {
-                      //bezárjuk a billentyűzetet hogy ne legyen lag és ne látszódjön a toast üzenet!
+                      //bezárjuk a billentyűzetet hogy ne legyen lag és hogy látszódjön a toast üzenet!
                       FocusScope.of(context).unfocus();
                       if (_formKey.currentState!.saveAndValidate()) {
                         //elmentjük az adatokat, majd elküldjük az AuthService-nek
@@ -551,7 +541,7 @@ class _LoginUIState extends State<LoginUI> {
     );
   }
 
-  Widget _forgotPasswordWidget() {
+  Widget _buildForgotPasswordButton() {
     return TextButton(
       onPressed: () {
         //nyomásra átvisz a reset_password.dart-ra
@@ -580,7 +570,7 @@ class _LoginUIState extends State<LoginUI> {
     );
   }
 
-  Widget _registrationWidget() {
+  Widget _buildRegistrationButton() {
     //Align widgettel lent és középre igazítottuk és Expanded widget-tel (első) ott tartjuk
     return Expanded(
       flex: 1,
@@ -648,7 +638,7 @@ class _LoginUIState extends State<LoginUI> {
               fontWeight: FontWeight.w500,
               letterSpacing: 1.0,
             ),
-          )
+          ),
         ],
       ),
     );

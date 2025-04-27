@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:chatex/main.dart';
 import 'package:chatex/application/components_of_chat/build_ui.dart';
+import 'package:chatex/main.dart';
 import 'package:chatex/logic/toast_message.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'dart:developer';
@@ -16,7 +16,7 @@ class AuthService {
     required TextEditingController username,
     required TextEditingController email,
     required TextEditingController password,
-    required context,
+    required BuildContext context,
     required String
         language, //eltároljuk a nyelvet, de megfelelő nyelven küldjük a választ is!
   }) async {
@@ -108,7 +108,7 @@ class AuthService {
   Future<void> logIn({
     required TextEditingController email,
     required TextEditingController password,
-    required context,
+    required BuildContext context,
     required String
         language, //eltároljuk a nyelvet, de megfelelő nyelven küldjük a választ is!
   }) async {
@@ -252,7 +252,7 @@ class AuthService {
   //ez a metódus felel a jelszó helyreállításáért ha a felhasználó elfelejtett volna jelszavát!
   Future<void> resetPassword(
       {required TextEditingController email,
-      required context,
+      required BuildContext context,
       required language}) async {
     try {
       //mivel a főképernyőről megyünk a helyreállító oldalra ezért bekérjük a nyelvet (megfelelő válasz)

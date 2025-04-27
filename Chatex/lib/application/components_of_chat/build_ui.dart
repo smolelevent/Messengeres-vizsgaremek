@@ -123,8 +123,9 @@ class _ChatUIState extends State<ChatUI> {
                 Icons.add_comment,
               ),
               color: Colors.deepPurpleAccent,
-              tooltip:
-                  Preferences.isHungarian ? "Új chat készítése" : "Create a new chat",
+              tooltip: Preferences.isHungarian
+                  ? "Új chat készítése"
+                  : "Create a new chat",
               onPressed: () {
                 Navigator.push(
                   context,

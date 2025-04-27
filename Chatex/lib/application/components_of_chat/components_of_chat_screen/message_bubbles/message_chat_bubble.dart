@@ -39,6 +39,7 @@ class _MessageChatBubbleState extends State<MessageChatBubble> {
 //OSZTÁLYON BELÜLI VÁLTOZÓK VÉGE ------------------------------------------------------------------
 
 //HÁTTÉR FOLYAMATOK ELEJE -------------------------------------------------------------------------
+
   void _toggleDetails() {
     //üzenet információi ki/be nyomásra
     setState(() {
@@ -73,6 +74,7 @@ class _MessageChatBubbleState extends State<MessageChatBubble> {
       );
     }
   }
+
 //HÁTTÉR FOLYAMATOK VÉGE --------------------------------------------------------------------------
 
   @override
@@ -84,19 +86,20 @@ class _MessageChatBubbleState extends State<MessageChatBubble> {
   }
 
 //DIZÁJN ELEMEK ELEJE -----------------------------------------------------------------------------
+
   Widget _buildMessageChatBubble() {
     return Padding(
       padding: const EdgeInsets.only(left: 5, right: 5, top: 20),
       child: Row(
         mainAxisAlignment: widget.isSender
+            //bal vagy jobb oldalon jelenjen meg az üzenet
             ? MainAxisAlignment.end
-            : MainAxisAlignment
-                .start, //bal vagy jobb oldalon jelenjen meg a chaten
-        crossAxisAlignment: _showDetails //a profilkép helye ne változzon
+            : MainAxisAlignment.start,
+        crossAxisAlignment: _showDetails
+            //a profilkép helye ne változzon
             ? CrossAxisAlignment.start
             : CrossAxisAlignment.start,
         children: [
-          //csak akkor jelenjen meg a profilkép, ha nem én küldtem a message-t
           if (!widget.isSender)
             ClipOval(
               child: _buildProfileImage(),
@@ -120,7 +123,7 @@ class _MessageChatBubbleState extends State<MessageChatBubble> {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Text(
-                  widget.messageText ?? "Hiba!", //nem lehet null az üzenet
+                  widget.messageText ?? "", //nem lehet null az üzenet!
                   style: TextStyle(
                     color: widget.messageText == null
                         ? Colors.redAccent

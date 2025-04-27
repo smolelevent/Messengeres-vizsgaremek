@@ -9,7 +9,7 @@
 # packages, and plugins designed to encourage good coding practices.
 analyzer:
   errors:
-    use_build_context_synchronously: ignore #ezt én adtam hozzá
+    use_build_context_synchronously: ignore #ezt én adtam hozzá, szükséges volt
 include: package:flutter_lints/flutter.yaml
 
 linter:
@@ -23,7 +23,7 @@ linter:
   # or a specific dart file by using the `// ignore: name_of_lint` and
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
-  rules: #én sadtam hozzá, tiszta kód elvei
+  rules: #én adtam hozzá, tiszta kód elvei
     always_declare_return_types: true
     prefer_const_constructors: true
     prefer_final_locals: true

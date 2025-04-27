@@ -9,10 +9,6 @@ import 'package:chatex/logic/preferences.dart';
 import 'dart:convert';
 import 'dart:developer';
 
-//GLOBÁLIS VÁLTOZÓK ELEJE -------------------------------------------------------------------------
-
-//GLOBÁLIS VÁLTOZÓK VÉGE --------------------------------------------------------------------------
-
 //LoadedChatData OSZTÁLY ELEJE --------------------------------------------------------------------
 class LoadedChatData extends StatefulWidget {
   const LoadedChatData({super.key});
@@ -22,7 +18,8 @@ class LoadedChatData extends StatefulWidget {
 }
 
 class LoadedChatDataState extends State<LoadedChatData> {
-//OSZTÁLYON BELÜLI VÁLTOZÓK ELEJE -----------------------------------------------------------------------
+//OSZTÁLYON BELÜLI VÁLTOZÓK ELEJE -----------------------------------------------------------------
+
   late Future<List<dynamic>> _chatList = Future.value([]);
   late WebSocketChannel _channel;
 
@@ -71,6 +68,8 @@ class LoadedChatDataState extends State<LoadedChatData> {
     setState(() {
       _chatList = _getChatList(Preferences.getUserId());
     });
+
+    await _chatList;
   }
 
   Future<List<dynamic>> _getChatList(int? userId) async {
@@ -162,9 +161,11 @@ class LoadedChatDataState extends State<LoadedChatData> {
 
   Widget _buildChatList() {
     return FutureBuilder<List<dynamic>>(
+      //_chatList alapján felépítjük a Cardokat
       future: _chatList,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
+          //amíg tölt addig karika
           return const Center(
             child: CircularProgressIndicator(
               strokeWidth: 3,
@@ -179,74 +180,81 @@ class LoadedChatDataState extends State<LoadedChatData> {
           return _buildEmptyChatList();
         }
 
-        return ListView.builder(
-          itemCount: dataFromChatList.length,
-          itemBuilder: (context, index) {
-            final chat = dataFromChatList[index];
+        return RefreshIndicator(
+          color: Colors.deepPurpleAccent,
+          backgroundColor: Colors.black,
+          //a manuális chat frissítést engedélyez a RefreshIndicator (fentről való lehúzással)
+          onRefresh: _getCorrectChatList,
+          child: ListView.builder(
+            itemCount: dataFromChatList.length,
+            itemBuilder: (context, index) {
+              final chat = dataFromChatList[index];
 
-            final String rawMessage =
-                chat["last_message"]?.toString().trim() ?? "";
-            final int? lastSenderId = chat["last_sender_id"];
-            final int currentUserId = Preferences.getUserId() ?? -1;
+              final String rawMessage =
+                  chat["last_message"]?.toString().trim() ?? "";
+              final int? lastSenderId = chat["last_sender_id"];
+              final int currentUserId = Preferences.getUserId() ?? -1;
 
-            String prefix = "";
-            if (lastSenderId == currentUserId) {
-              prefix = Preferences.isHungarian ? "Te: " : "You: ";
-            }
+              String prefix = "";
+              if (lastSenderId == currentUserId) {
+                prefix = Preferences.isHungarian ? "Te: " : "You: ";
+              }
 
-            String lastMessage;
-            if (rawMessage == "[FILE]") {
-              lastMessage = prefix +
-                  (Preferences.isHungarian
-                      ? "📎 Fájl csatolva"
-                      : "📎 File attached");
-            } else if (rawMessage == "[IMAGE]") {
-              lastMessage = prefix +
-                  (Preferences.isHungarian
-                      ? "🖼️ Kép küldve"
-                      : "🖼️ Image sent");
-            } else if (rawMessage.isEmpty) {
-              lastMessage = Preferences.isHungarian
-                  ? "Nincs még üzenet"
-                  : "No message yet";
-            } else {
-              lastMessage = prefix + rawMessage;
-            }
+              String lastMessage;
+              if (rawMessage == "[FILE]") {
+                lastMessage = prefix +
+                    (Preferences.isHungarian
+                        ? "📎 Fájl csatolva"
+                        : "📎 File attached");
+              } else if (rawMessage == "[IMAGE]") {
+                lastMessage = prefix +
+                    (Preferences.isHungarian
+                        ? "🖼️ Kép küldve"
+                        : "🖼️ Image sent");
+              } else if (rawMessage.isEmpty) {
+                lastMessage = Preferences.isHungarian
+                    ? "Nincs még üzenet"
+                    : "No message yet";
+              } else {
+                lastMessage = prefix + rawMessage;
+              }
 
-            return ChatTile(
-              chatName: chat["friend_name"],
-              profileImage: chat["friend_profile_picture"] ?? "",
-              lastMessage: lastMessage,
-              time: chat["last_message_time"] ?? "",
-              isOnline: chat["status"],
-              signedIn: chat["signed_in"],
-              unreadCount: chat["unread_count"] ?? 0,
-              onTap: () async {
-                final shouldRefresh = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ChatScreen(
-                      receiverId: chat["friend_id"],
-                      chatName: chat["friend_name"],
-                      profileImage: chat["friend_profile_picture"] ?? "",
-                      lastSeen: chat["friend_last_seen"],
-                      isOnline: chat["status"],
-                      signedIn: chat["signed_in"],
-                      chatId: chat["chat_id"],
+              return ChatTile(
+                chatName: chat["friend_name"],
+                profileImage: chat["friend_profile_picture"] ?? "",
+                lastMessage: lastMessage,
+                time: chat["last_message_time"] ?? "",
+                isOnline: chat["status"],
+                signedIn: chat["signed_in"],
+                unreadCount: chat["unread_count"] ?? 0,
+                onTap: () async {
+                  final shouldRefresh = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChatScreen(
+                        receiverId: chat["friend_id"],
+                        chatName: chat["friend_name"],
+                        profileImage: chat["friend_profile_picture"] ?? "",
+                        lastSeen: chat["friend_last_seen"],
+                        isOnline: chat["status"],
+                        signedIn: chat["signed_in"],
+                        chatId: chat["chat_id"],
+                      ),
                     ),
-                  ),
-                );
-                //Csak akkor frissít, ha szükséges
-                if (shouldRefresh == true) {
-                  _getCorrectChatList();
-                }
-              },
-            );
-          },
+                  );
+                  //Csak akkor frissít, ha szükséges
+                  if (shouldRefresh == true) {
+                    _getCorrectChatList();
+                  }
+                },
+              );
+            },
+          ),
         );
       },
     );
   }
+
 //DIZÁJN ELEMEK VÉGE ------------------------------------------------------------------------------
 }
 //LoadedChatData OSZTÁLY VÉGE ---------------------------------------------------------------------

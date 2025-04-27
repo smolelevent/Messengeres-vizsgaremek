@@ -1,10 +1,11 @@
 <?php
+//REST API
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-require_once __DIR__ . "/../../db.php";
+require_once __DIR__ . "/../../db.php"; //adatbázis
 
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -16,6 +17,7 @@ if (!isset($data["user_id"])) {
 
 $user_id = intval($data["user_id"]);
 
+//ugyanazzal a mintával mint a get_chats.php-ben lekérjük a felhasználó csoportjait (akár csinált akár tagja)
 $query = "
     SELECT 
         c.chat_id,
@@ -43,6 +45,8 @@ $query = "
 ";
 
 $stmt = $conn->prepare($query);
+
+//a paraméter alapján csak azokat kéri le ami az id-éhez tartozik
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -50,7 +54,12 @@ $result = $stmt->get_result();
 $chatList = [];
 
 while ($row = $result->fetch_assoc()) {
+    //tömb a tömb-ben válasz
     $chatList[] = $row;
 }
 
+//hiába adjuk vissza, nem sikerült implementálni a csoportok funkciót...
 echo json_encode($chatList);
+
+$stmt->close();
+$conn->close();

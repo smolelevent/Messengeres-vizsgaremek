@@ -47,13 +47,13 @@ class _BottomNavbarForChatState extends State<BottomNavbarForChat> {
               Icons.chat_rounded,
               Preferences.isHungarian ? "Chatek" : "Chats",
               0,
-              const Key("chatNavBar"), // Unique key for the Chats tab
+              const Key("chatNavBar"), //teszteléshez
             ),
             _bottomAppBarItem(
               Icons.person_rounded,
               Preferences.isHungarian ? "Ismerősök" : "Friends",
               1,
-              const Key("friendsNavBar"), // Unique key for the Friends tab
+              const Key("friendsNavBar"), //teszteléshez
             ),
           ],
         ),

@@ -22,6 +22,7 @@ class People extends StatefulWidget {
 
 class _PeopleState extends State<People> {
 //OSZTÁLYON BELÜLI VÁLTOZÓK ELEJE -----------------------------------------------------------------
+
   final TextEditingController _userSearchController =
       TextEditingController(); //a keresési mezőből ez kell hogy kinyerjük a szöveget
 
@@ -230,7 +231,9 @@ class _PeopleState extends State<People> {
         _searchUsers(_userSearchController.text);
 
         ToastMessages.showToastMessages(
-          Preferences.isHungarian ? "Barátjelölés elküldve!" : "Friend request sent!",
+          Preferences.isHungarian
+              ? "Barátjelölés elküldve!"
+              : "Friend request sent!",
           0.2,
           Colors.green,
           Icons.check,
@@ -286,87 +289,78 @@ class _PeopleState extends State<People> {
       key: _formKey, //egy kulccsal tudjuk figyelni
       child: Column(
         children: [
-          SizedBox(
-            //egy meghatározott méretű területen jelenítjük meg a kettő kártya widgetet
-            height: 140,
-            child: ListView(
-              //TODO: no scroll
+          _buildCard(
+            Icons.people_alt_rounded,
+            Colors.white,
+            Preferences.isHungarian ? "Barát jelölések" : "Friend requests",
+            //trailingként átadott kód
+            Stack(
+              clipBehavior: Clip.none,
               children: [
-                _buildCard(
-                  Icons.people_alt_rounded,
-                  Colors.white,
-                  Preferences.isHungarian ? "Barát jelölések" : "Friend requests",
-                  //trailingként átadott kód
-                  Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.white,
-                        size: 16,
+                const Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.white,
+                  size: 16,
+                ),
+                if (_friendRequestCount > 0)
+                  //ha van barátjelölés jelenítsük meg a előre nyíl előtt
+                  Positioned(
+                    right: 30,
+                    top: -4,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
                       ),
-                      if (_friendRequestCount > 0)
-                        //ha van barátjelölés jelenítsük meg a előre nyíl előtt
-                        Positioned(
-                          right: 30,
-                          top: -4,
-                          child: Container(
-                            padding: const EdgeInsets.all(4),
-                            decoration: const BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                            constraints: const BoxConstraints(
-                              minWidth: 20,
-                              minHeight: 20,
-                            ),
-                            child: Text(
-                              '$_friendRequestCount',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
+                      constraints: const BoxConstraints(
+                        minWidth: 20,
+                        minHeight: 20,
+                      ),
+                      child: Text(
+                        '$_friendRequestCount',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
                         ),
-                    ],
-                  ),
-                  () async {
-                    //kattintásra nyissa meg a barátjelölések képernyőt
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const FriendRequests(),
+                        textAlign: TextAlign.center,
                       ),
-                    );
-                    //és töltse be a barátkérés számlálót
-                    _loadFriendRequestCount();
-                  },
-                ),
-                //barátok kezelése gomb
-                _buildCard(
-                  Icons.emoji_people_rounded,
-                  Colors.white,
-                  Preferences.isHungarian ? "Barátok kezelése" : "Manage friends",
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.white,
-                    size: 16,
+                    ),
                   ),
-                  () async {
-                    //kattintásra nyissa meg a barátkezelés képernyőt
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ManageFriends(),
-                      ),
-                    );
-                  },
-                ),
               ],
             ),
+            () async {
+              //kattintásra nyissa meg a barátjelölések képernyőt
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const FriendRequests(),
+                ),
+              );
+              //és töltse be a barátkérés számlálót
+              _loadFriendRequestCount();
+            },
+          ),
+          //barátok kezelése gomb
+          _buildCard(
+            Icons.emoji_people_rounded,
+            Colors.white,
+            Preferences.isHungarian ? "Barátok kezelése" : "Manage friends",
+            const Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.white,
+              size: 16,
+            ),
+            () async {
+              //kattintásra nyissa meg a barátkezelés képernyőt
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ManageFriends(),
+                ),
+              );
+            },
           ),
           _userSearchInputWidget(),
           const SizedBox(height: 10),
@@ -434,12 +428,6 @@ class _PeopleState extends State<People> {
                 : "The username is too long! (max 20)",
             checkNullOrEmpty: false,
           ),
-          FormBuilderValidators.required(
-            errorText: Preferences.isHungarian
-                ? "A felhasználónév nem lehet üres!"
-                : "The username cannot be empty!",
-            checkNullOrEmpty: false,
-          ),
         ]),
         focusNode: _userSearchFocusNode, //design változás fókuszkor
         controller: _userSearchController, //tartalom
@@ -459,58 +447,61 @@ class _PeopleState extends State<People> {
           color: Colors.white,
           fontSize: 20.0,
         ),
-        decoration: InputDecoration(
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          hintText: _isUserSearchFocused
-              ? null
-              : Preferences.isHungarian
-                  ? "Add meg a felhasználónevet!"
-                  : "Enter the username!",
-          labelText: _isUserSearchFocused
-              ? Preferences.isHungarian
-                  ? "Add meg a felhasználónevet!"
-                  : "Enter the username!"
-              : null,
-          focusedBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.deepPurpleAccent,
-              width: 2.5,
-            ),
-          ),
-          enabledBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.white,
-              width: 2.5,
-            ),
-          ),
-          suffixIcon: _userSearchController.text.isNotEmpty
-              //tartalom törlő ikon
-              ? IconButton(
-                  icon: const Icon(
-                    Icons.clear,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    _userSearchController.clear();
-                    setState(() {
-                      _userSearchResults = [];
-                    });
-                  },
-                )
-              : null,
-          hintStyle: TextStyle(
-            color: Colors.grey[600],
-            fontStyle: FontStyle.italic,
-            fontWeight: FontWeight.bold,
-            fontSize: 20.0,
-          ),
-          labelStyle: const TextStyle(
-            color: Colors.white,
-            fontSize: 20.0,
-            letterSpacing: 1.0,
-          ),
+        decoration: _decorationForInput(),
+      ),
+    );
+  }
+
+  InputDecoration _decorationForInput() {
+    return InputDecoration(
+      contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      hintText: _isUserSearchFocused
+          ? null
+          : Preferences.isHungarian
+              ? "Add meg a felhasználónevet!"
+              : "Enter the username!",
+      labelText: _isUserSearchFocused
+          ? Preferences.isHungarian
+              ? "Add meg a felhasználónevet!"
+              : "Enter the username!"
+          : null,
+      focusedBorder: const UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.deepPurpleAccent,
+          width: 2.5,
         ),
+      ),
+      enabledBorder: const UnderlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.white,
+          width: 2.5,
+        ),
+      ),
+      suffixIcon: _userSearchController.text.isNotEmpty
+          //tartalom törlő ikon
+          ? IconButton(
+              icon: const Icon(
+                Icons.clear,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                _userSearchController.clear();
+                setState(() {
+                  _userSearchResults = [];
+                });
+              },
+            )
+          : null,
+      hintStyle: TextStyle(
+        color: Colors.grey[600],
+        fontStyle: FontStyle.italic,
+        fontWeight: FontWeight.bold,
+        fontSize: 20.0,
+      ),
+      labelStyle: const TextStyle(
+        color: Colors.white,
+        fontSize: 20.0,
+        letterSpacing: 1.0,
       ),
     );
   }
@@ -567,10 +558,11 @@ class _PeopleState extends State<People> {
       //középre igazítás itt a ListView területén van, illetve nem lehet külön metódusba mert nem buildelődik újra
       return Center(
         child: Text(
-          Preferences.isHungarian ? "Nincs találat" : "No results",
+          Preferences.isHungarian ? "Nincs találat" : "No results found",
           style: const TextStyle(
-            color: Colors.white,
+            color: Colors.white70,
             fontSize: 18,
+            fontWeight: FontWeight.bold,
           ),
         ),
       );

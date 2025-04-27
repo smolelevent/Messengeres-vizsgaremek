@@ -1,16 +1,16 @@
 <?php
+//REST API
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer; //PHPMailer email küldő csomag
+use PHPMailer\PHPMailer\Exception; //kivétel kezelés (ha rossz az email valahogy)
 
-require_once __DIR__ . "/../db.php"; // Adatbázis kapcsolat
-require_once __DIR__ . '/../vendor/autoload.php'; // PHPMailer betöltése
+require_once __DIR__ . "/../db.php"; //adatbázis kapcsolat
+require_once __DIR__ . '/../vendor/autoload.php'; //csomagok betöltéséért
 
-// JSON adatok beolvasása
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (!isset($data["email"])) {
@@ -20,7 +20,7 @@ if (!isset($data["email"])) {
 
 $email = $data["email"];
 
-// Megnézzük, hogy létezik-e az e-mail az adatbázisban
+//megnézzük hogy a megadott email címmel létezik ilyen felhasználó és eltároljuk az id-ét!
 $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
@@ -30,38 +30,39 @@ if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $userId = $row["id"];
 
-    // Token generálása és lejárati idő beállítása
-    $token = bin2hex(random_bytes(20));
-    $expires = date("Y-m-d H:i:s", strtotime("+15 minutes"));
+    //jelszó helyreállítási token generálása és lejárati idő beállítása
+    $token = bin2hex(random_bytes(20)); //egy random 20 karakteres sorozatot generálunk
+    $expires = date("Y-m-d H:i:s", strtotime("+15 minutes")); //ami 15 percig lesz érvényes!
 
-    // Token mentése az adatbázisba
+    //majd elmentjük az adott felhasználó adatai közé a token-t és a email lejárati idejét!
     $stmt = $conn->prepare("UPDATE users SET password_reset_token = ?, password_reset_expires = ? WHERE id = ?");
     $stmt->bind_param("ssi", $token, $expires, $userId);
     $stmt->execute();
 
-    // Jelszó visszaállító link
+    //eltároljuk a változóba a token alapú elérési útvonalat ami a jelszó helyreállító weboldalat fogja megnyitni!
     $resetLink = "http://localhost/ChatexProject/chatex_phps/reset_password/open_reset_window.php?token=$token";
 
-    // **📧 PHPMailer konfigurálása és email küldés**
+    //PHPMailer konfigurálása és az email küldése!
+    //létrehozunk egy példányt a PHPMailer-ből
     $mail = new PHPMailer(true);
 
     try {
-        // SMTP beállítások
+        //SMTP beállítások
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com'; // SMTP szerver (pl. Gmail)
-        $mail->SMTPAuth = true;
-        $mail->Username = 'chatexfejlesztok@gmail.com'; // SMTP e-mail címed
-        $mail->Password = 'uvatzwfcrjlcujrs'; // SMTP jelszó vagy App Password
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
+        $mail->Host = 'smtp.gmail.com'; //az email küldéshez szükséges SMTP szerver (pl. Gmail)
+        $mail->SMTPAuth = true; //azonosított küldő lásd:
+        $mail->Username = 'chatexfejlesztok@gmail.com'; //SMTP e-mail címed
+        $mail->Password = 'uvatzwfcrjlcujrs'; //App Password (ami a vizsgaremekes email címünkön lett generálva!)
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; //biztonságos kapcsolattal küldünk (így nem fogja a spam mappába dobni!)
+        $mail->Port = 587; //gmail által használt port
         $mail->CharSet = 'UTF-8';
         $mail->Encoding = 'base64';
 
-        // Feladó és címzett
+        //Feladó és címzett
         $mail->setFrom('chatexfejlesztok@gmail.com', 'Chatex support (no reply)');
-        $mail->addAddress($email);
+        $mail->addAddress($email); //az email mező alapján továbbítjuk oda amit a felhasználó megadott!
 
-        // E-mail tartalma
+        //E-mail tartalma
         $mail->isHTML(true);
         $mail->Subject = "Jelszó visszaállítás";
         $mail->Body = "<h1>Kattints az alábbi linkre a jelszó visszaállításához:</h1>
@@ -69,7 +70,7 @@ if ($result->num_rows > 0) {
                        <h2>Ez a link 15 percig érvényes.</h2>
                        <p>Chatex</p>";
 
-        // E-mail küldés
+        //E-mail küldés, majd visszajelzés Dart-nak
         if ($mail->send()) {
             echo json_encode(["success" => true, "message" => "Helyreállító e-mail elküldve."]);
         } else {
@@ -79,8 +80,10 @@ if ($result->num_rows > 0) {
         echo json_encode(["success" => false, "message" => "E-mail hiba: {$mail->ErrorInfo}"]);
     }
 } else {
+    //nem volt olyan felhasználó akinek a megadott email címe lenne!
     echo json_encode(["success" => false, "message" => "Nincs ilyen email című felhasználó!"]);
 }
 
+//kapcsolat lezárása
 $stmt->close();
 $conn->close();

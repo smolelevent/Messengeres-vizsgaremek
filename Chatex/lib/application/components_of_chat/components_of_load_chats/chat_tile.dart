@@ -64,7 +64,6 @@ class ChatTile extends StatelessWidget {
 //DIZÁJN ELEMEK ELEJE -----------------------------------------------------------------------------
 
   Widget _buildProfileImage(String imageString, String isOnline, int signedIn) {
-    //TODO: egységesíteni
     Widget imageWidget;
 
     if (imageString.startsWith("data:image/svg+xml;base64,")) {
@@ -92,7 +91,8 @@ class ChatTile extends StatelessWidget {
     }
 
     return SizedBox(
-      width: 66, //profilképnél nagyobb legyen, eltávolítása exception-t ad
+      //profilképnél nagyobb legyen, eltávolítása exception-t ad
+      width: 66,
       height: 66,
       child: Stack(
         clipBehavior: Clip.none,
@@ -138,13 +138,13 @@ class ChatTile extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 5.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
-        side:
-            hasUnreadMessages //ha van olvasotlan üzenetei akkor legyen egy fehér keret a tile körül
-                ? const BorderSide(
-                    color: Colors.white,
-                    width: 2,
-                  )
-                : BorderSide.none,
+        //ha van olvasotlan üzenetei akkor legyen egy fehér keret a tile körül
+        side: hasUnreadMessages
+            ? const BorderSide(
+                color: Colors.white,
+                width: 2,
+              )
+            : BorderSide.none,
       ),
       elevation: 5,
       child: ListTile(
@@ -191,8 +191,8 @@ class ChatTile extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: const BoxDecoration(
-                    color: Colors
-                        .red, //piros kerettel jelenjen meg a feltünőség érdekében
+                    //piros kerettel jelenjen meg a feltünőség érdekében
+                    color: Colors.red,
                     shape: BoxShape.circle,
                   ),
                   child: Text(

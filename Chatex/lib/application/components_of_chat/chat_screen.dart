@@ -16,7 +16,9 @@ import 'dart:developer';
 import 'dart:convert';
 import 'dart:async';
 
-//A WEBSOCKET SZERVER-T INDÍTÁS ELŐTT FUTTATNI KELL A PHP-T: xampp_server\htdocs\ChatexProject\chatex_phps> php server_run.php
+//AZ XAMPP-OT futtatni kell használat előtt (ha nem indul el akkor setup_xampp.bat-ot kell futtatni!), illetve...
+//A Websocket Server-t is futtatni kell indítás előtt (a terminálon keresztűl a megadott elérési úttal és paranccsal!)
+//parancs: xampp_server\htdocs\ChatexProject\chatex_phps> php server_run.php
 
 //ChatScreen OSZTÁLY ELEJE ------------------------------------------------------------------------
 class ChatScreen extends StatefulWidget {
@@ -178,7 +180,8 @@ class _ChatScreenState extends State<ChatScreen> {
       if (index != -1) return;
 
       final isForMe = data['receiver_id'] ==
-          Preferences.getUserId(); //ha az üzenet a jelenlegi felhasználónak szól
+          Preferences
+              .getUserId(); //ha az üzenet a jelenlegi felhasználónak szól
       if (isForMe && ModalRoute.of(context)?.isCurrent == true) {
         //és a chat_screen.dart a jelenlegi képernyő
         Future.delayed(
@@ -607,8 +610,8 @@ class _ChatScreenState extends State<ChatScreen> {
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
           "chat_id": widget.chatId,
-          "user_id":
-              Preferences.getUserId(), //az a receiver_id aki megkapja tehát az user_id-t kell megadnunk
+          "user_id": Preferences
+              .getUserId(), //az a receiver_id aki megkapja tehát az user_id-t kell megadnunk
         }),
       );
 
@@ -677,7 +680,7 @@ class _ChatScreenState extends State<ChatScreen> {
 //EGYÉB KIEGÉSZÍTŐ METÓDUSOK ELEJE ----------------------------------------------------------------
 
   void _cacheAllPermanentImages() {
-    // AppBar profilkép //TODO: EGYSÉGESÍTENI
+    // AppBar profilkép
     if (widget.profileImage.startsWith("data:image/svg+xml;base64,")) {
       _cachedAppbarSvgBytes = base64Decode(widget.profileImage.split(",")[1]);
     } else if (widget.profileImage.startsWith("data:image/")) {
@@ -726,7 +729,6 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   String formatLastSeen(String lastSeenString) {
-    //TODO: EGYSÉGESÍTENI
     try {
       final lastSeen = DateTime.parse(lastSeenString).toLocal();
       final now = DateTime.now();
@@ -745,7 +747,9 @@ class _ChatScreenState extends State<ChatScreen> {
       } else if (difference.inDays == 1) {
         return Preferences.isHungarian ? "Tegnap" : "Yesterday";
       } else if (difference.inDays == 2) {
-        return Preferences.isHungarian ? "Tegnap előtt" : "The day before yesterday";
+        return Preferences.isHungarian
+            ? "Tegnap előtt"
+            : "The day before yesterday";
       } else {
         final formattedDate =
             "${lastSeen.year}.${lastSeen.month.toString().padLeft(2, '0')}.${lastSeen.day.toString().padLeft(2, '0')} "
@@ -910,10 +914,12 @@ class _ChatScreenState extends State<ChatScreen> {
         titleSpacing: 0,
         leadingWidth: 55,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded),
+          icon: const Icon(
+            Icons.arrow_back_rounded,
+          ),
           onPressed: () {
+            //ha load_chats.dart-ról nyitottuk meg visszadjuk ezt (hogy frissüljön):
             Navigator.pop(context, true);
-            //ha vissza lépünk akkor a load_chats.dart is frissítve legyen!
           },
         ),
         title: Row(
@@ -968,7 +974,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Widget _buildProfileImage(String isOnline, int signedIn) {
-    Widget imageWidget; //TODO: EGYSÉGESÍTENI
+    Widget imageWidget;
 
     if (_cachedAppbarSvgBytes != null) {
       imageWidget = SvgPicture.memory(
@@ -1173,8 +1179,9 @@ class _ChatScreenState extends State<ChatScreen> {
             padding: EdgeInsets.only(bottom: bottomPadding),
             child: FloatingActionButton(
               backgroundColor: Colors.grey[800],
-              tooltip:
-                  Preferences.isHungarian ? "Ugrás az aljára" : "Scroll to bottom",
+              tooltip: Preferences.isHungarian
+                  ? "Ugrás az aljára"
+                  : "Scroll to bottom",
               elevation: 10,
               mini: true,
               shape: const CircleBorder(),

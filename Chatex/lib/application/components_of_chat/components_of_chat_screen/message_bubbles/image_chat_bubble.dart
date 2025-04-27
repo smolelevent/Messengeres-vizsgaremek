@@ -47,6 +47,7 @@ class _ImageChatBubbleState extends State<ImageChatBubble> {
 //OSZTÁLYON BELÜLI VÁLTOZÓK VÉGE ------------------------------------------------------------------
 
 //HÁTTÉR FOLYAMATOK ELEJE -------------------------------------------------------------------------
+
   void _toggleDetails() {
     //üzenet információi ki/be nyomásra
     setState(() {
@@ -104,6 +105,7 @@ class _ImageChatBubbleState extends State<ImageChatBubble> {
       );
     }
   }
+
 //HÁTTÉR FOLYAMATOK VÉGE --------------------------------------------------------------------------
 
   @override
@@ -121,14 +123,15 @@ class _ImageChatBubbleState extends State<ImageChatBubble> {
       padding: const EdgeInsets.only(left: 5, right: 5, top: 20),
       child: Row(
         mainAxisAlignment: widget.isSender
+            //bal vagy jobb oldalon jelenjen meg a chaten
             ? MainAxisAlignment.end
-            : MainAxisAlignment
-                .start, //bal vagy jobb oldalon jelenjen meg a chaten
+            : MainAxisAlignment.start,
         crossAxisAlignment: _showDetails
+            //a profilkép helye ne változzon, ha megnézzük az üzenetet részleteit
             ? CrossAxisAlignment.start
-            : CrossAxisAlignment.start, //a profilkép helye ne változzon
+            : CrossAxisAlignment.start,
         children: [
-          //csak akkor jelenjen meg a profilkép, ha nem én küldtem a message-t
+          //csak akkor jelenjen meg a profilkép, ha nem a fogadó küldte az üzenetet
           if (!widget.isSender)
             ClipOval(
               child: _buildProfileImage(),
@@ -184,8 +187,8 @@ class _ImageChatBubbleState extends State<ImageChatBubble> {
                               final url = widget.imageUrls[index];
                               final fileName =
                                   widget.imageUrls[index].split("/").last;
-                              await _downloadImage(url,
-                                  fileName); //a kép kattintásakor letöltődik az eszközre
+                              //a kép kattintásakor letöltődik az eszközre
+                              await _downloadImage(url, fileName);
                             },
                             child: Image.network(
                               widget.imageUrls[index],

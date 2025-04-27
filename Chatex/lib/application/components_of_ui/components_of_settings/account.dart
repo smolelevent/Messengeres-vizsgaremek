@@ -57,6 +57,7 @@ class _AccountSettingState extends State<AccountSetting> {
   //alapértelmezetten betöltjük a felhasználó jelenlegi profilképét
   String? _profilePicture = Preferences.getProfilePicture();
   File? _selectedImage;
+  bool _isPickingImage = false;
 
   //a _formKey felel azért hogy kitudjuk venni a Form értékeit, míg a _isFormValid a gomb megnyomhatóságáért felel!
   final _formKey = GlobalKey<FormBuilderState>();
@@ -360,77 +361,112 @@ class _AccountSettingState extends State<AccountSetting> {
 
   Future<void> _pickImage() async {
     //ez a metódus felel a képkiválasztásért
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedFile == null) return;
 
-    final filePath = pickedFile.path;
-    final fileExtension = filePath.split('.').last.toLowerCase();
-    final supportedExtensions = ['svg', 'png', 'jpg', 'jpeg'];
+    if (_isPickingImage) return; // ha már fut, akkor kilépünk
 
-    if (!supportedExtensions.contains(fileExtension)) {
-      //ha nem támogatott formátum lett kiválasztva
+    setState(() {
+      _isPickingImage = true;
+    });
+
+    try {
+      final pickedFile =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (pickedFile == null) {
+        setState(() {
+          _isPickingImage = false;
+        });
+        return;
+      }
+
+      final filePath = pickedFile.path;
+      final fileExtension = filePath.split('.').last.toLowerCase();
+      final supportedExtensions = ['svg', 'png', 'jpg', 'jpeg'];
+
+      if (!supportedExtensions.contains(fileExtension)) {
+        //ha nem támogatott formátum lett kiválasztva
+        ToastMessages.showToastMessages(
+          Preferences.isHungarian
+              ? "Nem támogatott fájlformátum!"
+              : "Unsupported file format!",
+          0.2,
+          Colors.red,
+          Icons.image,
+          Colors.black,
+          const Duration(seconds: 2),
+          context,
+        );
+        setState(() {
+          //engedjük hogy újra megnyissa a kép választót
+          _isPickingImage = false;
+        });
+        return;
+      }
+
+      final file = File(filePath);
+      final bytes = await file.readAsBytes();
+
+      //base64-es kódolás amihez hozzátesszük a mimeType-ot
+      final base64 = base64Encode(bytes);
+
+      String mimeType;
+      switch (fileExtension) {
+        case "svg":
+          mimeType = "data:image/svg+xml;base64,";
+          break;
+        case "png":
+          mimeType = "data:image/png;base64,";
+          break;
+        case "jpg":
+          mimeType = "data:image/jpg;base64,";
+          break;
+        case "jpeg":
+          mimeType = "data:image/jpeg;base64,";
+          break;
+        default:
+          mimeType = "";
+      }
+
+      setState(() {
+        //frissítjük mind a kettő változót, és már az új profilkép fog megjelenni
+        _selectedImage = file;
+        _profilePicture = "$mimeType$base64";
+        _isPickingImage = false; // itt is vissza állítjuk
+      });
+
       ToastMessages.showToastMessages(
         Preferences.isHungarian
-            ? "Nem támogatott fájlformátum!"
-            : "Unsupported file format!",
+            ? "Kép kiválasztva! Most módosíthatod!"
+            : "Image selected! You can now update it!",
         0.2,
-        Colors.red,
+        Colors.orange,
         Icons.image,
         Colors.black,
         const Duration(seconds: 2),
         context,
       );
-      return;
+
+      //frissítjük a mentés gombot
+      _onAnyFieldValid();
+
+      //frissítsük a cache-t is
+      _cacheProfileImage();
+    } catch (e) {
+      setState(() {
+        _isPickingImage = false;
+      });
+      ToastMessages.showToastMessages(
+        Preferences.isHungarian
+            ? "Hiba a kép kiválasztásánál!"
+            : "Error while selecting image!",
+        0.2,
+        Colors.redAccent,
+        Icons.image,
+        Colors.black,
+        const Duration(seconds: 2),
+        context,
+      );
+      log("Hiba kép kiválasztásánál: ${e.toString()}");
     }
-
-    final file = File(filePath);
-    final bytes = await file.readAsBytes();
-
-    //base64-es kódolás amihez hozzátesszük a mimeType-ot
-    final base64 = base64Encode(bytes);
-
-    String mimeType;
-    switch (fileExtension) {
-      case "svg":
-        mimeType = "data:image/svg+xml;base64,";
-        break;
-      case "png":
-        mimeType = "data:image/png;base64,";
-        break;
-      case "jpg":
-        mimeType = "data:image/jpg;base64,";
-        break;
-      case "jpeg":
-        mimeType = "data:image/jpeg;base64,";
-        break;
-      default:
-        mimeType = "";
-    }
-
-    setState(() {
-      //frissítjük mind a kettő változót, és már az új profilkép fog megjelenni
-      _selectedImage = file;
-      _profilePicture = "$mimeType$base64";
-    });
-
-    ToastMessages.showToastMessages(
-      Preferences.isHungarian
-          ? "Kép kiválasztva! Most módosíthatod!"
-          : "Image selected! You can now update it!",
-      0.2,
-      Colors.orange,
-      Icons.image,
-      Colors.black,
-      const Duration(seconds: 2),
-      context,
-    );
-
-    //frissítjük a mentés gombot
-    _onAnyFieldValid();
-
-    //frissítsük a cache-t is
-    _cacheProfileImage();
   }
 
   Future<void> _updateProfilePicture() async {
@@ -496,6 +532,9 @@ class _AccountSettingState extends State<AccountSetting> {
 
   Future<void> _handleSave() async {
     //ez a metódus felel az összes frissítő metódus meghívásáért
+
+    //bezárjuk a billentyűzetet
+    FocusScope.of(context).unfocus();
 
     //eltároljuk az új értékekeket
     final newUsername =
@@ -665,8 +704,6 @@ class _AccountSettingState extends State<AccountSetting> {
 //DIZÁJN ELEMEK ELEJE -----------------------------------------------------------------------------
 
   PreferredSizeWidget _buildAppbar() {
-    //TODO: egységesíteni
-    //ez a metódus felépíti az appbar-t
     return AppBar(
       title: AutoSizeText(
         Preferences.isHungarian ? "Fiók kezelése" : "Account managment",
@@ -810,11 +847,6 @@ class _AccountSettingState extends State<AccountSetting> {
                 letterSpacing: 1.0,
               ),
               validator: FormBuilderValidators.compose([
-                FormBuilderValidators.required(
-                    errorText: Preferences.isHungarian
-                        ? "A jelszó nem lehet üres!"
-                        : "The password cannot be empty!",
-                    checkNullOrEmpty: true),
                 FormBuilderValidators.minLength(8,
                     errorText: Preferences.isHungarian
                         ? "A jelszó túl rövid! (min 8 karakter)"

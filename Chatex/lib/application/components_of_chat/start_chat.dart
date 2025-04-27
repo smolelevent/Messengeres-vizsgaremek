@@ -5,10 +5,10 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:chatex/application/components_of_chat/chat_screen.dart';
 import 'package:chatex/logic/preferences.dart';
 import 'package:chatex/logic/toast_message.dart';
-import 'dart:convert';
 import 'dart:developer';
+import 'dart:convert';
 
-//StartChat OSZTÁLY ELEJE --------------------------------------------------------------------
+//StartChat OSZTÁLY ELEJE -------------------------------------------------------------------------
 class StartChat extends StatefulWidget {
   const StartChat({super.key});
 
@@ -80,8 +80,8 @@ class _StartChatState extends State<StartChat> {
     } catch (e) {
       ToastMessages.showToastMessages(
         Preferences.isHungarian
-            ? "Kapcsolati hiba a barátlista lekérésénél!"
-            : "Connection error while getting friend list!",
+            ? "Kapcsolati hiba a\nbarátlista lekérésénél!"
+            : "Connection error while\ngetting friend list!",
         0.1,
         Colors.redAccent,
         Icons.error,
@@ -89,6 +89,7 @@ class _StartChatState extends State<StartChat> {
         const Duration(seconds: 4),
         context,
       );
+      log("Kapcsolati hiba a barátlista lekérésénél! ${e.toString()}");
     }
   }
 
@@ -140,8 +141,8 @@ class _StartChatState extends State<StartChat> {
     } catch (e) {
       ToastMessages.showToastMessages(
         Preferences.isHungarian
-            ? "Kapcsolati hiba a chat kezdeményezésénél!"
-            : "Connection error while starting chat!",
+            ? "Kapcsolati hiba a\nchat kezdeményezésénél!"
+            : "Connection error while\nstarting chat!",
         0.1,
         Colors.redAccent,
         Icons.error,
@@ -149,7 +150,7 @@ class _StartChatState extends State<StartChat> {
         const Duration(seconds: 2),
         context,
       );
-      log("Kapcsolati hiba a chat kezdése közben! ${e.toString()}");
+      log("Kapcsolati hiba a chat kezdeményezésénél! ${e.toString()}");
     }
   }
 
@@ -223,12 +224,12 @@ class _StartChatState extends State<StartChat> {
           color: Colors.white,
           fontSize: 17.0,
         ),
-        decoration: _searchFieldDecoration(),
+        decoration: _decorationForInput(),
       ),
     );
   }
 
-  InputDecoration _searchFieldDecoration() {
+  InputDecoration _decorationForInput() {
     return InputDecoration(
       filled: true,
       fillColor: Colors.grey[800],
@@ -260,17 +261,17 @@ class _StartChatState extends State<StartChat> {
       ),
       suffixIcon: _searchController.text.isNotEmpty
           //tartalom törlő gomb
-          ? IconButton(
-              icon: const Icon(
-                Icons.clear,
-                color: Colors.white,
-              ),
-              onPressed: () {
+          ? GestureDetector(
+              onTap: () {
                 _searchController.clear();
                 setState(() {
                   _searchQuery = '';
                 });
               },
+              child: const Icon(
+                Icons.clear,
+                color: Colors.white,
+              ),
             )
           : null,
       enabledBorder: OutlineInputBorder(
@@ -303,10 +304,11 @@ class _StartChatState extends State<StartChat> {
       //sajnos ezt nem lehet külön metódusba tenni mivel nem fog működni
       return Center(
         child: Text(
-          Preferences.isHungarian ? "Nincs találat" : "No results",
+          Preferences.isHungarian ? "Nincs találat" : "No results found",
           style: const TextStyle(
             color: Colors.white70,
             fontSize: 18,
+            fontWeight: FontWeight.bold,
           ),
         ),
       );

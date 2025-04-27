@@ -1,13 +1,19 @@
 <?php
+//a tényleges jelszó helyreállító HTML ami az átírányítás után kell hogy megjelenjen (viszonylag középre igazítva!)
+
 require_once __DIR__ . "/../db.php";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    //post kérés esetében (amikor submit-oljuk a Formot) alkalmazzuk a REST API header-eket
     header("Content-Type: application/json");
     header("Access-Control-Allow-Origin: *");
     header("Access-Control-Allow-Methods: POST");
     header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
+    //az átírányításkor átvett tokent elmentjük
     $token = $_POST["token"] ?? '';
+
+    //az új jelszót pedig a Form submitolásakor tároljuk el
     $newPassword = $_POST["new_password"] ?? '';
 
     if (!$token || !$newPassword) {
@@ -15,6 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 
+    //lekérjük a token alapján melyik felhasználóról van szó!
     $stmt = $conn->prepare("SELECT id, email FROM users WHERE password_reset_token = ? AND password_reset_expires > NOW()");
     $stmt->bind_param("s", $token);
     $stmt->execute();
@@ -22,9 +29,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
+
         $userId = $row["id"];
         $userEmail = $row["email"];
 
+        //hasheljük a felhasználó új jelszavát (biztonságos eltárolás!) és le NULL-oljuk a helyreállítási mezőket!
         $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
         $stmt = $conn->prepare("UPDATE users SET password_hash = ?, password_reset_token = NULL, password_reset_expires = NULL WHERE id = ?");
         $stmt->bind_param("si", $hashedPassword, $userId);
@@ -32,7 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         echo json_encode(["success" => true, "message" => "Jelszó sikeresen frissítve!"]);
     } else {
-        echo json_encode(["success" => false, "message" => "A jelszó helyreállító email lejárt!"]); //Érvénytelen vagy lejárt token.
+        //Érvénytelen vagy lejárt token (ha túl lépte a 15 percet)
+        echo json_encode(["success" => false, "message" => "A jelszó helyreállító email lejárt!"]);
     }
 
     $stmt->close();
@@ -40,23 +50,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     exit;
 }
 
-// Ha nem POST kérés, hanem GET (az oldal megjelenítése)
+//Ha nem POST kérés (form által küldött adat), hanem GET (az oldal megjelenik) akkor:
+
 $token = $_GET["token"] ?? '';
 if (!$token) {
     die("Érvénytelen token.");
 }
 
-// Lekérjük az email címet a token alapján
+//lekérjük az email címet a token alapján (hogy megjelenítsük a felhasználónak)
 $stmt = $conn->prepare("SELECT email FROM users WHERE password_reset_token = ? AND password_reset_expires > NOW()");
 $stmt->bind_param("s", $token);
 $stmt->execute();
 $result = $stmt->get_result();
+
 $userEmail = "";
 
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
+    //eltároljuk az emailt ami meg fog jelenni a helyreállító html-n!
     $userEmail = $row["email"];
 } else {
+    //ha nem volt olyan email ahol megegyezett a token akkor érvénytelen html-t jelenítünk meg:
     die('<!DOCTYPE html>
         <html lang="hu">
         <head>
@@ -97,7 +111,7 @@ if ($result->num_rows > 0) {
         </html>');
 }
 
-
+//különben pedig (ha érvényes):
 echo '<!DOCTYPE html>
 <html lang="hu">
 
@@ -227,13 +241,11 @@ echo '<!DOCTYPE html>
                 confirmPasswordField.type = "text";
                 icon1.textContent = "◎";
                 icon2.textContent = "◎";
-                //iconElement.textContent = "◎"; // Áthúzott szem ikon (Unicode)
             } else {
                 passwordField.type = "password";
                 confirmPasswordField.type = "password";
                 icon1.textContent = "◉";
                 icon2.textContent = "◉";
-                //iconElement.textContent = "◉"; // Nyitott szem ikon
             }
         }
 
@@ -314,5 +326,6 @@ echo '<!DOCTYPE html>
 
 </html>';
 
+//majd végezetül lezárjuk a kapcsolatot!
 $stmt->close();
 $conn->close();

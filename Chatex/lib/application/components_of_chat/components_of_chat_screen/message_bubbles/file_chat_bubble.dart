@@ -71,10 +71,11 @@ class _FileChatBubbleState extends State<FileChatBubble> {
       final response = await http.get(uri);
       if (response.statusCode != 200) return;
 
-      final directory =
-          await getDownloadsDirectory(); //eszköz letöltési könyvtára
-      final filePath =
-          "${directory!.path}/${widget.fileNames[index]}"; //ahova menteni szeretnénk
+      //eszköz letöltési könyvtára
+      final directory = await getDownloadsDirectory();
+
+      //ahova menteni szeretnénk
+      final filePath = "${directory!.path}/${widget.fileNames[index]}";
       final file = File(filePath);
       await file.writeAsBytes(response.bodyBytes);
 

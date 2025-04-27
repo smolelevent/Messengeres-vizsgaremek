@@ -1,10 +1,11 @@
 <?php
+//REST API
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-require_once __DIR__ . "/../../db.php";
+require_once __DIR__ . "/../../db.php"; //adatbázis kapcsolat (fontos hogy megfelelő mappába keressük!)
 
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -16,6 +17,8 @@ if (!isset($data["user_id"])) {
 
 $user_id = intval($data["user_id"]);
 
+//a felhasználó id-ja alapján lekérjük a beszélgetéseit! (külön kezelve az utolsó üzenet típusát lásd: SELECT CASE....)
+//aliasok és 2 tábla bevonásával kérjük le a beszélgetések összes adatát
 $query = "
     SELECT 
         c.chat_id,
@@ -79,6 +82,10 @@ $query = "
 ";
 
 $stmt = $conn->prepare($query);
+
+//az első paraméter azt csinálja hogy a megadott id lesz az üzenet fogadója hogy megtudjuk hány olvasatlan üzenete van!
+//a második az a keresésre irányúl ahol a megadott id nem lehet a másik fél! (tehát a küldő)
+//a harmadik paraméter pedig a feltételt adja meg hogy csak olyan adatokat kérjen le amik a felhasználóhoz tartoznak, és nem csoport!
 $stmt->bind_param("iii", $user_id, $user_id, $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -86,7 +93,12 @@ $result = $stmt->get_result();
 $chatList = [];
 
 while ($row = $result->fetch_assoc()) {
+    //az eredmény eltároljuk egyesével egy közre fogó tömbbe (tömb a tömb-ben!)
     $chatList[] = $row;
 }
 
+//majd visszaadjuk a programnak!
 echo json_encode($chatList);
+
+$stmt->close();
+$conn->close();

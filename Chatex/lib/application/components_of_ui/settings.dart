@@ -14,6 +14,7 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
 //OSZTÁLYON BELÜLI VÁLTOZÓK ELEJE -----------------------------------------------------------------
+
   final TextEditingController _searchController =
       TextEditingController(); //szöveg kezelésére szolgál
   final FocusNode _searchFocusNode =
@@ -223,25 +224,38 @@ class _SettingsState extends State<Settings> {
         _buildSearchField(),
         Expanded(
           //kitöltse a rendelkezésre álló teret a beállítás ameddig engedi a padding
-          child: ListView(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 15), //legyen kisebb mint a keresés
-            children: filteredSettings.expand((category) {
-              //szűrő alapján felépíti a kategóriát és annak elemeit is
-              return [
-                _buildCategoryTitle(category.title),
-                ...category.items.map((item) => _buildSettingCard(
-                      item.icon,
-                      item.color,
-                      item.title,
-                      item.subtitle,
-                      item.onTap,
-                    )),
-                //ha az utolsó abban a kategóriában akkor egy elválasztó vonalat tesz
-                if (category != filteredSettings.last) _buildDivider(),
-              ];
-            }).toList(), //fontos hogy mindig listaként, mert a beállításokat is egy listában kezeljük
-          ),
+          child: filteredSettings.isEmpty
+              ? Center(
+                  child: Text(
+                    Preferences.isHungarian
+                        ? "Nincs találat"
+                        : "No results found",
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
+              : ListView(
+                  //legyen kisebb mint a keresés
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  children: filteredSettings.expand((category) {
+                    //szűrő alapján felépíti a kategóriát és annak elemeit is
+                    return [
+                      _buildCategoryTitle(category.title),
+                      ...category.items.map((item) => _buildSettingCard(
+                            item.icon,
+                            item.color,
+                            item.title,
+                            item.subtitle,
+                            item.onTap,
+                          )),
+                      //ha az utolsó abban a kategóriában akkor egy elválasztó vonalat tesz
+                      if (category != filteredSettings.last) _buildDivider(),
+                    ];
+                  }).toList(), //fontos hogy mindig listaként, mert a beállításokat is egy listában kezeljük
+                ),
         ),
       ],
     );

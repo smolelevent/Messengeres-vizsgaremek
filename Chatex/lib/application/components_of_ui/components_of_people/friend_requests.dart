@@ -17,6 +17,7 @@ class FriendRequests extends StatefulWidget {
 
 class _FriendRequestsState extends State<FriendRequests> {
 //OSZTÁLYON BELÜLI VÁLTOZÓK ELEJE -----------------------------------------------------------------
+
   List<dynamic> _friendRequests = [];
   bool _isLoading = true;
 
@@ -232,7 +233,9 @@ class _FriendRequestsState extends State<FriendRequests> {
   Widget _noRequestsWidget() {
     return Center(
       child: Text(
-        Preferences.isHungarian ? "Nincsenek új jelölések" : "No new friend requests",
+        Preferences.isHungarian
+            ? "Nincsenek új jelölések"
+            : "No new friend requests",
         style: const TextStyle(
           color: Colors.white,
           fontSize: 18,
@@ -294,7 +297,7 @@ class _FriendRequestsState extends State<FriendRequests> {
         const Duration(seconds: 2),
         context,
       );
-      log("Error in picture decoding: ${e.toString()}");
+      log("Hiba a kép dekódolásakor: ${e.toString()}");
       return _defaultAvatar();
     }
   }

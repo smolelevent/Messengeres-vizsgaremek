@@ -17,6 +17,7 @@ class ManageFriends extends StatefulWidget {
 
 class _ManageFriendsState extends State<ManageFriends> {
 //OSZTÁLYON BELÜLI VÁLTOZÓK ELEJE -----------------------------------------------------------------
+
   List<dynamic> _friends = []; //ebben a tároljuk el a felhasználó barátait
   bool _isLoading = true; //töltést fogja szolgálni
 
@@ -74,7 +75,8 @@ class _ManageFriendsState extends State<ManageFriends> {
         Uri.parse(
             "http://10.0.2.2/ChatexProject/chatex_phps/friends/set/remove_friend.php"),
         headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"user_id": Preferences.getUserId(), "friend_id": friendId}),
+        body: jsonEncode(
+            {"user_id": Preferences.getUserId(), "friend_id": friendId}),
       );
 
       final responseData = jsonDecode(response.body);
@@ -232,7 +234,9 @@ class _ManageFriendsState extends State<ManageFriends> {
           padding: const EdgeInsets.only(top: 20, bottom: 10),
           child: Center(
             child: Text(
-              Preferences.isHungarian ? "Jelenlegi barátaid" : "Your current friends",
+              Preferences.isHungarian
+                  ? "Jelenlegi barátaid"
+                  : "Your current friends",
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 22,
