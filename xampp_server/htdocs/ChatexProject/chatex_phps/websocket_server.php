@@ -1,7 +1,15 @@
 <?php
+//ez a websocket_server.php azért felel hogy a chateket "fél" valós időbe kezelje
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//FIGYELEM ENÉLKÜL NEM FOG MŰKÖDNI A CHAT RÉSZ EL KELL INDÍTANI A server_run.php-t
+//TOVÁBBI INFORMÁCIÓ A README.TXT FÁJLBAN TALÁLHATÓ
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/db.php';
 
+//Ratchet használata a websocket szerver implementálásához
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
@@ -11,6 +19,7 @@ class ChatServer implements MessageComponentInterface
     protected $clients;
     protected $userMap;
 
+    //ez a metódus a websocket-et használó Dart-ok felé küldi vissza a status_update típusú üzeneteket!
     private function broadcastStatus(int $userId, string $status, ?string $lastSeen)
     {
 
@@ -36,6 +45,7 @@ class ChatServer implements MessageComponentInterface
         echo "📡 Státusz broadcast: $userId => $status\n";
     }
 
+    //felépíti a websocket servert
     public function __construct()
     {
         global $conn;
@@ -50,12 +60,15 @@ class ChatServer implements MessageComponentInterface
         }
     }
 
+    //websocket kapcsolat nyításakor ez történjen
     public function onOpen(ConnectionInterface $conn)
     {
         $this->clients->attach($conn);
         echo "Új kapcsolat: {$conn->resourceId}\n";
     }
 
+    //ha üzenet érkezik a websocket szerverre akkor típus alapján különböző üzeneteket küldünk,
+    //mind az adatbázis felé, mind a Dart felé!
     public function onMessage(ConnectionInterface $from, $msg)
     {
         echo "Üzenet: $msg\n";
@@ -254,7 +267,7 @@ class ChatServer implements MessageComponentInterface
                     break;
 
                 default:
-                    echo "⚠️ Ismeretlen message_type: $type\n";
+                    echo "Ismeretlen message_type: $type\n";
                     return;
                     break;
             }
@@ -288,10 +301,11 @@ class ChatServer implements MessageComponentInterface
                 echo "Üzenet ($type) broadcastolva: " . json_encode($messageData) . "\n";
             }
         } catch (Throwable $e) {
-            echo "⚠️ Kivétel történt: " . $e->getMessage() . "\n";
+            echo "Kivétel történt: " . $e->getMessage() . "\n";
         }
     }
 
+    //websocket kapcsolat bezárásakor mi történjen!
     public function onClose(ConnectionInterface $conn)
     {
         $this->clients->detach($conn);
@@ -315,6 +329,7 @@ class ChatServer implements MessageComponentInterface
         echo "Kapcsolat lezárva: {$conn->resourceId}\n";
     }
 
+    //hiba esetén mi történjen
     public function onError(ConnectionInterface $conn, \Exception $e)
     {
         echo "Hiba: {$e->getMessage()}\n";
