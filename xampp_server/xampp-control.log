@@ -2802,3 +2802,27 @@
 17:06:06  [main] 	Deinitializing Modules
 17:06:06  [main] 	Deinitializing Control Panel
 
+20:37:43  [main] 	Initializing Control Panel
+20:37:43  [main] 	Windows Version:  Enterprise  64-bit
+20:37:43  [main] 	XAMPP Version: 8.2.12
+20:37:43  [main] 	Control Panel Version: 3.3.0  [ Compiled: Apr 6th 2021 ]
+20:37:43  [main] 	Running with Administrator rights - good!
+20:37:43  [main] 	XAMPP Installation Directory: "c:\users\levi\desktop\szakmai\dualis\13.d\git repok\messengeres-vizsgaremek\xampp_server\"
+20:37:43  [main] 	WARNING: Your install directory contains spaces.  This may break programs/scripts
+20:37:43  [main] 	Checking for prerequisites
+20:37:44  [main] 	All prerequisites found
+20:37:44  [main] 	Initializing Modules
+20:37:44  [Apache] 	XAMPP Apache Service is already running on port 80
+20:37:44  [Apache] 	XAMPP Apache Service is already running on port 443
+20:37:44  [mysql] 	XAMPP MySQL Service is already running on port 3306
+20:37:44  [main] 	The Mercury module is disabled
+20:37:44  [main] 	The Tomcat module is disabled
+20:37:44  [main] 	Starting Check-Timer
+20:37:44  [main] 	Control Panel Ready
+23:08:20  [Apache] 	Attempting to stop Apache service...
+23:08:23  [Apache] 	Status change detected: stopped
+23:08:23  [mysql] 	Attempting to stop MySQL service...
+23:08:25  [mysql] 	Status change detected: stopped
+23:08:31  [main] 	Deinitializing Modules
+23:08:31  [main] 	Deinitializing Control Panel
+

@@ -62,5 +62,4 @@ while ($row = $result->fetch_assoc()) {
 //vissza adjuk messages tömbként!
 echo json_encode(["messages" => $messages]);
 
-$stmt->close();
 $conn->close();

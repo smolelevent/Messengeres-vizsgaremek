@@ -156,7 +156,7 @@ class _LoginUIState extends State<LoginUI> {
 
   @override
   void didChangeDependencies() {
-    //alapértelmezetten frissít minden dependencit, ha megváltozott valami benne (rebuild helyett)
+    //alapértelmezetten frissít minden dependencyt, ha megváltozott valami benne (rebuild helyett)
     super.didChangeDependencies();
 
     //FlutterToast-hoz is kell, hogy mindenhol megtudjon jelenni, bármikor!

@@ -52,5 +52,4 @@ echo json_encode([
     "last_seen" => $friendData["last_seen"],
 ]);
 
-$stmt->close();
 $conn->close();

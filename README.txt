@@ -1,4 +1,4 @@
-Ahoz hogy megfelelően fusson a program ahoz a következők kellenek:
+Ahhoz hogy megfelelően fusson a program ahhoz a következők kellenek:
 
 - Android Emulator, ajánlott a legmagasabb CPU core szám, és a Hardware-es renderelés, reális Android Api verzióval (pl.: Android 14)
 
