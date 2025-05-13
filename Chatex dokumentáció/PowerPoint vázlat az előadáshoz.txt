@@ -20,3 +20,9 @@ a tartalmazott elemeknél a moodleben szereplőket mondjuk ne amik a pptben vann
 	3. side-by-side dizájn bemutatása ahol mik az eltérések, egyezések (mostani változtatott Messengerhez képest)
 
 	4. maga a kép küldés, fájl küldésről képeket
+
+5. dia
+	bejelentkezés, 
+	barát, chat indítása, üzenetek küldése
+	
+	kijelenkezés, beállítások, jelszó helyreállítás, regisztáció
