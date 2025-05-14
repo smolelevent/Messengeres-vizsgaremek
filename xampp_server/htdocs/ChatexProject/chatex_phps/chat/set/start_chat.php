@@ -52,4 +52,5 @@ echo json_encode([
     "last_seen" => $friendData["last_seen"],
 ]);
 
+//$stmt->close(); <- ez okozta a Kapcsolati hibát a chat indításakor mivel nincs ilyen változó a fájlban!
 $conn->close();

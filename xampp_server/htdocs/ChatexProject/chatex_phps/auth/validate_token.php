@@ -37,5 +37,5 @@ try {
     echo json_encode(["success" => false, "message" => "Érvénytelen token: " . $e->getMessage()]);
 }
 
-$stmt->close();
+//$stmt->close(); <- ez okozta a Kapcsolati hibát a token validálásakor mivel nincs ilyen változó a fájlban!
 $conn->close();

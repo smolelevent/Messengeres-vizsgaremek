@@ -45,7 +45,7 @@ class AuthService {
           language == "Magyar"
               ? "Sikeres regisztráció!"
               : "Successful registration!",
-          0.1,
+          0.2,
           Colors.green,
           Icons.check,
           Colors.black,
@@ -67,7 +67,7 @@ class AuthService {
           language == "Magyar"
               ? "Ezzel az emailel már létezik felhasználó!"
               : "User already exists with this email!",
-          0.1,
+          0.2,
           Colors.redAccent,
           Icons.error,
           Colors.black,
@@ -80,7 +80,7 @@ class AuthService {
           language == "Magyar"
               ? "Érvénytelen email cím!"
               : "Invalid email address!",
-          0.1,
+          0.2,
           Colors.redAccent,
           Icons.error,
           Colors.black,

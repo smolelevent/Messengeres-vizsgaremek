@@ -62,4 +62,5 @@ while ($row = $result->fetch_assoc()) {
 //vissza adjuk messages tömbként!
 echo json_encode(["messages" => $messages]);
 
+//$stmt->close(); <- ez okozta a Kapcsolati hibát az üzenetek betöltésekor mivel nincs ilyen változó a fájlban!
 $conn->close();
