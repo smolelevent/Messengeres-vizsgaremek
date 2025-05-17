@@ -2,27 +2,233 @@ PowerPoint vázlat az előadáshoz:
 
 - felváltva adjuk elő (Levi, Dani (ricsit nem mert nem megbízható))
 
+cím dia: 
 
-1. dia: 
+köszönés a vizsgáztatók felé: 
+"Köszöntünk minden vizsgabiztost a bemutatónkon, - K. L.
+ebben a bemutatóban a Chatex alkalmazást fogjuk bemutatni" - SZ. D.
 
-2. dia:
 
-a tartalmazott elemeknél a moodleben szereplőket mondjuk ne amik a pptben vannak mert azok bővebbek
 
-3. dia
+2. dia - Bevezetés: - K. L. (SZ. R.)
 
-4. dia:
+"Az előadásunk a következőket tartalmazza:"
 
-	1. Messenger chatex side-by-side chat screen képek (fölötte/alatta rövid szöveg ami a képet magyarázza) hogy mutassuk hogy a Messenger designját követtük és így egy új felhasználónak sem lesz idegen a használata.
+[szempontokon végig megyünk]
 
-	2. a chat információnál csak a chat törlése van nincsen olyan hogy Facebook profil megnyitása, blokkolás stb... tehát itt is side-by-side képek a Messengerből
+szempontok amik nem szó szerint:
+	"működésének lényegesebb részei"
+	"forráskódjának fontosabb részleteit"
+	"Illetve csapatunk munkamegosztását, betöltött szerepeinket, és hogy milyen eszközöket használtunk a fejlesztéshez"
 
-	3. side-by-side dizájn bemutatása ahol mik az eltérések, egyezések (mostani változtatott Messengerhez képest)
 
-	4. maga a kép küldés, fájl küldésről képeket
 
-5. dia
-	bejelentkezés, 
-	barát, chat indítása, üzenetek küldése
-	
-	kijelenkezés, beállítások, jelszó helyreállítás, regisztáció
+
+3. dia - Szoftver célja: - SZ. D.
+
+	1. szempont:
+"Az alkalmazásunk célja hogy egy olyan chat alkalmazást fejlesszünk ami MODERN, EGYSZERŰ és egy jó ALTERNATÍVÁT NYÚJT a Messenger helyett/mellett"
+
+	2. szempont:
+"fejlesztéskor a felhasználói élmény volt a meghatározó így a feleslegesnek gondolt funkciókkal nem törődtünk"
+
+	3. szempont:
+"a végeredmény egy gyors, könnyen használható program lett amit sok Android verzión lehet használni"
+
+[példák képekkel]
+"a Messenger designját követtük és így egy új felhasználónak sem lesz idegen a használata."
+	 
+
+
+
+4. dia - Műszaki megvalósítása (1/6): - K. L.
+
+"Az alkalmazásunk fejlesztéséhez több nyelvet és 2 frameworkot használtunk" 
+
+"Frontend fejlesztéshez":
+[szempontok]
+
+"Backend fejlesztéshez":
+[szempontok] + [Websocket kitérés]
+
+
+
+
+5. dia - Műszaki megvalósítása (2/6): - SZ. D.
+"A fejlesztéshez fontos volt a megfelelő IDE használata, amik a következők voltak:"
+[szempont] "Android Studio-val kezdtünk mivel még nem voltunk jártasak a Flutterben való fejlesztésben"
+
+[szempont] "Később amikor már jártasak lettünk áttértünk a Visual Studio Code használatára az egyszerűbb csapatmunka megvalósításáért"
+
+
+
+6. dia - Műszaki megvalósítás (3/6): - K. L. (SZ. R.)
+"A vizsgaremek előállításához nélkülözhetetlenek voltak a következő programok:"
+[szempont] "Github Desktop-ot a verziókezelésért..." "ahol 1 privát repositoryban... dolgoztunk..."
+[szempont] "Ahoz hogy megfelelően működjön a program szükség volt 1 szerverre amit először online próbáltuk megvalósítani Firebassel, de az adatbázis korlátozásokkal ez nem valósult meg, és inkább az XAMPP-nál maradtunk ami..."
+[szempont] "Szintén elengedhetetlen volt a backend API-k tesztelése adatokkal és emiatt a Postman-t használtuk ami..."
+
+
+7. dia - Műszaki megvalósítás (4/6): SZ. D.
+"Mivel lokálisan fejlesztettünk így szükség volt arra hogy lássuk a fejlesztett alkalmazást és erre az android emulátort használtuk"
+
+"A következő specifikációkkal:"
+[szempontok]
+
+
+8. dia - Műszaki megvalósítás (5/6): K. L.
+"Fontos volt a fejlesztés során hogy mind Dart fájloknál és később mind PHP-knál struktúráltan dolgozzunk és ennek érdekében a következő szerkezetet alakítottuk ki:"
+
+[szempontok]
+
+
+
+9. dia - Műszaki megvalósítás (6/6): K. L.
+"Ezen a dián látható a PHPk-hoz használt fejlesztési struktúra ami hasonlóan épül fel mint a Dart-ok esetében:"
+
+[szempontok]
+
+
+
+10. dia - Működése (1/6): SZ. D.
+"A fájl struktúrán kívül az is fontos volt hogy az alkalmazásunk működése is egy átlátható struktúra szerint működjön:"
+
+[szempontok]
+
+
+11. dia - egységes folyamat: SZ. D.
+
+[képek] - regisztráció,
+
+
+12. dia - egységes folyamat: K. L.
+
+[képek] - bejelentkezés
+
+
+13. dia - egységes folyamat: SZ. D.
+
+[képek] - barátkezelés pl.: "Ha elnavigálunk az Ismerősök (angolul People) képernyőre a barátok kezelését tudjuk megtenni..."
+
+
+14. dia - websocket folyamat: K. L.
+
+[képek] - chatek
+
+
+15. dia - jelszó helyreállítása: SZ. D.
+
+[képek] - jelszó helyreállítása
+
+
+16. dia. - "minden folyamat végez...": K. L.
+
+"Akármilyen folyamatról is beszélünk mindegyik folyamat az XAMPP szerveren keresztűl adatok kezelel."
+
+[képek, hozzá szöveg] "Például a bejelentkezéskor..."
+
+
+17. dia - Forráskód: SZ. D.
+
+"A forráskódunk egyik legfontosabb része az volt hogy a sok fájlon keresztűl is egységes szerkezettel tudjunk dolgozni mind Dart és PHP fájlok esetében is"
+
+"Kezdve a Dart fájlokkal ahol kommenteket használva alakítottunk ki egy átlátható rendszert:"
+
+[szempontok] "Az átláthatóság növelése érdekében elengedhetetlen volt a Tiszta kód elvének a használata"
+
+[szempontok]
+
+
+18. dia - main.dart bemutatása: SZ. D.
+
+[képek]
+
+
+19. dia - Forráskód: K. L.
+
+"A PHP-k esetében viszont más szerkezetet alakítottunk mivel a fájlaink nem voltak annyira egységesek mint a Dart fájlok"
+
+"Kezdve a header..." [szempontok]
+
+"A változások ellenére is tartózkodtunk a tiszta kód használata mellett a következő módokon:"
+
+[szempontok]
+
+
+20. dia - login.php, registration.php és websocket_server.php bemutatása: K. L.
+
+[képek] login.php-nál: kitérni a db.php fájlra, a composerre, és a jwt-re (Firebase) hogy miért kell!
+
+mit is csinál a képen látható kódrészlet! 
+
+[képek] websocket_server.php felel a chat működéséért... stb.
+
+[források] konkrét szöveg a ppt-ből → "Sajnos a leadott programunk 3 hibát is tartalmazott..."
+
+"Ezek a hibák azért keletkeztek mivel a leadás napján kapkodtunk és a minél egységesebb phpk érdekében Ctrl + C, Ctrl + V-el átmásoltam az összes készített php-be: az SQL parancsokat végrehajtó változó (stmt) lezárását, olyan PHPk-ba is ahol NEM létezett az a változó!"
+
+
+
+21. dia - Munkamegosztás: SZ. D.
+
+"A programozás részétől eltekintve a munkamegosztás is egy fontos része volt a hatékony haladásért amit így sikerült megvalósítanunk:"
+
+[szempontok]
+
+
+22. dia - Munkamegosztás: SZ. D.
+
+"Ezen a dián látható a munkamegosztásunk diagramként, és a hozzá tartozó magyarázatok:"
+
+[diagram] [szempontok]
+
+
+23. dia - A fejlesztési csapatban betöltött szerepek: - K. L.
+
+"A fejlesztés végeztével összegeztük munkánkat, és megállapítottuk hogy ki milyen szerepeket töltött be:"
+
+[szempontok] "Szép Dániel projekttársam..."
+
+
+24. dia - Fejlesztés során használt projektszervezési eszközök: - K. L.
+
+"A Chatex fejlesztése során fontos volt hogy a felhasznált eszközöket a megfelelő mennyiségben használjuk ezért így osztottuk fel ezeket az eszközöket:"
+
+[szempontok]
+
+
+ANGOL RÉSZ
+
+
+26. dia - Purpose of Chatex: - SZ. D.
+
+"The purpose of our application was to:"
+
+[szempontok]
+
+
+27. dia - How our application works: - SZ. D.
+
+"The way our application works:..."
+
+[szempont] "First of all users need to register, and after they done that, they can enjoy the full experience that Chatex has to offer..."
+
+"Our application offers..." [szempontok]
+
+
+28. dia - befejezés - K. L.
+
+"Thank you for your attention!"
+
+
+
+- utána valószínüleg jönnek a kérdések (Chatex-el kapcsolatban)
+
+
+
+
+
+
+
+
+
